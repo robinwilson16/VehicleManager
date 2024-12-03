@@ -1,0 +1,267 @@
+﻿@page "/Vehicles"
+@page "/Vehicles/{VehicleID}"
+
+@using VehicleManager.Models
+@using System.Net
+@using Microsoft.AspNetCore.Components.QuickGrid
+
+@inject HttpClient Http
+@inject IConfiguration configuration
+
+<PageTitle>Vehicles</PageTitle>
+
+<h3>Vehicles</h3>
+
+@if (loadDataErrorMsg != null) 
+{
+    <div class="container">
+        <div class="row">
+            <div class="col-md">
+                <div class="alert alert-danger hstack gap-3" role="alert">
+                    <div>
+                        <h1><i class="fa-solid fa-triangle-exclamation"></i></h1>
+                    </div>
+                    <div>
+                        <p>
+                            @loadDataErrorMsg
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else if(vehicles == null) {
+    <div class="container">
+        <div class="row">
+            <div class="col-md">
+                <div class="alert alert-primary text-center" role="alert">
+                    <h1>
+                        <i class="fa-solid fa-spinner fa-spin"></i> Loading ...
+                    </h1>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else {
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md">
+                <div class="alert alert-primary" role="alert">
+                    @if(Filters.Count > 0) {
+                        <button type="button" class="btn btn-primary btn-sm me-3" @onclick="@FilterClear">Filters (Clear) <i class="fa-solid fa-filter-circle-xmark"></i></button>
+
+                        int filterNumber = 0;
+                        @foreach(var filter in Filters) {
+                            filterNumber += 1;
+
+                            @if (filterNumber > 1) {
+                                <span class="ps-3 pe-3">|</span>
+                            }
+                            <span>@filter</span>
+                        }
+                    }
+                </div>
+                <div class="TableContainer">
+                    <div class="table-responsive">
+                        <QuickGrid Items="@FilteredVehicles" Virtualize="true" Class="table table-striped table-hover table-bordered">
+                            <TemplateColumn Title="">
+                                <button type="button" class="btn btn-primary btn-sm" @onclick="()=>EditVehicle(context.SubmissionID)"><i class="fa-solid fa-up-right-from-square"></i></button>
+                            </TemplateColumn>
+                            <PropertyColumn Title="ID" Property="@(p => p.SubmissionID)" Sortable="true">
+                                <ColumnOptions>
+                                    <div class="search-box">
+                                        <input type="number" class="form-control" autofocus @bind="FilterSubmissionID" @bind:event="oninput" @onkeyup="FilterRefresh" @onchange="FilterRefresh" />
+                                    </div>
+                                </ColumnOptions>
+                            </PropertyColumn>
+                            <PropertyColumn Title="Date" Property="@(p => p.submissionDate)" Format="dd/MM/yyyy" Sortable="true">
+                                <ColumnOptions>
+                                    <div class="search-box">
+                                        <input type="date" class="form-control" autofocus @bind="FilterSubmissionDate" @bind:event="oninput" @onkeyup="FilterRefresh" @onchange="FilterRefresh" />
+                                    </div>
+                                </ColumnOptions>
+                            </PropertyColumn>
+                            <PropertyColumn Property="@(p => p.Surname)" Sortable="true">
+                                <ColumnOptions>
+                                    <div class="search-box">
+                                        <input type="search" class="form-control" autofocus @bind="FilterSurname" @bind:event="oninput" placeholder="Surname..." @onkeyup="FilterRefresh" @onchange="FilterRefresh" />
+                                    </div>
+                                </ColumnOptions>
+                            </PropertyColumn>
+                            <PropertyColumn Property="@(p => p.Forename)" Sortable="true">
+                                <ColumnOptions>
+                                    <div class="search-box">
+                                        <input type="search" class="form-control" autofocus @bind="FilterForename" @bind:event="oninput" placeholder="Forename..." @onkeyup="FilterRefresh" @onchange="FilterRefresh" />
+                                    </div>
+                                </ColumnOptions>
+                            </PropertyColumn>
+                            <PropertyColumn Property="@(p => p.Email)" Sortable="true">
+                                <ColumnOptions>
+                                    <div class="search-box">
+                                        <input type="search" class="form-control" autofocus @bind="FilterEmail" @bind:event="oninput" placeholder="Email..." @onkeyup="FilterRefresh" @onchange="FilterRefresh" />
+                                    </div>
+                                </ColumnOptions>
+                            </PropertyColumn>
+                            <PropertyColumn Title="Reg No" Property="@(p => p.RegistrationNumber)" Sortable="true">
+                                <ColumnOptions>
+                                    <div class="search-box">
+                                        <input type="search" class="form-control" autofocus @bind="FilterRegistration" @bind:event="oninput" placeholder="Registration Number..." @onkeyup="FilterRefresh" @onchange="FilterRefresh" />
+                                    </div>
+                                </ColumnOptions>
+                            </PropertyColumn>
+                            <PropertyColumn Property="@(p => p.Make)" Sortable="true">
+                                <ColumnOptions>
+                                    <div class="search-box">
+                                        <input type="search" class="form-control" autofocus @bind="FilterMake" @bind:event="oninput" placeholder="Make..." @onkeyup="FilterRefresh" @onchange="FilterRefresh" />
+                                    </div>
+                                </ColumnOptions>
+                            </PropertyColumn>
+                            <PropertyColumn Property="@(p => p.Model)" Sortable="true">
+                                <ColumnOptions>
+                                    <div class="search-box">
+                                        <input type="search" class="form-control" autofocus @bind="FilterModel" @bind:event="oninput" placeholder="Model..." @onkeyup="FilterRefresh" @onchange="FilterRefresh" />
+                                    </div>
+                                </ColumnOptions>
+                            </PropertyColumn>
+                        </QuickGrid>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <Modal @ref="modalVehicle">
+        <Title><i class="fa-solid fa-car"></i> @msgVehicleTitle</Title>
+        <Body>
+            <p>
+                @msgVehicle
+            </p>
+        </Body>
+        <Footer>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" @onclick="() => modalVehicle!.Close()">Close</button>
+        </Footer>
+    </Modal>
+}
+
+@code {
+    [Parameter]
+    public int? VehicleID { get; set; }
+
+    public string? loadDataErrorMsg = null;
+    private List<VehicleModel>? vehicles;
+    private IQueryable<VehicleModel>? FilteredVehicles =>
+        (vehicles)?.AsQueryable()
+        .Where(
+            v => 
+            v.SubmissionID == (FilterSubmissionID ?? v.SubmissionID)
+            && DateOnly.FromDateTime(v.submissionDate ?? DateTime.Now)! == DateOnly.FromDateTime((DateTime)(FilterSubmissionDate ?? v.submissionDate)!)
+            && v.Surname!.Contains(FilterSurname ?? string.Empty, StringComparison.CurrentCultureIgnoreCase)
+            && v.Forename!.Contains(FilterForename ?? string.Empty, StringComparison.CurrentCultureIgnoreCase)
+            && v.Email!.Contains(FilterEmail ?? string.Empty, StringComparison.CurrentCultureIgnoreCase)
+            && v.RegistrationNumber!.Contains(FilterRegistration ?? string.Empty, StringComparison.CurrentCultureIgnoreCase)
+            && v.Make!.Contains(FilterMake ?? string.Empty, StringComparison.CurrentCultureIgnoreCase)
+            && v.Model!.Contains(FilterModel ?? string.Empty, StringComparison.CurrentCultureIgnoreCase)
+        );
+
+    int? FilterSubmissionID;
+    DateTime? FilterSubmissionDate;
+    string FilterSurname = string.Empty;
+    string FilterForename = string.Empty;
+    string FilterEmail = string.Empty;
+    string FilterRegistration = string.Empty;
+    string FilterMake = string.Empty;
+    string FilterModel = string.Empty;
+    List<string> Filters = new List<string>();
+    private string? vehicleEndPoint;
+
+    public string? msgVehicleTitle = null;
+    public string? msgVehicle = null;
+    private Modal? modalVehicle { get; set; }
+
+    protected override async Task OnInitializedAsync() 
+    {
+        vehicleEndPoint = $"{configuration["APIEndpoint"]}/FormEntries";
+
+        try
+        {
+            vehicles = await Http.GetFromJsonAsync<List<VehicleModel>>(vehicleEndPoint);
+        }
+        catch (HttpRequestException ex)
+        {
+            if (ex.Message.Contains(HttpStatusCode.Unauthorized.ToString()))
+            {
+                loadDataErrorMsg = $"You are not authorised to view this page";
+            }
+            else if (ex.Message.Contains("404 (Not Found)"))
+            {
+                loadDataErrorMsg = $"The API for Returning Vehicles Is Not Found";
+            }
+            else if (ex.Message.Contains("400 (Bad Request)"))
+            {
+                loadDataErrorMsg = $"The API for Returning Vehicles Is Not Responding Correctly";
+            }
+            else loadDataErrorMsg = $"Error: {ex.Message}";
+        }
+    }
+
+    private void FilterRefresh()
+    {
+        Filters.Clear();
+
+        if (FilterSubmissionID != null)
+        {
+            Filters.Add($"ID: '{FilterSubmissionID.ToString()}'");
+        }
+        if (FilterSubmissionDate != null)
+        {
+            Filters.Add($"Date: '{((DateTime)FilterSubmissionDate).ToString("dd/MM/yyyy")}'");
+        }
+        if (FilterSurname.Length > 0)
+        {
+            Filters.Add($"Surname: '{FilterSurname}'");
+        }
+        if (FilterForename.Length > 0)
+        {
+            Filters.Add($"Forename: '{FilterForename}'");
+        }
+        if (FilterEmail.Length > 0)
+        {
+            Filters.Add($"Email: '{FilterEmail}'");
+        }
+        if (FilterRegistration.Length > 0)
+        {
+            Filters.Add($"Reg No: '{FilterRegistration}'");
+        }
+        if (FilterMake.Length > 0)
+        {
+            Filters.Add($"Make: '{FilterMake}'");
+        }
+        if (FilterModel.Length > 0)
+        {
+            Filters.Add($"Model: '{FilterModel}'");
+        }
+    }
+
+    private void FilterClear()
+    {
+        FilterSubmissionID = null;
+        FilterSubmissionDate = null;
+        FilterSurname = string.Empty;
+        FilterForename = string.Empty;
+        FilterEmail = string.Empty;
+        FilterRegistration = string.Empty;
+        FilterMake = string.Empty;
+        FilterModel = string.Empty;
+        Filters.Clear();
+    }
+
+    private async Task EditVehicle(int vehicleID)
+    {
+        msgVehicleTitle = $"Vehicle {vehicleID}";
+        msgVehicle = $"Record for vehicle";
+        modalVehicle!.MakeLarge();
+        modalVehicle!.Open();
+    }
+}

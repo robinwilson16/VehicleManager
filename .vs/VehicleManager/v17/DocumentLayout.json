@@ -1,0 +1,170 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{8BF4F988-178B-4B5A-A58A-A924FCF9AB23}|VehicleManager\\VehicleManager.csproj|c:\\users\\robin.wilson\\source\\repos\\vehiclemanager\\vehiclemanager\\wwwroot\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{8BF4F988-178B-4B5A-A58A-A924FCF9AB23}|VehicleManager\\VehicleManager.csproj|solutionrelative:vehiclemanager\\wwwroot\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8BF4F988-178B-4B5A-A58A-A924FCF9AB23}|VehicleManager\\VehicleManager.csproj|c:\\users\\robin.wilson\\source\\repos\\vehiclemanager\\vehiclemanager\\pages\\vehicles.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{8BF4F988-178B-4B5A-A58A-A924FCF9AB23}|VehicleManager\\VehicleManager.csproj|solutionrelative:vehiclemanager\\pages\\vehicles.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8BF4F988-178B-4B5A-A58A-A924FCF9AB23}|VehicleManager\\VehicleManager.csproj|c:\\users\\robin.wilson\\source\\repos\\vehiclemanager\\vehiclemanager\\wwwroot\\css\\app.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{8BF4F988-178B-4B5A-A58A-A924FCF9AB23}|VehicleManager\\VehicleManager.csproj|solutionrelative:vehiclemanager\\wwwroot\\css\\app.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8BF4F988-178B-4B5A-A58A-A924FCF9AB23}|VehicleManager\\VehicleManager.csproj|c:\\users\\robin.wilson\\source\\repos\\vehiclemanager\\vehiclemanager\\layout\\navmenu.razor.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{8BF4F988-178B-4B5A-A58A-A924FCF9AB23}|VehicleManager\\VehicleManager.csproj|solutionrelative:vehiclemanager\\layout\\navmenu.razor.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8BF4F988-178B-4B5A-A58A-A924FCF9AB23}|VehicleManager\\VehicleManager.csproj|c:\\users\\robin.wilson\\source\\repos\\vehiclemanager\\vehiclemanager\\layout\\navmenu.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{8BF4F988-178B-4B5A-A58A-A924FCF9AB23}|VehicleManager\\VehicleManager.csproj|solutionrelative:vehiclemanager\\layout\\navmenu.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8BF4F988-178B-4B5A-A58A-A924FCF9AB23}|VehicleManager\\VehicleManager.csproj|c:\\users\\robin.wilson\\source\\repos\\vehiclemanager\\vehiclemanager\\pages\\home.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{8BF4F988-178B-4B5A-A58A-A924FCF9AB23}|VehicleManager\\VehicleManager.csproj|solutionrelative:vehiclemanager\\pages\\home.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8BF4F988-178B-4B5A-A58A-A924FCF9AB23}|VehicleManager\\VehicleManager.csproj|c:\\users\\robin.wilson\\source\\repos\\vehiclemanager\\vehiclemanager\\models\\vehiclemodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8BF4F988-178B-4B5A-A58A-A924FCF9AB23}|VehicleManager\\VehicleManager.csproj|solutionrelative:vehiclemanager\\models\\vehiclemodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8BF4F988-178B-4B5A-A58A-A924FCF9AB23}|VehicleManager\\VehicleManager.csproj|c:\\users\\robin.wilson\\source\\repos\\vehiclemanager\\vehiclemanager\\wwwroot\\index.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{8BF4F988-178B-4B5A-A58A-A924FCF9AB23}|VehicleManager\\VehicleManager.csproj|solutionrelative:vehiclemanager\\wwwroot\\index.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8BF4F988-178B-4B5A-A58A-A924FCF9AB23}|VehicleManager\\VehicleManager.csproj|c:\\users\\robin.wilson\\source\\repos\\vehiclemanager\\vehiclemanager\\libman.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{8BF4F988-178B-4B5A-A58A-A924FCF9AB23}|VehicleManager\\VehicleManager.csproj|solutionrelative:vehiclemanager\\libman.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\wwwroot\\appsettings.json",
+              "RelativeDocumentMoniker": "VehicleManager\\wwwroot\\appsettings.json",
+              "ToolTip": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\wwwroot\\appsettings.json",
+              "RelativeToolTip": "VehicleManager\\wwwroot\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-12-03T13:16:07.354Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "app.css",
+              "DocumentMoniker": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\wwwroot\\css\\app.css",
+              "RelativeDocumentMoniker": "VehicleManager\\wwwroot\\css\\app.css",
+              "ToolTip": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\wwwroot\\css\\app.css",
+              "RelativeToolTip": "VehicleManager\\wwwroot\\css\\app.css",
+              "ViewState": "AgIAAG4AAAAAAAAAAAAAAHcAAAAbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2024-11-25T22:42:47.178Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "VehicleModel.cs",
+              "DocumentMoniker": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\Models\\VehicleModel.cs",
+              "RelativeDocumentMoniker": "VehicleManager\\Models\\VehicleModel.cs",
+              "ToolTip": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\Models\\VehicleModel.cs",
+              "RelativeToolTip": "VehicleManager\\Models\\VehicleModel.cs",
+              "ViewState": "AgIAAAoAAAAAAAAAAAAzwBQAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-25T21:39:46.829Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "index.html",
+              "DocumentMoniker": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\wwwroot\\index.html",
+              "RelativeDocumentMoniker": "VehicleManager\\wwwroot\\index.html",
+              "ToolTip": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\wwwroot\\index.html",
+              "RelativeToolTip": "VehicleManager\\wwwroot\\index.html",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAAAA0AAABEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2024-11-25T21:15:39.643Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Vehicles.razor",
+              "DocumentMoniker": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\Pages\\Vehicles.razor",
+              "RelativeDocumentMoniker": "VehicleManager\\Pages\\Vehicles.razor",
+              "ToolTip": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\Pages\\Vehicles.razor",
+              "RelativeToolTip": "VehicleManager\\Pages\\Vehicles.razor",
+              "ViewState": "AgIAAPgAAAAAAAAAAAAnwAMBAAAiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-11-25T21:14:18.751Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Home.razor",
+              "DocumentMoniker": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\Pages\\Home.razor",
+              "RelativeDocumentMoniker": "VehicleManager\\Pages\\Home.razor",
+              "ToolTip": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\Pages\\Home.razor",
+              "RelativeToolTip": "VehicleManager\\Pages\\Home.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-11-25T21:14:16.313Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "NavMenu.razor.css",
+              "DocumentMoniker": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\Layout\\NavMenu.razor.css",
+              "RelativeDocumentMoniker": "VehicleManager\\Layout\\NavMenu.razor.css",
+              "ToolTip": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\Layout\\NavMenu.razor.css",
+              "RelativeToolTip": "VehicleManager\\Layout\\NavMenu.razor.css",
+              "ViewState": "AgIAADsAAAAAAAAAAAAAAEcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2024-11-25T21:13:07.848Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "NavMenu.razor",
+              "DocumentMoniker": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\Layout\\NavMenu.razor",
+              "RelativeDocumentMoniker": "VehicleManager\\Layout\\NavMenu.razor",
+              "ToolTip": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\Layout\\NavMenu.razor",
+              "RelativeToolTip": "VehicleManager\\Layout\\NavMenu.razor",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAAA8AAAAOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-11-25T21:11:48.377Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "libman.json",
+              "DocumentMoniker": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\libman.json",
+              "RelativeDocumentMoniker": "VehicleManager\\libman.json",
+              "ToolTip": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\libman.json",
+              "RelativeToolTip": "VehicleManager\\libman.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-11-25T21:10:33.745Z"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
