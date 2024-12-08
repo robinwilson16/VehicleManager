@@ -1,0 +1,340 @@
+﻿@page "/Login"
+@page "/Login/{ReturnToPage}"
+@using VehicleManager.Models
+@using VehicleManager.Services
+@using System.Net
+@using System.Text.Json;
+
+@inject HttpClient Http
+@inject IConfiguration configuration
+@inject NavigationManager NavManager
+@inject ILogger<Login> Logger
+@inject AppData appData
+
+@if (loadDataErrorMsg != null) 
+{
+    @* <div class="container">
+        <div class="row">
+            <div class="col-md">
+                <div class="alert alert-danger hstack gap-3" role="alert">
+                    <div>
+                        <h1><i class="fa-solid fa-triangle-exclamation"></i></h1>
+                    </div>
+                    <div>
+                        <p>
+                            @loadDataErrorMsg
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> *@
+
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-6 m-auto">
+                <div class="card GreyBackground">
+                    <div class="card-body pb-0">
+                        <div class="row">
+                            <div class="col-md">
+                                <h5 class="card-title text-center mb-5"><i class="fa-solid fa-lock"></i> Log In To Vehicle Manager</h5>
+                                <div class="alert alert-success hstack gap-3" role="alert">
+                                    <div class="ms-auto me-3">
+                                        <h1><i class="fa-solid fa-triangle-exclamation"></i></h1>
+                                    </div>
+                                    <div class="me-auto">
+                                        <h4 class="alert-heading">Unable To Log You In</h4>
+                                        <hr>
+                                        <p>
+                                            @loadDataErrorMsg
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-5">
+                            <div class="col-md">
+                                <div class="alert alert-secondary" role="alert">
+                                    <div class="row g-3 justify-content-md-center">
+                                        <div class="col-md-auto">
+                                            <button type="button" class="btn btn-danger" @onclick="RetryLogin"><i class="fa-solid fa-arrow-up-right-from-square"></i> Try Again</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else if (appData?.CurrentUser?.Email != null && formSubmitted == false)
+{
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-6 m-auto">
+                <div class="card GreyBackground">
+                    <div class="card-body pb-0">
+                        <div class="row">
+                            <div class="col-md">
+                                <h5 class="card-title text-center mb-5"><i class="fa-solid fa-lock"></i> Log In To Vehicle Manager</h5>
+                                <div class="alert alert-danger hstack gap-3" role="alert">
+                                    <div class="ms-auto me-3">
+                                        <h1><i class="fa-solid fa-triangle-exclamation"></i></h1>
+                                    </div>
+                                    <div class="me-auto">
+                                        <h4 class="alert-heading">Unable To Log You In</h4>
+                                        <hr>
+                                        <p>
+                                            Unable to log you in as you are already loggged in
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-5">
+                            <div class="col-md">
+                                <div class="alert alert-secondary" role="alert">
+                                    <div class="row g-3 justify-content-md-center">
+                                        <div class="col-md-auto">
+                                            <button type="button" class="btn btn-danger" @onclick="GoToLoggedInArea"><i class="fa-solid fa-arrow-left"></i> Go Back</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else if (formSubmitted == true)
+{
+    if (loggedInUser != null && loginValid == true)
+    {
+        <div class="container mt-5">
+            <div class="row">
+                <div class="col-md-6 m-auto">
+                    <div class="card GreyBackground">
+                        <div class="card-body pb-0">
+                            <div class="row">
+                                <div class="col-md">
+                                    <h5 class="card-title text-center mb-5"><i class="fa-solid fa-lock"></i> Log In To Vehicle Manager</h5>
+                                    <div class="alert alert-success hstack gap-3" role="alert">
+                                        <div class="ms-auto me-3">
+                                            <h1><i class="fa-solid fa-clipboard-check"></i></h1>
+                                        </div>
+                                        <div class="me-auto">
+                                            <h4 class="alert-heading">Successfully Logged In</h4>
+                                            <hr>
+                                            <p>
+                                                Welcome Back @loggedInUser.Forename
+                                            </p>
+                                            <p>
+                                                You have been successfully logged in
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-5">
+                                <div class="col-md">
+                                    <div class="alert alert-secondary" role="alert">
+                                        <div class="row g-3 justify-content-md-center">
+                                            <div class="col-md-auto">
+                                                <button type="button" class="btn btn-success" @onclick="GoToLoggedInArea"><i class="fa-solid fa-arrow-up-right-from-square"></i> Continue</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else {
+        <div class="container mt-5">
+            <div class="row">
+                <div class="col-md-6 m-auto">
+                    <div class="card GreyBackground">
+                        <div class="card-body pb-0">
+                            <div class="row">
+                                <div class="col-md">
+                                    <h5 class="card-title text-center mb-5"><i class="fa-solid fa-lock"></i> Log In To Vehicle Manager</h5>
+                                    <div class="alert alert-danger hstack gap-3" role="alert">
+                                        <div class="ms-auto me-3">
+                                            <h1><i class="fa-solid fa-triangle-exclamation"></i></h1>
+                                        </div>
+                                        <div class="me-auto">
+                                            <h4 class="alert-heading">Username or Password Incorrect</h4>
+                                            <hr>
+                                            <p>
+                                                Sorry @login?.Email, your email or password is invalid.
+                                            </p>
+                                            <p>
+                                                Please try again
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-5">
+                                <div class="col-md">
+                                    <div class="alert alert-secondary" role="alert">
+                                        <div class="row g-3 justify-content-md-center">
+                                            <div class="col-md-auto">
+                                                <button type="button" class="btn btn-danger" @onclick="RetryLogin"><i class="fa-solid fa-arrow-up-right-from-square"></i> Try Again</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}
+else {
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-6 m-auto">
+                <div class="card GreyBackground">
+                    <div class="card-body pb-0">
+                        <EditForm FormName="Login" Model="login" OnSubmit="LogUserIn">
+                            <FluentValidationValidator @ref="_fluentValidationValidator" />
+                            <div class="row">
+                                <div class="col-md">
+                                    <h5 class="card-title text-center mb-5"><i class="fa-solid fa-lock"></i> Log In To Vehicle Manager</h5>
+                                    <p class="card-text mb-5">Please only attempt to log in if you are authorised to do so</p>
+                                </div>
+                            </div>
+                            <div class="row g-3 mb-3 align-items-center">
+                                <div class="col-md-4">
+                                    <i class="fa-solid fa-user"></i> <label class="col-form-label">Email Address</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <InputText type="email" @bind-Value="login!.Email" class="form-control" />
+                                    <ValidationMessage For="@(() => login!.Email)" />
+                                </div>
+                            </div>
+                            <div class="row g-3 mb-3 align-items-center">
+                                <div class="col-md-4">
+                                    <i class="fa-solid fa-key"></i> <label class="col-form-label">Password</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <InputText type="password" @bind-Value="login!.Password" class="form-control" />
+                                    <ValidationMessage For="@(() => login!.Password)" />
+                                </div>
+                            </div>
+                            <div class="row mt-5">
+                                <div class="col-md">
+                                    <div class="alert alert-secondary" role="alert">
+                                        <div class="row g-3 justify-content-md-center">
+                                            <div class="col-md-auto">
+                                                <button type="submit" class="btn btn-success"><i class="fa-solid fa-right-to-bracket"></i> Login</button>
+                                            </div>
+                                            <div class="col-md-auto">
+                                                <button type="reset" class="btn btn-warning"><i class="fa-solid fa-eraser"></i> Clear</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </EditForm>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public string? ReturnToPage { get; set; }
+
+    bool? formSubmitted = false;
+    bool? loginValid = false;
+
+    public string? loadDataErrorMsg = null;
+
+    [SupplyParameterFromForm]
+    public UserModel? login { get; set; }
+
+    //Once user is logged in then create second instance
+    public UserModel? loggedInUser { get; set; }
+
+    private FluentValidationValidator? _fluentValidationValidator;
+
+    private string? loginEndPoint;
+
+    protected override async Task OnInitializedAsync()
+    {
+        login ??= new();
+    }
+
+    private async Task LogUserIn()
+    {
+        if (await _fluentValidationValidator!.ValidateAsync())
+        {
+            formSubmitted = true;
+
+            loginEndPoint = $"{configuration["APIEndpoint"]}/Authenticate";
+
+            try
+            {
+                HttpResponseMessage formResponse = await Http.PostAsJsonAsync<UserModel>(loginEndPoint, login!);
+
+                var responseContent = await formResponse.Content.ReadAsStringAsync();
+                if (formResponse.IsSuccessStatusCode)
+                {
+                    loggedInUser = JsonSerializer.Deserialize<UserModel>(responseContent);
+                    loginValid = true;
+
+                    appData.CurrentUser = loggedInUser;
+                }
+                else {
+                    loginValid = false;
+                }
+            }
+            catch (HttpRequestException ex)
+            {
+                if (ex.Message.Contains(HttpStatusCode.Unauthorized.ToString()))
+                {
+                    loadDataErrorMsg = $"You are not authorised to view this page";
+                }
+                else if (ex.Message.Contains("404 (Not Found)"))
+                {
+                    loadDataErrorMsg = $"Your username or password is not correct. Please try again.";
+                }
+                else if (ex.Message.Contains("400 (Bad Request)"))
+                {
+                    loadDataErrorMsg = $"The API for authenticating you is not responding correctly";
+                }
+                else loadDataErrorMsg = $"Error: {ex.Message}";
+            }
+        }
+    }
+
+    private void GoToLoggedInArea()
+    {
+        if (ReturnToPage != null) {
+            NavManager.NavigateTo("/" + ReturnToPage);
+        }
+        else {
+            NavManager.NavigateTo("/");
+        }
+    }
+
+    private void RetryLogin()
+    {
+        login = new UserModel();
+
+        formSubmitted = false;
+    }
+}

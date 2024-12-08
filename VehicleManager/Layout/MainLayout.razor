@@ -1,12 +1,27 @@
 ﻿@inherits LayoutComponentBase
-<div class="page">
+@using VehicleManager.Services
+@inject NavigationManager NavigationManager
+@inject AppData appData
+
+<div class="page @Background">
     <div class="sidebar">
         <NavMenu />
     </div>
 
     <main>
         <div class="top-row px-4">
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
+            @if (appData?.CurrentUser?.Email != null)
+            {
+                <span class="me-3">Logged In As</span> <span class="btn btn-outline-light"><i class="fa-solid fa-user"></i> @appData.CurrentUser.Forename @appData.CurrentUser.Surname</span>
+                <NavLink class="btn btn-light" href="Logout">
+                    <i class="fa-solid fa-person-walking-dashed-line-arrow-right"></i> Log Out
+                </NavLink>
+            }
+            else {
+                <NavLink class="btn btn-light" href="Login">
+                    <i class="fa-solid fa-lock"></i> Login
+                </NavLink>
+            }
         </div>
 
         <article class="content px-4">
@@ -14,3 +29,51 @@
         </article>
     </main>
 </div>
+
+@code {
+    private string? PageAndParams;
+    private string? PageRef;
+    private string? Background;
+
+    protected override async Task OnInitializedAsync()
+    {
+        ApplyBackground();
+        
+        //Run this each time the location changes
+        NavigationManager.LocationChanged += OnLocationChanged;
+    }
+
+    public void OnLocationChanged(object? sender, LocationChangedEventArgs args)
+    {
+        ApplyBackground();
+
+        StateHasChanged();
+    }
+
+    public void ApplyBackground()
+    {
+        PageAndParams = NavigationManager.Uri.Replace(NavigationManager.BaseUri, "");
+        if (PageAndParams.IndexOf("/") > 0)
+        {
+            PageRef = PageAndParams.Substring(0, PageAndParams.IndexOf("/"));
+        }
+        else
+        {
+            PageRef = PageAndParams;
+        }
+
+        if (PageRef == "Login" || PageRef == "Logout")
+        {
+            Background = "BackgroundEffect";
+        }
+        else
+        {
+            Background = "";
+        }
+    }
+
+    public void Dispose()
+    {
+        NavigationManager.LocationChanged -= OnLocationChanged;
+    }
+}

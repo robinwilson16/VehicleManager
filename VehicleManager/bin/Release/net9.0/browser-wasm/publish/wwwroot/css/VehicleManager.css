@@ -1,0 +1,52 @@
+﻿body {
+}
+
+.Logo {
+    max-width: 300px;
+}
+
+.LogoHeader {
+    max-width: 100px;
+}
+
+.bd-callout-VM-blue {
+    border-left-color: #84b9e5 !important;
+}
+
+.bd-callout-VM-green {
+    border-left-color: #b7d432 !important;
+}
+
+.bd-callout-VM-yellow {
+    border-left-color: #dbca21 !important;
+}
+
+.bd-callout-VM-teal {
+    border-left-color: #88cdaa !important;
+}
+
+.bd-callout-VM-warning {
+    border-left-color: #FF6F00 !important;
+}
+
+.bd-callout-VM-success {
+    border-left-color: #1B5E20 !important;
+}
+
+.WhiteBackground {
+    background-color: #FFFFFF;
+}
+
+.GreyBackground {
+    background-color: #F5F5F5;
+}
+
+.GreyHeader {
+    background-color: #CCCCCC;
+}
+
+.BackgroundEffect {
+    background-image: url("../images/LinesCircuit.jpg");
+    background-repeat: repeat;
+    background-color: #000034;
+}

@@ -1,9 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "a3tZr2X3diM=",
+  "dgSpecHash": "yvVZuGi0FZc=",
   "success": true,
   "projectFilePath": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\VehicleManager.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\robin.wilson\\.nuget\\packages\\blazored.fluentvalidation\\2.2.0\\blazored.fluentvalidation.2.2.0.nupkg.sha512",
+    "C:\\Users\\robin.wilson\\.nuget\\packages\\fluentvalidation\\11.9.1\\fluentvalidation.11.9.1.nupkg.sha512",
     "C:\\Users\\robin.wilson\\.nuget\\packages\\microsoft.aspnetcore.authorization\\9.0.0\\microsoft.aspnetcore.authorization.9.0.0.nupkg.sha512",
     "C:\\Users\\robin.wilson\\.nuget\\packages\\microsoft.aspnetcore.components\\9.0.0\\microsoft.aspnetcore.components.9.0.0.nupkg.sha512",
     "C:\\Users\\robin.wilson\\.nuget\\packages\\microsoft.aspnetcore.components.analyzers\\9.0.0\\microsoft.aspnetcore.components.analyzers.9.0.0.nupkg.sha512",
@@ -30,8 +32,7 @@
     "C:\\Users\\robin.wilson\\.nuget\\packages\\microsoft.jsinterop\\9.0.0\\microsoft.jsinterop.9.0.0.nupkg.sha512",
     "C:\\Users\\robin.wilson\\.nuget\\packages\\microsoft.jsinterop.webassembly\\9.0.0\\microsoft.jsinterop.webassembly.9.0.0.nupkg.sha512",
     "C:\\Users\\robin.wilson\\.nuget\\packages\\microsoft.net.illink.tasks\\9.0.0\\microsoft.net.illink.tasks.9.0.0.nupkg.sha512",
-    "C:\\Users\\robin.wilson\\.nuget\\packages\\microsoft.net.sdk.webassembly.pack\\9.0.0\\microsoft.net.sdk.webassembly.pack.9.0.0.nupkg.sha512",
-    "C:\\Users\\robin.wilson\\.nuget\\packages\\microsoft.netcore.app.runtime.mono.browser-wasm\\9.0.0\\microsoft.netcore.app.runtime.mono.browser-wasm.9.0.0.nupkg.sha512"
+    "C:\\Users\\robin.wilson\\.nuget\\packages\\microsoft.net.sdk.webassembly.pack\\9.0.0\\microsoft.net.sdk.webassembly.pack.9.0.0.nupkg.sha512"
   ],
   "logs": []
 }

@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "8Sp3zNtmQ5xqMX4t4FvwvID9RfOaFuPhliT76TlSiKA=",
+  "Hash": "qzJ1z6K7DHhh2ScbEr5b7U5eww6nAVtpWGR/EEUpn5E=",
   "Source": "VehicleManager",
   "BasePath": "/",
   "Mode": "Root",
@@ -73,8 +73,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "WasmResource",
       "AssetTraitValue": "manifest",
-      "Fingerprint": "9ngq31r8as",
-      "Integrity": "xQ3NpRf9ZVsOyhk5/oN1S/BEneN3F+W/uSgBGbtbWK8=",
+      "Fingerprint": "fflnesgmjn",
+      "Integrity": "xfX0KbqA7Ozh196+jLPREZfuw10ggutvpWFr6hewQ2M=",
       "CopyToOutputDirectory": "PreserveNewest",
       "CopyToPublishDirectory": "Never",
       "OriginalItemSpec": "obj\\Debug\\net9.0\\blazor.boot.json"
@@ -101,6 +101,27 @@
       "OriginalItemSpec": "C:\\Users\\robin.wilson\\.nuget\\packages\\microsoft.aspnetcore.components.webassembly\\9.0.0\\build\\net9.0\\blazor.webassembly.js"
     },
     {
+      "Identity": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\bin\\Debug\\net9.0\\wwwroot\\_framework\\Blazored.FluentValidation.wasm",
+      "SourceId": "VehicleManager",
+      "SourceType": "Computed",
+      "ContentRoot": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\bin\\Debug\\net9.0\\wwwroot\\",
+      "BasePath": "/",
+      "RelativePath": "_framework/Blazored.FluentValidation#[.{fingerprint}]!.wasm",
+      "AssetKind": "Build",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "WasmResource",
+      "AssetTraitValue": "runtime",
+      "Fingerprint": "x0xsecpmtx",
+      "Integrity": "MSQuUWmw/uBMui2/n4kdEKi0h5j0G+EuO1sM6KK6ltM=",
+      "CopyToOutputDirectory": "PreserveNewest",
+      "CopyToPublishDirectory": "Never",
+      "OriginalItemSpec": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\webcil\\Blazored.FluentValidation.wasm"
+    },
+    {
       "Identity": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\bin\\Debug\\net9.0\\wwwroot\\_framework\\dotnet.js",
       "SourceId": "VehicleManager",
       "SourceType": "Computed",
@@ -119,7 +140,7 @@
       "Integrity": "GbKWK+esqeL1E24rCVsCvsQCzaJM65aknWOT1UhUYa4=",
       "CopyToOutputDirectory": "PreserveNewest",
       "CopyToPublishDirectory": "Never",
-      "OriginalItemSpec": "C:\\Users\\robin.wilson\\.nuget\\packages\\microsoft.netcore.app.runtime.mono.browser-wasm\\9.0.0\\runtimes\\browser-wasm\\native\\dotnet.js"
+      "OriginalItemSpec": "C:\\Program Files\\dotnet\\packs\\Microsoft.NETCore.App.Runtime.Mono.browser-wasm\\9.0.0\\runtimes\\browser-wasm\\native\\dotnet.js"
     },
     {
       "Identity": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\bin\\Debug\\net9.0\\wwwroot\\_framework\\dotnet.js.map",
@@ -140,7 +161,7 @@
       "Integrity": "AkVknhqIUlYkhjyp1K3qcNV6kEbky2zVe2gBt0JL4rQ=",
       "CopyToOutputDirectory": "PreserveNewest",
       "CopyToPublishDirectory": "Never",
-      "OriginalItemSpec": "C:\\Users\\robin.wilson\\.nuget\\packages\\microsoft.netcore.app.runtime.mono.browser-wasm\\9.0.0\\runtimes\\browser-wasm\\native\\dotnet.js.map"
+      "OriginalItemSpec": "C:\\Program Files\\dotnet\\packs\\Microsoft.NETCore.App.Runtime.Mono.browser-wasm\\9.0.0\\runtimes\\browser-wasm\\native\\dotnet.js.map"
     },
     {
       "Identity": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\bin\\Debug\\net9.0\\wwwroot\\_framework\\dotnet.native.js",
@@ -161,7 +182,7 @@
       "Integrity": "d7UNSArplVrX3arY2Kmhxp1wN79ng8hLqIBrkiQ9Gbo=",
       "CopyToOutputDirectory": "PreserveNewest",
       "CopyToPublishDirectory": "Never",
-      "OriginalItemSpec": "C:\\Users\\robin.wilson\\.nuget\\packages\\microsoft.netcore.app.runtime.mono.browser-wasm\\9.0.0\\runtimes\\browser-wasm\\native\\dotnet.native.js"
+      "OriginalItemSpec": "C:\\Program Files\\dotnet\\packs\\Microsoft.NETCore.App.Runtime.Mono.browser-wasm\\9.0.0\\runtimes\\browser-wasm\\native\\dotnet.native.js"
     },
     {
       "Identity": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\bin\\Debug\\net9.0\\wwwroot\\_framework\\dotnet.native.wasm",
@@ -182,7 +203,7 @@
       "Integrity": "+eNtxSEiakcWrx6VoLGcDvqDWS3/kWe0AtiYmQFwe7E=",
       "CopyToOutputDirectory": "PreserveNewest",
       "CopyToPublishDirectory": "Never",
-      "OriginalItemSpec": "C:\\Users\\robin.wilson\\.nuget\\packages\\microsoft.netcore.app.runtime.mono.browser-wasm\\9.0.0\\runtimes\\browser-wasm\\native\\dotnet.native.wasm"
+      "OriginalItemSpec": "C:\\Program Files\\dotnet\\packs\\Microsoft.NETCore.App.Runtime.Mono.browser-wasm\\9.0.0\\runtimes\\browser-wasm\\native\\dotnet.native.wasm"
     },
     {
       "Identity": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\bin\\Debug\\net9.0\\wwwroot\\_framework\\dotnet.runtime.js",
@@ -203,7 +224,7 @@
       "Integrity": "uD1t4tsPtmIHsx30SC4OztehGGaHVDksFD38rL2e3P4=",
       "CopyToOutputDirectory": "PreserveNewest",
       "CopyToPublishDirectory": "Never",
-      "OriginalItemSpec": "C:\\Users\\robin.wilson\\.nuget\\packages\\microsoft.netcore.app.runtime.mono.browser-wasm\\9.0.0\\runtimes\\browser-wasm\\native\\dotnet.runtime.js"
+      "OriginalItemSpec": "C:\\Program Files\\dotnet\\packs\\Microsoft.NETCore.App.Runtime.Mono.browser-wasm\\9.0.0\\runtimes\\browser-wasm\\native\\dotnet.runtime.js"
     },
     {
       "Identity": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\bin\\Debug\\net9.0\\wwwroot\\_framework\\dotnet.runtime.js.map",
@@ -224,7 +245,28 @@
       "Integrity": "wpV1LHIee94UpLGiRx0W3R9fFp7xR8bD3JsCXfnpw5c=",
       "CopyToOutputDirectory": "PreserveNewest",
       "CopyToPublishDirectory": "Never",
-      "OriginalItemSpec": "C:\\Users\\robin.wilson\\.nuget\\packages\\microsoft.netcore.app.runtime.mono.browser-wasm\\9.0.0\\runtimes\\browser-wasm\\native\\dotnet.runtime.js.map"
+      "OriginalItemSpec": "C:\\Program Files\\dotnet\\packs\\Microsoft.NETCore.App.Runtime.Mono.browser-wasm\\9.0.0\\runtimes\\browser-wasm\\native\\dotnet.runtime.js.map"
+    },
+    {
+      "Identity": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\bin\\Debug\\net9.0\\wwwroot\\_framework\\FluentValidation.wasm",
+      "SourceId": "VehicleManager",
+      "SourceType": "Computed",
+      "ContentRoot": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\bin\\Debug\\net9.0\\wwwroot\\",
+      "BasePath": "/",
+      "RelativePath": "_framework/FluentValidation#[.{fingerprint}]!.wasm",
+      "AssetKind": "Build",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "WasmResource",
+      "AssetTraitValue": "runtime",
+      "Fingerprint": "a26tmul8eq",
+      "Integrity": "Dt7DBDag97mASqcSTSWerTCmGMiE8QnbGYMRbfGmqvQ=",
+      "CopyToOutputDirectory": "PreserveNewest",
+      "CopyToPublishDirectory": "Never",
+      "OriginalItemSpec": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\webcil\\FluentValidation.wasm"
     },
     {
       "Identity": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\bin\\Debug\\net9.0\\wwwroot\\_framework\\icudt_CJK.dat",
@@ -245,7 +287,7 @@
       "Integrity": "SZLtQnRc0JkwqHab0VUVP7T3uBPSeYzxzDnpxPpUnHk=",
       "CopyToOutputDirectory": "PreserveNewest",
       "CopyToPublishDirectory": "Never",
-      "OriginalItemSpec": "C:\\Users\\robin.wilson\\.nuget\\packages\\microsoft.netcore.app.runtime.mono.browser-wasm\\9.0.0\\runtimes\\browser-wasm\\native\\icudt_CJK.dat"
+      "OriginalItemSpec": "C:\\Program Files\\dotnet\\packs\\Microsoft.NETCore.App.Runtime.Mono.browser-wasm\\9.0.0\\runtimes\\browser-wasm\\native\\icudt_CJK.dat"
     },
     {
       "Identity": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\bin\\Debug\\net9.0\\wwwroot\\_framework\\icudt_EFIGS.dat",
@@ -266,7 +308,7 @@
       "Integrity": "8fItetYY8kQ0ww6oxwTLiT3oXlBwHKumbeP2pRF4yTc=",
       "CopyToOutputDirectory": "PreserveNewest",
       "CopyToPublishDirectory": "Never",
-      "OriginalItemSpec": "C:\\Users\\robin.wilson\\.nuget\\packages\\microsoft.netcore.app.runtime.mono.browser-wasm\\9.0.0\\runtimes\\browser-wasm\\native\\icudt_EFIGS.dat"
+      "OriginalItemSpec": "C:\\Program Files\\dotnet\\packs\\Microsoft.NETCore.App.Runtime.Mono.browser-wasm\\9.0.0\\runtimes\\browser-wasm\\native\\icudt_EFIGS.dat"
     },
     {
       "Identity": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\bin\\Debug\\net9.0\\wwwroot\\_framework\\icudt_no_CJK.dat",
@@ -287,7 +329,7 @@
       "Integrity": "L7sV7NEYP37/Qr2FPCePo5cJqRgTXRwGHuwF5Q+0Nfs=",
       "CopyToOutputDirectory": "PreserveNewest",
       "CopyToPublishDirectory": "Never",
-      "OriginalItemSpec": "C:\\Users\\robin.wilson\\.nuget\\packages\\microsoft.netcore.app.runtime.mono.browser-wasm\\9.0.0\\runtimes\\browser-wasm\\native\\icudt_no_CJK.dat"
+      "OriginalItemSpec": "C:\\Program Files\\dotnet\\packs\\Microsoft.NETCore.App.Runtime.Mono.browser-wasm\\9.0.0\\runtimes\\browser-wasm\\native\\icudt_no_CJK.dat"
     },
     {
       "Identity": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\bin\\Debug\\net9.0\\wwwroot\\_framework\\Microsoft.AspNetCore.Authorization.wasm",
@@ -4315,8 +4357,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "WasmResource",
       "AssetTraitValue": "symbol",
-      "Fingerprint": "qeg5xggrs1",
-      "Integrity": "rlwCJZ/rnc2lIz6Ge/asrhupulIB3PleI/iE9LKAvKY=",
+      "Fingerprint": "huagx8q53l",
+      "Integrity": "6Vuk//b4AGB/O42yh9dmSnyCoHIcho0E3KFFjlgPZEY=",
       "CopyToOutputDirectory": "PreserveNewest",
       "CopyToPublishDirectory": "Never",
       "OriginalItemSpec": "obj\\Debug\\net9.0\\VehicleManager.pdb"
@@ -4336,8 +4378,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "WasmResource",
       "AssetTraitValue": "runtime",
-      "Fingerprint": "1i9fy9013u",
-      "Integrity": "2UPrqvQyNv4e0ilW1QmI6cPhwhmhIqCwmPCrtgkT/O8=",
+      "Fingerprint": "y6kbuurmb5",
+      "Integrity": "+oDHdINpGREsV15L/p3ioCOHIG+QkOgpHp7lOxbk1wY=",
       "CopyToOutputDirectory": "PreserveNewest",
       "CopyToPublishDirectory": "Never",
       "OriginalItemSpec": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\webcil\\VehicleManager.wasm"
@@ -5393,6 +5435,27 @@
       "OriginalItemSpec": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\bin\\Debug\\net9.0\\wwwroot\\_framework\\Microsoft.Win32.Registry.wasm"
     },
     {
+      "Identity": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\5c5exna4l2-x0xsecpmtx.gz",
+      "SourceId": "VehicleManager",
+      "SourceType": "Computed",
+      "ContentRoot": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\",
+      "BasePath": "/",
+      "RelativePath": "_framework/Blazored.FluentValidation#[.{fingerprint=x0xsecpmtx}]!.wasm.gz",
+      "AssetKind": "Build",
+      "AssetMode": "All",
+      "AssetRole": "Alternative",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\bin\\Debug\\net9.0\\wwwroot\\_framework\\Blazored.FluentValidation.wasm",
+      "AssetTraitName": "Content-Encoding",
+      "AssetTraitValue": "gzip",
+      "Fingerprint": "q89fh9toed",
+      "Integrity": "dt7kt/epPfaOswwqME49LOr8J6jtxhP+jNJ+fSy3ukw=",
+      "CopyToOutputDirectory": "PreserveNewest",
+      "CopyToPublishDirectory": "Never",
+      "OriginalItemSpec": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\bin\\Debug\\net9.0\\wwwroot\\_framework\\Blazored.FluentValidation.wasm"
+    },
+    {
       "Identity": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\5dywimtcax-b7pk76d08c.gz",
       "SourceId": "VehicleManager",
       "SourceType": "Discovered",
@@ -5435,7 +5498,7 @@
       "OriginalItemSpec": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\wwwroot\\lib\\bootstrap\\css\\bootstrap-grid.rtl.css.map"
     },
     {
-      "Identity": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\5iz1tj2kvn-9ngq31r8as.gz",
+      "Identity": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\5iz1tj2kvn-fflnesgmjn.gz",
       "SourceId": "VehicleManager",
       "SourceType": "Computed",
       "ContentRoot": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\",
@@ -5449,8 +5512,8 @@
       "RelatedAsset": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\bin\\Debug\\net9.0\\wwwroot\\_framework\\blazor.boot.json",
       "AssetTraitName": "Content-Encoding",
       "AssetTraitValue": "gzip",
-      "Fingerprint": "tbqma8dfbv",
-      "Integrity": "yShWdWsU2awLU52ukGNB012EJUTReVG8hzS60ZQ2T2g=",
+      "Fingerprint": "6hbnz566ve",
+      "Integrity": "Jk+iwjOdbSmpJrpJKTymH4ShKE5m6Gcj81AFmHbeEXA=",
       "CopyToOutputDirectory": "PreserveNewest",
       "CopyToPublishDirectory": "Never",
       "OriginalItemSpec": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\bin\\Debug\\net9.0\\wwwroot\\_framework\\blazor.boot.json"
@@ -5876,12 +5939,12 @@
       "OriginalItemSpec": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\bin\\Debug\\net9.0\\wwwroot\\_framework\\System.Private.CoreLib.wasm"
     },
     {
-      "Identity": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\82ph9csq6e-qeg5xggrs1.gz",
+      "Identity": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\82ph9csq6e-huagx8q53l.gz",
       "SourceId": "VehicleManager",
       "SourceType": "Computed",
       "ContentRoot": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\",
       "BasePath": "/",
-      "RelativePath": "_framework/VehicleManager#[.{fingerprint=qeg5xggrs1}]!.pdb.gz",
+      "RelativePath": "_framework/VehicleManager#[.{fingerprint=huagx8q53l}]!.pdb.gz",
       "AssetKind": "Build",
       "AssetMode": "All",
       "AssetRole": "Alternative",
@@ -5890,8 +5953,8 @@
       "RelatedAsset": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\bin\\Debug\\net9.0\\wwwroot\\_framework\\VehicleManager.pdb",
       "AssetTraitName": "Content-Encoding",
       "AssetTraitValue": "gzip",
-      "Fingerprint": "pfyhmbh082",
-      "Integrity": "lbq123wqvK9j0Bjd0kmWMBKSODmcdXZSFd8y3MMi52c=",
+      "Fingerprint": "pl70j4wjq6",
+      "Integrity": "g5b76YGaax759sbvaGny6L7X+Rh1E0JKJnDGXWt58lU=",
       "CopyToOutputDirectory": "PreserveNewest",
       "CopyToPublishDirectory": "Never",
       "OriginalItemSpec": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\bin\\Debug\\net9.0\\wwwroot\\_framework\\VehicleManager.pdb"
@@ -6695,6 +6758,27 @@
       "OriginalItemSpec": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\wwwroot\\lib\\bootstrap\\css\\bootstrap.css"
     },
     {
+      "Identity": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\c2tv2v31re-ma5r7j20hu.gz",
+      "SourceId": "VehicleManager",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\",
+      "BasePath": "/",
+      "RelativePath": "css/callout#[.{fingerprint=ma5r7j20hu}]?.css.gz",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Alternative",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\wwwroot\\css\\callout.css",
+      "AssetTraitName": "Content-Encoding",
+      "AssetTraitValue": "gzip",
+      "Fingerprint": "f2kg9twb1t",
+      "Integrity": "aTlFQuvm4efNf72P3LIDsnSIcDc6d5V5QXb/Gzwl+oU=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\wwwroot\\css\\callout.css"
+    },
+    {
       "Identity": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\c7bmx2eqw4-cnk9vmuw7e.gz",
       "SourceId": "VehicleManager",
       "SourceType": "Computed",
@@ -6926,6 +7010,27 @@
       "OriginalItemSpec": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\bin\\Debug\\net9.0\\wwwroot\\_framework\\System.Security.Principal.wasm"
     },
     {
+      "Identity": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\e7bkbc1gpc-a26tmul8eq.gz",
+      "SourceId": "VehicleManager",
+      "SourceType": "Computed",
+      "ContentRoot": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\",
+      "BasePath": "/",
+      "RelativePath": "_framework/FluentValidation#[.{fingerprint=a26tmul8eq}]!.wasm.gz",
+      "AssetKind": "Build",
+      "AssetMode": "All",
+      "AssetRole": "Alternative",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\bin\\Debug\\net9.0\\wwwroot\\_framework\\FluentValidation.wasm",
+      "AssetTraitName": "Content-Encoding",
+      "AssetTraitValue": "gzip",
+      "Fingerprint": "va2fuszitp",
+      "Integrity": "mci5WPetha+zWLF26LssDO6WrwjEyB3zCeDBXvnz/GQ=",
+      "CopyToOutputDirectory": "PreserveNewest",
+      "CopyToPublishDirectory": "Never",
+      "OriginalItemSpec": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\bin\\Debug\\net9.0\\wwwroot\\_framework\\FluentValidation.wasm"
+    },
+    {
       "Identity": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\ecbqxftcfy-doc27e0ja8.gz",
       "SourceId": "VehicleManager",
       "SourceType": "Discovered",
@@ -7113,6 +7218,27 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css"
+    },
+    {
+      "Identity": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\f8zg4a6d3c-a6egcqlr4w.gz",
+      "SourceId": "VehicleManager",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\",
+      "BasePath": "/",
+      "RelativePath": "css/VehicleManager#[.{fingerprint=a6egcqlr4w}]?.css.gz",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Alternative",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\wwwroot\\css\\VehicleManager.css",
+      "AssetTraitName": "Content-Encoding",
+      "AssetTraitValue": "gzip",
+      "Fingerprint": "anlw4rnm5t",
+      "Integrity": "agpm60xfTu3Do3JriY55sGnhVBpEnP3ccOZvV4dCBz8=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\wwwroot\\css\\VehicleManager.css"
     },
     {
       "Identity": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\fbixx291p8-gcgdir7gs3.gz",
@@ -7409,12 +7535,12 @@
       "OriginalItemSpec": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\wwwroot\\lib\\bootstrap\\css\\bootstrap.rtl.min.css"
     },
     {
-      "Identity": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\gugp94kv2p-1i9fy9013u.gz",
+      "Identity": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\gugp94kv2p-y6kbuurmb5.gz",
       "SourceId": "VehicleManager",
       "SourceType": "Computed",
       "ContentRoot": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\",
       "BasePath": "/",
-      "RelativePath": "_framework/VehicleManager#[.{fingerprint=1i9fy9013u}]!.wasm.gz",
+      "RelativePath": "_framework/VehicleManager#[.{fingerprint=y6kbuurmb5}]!.wasm.gz",
       "AssetKind": "Build",
       "AssetMode": "All",
       "AssetRole": "Alternative",
@@ -7423,8 +7549,8 @@
       "RelatedAsset": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\bin\\Debug\\net9.0\\wwwroot\\_framework\\VehicleManager.wasm",
       "AssetTraitName": "Content-Encoding",
       "AssetTraitValue": "gzip",
-      "Fingerprint": "tqvui5qk7q",
-      "Integrity": "y90TyF4+qPCsqnD9hiw4nry10YxKttoDCWdfczTMeAo=",
+      "Fingerprint": "a78wrlcrdn",
+      "Integrity": "huBICWYpH/AnYUTUXRWUE1hJhL1pahsL+9B9hYdd8JQ=",
       "CopyToOutputDirectory": "PreserveNewest",
       "CopyToPublishDirectory": "Never",
       "OriginalItemSpec": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\bin\\Debug\\net9.0\\wwwroot\\_framework\\VehicleManager.wasm"
@@ -7598,12 +7724,12 @@
       "OriginalItemSpec": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\bin\\Debug\\net9.0\\wwwroot\\_framework\\System.Web.wasm"
     },
     {
-      "Identity": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\i0umgvwhc5-son9hyq1bd.gz",
+      "Identity": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\i0umgvwhc5-1g6az4f3wn.gz",
       "SourceId": "VehicleManager",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\",
       "BasePath": "/",
-      "RelativePath": "index#[.{fingerprint=son9hyq1bd}]?.html.gz",
+      "RelativePath": "index#[.{fingerprint=1g6az4f3wn}]?.html.gz",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Alternative",
@@ -7612,8 +7738,8 @@
       "RelatedAsset": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\wwwroot\\index.html",
       "AssetTraitName": "Content-Encoding",
       "AssetTraitValue": "gzip",
-      "Fingerprint": "m3oyg7jpfi",
-      "Integrity": "flUZWhTlav2zRj5GDbhOcbH3Asj0yUIf3PkMRKCBWO8=",
+      "Fingerprint": "613n8whz28",
+      "Integrity": "5jgJEAENCAiqpxtUlpibPYI3TAy4jWOSgaaV7zhJ5/Q=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\wwwroot\\index.html"
@@ -7661,12 +7787,12 @@
       "OriginalItemSpec": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\bin\\Debug\\net9.0\\wwwroot\\_framework\\System.Runtime.Serialization.Xml.wasm"
     },
     {
-      "Identity": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\iaj7ce7p1h-t6cqib8qnk.gz",
+      "Identity": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\iaj7ce7p1h-kd252ev0sr.gz",
       "SourceId": "VehicleManager",
       "SourceType": "Computed",
       "ContentRoot": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\",
       "BasePath": "/",
-      "RelativePath": "VehicleManager#[.{fingerprint=t6cqib8qnk}]!.bundle.scp.css.gz",
+      "RelativePath": "VehicleManager#[.{fingerprint=kd252ev0sr}]!.bundle.scp.css.gz",
       "AssetKind": "All",
       "AssetMode": "Reference",
       "AssetRole": "Alternative",
@@ -7675,8 +7801,8 @@
       "RelatedAsset": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\scopedcss\\projectbundle\\VehicleManager.bundle.scp.css",
       "AssetTraitName": "Content-Encoding",
       "AssetTraitValue": "gzip",
-      "Fingerprint": "tcf0a1u6ny",
-      "Integrity": "Q2Rsz2kM8ky3i57i0PV2xzFOZUyiROOQPpVqM+o5A6s=",
+      "Fingerprint": "o2qyxfiwot",
+      "Integrity": "gDXZo6i6/HJ1eloUAHLvKwLNqg5TR7LEG+qpXBKJif0=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\scopedcss\\projectbundle\\VehicleManager.bundle.scp.css"
@@ -7871,12 +7997,12 @@
       "OriginalItemSpec": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\bin\\Debug\\net9.0\\wwwroot\\_framework\\System.Threading.Overlapped.wasm"
     },
     {
-      "Identity": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\jku89ajk5a-8hw2q72b1h.gz",
+      "Identity": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\jku89ajk5a-42qd4kh6aj.gz",
       "SourceId": "VehicleManager",
       "SourceType": "Computed",
       "ContentRoot": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\",
       "BasePath": "/",
-      "RelativePath": "VehicleManager#[.{fingerprint=8hw2q72b1h}]?.styles.css.gz",
+      "RelativePath": "VehicleManager#[.{fingerprint=42qd4kh6aj}]?.styles.css.gz",
       "AssetKind": "All",
       "AssetMode": "CurrentProject",
       "AssetRole": "Alternative",
@@ -7885,8 +8011,8 @@
       "RelatedAsset": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\scopedcss\\bundle\\VehicleManager.styles.css",
       "AssetTraitName": "Content-Encoding",
       "AssetTraitValue": "gzip",
-      "Fingerprint": "anw73xz6zw",
-      "Integrity": "+qeWER190CXr4oXfzkwAHnnC9TGxp86VcYPSBhKRP3I=",
+      "Fingerprint": "ezw4z7e4nz",
+      "Integrity": "BiFSVAnzWa6MKd9aEjickccH5Sbnn73m8jPuGNP5pf4=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\scopedcss\\bundle\\VehicleManager.styles.css"
@@ -10265,7 +10391,7 @@
       "OriginalItemSpec": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\wwwroot\\lib\\font-awesome\\css\\regular.css"
     },
     {
-      "Identity": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\u1hltjtn1n-youpt42r8s.gz",
+      "Identity": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\u1hltjtn1n-ubepg2g6c3.gz",
       "SourceId": "VehicleManager",
       "SourceType": "Computed",
       "ContentRoot": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\",
@@ -10279,8 +10405,8 @@
       "RelatedAsset": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\service-worker\\service-worker-assets.js.build",
       "AssetTraitName": "Content-Encoding",
       "AssetTraitValue": "gzip",
-      "Fingerprint": "mdpjl2fi9j",
-      "Integrity": "OvTkPT+QA4liPTQanZj0vyLCqFTJRqdFJTNmmuMEpAk=",
+      "Fingerprint": "p0ftzimzmt",
+      "Integrity": "t2MCPTF9CoGPFW0cFSRA9BFxAXyVVeYnYmJXipBLhbk=",
       "CopyToOutputDirectory": "PreserveNewest",
       "CopyToPublishDirectory": "Never",
       "OriginalItemSpec": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\service-worker\\service-worker-assets.js.build"
@@ -11231,7 +11357,7 @@
       "OriginalItemSpec": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\bin\\Debug\\net9.0\\wwwroot\\_framework\\System.Diagnostics.Tracing.wasm"
     },
     {
-      "Identity": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\yozevokvzs-h3uy8gk213.gz",
+      "Identity": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\yozevokvzs-abnm1kgv14.gz",
       "SourceId": "VehicleManager",
       "SourceType": "Computed",
       "ContentRoot": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\",
@@ -11497,8 +11623,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "ScopedCss",
       "AssetTraitValue": "ApplicationBundle",
-      "Fingerprint": "8hw2q72b1h",
-      "Integrity": "7MZWH7Lm19dWS1C2S1UOenflGSzCBgFtt46XxrDWA44=",
+      "Fingerprint": "42qd4kh6aj",
+      "Integrity": "1FZfisxX/QTNE8VKi5JGSInbKA3Ce61NL0409Y5V+Co=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\scopedcss\\bundle\\VehicleManager.styles.css"
@@ -11518,8 +11644,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "ScopedCss",
       "AssetTraitValue": "ProjectBundle",
-      "Fingerprint": "t6cqib8qnk",
-      "Integrity": "y+H4FWP5OJP4RO3CbfMEb0wBgA0Zsb3X1NkvtRAZqzo=",
+      "Fingerprint": "kd252ev0sr",
+      "Integrity": "uDppDKh8Wx6mSgupRrIKRBJWwmNxNISMWO2ibc25/HU=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\scopedcss\\projectbundle\\VehicleManager.bundle.scp.css"
@@ -11539,8 +11665,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "BlazorServiceWorker",
       "AssetTraitValue": "ServiceWorkerJs",
-      "Fingerprint": "h3uy8gk213",
-      "Integrity": "Iys5jzK8xEzh6vmsdkgUQNaLejB95hademN9KC6tH+s=",
+      "Fingerprint": "abnm1kgv14",
+      "Integrity": "eq8VlcxtjhGrguOT83nv0Ey63Cko2qO8lApAauKnFhA=",
       "CopyToOutputDirectory": "PreserveNewest",
       "CopyToPublishDirectory": "Never",
       "OriginalItemSpec": "wwwroot\\service-worker.js"
@@ -11560,8 +11686,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "BlazorServiceWorker",
       "AssetTraitValue": "ServiceWorkerManifest",
-      "Fingerprint": "youpt42r8s",
-      "Integrity": "ohQ78MHztUpThq1wJsYoQX7enkOfzkrlJVEFo+dpjp8=",
+      "Fingerprint": "ubepg2g6c3",
+      "Integrity": "yuwfiff8F/weGmu6WbVOl/K4XcpK5l4+FBEHNoJNiLc=",
       "CopyToOutputDirectory": "PreserveNewest",
       "CopyToPublishDirectory": "Never",
       "OriginalItemSpec": "obj\\Debug\\net9.0\\service-worker\\service-worker-assets.js.build"
@@ -11607,6 +11733,48 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\app.css"
+    },
+    {
+      "Identity": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\wwwroot\\css\\callout.css",
+      "SourceId": "VehicleManager",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\wwwroot\\",
+      "BasePath": "/",
+      "RelativePath": "css/callout#[.{fingerprint}]?.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "ma5r7j20hu",
+      "Integrity": "cvmH35ojb+LTgQb9n285t8dajNsV/ikXk25Du0yQMmc=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\callout.css"
+    },
+    {
+      "Identity": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\wwwroot\\css\\VehicleManager.css",
+      "SourceId": "VehicleManager",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\wwwroot\\",
+      "BasePath": "/",
+      "RelativePath": "css/VehicleManager#[.{fingerprint}]?.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "a6egcqlr4w",
+      "Integrity": "PhDrMWjyuCTdPOagBk7vdf9n5tGrgPvYl4LncSuUc7g=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\VehicleManager.css"
     },
     {
       "Identity": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\wwwroot\\favicon.png",
@@ -11672,6 +11840,27 @@
       "OriginalItemSpec": "wwwroot\\icon-512.png"
     },
     {
+      "Identity": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\wwwroot\\images\\LinesCircuit.jpg",
+      "SourceId": "VehicleManager",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\wwwroot\\",
+      "BasePath": "/",
+      "RelativePath": "images/LinesCircuit#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "o27kq57s4h",
+      "Integrity": "MKHB8kwMYJuV1Ofnaen8SMxnO1K9+zZ19gQke7FcsmQ=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\LinesCircuit.jpg"
+    },
+    {
       "Identity": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\wwwroot\\index.html",
       "SourceId": "VehicleManager",
       "SourceType": "Discovered",
@@ -11686,8 +11875,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "son9hyq1bd",
-      "Integrity": "LDmpZNt/JJghZ0vpEM1aU3jMR4aosw9g4Wy5iMnkytA=",
+      "Fingerprint": "1g6az4f3wn",
+      "Integrity": "IYJLlJNLI+wH7xY9mnMt36k8TRM3ThkzFPUke3Fwx50=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\index.html"
@@ -16757,7 +16946,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "39498"
+          "Value": "39857"
         },
         {
           "Name": "Content-Type",
@@ -16765,11 +16954,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"xQ3NpRf9ZVsOyhk5/oN1S/BEneN3F+W/uSgBGbtbWK8=\""
+          "Value": "\"xfX0KbqA7Ozh196+jLPREZfuw10ggutvpWFr6hewQ2M=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 26 Nov 2024 01:27:48 GMT"
+          "Value": "Sun, 08 Dec 2024 08:58:59 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -16779,18 +16968,18 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-xQ3NpRf9ZVsOyhk5/oN1S/BEneN3F+W/uSgBGbtbWK8="
+          "Value": "sha256-xfX0KbqA7Ozh196+jLPREZfuw10ggutvpWFr6hewQ2M="
         }
       ]
     },
     {
       "Route": "_framework/blazor.boot.json",
-      "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\5iz1tj2kvn-9ngq31r8as.gz",
+      "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\5iz1tj2kvn-fflnesgmjn.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
           "Value": "gzip",
-          "Quality": "0.000080295487"
+          "Quality": "0.000079472304"
         }
       ],
       "ResponseHeaders": [
@@ -16800,15 +16989,15 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "12453"
+          "Value": "12582"
         },
         {
           "Name": "ETag",
-          "Value": "\"yShWdWsU2awLU52ukGNB012EJUTReVG8hzS60ZQ2T2g=\""
+          "Value": "\"Jk+iwjOdbSmpJrpJKTymH4ShKE5m6Gcj81AFmHbeEXA=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 26 Nov 2024 01:00:40 GMT"
+          "Value": "Sun, 08 Dec 2024 08:57:20 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -16828,19 +17017,19 @@
         },
         {
           "Name": "ETag",
-          "Value": "W/\"xQ3NpRf9ZVsOyhk5/oN1S/BEneN3F+W/uSgBGbtbWK8=\""
+          "Value": "W/\"xfX0KbqA7Ozh196+jLPREZfuw10ggutvpWFr6hewQ2M=\""
         }
       ],
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-xQ3NpRf9ZVsOyhk5/oN1S/BEneN3F+W/uSgBGbtbWK8="
+          "Value": "sha256-xfX0KbqA7Ozh196+jLPREZfuw10ggutvpWFr6hewQ2M="
         }
       ]
     },
     {
       "Route": "_framework/blazor.boot.json.gz",
-      "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\5iz1tj2kvn-9ngq31r8as.gz",
+      "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\5iz1tj2kvn-fflnesgmjn.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -16849,7 +17038,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "12453"
+          "Value": "12582"
         },
         {
           "Name": "Content-Type",
@@ -16857,11 +17046,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"yShWdWsU2awLU52ukGNB012EJUTReVG8hzS60ZQ2T2g=\""
+          "Value": "\"Jk+iwjOdbSmpJrpJKTymH4ShKE5m6Gcj81AFmHbeEXA=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 26 Nov 2024 01:00:40 GMT"
+          "Value": "Sun, 08 Dec 2024 08:57:20 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -16879,7 +17068,7 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-yShWdWsU2awLU52ukGNB012EJUTReVG8hzS60ZQ2T2g="
+          "Value": "sha256-Jk+iwjOdbSmpJrpJKTymH4ShKE5m6Gcj81AFmHbeEXA="
         }
       ]
     },
@@ -17017,6 +17206,304 @@
         {
           "Name": "integrity",
           "Value": "sha256-M4AcWNATjWabZWk6Y9v7sJ7kTqdq69ZgtCT3Yq1JbB8="
+        }
+      ]
+    },
+    {
+      "Route": "_framework/Blazored.FluentValidation.wasm",
+      "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\bin\\Debug\\net9.0\\wwwroot\\_framework\\Blazored.FluentValidation.wasm",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "19221"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "application/wasm"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"MSQuUWmw/uBMui2/n4kdEKi0h5j0G+EuO1sM6KK6ltM=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sat, 07 Dec 2024 00:46:21 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-MSQuUWmw/uBMui2/n4kdEKi0h5j0G+EuO1sM6KK6ltM="
+        }
+      ]
+    },
+    {
+      "Route": "_framework/Blazored.FluentValidation.wasm",
+      "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\5c5exna4l2-x0xsecpmtx.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.000113726828"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "8792"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"dt7kt/epPfaOswwqME49LOr8J6jtxhP+jNJ+fSy3ukw=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sat, 07 Dec 2024 00:46:22 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "application/wasm"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"MSQuUWmw/uBMui2/n4kdEKi0h5j0G+EuO1sM6KK6ltM=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-MSQuUWmw/uBMui2/n4kdEKi0h5j0G+EuO1sM6KK6ltM="
+        }
+      ]
+    },
+    {
+      "Route": "_framework/Blazored.FluentValidation.wasm.gz",
+      "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\5c5exna4l2-x0xsecpmtx.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "8792"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "application/wasm"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"dt7kt/epPfaOswwqME49LOr8J6jtxhP+jNJ+fSy3ukw=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sat, 07 Dec 2024 00:46:22 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-dt7kt/epPfaOswwqME49LOr8J6jtxhP+jNJ+fSy3ukw="
+        }
+      ]
+    },
+    {
+      "Route": "_framework/Blazored.FluentValidation.x0xsecpmtx.wasm",
+      "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\bin\\Debug\\net9.0\\wwwroot\\_framework\\Blazored.FluentValidation.wasm",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "19221"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "application/wasm"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"MSQuUWmw/uBMui2/n4kdEKi0h5j0G+EuO1sM6KK6ltM=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sat, 07 Dec 2024 00:46:21 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "x0xsecpmtx"
+        },
+        {
+          "Name": "label",
+          "Value": "_framework/Blazored.FluentValidation.wasm"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-MSQuUWmw/uBMui2/n4kdEKi0h5j0G+EuO1sM6KK6ltM="
+        }
+      ]
+    },
+    {
+      "Route": "_framework/Blazored.FluentValidation.x0xsecpmtx.wasm",
+      "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\5c5exna4l2-x0xsecpmtx.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.000113726828"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "8792"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"dt7kt/epPfaOswwqME49LOr8J6jtxhP+jNJ+fSy3ukw=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sat, 07 Dec 2024 00:46:22 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "application/wasm"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"MSQuUWmw/uBMui2/n4kdEKi0h5j0G+EuO1sM6KK6ltM=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "x0xsecpmtx"
+        },
+        {
+          "Name": "label",
+          "Value": "_framework/Blazored.FluentValidation.wasm"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-MSQuUWmw/uBMui2/n4kdEKi0h5j0G+EuO1sM6KK6ltM="
+        }
+      ]
+    },
+    {
+      "Route": "_framework/Blazored.FluentValidation.x0xsecpmtx.wasm.gz",
+      "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\5c5exna4l2-x0xsecpmtx.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "8792"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "application/wasm"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"dt7kt/epPfaOswwqME49LOr8J6jtxhP+jNJ+fSy3ukw=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sat, 07 Dec 2024 00:46:22 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "x0xsecpmtx"
+        },
+        {
+          "Name": "label",
+          "Value": "_framework/Blazored.FluentValidation.wasm.gz"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-dt7kt/epPfaOswwqME49LOr8J6jtxhP+jNJ+fSy3ukw="
         }
       ]
     },
@@ -18805,6 +19292,304 @@
         {
           "Name": "integrity",
           "Value": "sha256-ooZCzAnB5b30z9EndeZhOgalrzRC7xBBNeH+lGdg/io="
+        }
+      ]
+    },
+    {
+      "Route": "_framework/FluentValidation.a26tmul8eq.wasm",
+      "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\bin\\Debug\\net9.0\\wwwroot\\_framework\\FluentValidation.wasm",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "480021"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "application/wasm"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"Dt7DBDag97mASqcSTSWerTCmGMiE8QnbGYMRbfGmqvQ=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sat, 07 Dec 2024 00:46:21 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "a26tmul8eq"
+        },
+        {
+          "Name": "label",
+          "Value": "_framework/FluentValidation.wasm"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-Dt7DBDag97mASqcSTSWerTCmGMiE8QnbGYMRbfGmqvQ="
+        }
+      ]
+    },
+    {
+      "Route": "_framework/FluentValidation.a26tmul8eq.wasm",
+      "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\e7bkbc1gpc-a26tmul8eq.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.000006777593"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "147544"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"mci5WPetha+zWLF26LssDO6WrwjEyB3zCeDBXvnz/GQ=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sat, 07 Dec 2024 00:46:22 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "application/wasm"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"Dt7DBDag97mASqcSTSWerTCmGMiE8QnbGYMRbfGmqvQ=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "a26tmul8eq"
+        },
+        {
+          "Name": "label",
+          "Value": "_framework/FluentValidation.wasm"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-Dt7DBDag97mASqcSTSWerTCmGMiE8QnbGYMRbfGmqvQ="
+        }
+      ]
+    },
+    {
+      "Route": "_framework/FluentValidation.a26tmul8eq.wasm.gz",
+      "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\e7bkbc1gpc-a26tmul8eq.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "147544"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "application/wasm"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"mci5WPetha+zWLF26LssDO6WrwjEyB3zCeDBXvnz/GQ=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sat, 07 Dec 2024 00:46:22 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "a26tmul8eq"
+        },
+        {
+          "Name": "label",
+          "Value": "_framework/FluentValidation.wasm.gz"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-mci5WPetha+zWLF26LssDO6WrwjEyB3zCeDBXvnz/GQ="
+        }
+      ]
+    },
+    {
+      "Route": "_framework/FluentValidation.wasm",
+      "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\bin\\Debug\\net9.0\\wwwroot\\_framework\\FluentValidation.wasm",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "480021"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "application/wasm"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"Dt7DBDag97mASqcSTSWerTCmGMiE8QnbGYMRbfGmqvQ=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sat, 07 Dec 2024 00:46:21 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-Dt7DBDag97mASqcSTSWerTCmGMiE8QnbGYMRbfGmqvQ="
+        }
+      ]
+    },
+    {
+      "Route": "_framework/FluentValidation.wasm",
+      "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\e7bkbc1gpc-a26tmul8eq.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.000006777593"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "147544"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"mci5WPetha+zWLF26LssDO6WrwjEyB3zCeDBXvnz/GQ=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sat, 07 Dec 2024 00:46:22 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "application/wasm"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"Dt7DBDag97mASqcSTSWerTCmGMiE8QnbGYMRbfGmqvQ=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-Dt7DBDag97mASqcSTSWerTCmGMiE8QnbGYMRbfGmqvQ="
+        }
+      ]
+    },
+    {
+      "Route": "_framework/FluentValidation.wasm.gz",
+      "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\e7bkbc1gpc-a26tmul8eq.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "147544"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "application/wasm"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"mci5WPetha+zWLF26LssDO6WrwjEyB3zCeDBXvnz/GQ=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sat, 07 Dec 2024 00:46:22 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-mci5WPetha+zWLF26LssDO6WrwjEyB3zCeDBXvnz/GQ="
         }
       ]
     },
@@ -76621,168 +77406,7 @@
       ]
     },
     {
-      "Route": "_framework/VehicleManager.1i9fy9013u.wasm",
-      "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\bin\\Debug\\net9.0\\wwwroot\\_framework\\VehicleManager.wasm",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "43285"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "application/wasm"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"2UPrqvQyNv4e0ilW1QmI6cPhwhmhIqCwmPCrtgkT/O8=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Tue, 26 Nov 2024 01:27:48 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "1i9fy9013u"
-        },
-        {
-          "Name": "label",
-          "Value": "_framework/VehicleManager.wasm"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-2UPrqvQyNv4e0ilW1QmI6cPhwhmhIqCwmPCrtgkT/O8="
-        }
-      ]
-    },
-    {
-      "Route": "_framework/VehicleManager.1i9fy9013u.wasm",
-      "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\gugp94kv2p-1i9fy9013u.gz",
-      "Selectors": [
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip",
-          "Quality": "0.000059934073"
-        }
-      ],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "16684"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"y90TyF4+qPCsqnD9hiw4nry10YxKttoDCWdfczTMeAo=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Tue, 26 Nov 2024 01:27:49 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        },
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip"
-        },
-        {
-          "Name": "Vary",
-          "Value": "Content-Encoding"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "application/wasm"
-        },
-        {
-          "Name": "ETag",
-          "Value": "W/\"2UPrqvQyNv4e0ilW1QmI6cPhwhmhIqCwmPCrtgkT/O8=\""
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "1i9fy9013u"
-        },
-        {
-          "Name": "label",
-          "Value": "_framework/VehicleManager.wasm"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-2UPrqvQyNv4e0ilW1QmI6cPhwhmhIqCwmPCrtgkT/O8="
-        }
-      ]
-    },
-    {
-      "Route": "_framework/VehicleManager.1i9fy9013u.wasm.gz",
-      "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\gugp94kv2p-1i9fy9013u.gz",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "16684"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "application/wasm"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"y90TyF4+qPCsqnD9hiw4nry10YxKttoDCWdfczTMeAo=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Tue, 26 Nov 2024 01:27:49 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        },
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip"
-        },
-        {
-          "Name": "Vary",
-          "Value": "Content-Encoding"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "1i9fy9013u"
-        },
-        {
-          "Name": "label",
-          "Value": "_framework/VehicleManager.wasm.gz"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-y90TyF4+qPCsqnD9hiw4nry10YxKttoDCWdfczTMeAo="
-        }
-      ]
-    },
-    {
-      "Route": "_framework/VehicleManager.pdb",
+      "Route": "_framework/VehicleManager.huagx8q53l.pdb",
       "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\bin\\Debug\\net9.0\\wwwroot\\_framework\\VehicleManager.pdb",
       "Selectors": [],
       "ResponseHeaders": [
@@ -76792,7 +77416,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "35456"
+          "Value": "50712"
         },
         {
           "Name": "Content-Type",
@@ -76800,148 +77424,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"rlwCJZ/rnc2lIz6Ge/asrhupulIB3PleI/iE9LKAvKY=\""
+          "Value": "\"6Vuk//b4AGB/O42yh9dmSnyCoHIcho0E3KFFjlgPZEY=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 26 Nov 2024 01:27:48 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-rlwCJZ/rnc2lIz6Ge/asrhupulIB3PleI/iE9LKAvKY="
-        }
-      ]
-    },
-    {
-      "Route": "_framework/VehicleManager.pdb",
-      "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\82ph9csq6e-qeg5xggrs1.gz",
-      "Selectors": [
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip",
-          "Quality": "0.000038061889"
-        }
-      ],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "26272"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"lbq123wqvK9j0Bjd0kmWMBKSODmcdXZSFd8y3MMi52c=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Tue, 26 Nov 2024 01:27:49 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        },
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip"
-        },
-        {
-          "Name": "Vary",
-          "Value": "Content-Encoding"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "application/octet-stream"
-        },
-        {
-          "Name": "ETag",
-          "Value": "W/\"rlwCJZ/rnc2lIz6Ge/asrhupulIB3PleI/iE9LKAvKY=\""
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-rlwCJZ/rnc2lIz6Ge/asrhupulIB3PleI/iE9LKAvKY="
-        }
-      ]
-    },
-    {
-      "Route": "_framework/VehicleManager.pdb.gz",
-      "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\82ph9csq6e-qeg5xggrs1.gz",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "26272"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "application/octet-stream"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"lbq123wqvK9j0Bjd0kmWMBKSODmcdXZSFd8y3MMi52c=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Tue, 26 Nov 2024 01:27:49 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        },
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip"
-        },
-        {
-          "Name": "Vary",
-          "Value": "Content-Encoding"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-lbq123wqvK9j0Bjd0kmWMBKSODmcdXZSFd8y3MMi52c="
-        }
-      ]
-    },
-    {
-      "Route": "_framework/VehicleManager.qeg5xggrs1.pdb",
-      "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\bin\\Debug\\net9.0\\wwwroot\\_framework\\VehicleManager.pdb",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "35456"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "application/octet-stream"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"rlwCJZ/rnc2lIz6Ge/asrhupulIB3PleI/iE9LKAvKY=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Tue, 26 Nov 2024 01:27:48 GMT"
+          "Value": "Sun, 08 Dec 2024 08:57:20 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -76951,7 +77438,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "qeg5xggrs1"
+          "Value": "huagx8q53l"
         },
         {
           "Name": "label",
@@ -76959,18 +77446,18 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-rlwCJZ/rnc2lIz6Ge/asrhupulIB3PleI/iE9LKAvKY="
+          "Value": "sha256-6Vuk//b4AGB/O42yh9dmSnyCoHIcho0E3KFFjlgPZEY="
         }
       ]
     },
     {
-      "Route": "_framework/VehicleManager.qeg5xggrs1.pdb",
-      "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\82ph9csq6e-qeg5xggrs1.gz",
+      "Route": "_framework/VehicleManager.huagx8q53l.pdb",
+      "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\82ph9csq6e-huagx8q53l.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
           "Value": "gzip",
-          "Quality": "0.000038061889"
+          "Quality": "0.000026296413"
         }
       ],
       "ResponseHeaders": [
@@ -76980,15 +77467,15 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "26272"
+          "Value": "38027"
         },
         {
           "Name": "ETag",
-          "Value": "\"lbq123wqvK9j0Bjd0kmWMBKSODmcdXZSFd8y3MMi52c=\""
+          "Value": "\"g5b76YGaax759sbvaGny6L7X+Rh1E0JKJnDGXWt58lU=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 26 Nov 2024 01:27:49 GMT"
+          "Value": "Sun, 08 Dec 2024 08:57:21 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -77008,13 +77495,13 @@
         },
         {
           "Name": "ETag",
-          "Value": "W/\"rlwCJZ/rnc2lIz6Ge/asrhupulIB3PleI/iE9LKAvKY=\""
+          "Value": "W/\"6Vuk//b4AGB/O42yh9dmSnyCoHIcho0E3KFFjlgPZEY=\""
         }
       ],
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "qeg5xggrs1"
+          "Value": "huagx8q53l"
         },
         {
           "Name": "label",
@@ -77022,13 +77509,13 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-rlwCJZ/rnc2lIz6Ge/asrhupulIB3PleI/iE9LKAvKY="
+          "Value": "sha256-6Vuk//b4AGB/O42yh9dmSnyCoHIcho0E3KFFjlgPZEY="
         }
       ]
     },
     {
-      "Route": "_framework/VehicleManager.qeg5xggrs1.pdb.gz",
-      "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\82ph9csq6e-qeg5xggrs1.gz",
+      "Route": "_framework/VehicleManager.huagx8q53l.pdb.gz",
+      "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\82ph9csq6e-huagx8q53l.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -77037,7 +77524,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "26272"
+          "Value": "38027"
         },
         {
           "Name": "Content-Type",
@@ -77045,11 +77532,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"lbq123wqvK9j0Bjd0kmWMBKSODmcdXZSFd8y3MMi52c=\""
+          "Value": "\"g5b76YGaax759sbvaGny6L7X+Rh1E0JKJnDGXWt58lU=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 26 Nov 2024 01:27:49 GMT"
+          "Value": "Sun, 08 Dec 2024 08:57:21 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -77067,7 +77554,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "qeg5xggrs1"
+          "Value": "huagx8q53l"
         },
         {
           "Name": "label",
@@ -77075,7 +77562,144 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-lbq123wqvK9j0Bjd0kmWMBKSODmcdXZSFd8y3MMi52c="
+          "Value": "sha256-g5b76YGaax759sbvaGny6L7X+Rh1E0JKJnDGXWt58lU="
+        }
+      ]
+    },
+    {
+      "Route": "_framework/VehicleManager.pdb",
+      "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\bin\\Debug\\net9.0\\wwwroot\\_framework\\VehicleManager.pdb",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "50712"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "application/octet-stream"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"6Vuk//b4AGB/O42yh9dmSnyCoHIcho0E3KFFjlgPZEY=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 08 Dec 2024 08:57:20 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-6Vuk//b4AGB/O42yh9dmSnyCoHIcho0E3KFFjlgPZEY="
+        }
+      ]
+    },
+    {
+      "Route": "_framework/VehicleManager.pdb",
+      "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\82ph9csq6e-huagx8q53l.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.000026296413"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "38027"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"g5b76YGaax759sbvaGny6L7X+Rh1E0JKJnDGXWt58lU=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 08 Dec 2024 08:57:21 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "application/octet-stream"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"6Vuk//b4AGB/O42yh9dmSnyCoHIcho0E3KFFjlgPZEY=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-6Vuk//b4AGB/O42yh9dmSnyCoHIcho0E3KFFjlgPZEY="
+        }
+      ]
+    },
+    {
+      "Route": "_framework/VehicleManager.pdb.gz",
+      "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\82ph9csq6e-huagx8q53l.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "38027"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "application/octet-stream"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"g5b76YGaax759sbvaGny6L7X+Rh1E0JKJnDGXWt58lU=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 08 Dec 2024 08:57:21 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-g5b76YGaax759sbvaGny6L7X+Rh1E0JKJnDGXWt58lU="
         }
       ]
     },
@@ -77090,7 +77714,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "43285"
+          "Value": "78101"
         },
         {
           "Name": "Content-Type",
@@ -77098,11 +77722,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"2UPrqvQyNv4e0ilW1QmI6cPhwhmhIqCwmPCrtgkT/O8=\""
+          "Value": "\"+oDHdINpGREsV15L/p3ioCOHIG+QkOgpHp7lOxbk1wY=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 26 Nov 2024 01:27:48 GMT"
+          "Value": "Sun, 08 Dec 2024 08:57:20 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -77112,18 +77736,18 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-2UPrqvQyNv4e0ilW1QmI6cPhwhmhIqCwmPCrtgkT/O8="
+          "Value": "sha256-+oDHdINpGREsV15L/p3ioCOHIG+QkOgpHp7lOxbk1wY="
         }
       ]
     },
     {
       "Route": "_framework/VehicleManager.wasm",
-      "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\gugp94kv2p-1i9fy9013u.gz",
+      "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\gugp94kv2p-y6kbuurmb5.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
           "Value": "gzip",
-          "Quality": "0.000059934073"
+          "Quality": "0.000039264960"
         }
       ],
       "ResponseHeaders": [
@@ -77133,15 +77757,15 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "16684"
+          "Value": "25467"
         },
         {
           "Name": "ETag",
-          "Value": "\"y90TyF4+qPCsqnD9hiw4nry10YxKttoDCWdfczTMeAo=\""
+          "Value": "\"huBICWYpH/AnYUTUXRWUE1hJhL1pahsL+9B9hYdd8JQ=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 26 Nov 2024 01:27:49 GMT"
+          "Value": "Sun, 08 Dec 2024 08:57:21 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -77161,19 +77785,19 @@
         },
         {
           "Name": "ETag",
-          "Value": "W/\"2UPrqvQyNv4e0ilW1QmI6cPhwhmhIqCwmPCrtgkT/O8=\""
+          "Value": "W/\"+oDHdINpGREsV15L/p3ioCOHIG+QkOgpHp7lOxbk1wY=\""
         }
       ],
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-2UPrqvQyNv4e0ilW1QmI6cPhwhmhIqCwmPCrtgkT/O8="
+          "Value": "sha256-+oDHdINpGREsV15L/p3ioCOHIG+QkOgpHp7lOxbk1wY="
         }
       ]
     },
     {
       "Route": "_framework/VehicleManager.wasm.gz",
-      "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\gugp94kv2p-1i9fy9013u.gz",
+      "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\gugp94kv2p-y6kbuurmb5.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -77182,7 +77806,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "16684"
+          "Value": "25467"
         },
         {
           "Name": "Content-Type",
@@ -77190,11 +77814,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"y90TyF4+qPCsqnD9hiw4nry10YxKttoDCWdfczTMeAo=\""
+          "Value": "\"huBICWYpH/AnYUTUXRWUE1hJhL1pahsL+9B9hYdd8JQ=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 26 Nov 2024 01:27:49 GMT"
+          "Value": "Sun, 08 Dec 2024 08:57:21 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -77212,7 +77836,168 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-y90TyF4+qPCsqnD9hiw4nry10YxKttoDCWdfczTMeAo="
+          "Value": "sha256-huBICWYpH/AnYUTUXRWUE1hJhL1pahsL+9B9hYdd8JQ="
+        }
+      ]
+    },
+    {
+      "Route": "_framework/VehicleManager.y6kbuurmb5.wasm",
+      "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\bin\\Debug\\net9.0\\wwwroot\\_framework\\VehicleManager.wasm",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "78101"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "application/wasm"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"+oDHdINpGREsV15L/p3ioCOHIG+QkOgpHp7lOxbk1wY=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 08 Dec 2024 08:57:20 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "y6kbuurmb5"
+        },
+        {
+          "Name": "label",
+          "Value": "_framework/VehicleManager.wasm"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-+oDHdINpGREsV15L/p3ioCOHIG+QkOgpHp7lOxbk1wY="
+        }
+      ]
+    },
+    {
+      "Route": "_framework/VehicleManager.y6kbuurmb5.wasm",
+      "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\gugp94kv2p-y6kbuurmb5.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.000039264960"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "25467"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"huBICWYpH/AnYUTUXRWUE1hJhL1pahsL+9B9hYdd8JQ=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 08 Dec 2024 08:57:21 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "application/wasm"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"+oDHdINpGREsV15L/p3ioCOHIG+QkOgpHp7lOxbk1wY=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "y6kbuurmb5"
+        },
+        {
+          "Name": "label",
+          "Value": "_framework/VehicleManager.wasm"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-+oDHdINpGREsV15L/p3ioCOHIG+QkOgpHp7lOxbk1wY="
+        }
+      ]
+    },
+    {
+      "Route": "_framework/VehicleManager.y6kbuurmb5.wasm.gz",
+      "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\gugp94kv2p-y6kbuurmb5.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "25467"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "application/wasm"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"huBICWYpH/AnYUTUXRWUE1hJhL1pahsL+9B9hYdd8JQ=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 08 Dec 2024 08:57:21 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "y6kbuurmb5"
+        },
+        {
+          "Name": "label",
+          "Value": "_framework/VehicleManager.wasm.gz"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-huBICWYpH/AnYUTUXRWUE1hJhL1pahsL+9B9hYdd8JQ="
         }
       ]
     },
@@ -78111,6 +78896,602 @@
       ]
     },
     {
+      "Route": "css/callout.css",
+      "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\c2tv2v31re-ma5r7j20hu.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.004310344828"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "231"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"aTlFQuvm4efNf72P3LIDsnSIcDc6d5V5QXb/Gzwl+oU=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 28 Jan 2024 11:34:24 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"cvmH35ojb+LTgQb9n285t8dajNsV/ikXk25Du0yQMmc=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-cvmH35ojb+LTgQb9n285t8dajNsV/ikXk25Du0yQMmc="
+        }
+      ]
+    },
+    {
+      "Route": "css/callout.css",
+      "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\wwwroot\\css\\callout.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "677"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"cvmH35ojb+LTgQb9n285t8dajNsV/ikXk25Du0yQMmc=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 28 Jan 2024 11:34:24 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-cvmH35ojb+LTgQb9n285t8dajNsV/ikXk25Du0yQMmc="
+        }
+      ]
+    },
+    {
+      "Route": "css/callout.css.gz",
+      "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\c2tv2v31re-ma5r7j20hu.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "231"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"aTlFQuvm4efNf72P3LIDsnSIcDc6d5V5QXb/Gzwl+oU=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 28 Jan 2024 11:34:24 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-aTlFQuvm4efNf72P3LIDsnSIcDc6d5V5QXb/Gzwl+oU="
+        }
+      ]
+    },
+    {
+      "Route": "css/callout.ma5r7j20hu.css",
+      "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\c2tv2v31re-ma5r7j20hu.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.004310344828"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "231"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"aTlFQuvm4efNf72P3LIDsnSIcDc6d5V5QXb/Gzwl+oU=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 28 Jan 2024 11:34:24 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"cvmH35ojb+LTgQb9n285t8dajNsV/ikXk25Du0yQMmc=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "ma5r7j20hu"
+        },
+        {
+          "Name": "label",
+          "Value": "css/callout.css"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-cvmH35ojb+LTgQb9n285t8dajNsV/ikXk25Du0yQMmc="
+        }
+      ]
+    },
+    {
+      "Route": "css/callout.ma5r7j20hu.css",
+      "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\wwwroot\\css\\callout.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "677"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"cvmH35ojb+LTgQb9n285t8dajNsV/ikXk25Du0yQMmc=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 28 Jan 2024 11:34:24 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "ma5r7j20hu"
+        },
+        {
+          "Name": "label",
+          "Value": "css/callout.css"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-cvmH35ojb+LTgQb9n285t8dajNsV/ikXk25Du0yQMmc="
+        }
+      ]
+    },
+    {
+      "Route": "css/callout.ma5r7j20hu.css.gz",
+      "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\c2tv2v31re-ma5r7j20hu.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "231"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"aTlFQuvm4efNf72P3LIDsnSIcDc6d5V5QXb/Gzwl+oU=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 28 Jan 2024 11:34:24 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "ma5r7j20hu"
+        },
+        {
+          "Name": "label",
+          "Value": "css/callout.css.gz"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-aTlFQuvm4efNf72P3LIDsnSIcDc6d5V5QXb/Gzwl+oU="
+        }
+      ]
+    },
+    {
+      "Route": "css/VehicleManager.a6egcqlr4w.css",
+      "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\f8zg4a6d3c-a6egcqlr4w.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.003205128205"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "311"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"agpm60xfTu3Do3JriY55sGnhVBpEnP3ccOZvV4dCBz8=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sat, 07 Dec 2024 22:12:25 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"PhDrMWjyuCTdPOagBk7vdf9n5tGrgPvYl4LncSuUc7g=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "a6egcqlr4w"
+        },
+        {
+          "Name": "label",
+          "Value": "css/VehicleManager.css"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-PhDrMWjyuCTdPOagBk7vdf9n5tGrgPvYl4LncSuUc7g="
+        }
+      ]
+    },
+    {
+      "Route": "css/VehicleManager.a6egcqlr4w.css",
+      "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\wwwroot\\css\\VehicleManager.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "846"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"PhDrMWjyuCTdPOagBk7vdf9n5tGrgPvYl4LncSuUc7g=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sat, 07 Dec 2024 22:12:25 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "a6egcqlr4w"
+        },
+        {
+          "Name": "label",
+          "Value": "css/VehicleManager.css"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-PhDrMWjyuCTdPOagBk7vdf9n5tGrgPvYl4LncSuUc7g="
+        }
+      ]
+    },
+    {
+      "Route": "css/VehicleManager.a6egcqlr4w.css.gz",
+      "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\f8zg4a6d3c-a6egcqlr4w.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "311"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"agpm60xfTu3Do3JriY55sGnhVBpEnP3ccOZvV4dCBz8=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sat, 07 Dec 2024 22:12:25 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "a6egcqlr4w"
+        },
+        {
+          "Name": "label",
+          "Value": "css/VehicleManager.css.gz"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-agpm60xfTu3Do3JriY55sGnhVBpEnP3ccOZvV4dCBz8="
+        }
+      ]
+    },
+    {
+      "Route": "css/VehicleManager.css",
+      "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\f8zg4a6d3c-a6egcqlr4w.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.003205128205"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "311"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"agpm60xfTu3Do3JriY55sGnhVBpEnP3ccOZvV4dCBz8=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sat, 07 Dec 2024 22:12:25 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"PhDrMWjyuCTdPOagBk7vdf9n5tGrgPvYl4LncSuUc7g=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-PhDrMWjyuCTdPOagBk7vdf9n5tGrgPvYl4LncSuUc7g="
+        }
+      ]
+    },
+    {
+      "Route": "css/VehicleManager.css",
+      "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\wwwroot\\css\\VehicleManager.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "846"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"PhDrMWjyuCTdPOagBk7vdf9n5tGrgPvYl4LncSuUc7g=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sat, 07 Dec 2024 22:12:25 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-PhDrMWjyuCTdPOagBk7vdf9n5tGrgPvYl4LncSuUc7g="
+        }
+      ]
+    },
+    {
+      "Route": "css/VehicleManager.css.gz",
+      "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\f8zg4a6d3c-a6egcqlr4w.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "311"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"agpm60xfTu3Do3JriY55sGnhVBpEnP3ccOZvV4dCBz8=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sat, 07 Dec 2024 22:12:25 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-agpm60xfTu3Do3JriY55sGnhVBpEnP3ccOZvV4dCBz8="
+        }
+      ]
+    },
+    {
       "Route": "favicon.ifv42okdf2.png",
       "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\wwwroot\\favicon.png",
       "Selectors": [],
@@ -78357,13 +79738,95 @@
       ]
     },
     {
-      "Route": "index.html",
-      "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\i0umgvwhc5-son9hyq1bd.gz",
+      "Route": "images/LinesCircuit.jpg",
+      "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\wwwroot\\images\\LinesCircuit.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "222594"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"MKHB8kwMYJuV1Ofnaen8SMxnO1K9+zZ19gQke7FcsmQ=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sat, 07 Dec 2024 22:05:01 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-MKHB8kwMYJuV1Ofnaen8SMxnO1K9+zZ19gQke7FcsmQ="
+        }
+      ]
+    },
+    {
+      "Route": "images/LinesCircuit.o27kq57s4h.jpg",
+      "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\wwwroot\\images\\LinesCircuit.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "222594"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"MKHB8kwMYJuV1Ofnaen8SMxnO1K9+zZ19gQke7FcsmQ=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sat, 07 Dec 2024 22:05:01 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "o27kq57s4h"
+        },
+        {
+          "Name": "label",
+          "Value": "images/LinesCircuit.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-MKHB8kwMYJuV1Ofnaen8SMxnO1K9+zZ19gQke7FcsmQ="
+        }
+      ]
+    },
+    {
+      "Route": "index.1g6az4f3wn.html",
+      "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\i0umgvwhc5-1g6az4f3wn.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
           "Value": "gzip",
-          "Quality": "0.001677852349"
+          "Quality": "0.001562500000"
         }
       ],
       "ResponseHeaders": [
@@ -78373,19 +79836,19 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "595"
+          "Value": "639"
         },
         {
           "Name": "ETag",
-          "Value": "\"flUZWhTlav2zRj5GDbhOcbH3Asj0yUIf3PkMRKCBWO8=\""
+          "Value": "\"5jgJEAENCAiqpxtUlpibPYI3TAy4jWOSgaaV7zhJ5/Q=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 25 Nov 2024 21:15:57 GMT"
+          "Value": "Sun, 08 Dec 2024 08:58:54 GMT"
         },
         {
           "Name": "Cache-Control",
-          "Value": "no-cache"
+          "Value": "max-age=31536000, immutable"
         },
         {
           "Name": "Content-Encoding",
@@ -78401,18 +79864,26 @@
         },
         {
           "Name": "ETag",
-          "Value": "W/\"LDmpZNt/JJghZ0vpEM1aU3jMR4aosw9g4Wy5iMnkytA=\""
+          "Value": "W/\"IYJLlJNLI+wH7xY9mnMt36k8TRM3ThkzFPUke3Fwx50=\""
         }
       ],
       "EndpointProperties": [
         {
+          "Name": "fingerprint",
+          "Value": "1g6az4f3wn"
+        },
+        {
+          "Name": "label",
+          "Value": "index.html"
+        },
+        {
           "Name": "integrity",
-          "Value": "sha256-LDmpZNt/JJghZ0vpEM1aU3jMR4aosw9g4Wy5iMnkytA="
+          "Value": "sha256-IYJLlJNLI+wH7xY9mnMt36k8TRM3ThkzFPUke3Fwx50="
         }
       ]
     },
     {
-      "Route": "index.html",
+      "Route": "index.1g6az4f3wn.html",
       "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\wwwroot\\index.html",
       "Selectors": [],
       "ResponseHeaders": [
@@ -78422,7 +79893,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "1399"
+          "Value": "1552"
         },
         {
           "Name": "Content-Type",
@@ -78430,121 +79901,21 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"LDmpZNt/JJghZ0vpEM1aU3jMR4aosw9g4Wy5iMnkytA=\""
+          "Value": "\"IYJLlJNLI+wH7xY9mnMt36k8TRM3ThkzFPUke3Fwx50=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 25 Nov 2024 21:15:57 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-LDmpZNt/JJghZ0vpEM1aU3jMR4aosw9g4Wy5iMnkytA="
-        }
-      ]
-    },
-    {
-      "Route": "index.html.gz",
-      "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\i0umgvwhc5-son9hyq1bd.gz",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "595"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/html"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"flUZWhTlav2zRj5GDbhOcbH3Asj0yUIf3PkMRKCBWO8=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Mon, 25 Nov 2024 21:15:57 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        },
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip"
-        },
-        {
-          "Name": "Vary",
-          "Value": "Content-Encoding"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-flUZWhTlav2zRj5GDbhOcbH3Asj0yUIf3PkMRKCBWO8="
-        }
-      ]
-    },
-    {
-      "Route": "index.son9hyq1bd.html",
-      "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\i0umgvwhc5-son9hyq1bd.gz",
-      "Selectors": [
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip",
-          "Quality": "0.001677852349"
-        }
-      ],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "595"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"flUZWhTlav2zRj5GDbhOcbH3Asj0yUIf3PkMRKCBWO8=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Mon, 25 Nov 2024 21:15:57 GMT"
+          "Value": "Sun, 08 Dec 2024 08:58:54 GMT"
         },
         {
           "Name": "Cache-Control",
           "Value": "max-age=31536000, immutable"
-        },
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip"
-        },
-        {
-          "Name": "Vary",
-          "Value": "Content-Encoding"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/html"
-        },
-        {
-          "Name": "ETag",
-          "Value": "W/\"LDmpZNt/JJghZ0vpEM1aU3jMR4aosw9g4Wy5iMnkytA=\""
         }
       ],
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "son9hyq1bd"
+          "Value": "1g6az4f3wn"
         },
         {
           "Name": "label",
@@ -78552,13 +79923,13 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-LDmpZNt/JJghZ0vpEM1aU3jMR4aosw9g4Wy5iMnkytA="
+          "Value": "sha256-IYJLlJNLI+wH7xY9mnMt36k8TRM3ThkzFPUke3Fwx50="
         }
       ]
     },
     {
-      "Route": "index.son9hyq1bd.html",
-      "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\wwwroot\\index.html",
+      "Route": "index.1g6az4f3wn.html.gz",
+      "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\i0umgvwhc5-1g6az4f3wn.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -78567,7 +79938,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "1399"
+          "Value": "639"
         },
         {
           "Name": "Content-Type",
@@ -78575,56 +79946,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"LDmpZNt/JJghZ0vpEM1aU3jMR4aosw9g4Wy5iMnkytA=\""
+          "Value": "\"5jgJEAENCAiqpxtUlpibPYI3TAy4jWOSgaaV7zhJ5/Q=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 25 Nov 2024 21:15:57 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "son9hyq1bd"
-        },
-        {
-          "Name": "label",
-          "Value": "index.html"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-LDmpZNt/JJghZ0vpEM1aU3jMR4aosw9g4Wy5iMnkytA="
-        }
-      ]
-    },
-    {
-      "Route": "index.son9hyq1bd.html.gz",
-      "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\i0umgvwhc5-son9hyq1bd.gz",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "595"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/html"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"flUZWhTlav2zRj5GDbhOcbH3Asj0yUIf3PkMRKCBWO8=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Mon, 25 Nov 2024 21:15:57 GMT"
+          "Value": "Sun, 08 Dec 2024 08:58:54 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -78642,7 +79968,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "son9hyq1bd"
+          "Value": "1g6az4f3wn"
         },
         {
           "Name": "label",
@@ -78650,7 +79976,144 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-flUZWhTlav2zRj5GDbhOcbH3Asj0yUIf3PkMRKCBWO8="
+          "Value": "sha256-5jgJEAENCAiqpxtUlpibPYI3TAy4jWOSgaaV7zhJ5/Q="
+        }
+      ]
+    },
+    {
+      "Route": "index.html",
+      "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\i0umgvwhc5-1g6az4f3wn.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.001562500000"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "639"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"5jgJEAENCAiqpxtUlpibPYI3TAy4jWOSgaaV7zhJ5/Q=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 08 Dec 2024 08:58:54 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"IYJLlJNLI+wH7xY9mnMt36k8TRM3ThkzFPUke3Fwx50=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-IYJLlJNLI+wH7xY9mnMt36k8TRM3ThkzFPUke3Fwx50="
+        }
+      ]
+    },
+    {
+      "Route": "index.html",
+      "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\wwwroot\\index.html",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1552"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"IYJLlJNLI+wH7xY9mnMt36k8TRM3ThkzFPUke3Fwx50=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 08 Dec 2024 08:58:54 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-IYJLlJNLI+wH7xY9mnMt36k8TRM3ThkzFPUke3Fwx50="
+        }
+      ]
+    },
+    {
+      "Route": "index.html.gz",
+      "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\i0umgvwhc5-1g6az4f3wn.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "639"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"5jgJEAENCAiqpxtUlpibPYI3TAy4jWOSgaaV7zhJ5/Q=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 08 Dec 2024 08:58:54 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-5jgJEAENCAiqpxtUlpibPYI3TAy4jWOSgaaV7zhJ5/Q="
         }
       ]
     },
@@ -124106,7 +125569,7 @@
     },
     {
       "Route": "service-worker.js",
-      "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\yozevokvzs-h3uy8gk213.gz",
+      "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\yozevokvzs-abnm1kgv14.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
@@ -124129,7 +125592,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 26 Nov 2024 01:27:49 GMT"
+          "Value": "Sun, 08 Dec 2024 08:59:00 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -124149,13 +125612,13 @@
         },
         {
           "Name": "ETag",
-          "Value": "W/\"Iys5jzK8xEzh6vmsdkgUQNaLejB95hademN9KC6tH+s=\""
+          "Value": "W/\"eq8VlcxtjhGrguOT83nv0Ey63Cko2qO8lApAauKnFhA=\""
         }
       ],
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-Iys5jzK8xEzh6vmsdkgUQNaLejB95hademN9KC6tH+s="
+          "Value": "sha256-eq8VlcxtjhGrguOT83nv0Ey63Cko2qO8lApAauKnFhA="
         }
       ]
     },
@@ -124178,7 +125641,7 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"Iys5jzK8xEzh6vmsdkgUQNaLejB95hademN9KC6tH+s=\""
+          "Value": "\"eq8VlcxtjhGrguOT83nv0Ey63Cko2qO8lApAauKnFhA=\""
         },
         {
           "Name": "Last-Modified",
@@ -124192,13 +125655,13 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-Iys5jzK8xEzh6vmsdkgUQNaLejB95hademN9KC6tH+s="
+          "Value": "sha256-eq8VlcxtjhGrguOT83nv0Ey63Cko2qO8lApAauKnFhA="
         }
       ]
     },
     {
       "Route": "service-worker.js.gz",
-      "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\yozevokvzs-h3uy8gk213.gz",
+      "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\yozevokvzs-abnm1kgv14.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -124219,7 +125682,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 26 Nov 2024 01:27:49 GMT"
+          "Value": "Sun, 08 Dec 2024 08:59:00 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -124243,12 +125706,12 @@
     },
     {
       "Route": "service-worker-assets.js",
-      "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\u1hltjtn1n-youpt42r8s.gz",
+      "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\u1hltjtn1n-ubepg2g6c3.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
           "Value": "gzip",
-          "Quality": "0.000051116904"
+          "Quality": "0.000050456633"
         }
       ],
       "ResponseHeaders": [
@@ -124258,15 +125721,15 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "19562"
+          "Value": "19818"
         },
         {
           "Name": "ETag",
-          "Value": "\"OvTkPT+QA4liPTQanZj0vyLCqFTJRqdFJTNmmuMEpAk=\""
+          "Value": "\"t2MCPTF9CoGPFW0cFSRA9BFxAXyVVeYnYmJXipBLhbk=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 26 Nov 2024 01:27:49 GMT"
+          "Value": "Sun, 08 Dec 2024 08:59:00 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -124286,13 +125749,13 @@
         },
         {
           "Name": "ETag",
-          "Value": "W/\"ohQ78MHztUpThq1wJsYoQX7enkOfzkrlJVEFo+dpjp8=\""
+          "Value": "W/\"yuwfiff8F/weGmu6WbVOl/K4XcpK5l4+FBEHNoJNiLc=\""
         }
       ],
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-ohQ78MHztUpThq1wJsYoQX7enkOfzkrlJVEFo+dpjp8="
+          "Value": "sha256-yuwfiff8F/weGmu6WbVOl/K4XcpK5l4+FBEHNoJNiLc="
         }
       ]
     },
@@ -124307,7 +125770,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "64651"
+          "Value": "65316"
         },
         {
           "Name": "Content-Type",
@@ -124315,11 +125778,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"ohQ78MHztUpThq1wJsYoQX7enkOfzkrlJVEFo+dpjp8=\""
+          "Value": "\"yuwfiff8F/weGmu6WbVOl/K4XcpK5l4+FBEHNoJNiLc=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 26 Nov 2024 01:27:49 GMT"
+          "Value": "Sun, 08 Dec 2024 08:59:00 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -124329,13 +125792,13 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-ohQ78MHztUpThq1wJsYoQX7enkOfzkrlJVEFo+dpjp8="
+          "Value": "sha256-yuwfiff8F/weGmu6WbVOl/K4XcpK5l4+FBEHNoJNiLc="
         }
       ]
     },
     {
       "Route": "service-worker-assets.js.gz",
-      "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\u1hltjtn1n-youpt42r8s.gz",
+      "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\u1hltjtn1n-ubepg2g6c3.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -124344,7 +125807,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "19562"
+          "Value": "19818"
         },
         {
           "Name": "Content-Type",
@@ -124352,11 +125815,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"OvTkPT+QA4liPTQanZj0vyLCqFTJRqdFJTNmmuMEpAk=\""
+          "Value": "\"t2MCPTF9CoGPFW0cFSRA9BFxAXyVVeYnYmJXipBLhbk=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 26 Nov 2024 01:27:49 GMT"
+          "Value": "Sun, 08 Dec 2024 08:59:00 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -124374,18 +125837,18 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-OvTkPT+QA4liPTQanZj0vyLCqFTJRqdFJTNmmuMEpAk="
+          "Value": "sha256-t2MCPTF9CoGPFW0cFSRA9BFxAXyVVeYnYmJXipBLhbk="
         }
       ]
     },
     {
-      "Route": "VehicleManager.8hw2q72b1h.styles.css",
-      "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\jku89ajk5a-8hw2q72b1h.gz",
+      "Route": "VehicleManager.42qd4kh6aj.styles.css",
+      "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\jku89ajk5a-42qd4kh6aj.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
           "Value": "gzip",
-          "Quality": "0.000662690524"
+          "Quality": "0.000654878847"
         }
       ],
       "ResponseHeaders": [
@@ -124395,15 +125858,15 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "1508"
+          "Value": "1526"
         },
         {
           "Name": "ETag",
-          "Value": "\"+qeWER190CXr4oXfzkwAHnnC9TGxp86VcYPSBhKRP3I=\""
+          "Value": "\"BiFSVAnzWa6MKd9aEjickccH5Sbnn73m8jPuGNP5pf4=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 25 Nov 2024 21:15:14 GMT"
+          "Value": "Sun, 08 Dec 2024 01:06:47 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -124423,7 +125886,7 @@
         },
         {
           "Name": "ETag",
-          "Value": "W/\"7MZWH7Lm19dWS1C2S1UOenflGSzCBgFtt46XxrDWA44=\""
+          "Value": "W/\"1FZfisxX/QTNE8VKi5JGSInbKA3Ce61NL0409Y5V+Co=\""
         },
         {
           "Name": "Link",
@@ -124433,11 +125896,11 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "8hw2q72b1h"
+          "Value": "42qd4kh6aj"
         },
         {
           "Name": "integrity",
-          "Value": "sha256-7MZWH7Lm19dWS1C2S1UOenflGSzCBgFtt46XxrDWA44="
+          "Value": "sha256-1FZfisxX/QTNE8VKi5JGSInbKA3Ce61NL0409Y5V+Co="
         },
         {
           "Name": "label",
@@ -124446,7 +125909,7 @@
       ]
     },
     {
-      "Route": "VehicleManager.8hw2q72b1h.styles.css",
+      "Route": "VehicleManager.42qd4kh6aj.styles.css",
       "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\scopedcss\\bundle\\VehicleManager.styles.css",
       "Selectors": [],
       "ResponseHeaders": [
@@ -124460,7 +125923,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "4927"
+          "Value": "4982"
         },
         {
           "Name": "Content-Type",
@@ -124468,11 +125931,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"7MZWH7Lm19dWS1C2S1UOenflGSzCBgFtt46XxrDWA44=\""
+          "Value": "\"1FZfisxX/QTNE8VKi5JGSInbKA3Ce61NL0409Y5V+Co=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 25 Nov 2024 21:15:14 GMT"
+          "Value": "Sun, 08 Dec 2024 01:06:47 GMT"
         },
         {
           "Name": "Link",
@@ -124482,11 +125945,11 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "8hw2q72b1h"
+          "Value": "42qd4kh6aj"
         },
         {
           "Name": "integrity",
-          "Value": "sha256-7MZWH7Lm19dWS1C2S1UOenflGSzCBgFtt46XxrDWA44="
+          "Value": "sha256-1FZfisxX/QTNE8VKi5JGSInbKA3Ce61NL0409Y5V+Co="
         },
         {
           "Name": "label",
@@ -124495,8 +125958,8 @@
       ]
     },
     {
-      "Route": "VehicleManager.8hw2q72b1h.styles.css.gz",
-      "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\jku89ajk5a-8hw2q72b1h.gz",
+      "Route": "VehicleManager.42qd4kh6aj.styles.css.gz",
+      "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\jku89ajk5a-42qd4kh6aj.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -124505,7 +125968,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "1508"
+          "Value": "1526"
         },
         {
           "Name": "Content-Type",
@@ -124513,11 +125976,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"+qeWER190CXr4oXfzkwAHnnC9TGxp86VcYPSBhKRP3I=\""
+          "Value": "\"BiFSVAnzWa6MKd9aEjickccH5Sbnn73m8jPuGNP5pf4=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 25 Nov 2024 21:15:14 GMT"
+          "Value": "Sun, 08 Dec 2024 01:06:47 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -124535,7 +125998,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "8hw2q72b1h"
+          "Value": "42qd4kh6aj"
         },
         {
           "Name": "label",
@@ -124543,18 +126006,18 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-+qeWER190CXr4oXfzkwAHnnC9TGxp86VcYPSBhKRP3I="
+          "Value": "sha256-BiFSVAnzWa6MKd9aEjickccH5Sbnn73m8jPuGNP5pf4="
         }
       ]
     },
     {
       "Route": "VehicleManager.bundle.scp.css",
-      "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\iaj7ce7p1h-t6cqib8qnk.gz",
+      "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\iaj7ce7p1h-kd252ev0sr.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
           "Value": "gzip",
-          "Quality": "0.000691085003"
+          "Quality": "0.000683060109"
         }
       ],
       "ResponseHeaders": [
@@ -124564,15 +126027,15 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "1446"
+          "Value": "1463"
         },
         {
           "Name": "ETag",
-          "Value": "\"Q2Rsz2kM8ky3i57i0PV2xzFOZUyiROOQPpVqM+o5A6s=\""
+          "Value": "\"gDXZo6i6/HJ1eloUAHLvKwLNqg5TR7LEG+qpXBKJif0=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 25 Nov 2024 21:15:14 GMT"
+          "Value": "Sun, 08 Dec 2024 01:06:47 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -124592,13 +126055,13 @@
         },
         {
           "Name": "ETag",
-          "Value": "W/\"y+H4FWP5OJP4RO3CbfMEb0wBgA0Zsb3X1NkvtRAZqzo=\""
+          "Value": "W/\"uDppDKh8Wx6mSgupRrIKRBJWwmNxNISMWO2ibc25/HU=\""
         }
       ],
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-y+H4FWP5OJP4RO3CbfMEb0wBgA0Zsb3X1NkvtRAZqzo="
+          "Value": "sha256-uDppDKh8Wx6mSgupRrIKRBJWwmNxNISMWO2ibc25/HU="
         }
       ]
     },
@@ -124613,7 +126076,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "4794"
+          "Value": "4849"
         },
         {
           "Name": "Content-Type",
@@ -124621,11 +126084,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"y+H4FWP5OJP4RO3CbfMEb0wBgA0Zsb3X1NkvtRAZqzo=\""
+          "Value": "\"uDppDKh8Wx6mSgupRrIKRBJWwmNxNISMWO2ibc25/HU=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 25 Nov 2024 21:15:14 GMT"
+          "Value": "Sun, 08 Dec 2024 01:06:47 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -124635,13 +126098,13 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-y+H4FWP5OJP4RO3CbfMEb0wBgA0Zsb3X1NkvtRAZqzo="
+          "Value": "sha256-uDppDKh8Wx6mSgupRrIKRBJWwmNxNISMWO2ibc25/HU="
         }
       ]
     },
     {
       "Route": "VehicleManager.bundle.scp.css.gz",
-      "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\iaj7ce7p1h-t6cqib8qnk.gz",
+      "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\iaj7ce7p1h-kd252ev0sr.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -124650,7 +126113,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "1446"
+          "Value": "1463"
         },
         {
           "Name": "Content-Type",
@@ -124658,11 +126121,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"Q2Rsz2kM8ky3i57i0PV2xzFOZUyiROOQPpVqM+o5A6s=\""
+          "Value": "\"gDXZo6i6/HJ1eloUAHLvKwLNqg5TR7LEG+qpXBKJif0=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 25 Nov 2024 21:15:14 GMT"
+          "Value": "Sun, 08 Dec 2024 01:06:47 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -124680,18 +126143,18 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-Q2Rsz2kM8ky3i57i0PV2xzFOZUyiROOQPpVqM+o5A6s="
+          "Value": "sha256-gDXZo6i6/HJ1eloUAHLvKwLNqg5TR7LEG+qpXBKJif0="
         }
       ]
     },
     {
-      "Route": "VehicleManager.styles.css",
-      "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\jku89ajk5a-8hw2q72b1h.gz",
+      "Route": "VehicleManager.kd252ev0sr.bundle.scp.css",
+      "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\iaj7ce7p1h-kd252ev0sr.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
           "Value": "gzip",
-          "Quality": "0.000662690524"
+          "Quality": "0.000683060109"
         }
       ],
       "ResponseHeaders": [
@@ -124701,15 +126164,176 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "1508"
+          "Value": "1463"
         },
         {
           "Name": "ETag",
-          "Value": "\"+qeWER190CXr4oXfzkwAHnnC9TGxp86VcYPSBhKRP3I=\""
+          "Value": "\"gDXZo6i6/HJ1eloUAHLvKwLNqg5TR7LEG+qpXBKJif0=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 25 Nov 2024 21:15:14 GMT"
+          "Value": "Sun, 08 Dec 2024 01:06:47 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"uDppDKh8Wx6mSgupRrIKRBJWwmNxNISMWO2ibc25/HU=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "kd252ev0sr"
+        },
+        {
+          "Name": "label",
+          "Value": "VehicleManager.bundle.scp.css"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-uDppDKh8Wx6mSgupRrIKRBJWwmNxNISMWO2ibc25/HU="
+        }
+      ]
+    },
+    {
+      "Route": "VehicleManager.kd252ev0sr.bundle.scp.css",
+      "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\scopedcss\\projectbundle\\VehicleManager.bundle.scp.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "4849"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"uDppDKh8Wx6mSgupRrIKRBJWwmNxNISMWO2ibc25/HU=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 08 Dec 2024 01:06:47 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "kd252ev0sr"
+        },
+        {
+          "Name": "label",
+          "Value": "VehicleManager.bundle.scp.css"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-uDppDKh8Wx6mSgupRrIKRBJWwmNxNISMWO2ibc25/HU="
+        }
+      ]
+    },
+    {
+      "Route": "VehicleManager.kd252ev0sr.bundle.scp.css.gz",
+      "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\iaj7ce7p1h-kd252ev0sr.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1463"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"gDXZo6i6/HJ1eloUAHLvKwLNqg5TR7LEG+qpXBKJif0=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 08 Dec 2024 01:06:47 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "kd252ev0sr"
+        },
+        {
+          "Name": "label",
+          "Value": "VehicleManager.bundle.scp.css.gz"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-gDXZo6i6/HJ1eloUAHLvKwLNqg5TR7LEG+qpXBKJif0="
+        }
+      ]
+    },
+    {
+      "Route": "VehicleManager.styles.css",
+      "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\jku89ajk5a-42qd4kh6aj.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.000654878847"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1526"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"BiFSVAnzWa6MKd9aEjickccH5Sbnn73m8jPuGNP5pf4=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 08 Dec 2024 01:06:47 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -124729,7 +126353,7 @@
         },
         {
           "Name": "ETag",
-          "Value": "W/\"7MZWH7Lm19dWS1C2S1UOenflGSzCBgFtt46XxrDWA44=\""
+          "Value": "W/\"1FZfisxX/QTNE8VKi5JGSInbKA3Ce61NL0409Y5V+Co=\""
         },
         {
           "Name": "Link",
@@ -124739,7 +126363,7 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-7MZWH7Lm19dWS1C2S1UOenflGSzCBgFtt46XxrDWA44="
+          "Value": "sha256-1FZfisxX/QTNE8VKi5JGSInbKA3Ce61NL0409Y5V+Co="
         }
       ]
     },
@@ -124758,7 +126382,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "4927"
+          "Value": "4982"
         },
         {
           "Name": "Content-Type",
@@ -124766,11 +126390,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"7MZWH7Lm19dWS1C2S1UOenflGSzCBgFtt46XxrDWA44=\""
+          "Value": "\"1FZfisxX/QTNE8VKi5JGSInbKA3Ce61NL0409Y5V+Co=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 25 Nov 2024 21:15:14 GMT"
+          "Value": "Sun, 08 Dec 2024 01:06:47 GMT"
         },
         {
           "Name": "Link",
@@ -124780,13 +126404,13 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-7MZWH7Lm19dWS1C2S1UOenflGSzCBgFtt46XxrDWA44="
+          "Value": "sha256-1FZfisxX/QTNE8VKi5JGSInbKA3Ce61NL0409Y5V+Co="
         }
       ]
     },
     {
       "Route": "VehicleManager.styles.css.gz",
-      "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\jku89ajk5a-8hw2q72b1h.gz",
+      "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\jku89ajk5a-42qd4kh6aj.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -124795,7 +126419,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "1508"
+          "Value": "1526"
         },
         {
           "Name": "Content-Type",
@@ -124803,11 +126427,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"+qeWER190CXr4oXfzkwAHnnC9TGxp86VcYPSBhKRP3I=\""
+          "Value": "\"BiFSVAnzWa6MKd9aEjickccH5Sbnn73m8jPuGNP5pf4=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 25 Nov 2024 21:15:14 GMT"
+          "Value": "Sun, 08 Dec 2024 01:06:47 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -124825,168 +126449,7 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-+qeWER190CXr4oXfzkwAHnnC9TGxp86VcYPSBhKRP3I="
-        }
-      ]
-    },
-    {
-      "Route": "VehicleManager.t6cqib8qnk.bundle.scp.css",
-      "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\iaj7ce7p1h-t6cqib8qnk.gz",
-      "Selectors": [
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip",
-          "Quality": "0.000691085003"
-        }
-      ],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "1446"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"Q2Rsz2kM8ky3i57i0PV2xzFOZUyiROOQPpVqM+o5A6s=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Mon, 25 Nov 2024 21:15:14 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        },
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip"
-        },
-        {
-          "Name": "Vary",
-          "Value": "Content-Encoding"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "W/\"y+H4FWP5OJP4RO3CbfMEb0wBgA0Zsb3X1NkvtRAZqzo=\""
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "t6cqib8qnk"
-        },
-        {
-          "Name": "label",
-          "Value": "VehicleManager.bundle.scp.css"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-y+H4FWP5OJP4RO3CbfMEb0wBgA0Zsb3X1NkvtRAZqzo="
-        }
-      ]
-    },
-    {
-      "Route": "VehicleManager.t6cqib8qnk.bundle.scp.css",
-      "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\scopedcss\\projectbundle\\VehicleManager.bundle.scp.css",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "4794"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"y+H4FWP5OJP4RO3CbfMEb0wBgA0Zsb3X1NkvtRAZqzo=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Mon, 25 Nov 2024 21:15:14 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "t6cqib8qnk"
-        },
-        {
-          "Name": "label",
-          "Value": "VehicleManager.bundle.scp.css"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-y+H4FWP5OJP4RO3CbfMEb0wBgA0Zsb3X1NkvtRAZqzo="
-        }
-      ]
-    },
-    {
-      "Route": "VehicleManager.t6cqib8qnk.bundle.scp.css.gz",
-      "AssetFile": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\obj\\Debug\\net9.0\\compressed\\iaj7ce7p1h-t6cqib8qnk.gz",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "1446"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"Q2Rsz2kM8ky3i57i0PV2xzFOZUyiROOQPpVqM+o5A6s=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Mon, 25 Nov 2024 21:15:14 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        },
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip"
-        },
-        {
-          "Name": "Vary",
-          "Value": "Content-Encoding"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "t6cqib8qnk"
-        },
-        {
-          "Name": "label",
-          "Value": "VehicleManager.bundle.scp.css.gz"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-Q2Rsz2kM8ky3i57i0PV2xzFOZUyiROOQPpVqM+o5A6s="
+          "Value": "sha256-BiFSVAnzWa6MKd9aEjickccH5Sbnn73m8jPuGNP5pf4="
         }
       ]
     }

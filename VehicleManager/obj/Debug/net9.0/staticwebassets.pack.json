@@ -13,8 +13,16 @@
       "PackagePath": "staticwebassets\\appsettings.json"
     },
     {
+      "Id": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\wwwroot\\css\\VehicleManager.css",
+      "PackagePath": "staticwebassets\\css\\VehicleManager.css"
+    },
+    {
       "Id": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\wwwroot\\css\\app.css",
       "PackagePath": "staticwebassets\\css\\app.css"
+    },
+    {
+      "Id": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\wwwroot\\css\\callout.css",
+      "PackagePath": "staticwebassets\\css\\callout.css"
     },
     {
       "Id": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\wwwroot\\favicon.png",
@@ -27,6 +35,10 @@
     {
       "Id": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\wwwroot\\icon-512.png",
       "PackagePath": "staticwebassets\\icon-512.png"
+    },
+    {
+      "Id": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\wwwroot\\images\\LinesCircuit.jpg",
+      "PackagePath": "staticwebassets\\images\\LinesCircuit.jpg"
     },
     {
       "Id": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\wwwroot\\index.html",

@@ -2,11 +2,14 @@
 @page "/Vehicles/{VehicleID}"
 
 @using VehicleManager.Models
+@using VehicleManager.Services
 @using System.Net
 @using Microsoft.AspNetCore.Components.QuickGrid
 
 @inject HttpClient Http
 @inject IConfiguration configuration
+@inject NavigationManager NavManager
+@inject AppData appData
 
 <PageTitle>Vehicles</PageTitle>
 
@@ -186,6 +189,7 @@ else {
 
         try
         {
+            Http.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", appData.CurrentUser?.Token);
             vehicles = await Http.GetFromJsonAsync<List<VehicleModel>>(vehicleEndPoint);
         }
         catch (HttpRequestException ex)
@@ -193,6 +197,9 @@ else {
             if (ex.Message.Contains(HttpStatusCode.Unauthorized.ToString()))
             {
                 loadDataErrorMsg = $"You are not authorised to view this page";
+
+                //Redirect to login screen
+                NavManager.NavigateTo("/Login/Vehicles");
             }
             else if (ex.Message.Contains("404 (Not Found)"))
             {

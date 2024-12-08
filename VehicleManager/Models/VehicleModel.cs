@@ -19,7 +19,7 @@ namespace VehicleManager.Models
         {
             get { return DateTime.Parse(SubmissionDate ?? "", new CultureInfo("en-GB")); }
         }
-        public string? SubmissionCount { get; set; }
+        public int? SubmissionCount { get; set; }
         public string? Surname { get; set; }
         public string? Forename { get; set; }
         public string? Email { get; set; }
