@@ -1,4 +1,9 @@
-﻿body {
+﻿.modal-body {
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+body {
 }
 
 .Logo {
@@ -49,4 +54,32 @@
     background-image: url("../images/LinesCircuit.jpg");
     background-repeat: repeat;
     background-color: #000034;
+}
+
+.Text {
+    background-color: #FFFFFF;
+    padding: 5px;
+}
+
+.TextYes {
+    background-color: #198754;
+    color: #FFFFFF;
+}
+
+.TextNo {
+    background-color: #dc3545;
+    color: #FFFFFF;
+}
+
+.Textarea {
+    background-color: #FFFFFF;
+    border: 1px solid #0d6efd;
+    padding: 5px;
+    overflow-y: auto;
+    max-height: 300px;
+}
+
+.VersionText {
+    color: #CCCCCC;
+    font-size: 0.8em;
 }

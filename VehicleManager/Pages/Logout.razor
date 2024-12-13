@@ -178,7 +178,7 @@ else {
 
     protected override async Task OnInitializedAsync()
     {
-
+        
     }
 
     private void LogUserOut()
@@ -202,20 +202,20 @@ else {
     {
         if (ReturnToPage != null)
         {
-            NavManager.NavigateTo("/" + ReturnToPage);
+            NavManager.NavigateTo(NavManager.BaseUri + "/" + ReturnToPage);
         }
         else
         {
-            NavManager.NavigateTo("/");
+            NavManager.NavigateTo(NavManager.BaseUri);
         }
     }
 
     private void GoHome()
     {
-        NavManager.NavigateTo("/");
+        NavManager.NavigateTo(NavManager.BaseUri);
     }
 
-    private void RetryLogout()
+    public void RetryLogout()
     {
         LogUserOut();
     }

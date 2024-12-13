@@ -5,6 +5,7 @@ C:\Users\robin.wilson\source\repos\VehicleManager\VehicleManager\wwwroot\lib\fon
 C:\Users\robin.wilson\source\repos\VehicleManager\VehicleManager\wwwroot\lib\font-awesome\js\regular.js
 C:\Users\robin.wilson\source\repos\VehicleManager\VehicleManager\wwwroot\lib\bootstrap\css\bootstrap.rtl.css
 C:\Users\robin.wilson\source\repos\VehicleManager\VehicleManager\wwwroot\lib\bootstrap\css\bootstrap-grid.css.map
+C:\Users\robin.wilson\source\repos\VehicleManager\VehicleManager\wwwroot\appsettings.Development.json
 C:\Users\robin.wilson\source\repos\VehicleManager\VehicleManager\wwwroot\lib\font-awesome\css\brands.min.css
 C:\Users\robin.wilson\source\repos\VehicleManager\VehicleManager\wwwroot\lib\bootstrap\css\bootstrap-utilities.min.css
 C:\Users\robin.wilson\source\repos\VehicleManager\VehicleManager\wwwroot\lib\bootstrap\css\bootstrap-reboot.min.css.map
@@ -128,6 +129,7 @@ C:\Users\robin.wilson\source\repos\VehicleManager\VehicleManager\wwwroot\lib\boo
 C:\Users\robin.wilson\source\repos\VehicleManager\VehicleManager\wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.min.css.map
 C:\Users\robin.wilson\source\repos\VehicleManager\VehicleManager\wwwroot\lib\font-awesome\js\all.js
 C:\Users\robin.wilson\source\repos\VehicleManager\VehicleManager\wwwroot\lib\bootstrap\css\bootstrap-utilities.css.map
+wwwroot\appsettings.Development.json
 wwwroot\appsettings.json
 wwwroot\css\app.css
 wwwroot\css\callout.css

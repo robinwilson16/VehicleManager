@@ -1,4 +1,5 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
+﻿@using System.Reflection;
+<div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href=""><i class="fa-solid fa-car-side"></i> Vehicle Manager</a>
         <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
@@ -35,7 +36,9 @@
             </NavLink>
         </div> *@
     </nav>
+    <div class="fixed-bottom VersionText m-3">Version @ProductVersion</div>
 </div>
+
 
 @code {
     private bool collapseNavMenu = true;
@@ -46,4 +49,6 @@
     {
         collapseNavMenu = !collapseNavMenu;
     }
+
+    private string? ProductVersion = Assembly.GetExecutingAssembly().GetName().Version?.ToString();
 }

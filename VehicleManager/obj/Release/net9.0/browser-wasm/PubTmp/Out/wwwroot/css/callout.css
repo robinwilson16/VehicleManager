@@ -19,6 +19,30 @@
     margin-top: -.25rem
 }
 
+.bd-callout-primary {
+    border-left-color: #0d6efd;
+}
+
+    .bd-callout-primary h4 {
+        color: #0d6efd;
+    }
+
+.bd-callout-warning {
+    border-left-color: #fd7e14;
+}
+
+    .bd-callout-warning h4 {
+        color: #fd7e14;
+    }
+
+.bd-callout-purple {
+    border-left-color: #6f42c1;
+}
+
+    .bd-callout-purple h4 {
+        color: #6f42c1;
+    }
+
 .bd-callout-info {
     border-left-color: #5bc0de
 }
@@ -42,3 +66,4 @@
 .bd-callout-danger h4 {
     color: #d9534f
 }
+

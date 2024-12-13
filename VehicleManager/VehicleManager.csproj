@@ -5,6 +5,14 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <ServiceWorkerAssetsManifest>service-worker-assets.js</ServiceWorkerAssetsManifest>
+    <Title>Vehicle Manager</Title>
+    <Copyright>Robin Wilson</Copyright>
+    <PackageProjectUrl>https://github.com/robinwilson16/VehicleManager</PackageProjectUrl>
+    <Description>CRM for managing vehicles submitted via a WordPress website, for sending messages to customers for them to accept or reject these offers to sell their vehicles if happy with the price</Description>
+    <RepositoryUrl>https://github.com/robinwilson16/VehicleManager</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <AssemblyVersion>1.0.1</AssemblyVersion>
+    <FileVersion>1.0.1</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,6 +24,13 @@
 
   <ItemGroup>
     <ServiceWorker Include="wwwroot\service-worker.js" PublishedContent="wwwroot\service-worker.published.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="wwwroot\appsettings.Development.json">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>

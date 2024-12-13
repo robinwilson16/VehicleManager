@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "VehicleManager",
   "resources": {
-    "hash": "sha256-bAcQpiE++UL2mgo93s8DtGq3sAPsgjJkVp6JAExIvYI=",
+    "hash": "sha256-4b7b5ZvZZ70LjdBnJsOdbIWVxOzFi3zCLanun5ABnYs=",
     "fingerprinting": {
       "Blazored.FluentValidation.x0xsecpmtx.wasm": "Blazored.FluentValidation.wasm",
       "FluentValidation.a26tmul8eq.wasm": "FluentValidation.wasm",
@@ -204,8 +204,8 @@
       "icudt_CJK.tjcz0u77k5.dat": "icudt_CJK.dat",
       "icudt_EFIGS.tptq2av103.dat": "icudt_EFIGS.dat",
       "icudt_no_CJK.lfu7j35m59.dat": "icudt_no_CJK.dat",
-      "VehicleManager.y6kbuurmb5.wasm": "VehicleManager.wasm",
-      "VehicleManager.huagx8q53l.pdb": "VehicleManager.pdb"
+      "VehicleManager.dpad73k9bm.wasm": "VehicleManager.wasm",
+      "VehicleManager.aa9io5xomp.pdb": "VehicleManager.pdb"
     },
     "jsModuleNative": {
       "dotnet.native.hmanx9razn.js": "sha256-d7UNSArplVrX3arY2Kmhxp1wN79ng8hLqIBrkiQ9Gbo="
@@ -418,15 +418,16 @@
       "WindowsBase.377bly7twj.wasm": "sha256-0VmBdMjdc0nZGHDSfaGirT6y3mJTM0qx8eqCUC/rpiE=",
       "mscorlib.o0184ey5ia.wasm": "sha256-2GxNKZQJVJvYMUxSTuXa5V2qxawSMMHZtwG33SKVCZU=",
       "netstandard.hb3h2rr8mk.wasm": "sha256-DWn9+RH/ElZQ6imlYqVwZvir1KTzNwY18AzGmnyiymU=",
-      "VehicleManager.y6kbuurmb5.wasm": "sha256-+oDHdINpGREsV15L/p3ioCOHIG+QkOgpHp7lOxbk1wY="
+      "VehicleManager.dpad73k9bm.wasm": "sha256-cUp9lC80qk4i5G+ohRDz6Qqh5lX2GIC7Qvj1TeUM4bw="
     },
     "pdb": {
-      "VehicleManager.huagx8q53l.pdb": "sha256-6Vuk//b4AGB/O42yh9dmSnyCoHIcho0E3KFFjlgPZEY="
+      "VehicleManager.aa9io5xomp.pdb": "sha256-fqSVl0lkkKiSsFGfjngZ8/e1k2b4jpZPFq29FiSWcnk="
     }
   },
   "cacheBootResources": true,
   "debugLevel": -1,
   "appsettings": [
+    "../appsettings.Development.json",
     "../appsettings.json"
   ],
   "globalizationMode": "sharded",

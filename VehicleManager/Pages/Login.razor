@@ -324,10 +324,10 @@ else {
     private void GoToLoggedInArea()
     {
         if (ReturnToPage != null) {
-            NavManager.NavigateTo("/" + ReturnToPage);
+            NavManager.NavigateTo(NavManager.BaseUri + ReturnToPage);
         }
         else {
-            NavManager.NavigateTo("/");
+            NavManager.NavigateTo(NavManager.BaseUri);
         }
     }
 

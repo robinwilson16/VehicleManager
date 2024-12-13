@@ -13,6 +13,48 @@
 
 <PageTitle>Vehicles</PageTitle>
 
+<Modal @ref="modalInfo">
+    <Title><i class="fa-solid fa-circle-info"></i> @msgInfoTitle</Title>
+    <Body>
+        <p>
+            @msgInfo
+        </p>
+    </Body>
+    <Footer>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" @onclick="() => modalError!.Close()">Close</button>
+    </Footer>
+</Modal>
+
+<Modal @ref="modalError">
+    <Title><i class="fa-solid fa-triangle-exclamation"></i> @msgErrorTitle</Title>
+    <Body>
+        <div class="alert alert-danger" role="alert">
+            @msgError
+        </div>
+        @if (msgErrorStackTrace != null)
+        {
+            <p><i class="fa-solid fa-bug"></i> Stack Trace:</p>
+            <pre class="pre-scrollable ErrorDetails">@msgErrorStackTrace</pre>
+        }
+    </Body>
+    <Footer>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" @onclick="() => modalError!.Close()">Close</button>
+    </Footer>
+</Modal>
+
+<Modal @ref="modalConfirm">
+    <Title><i class="fa-solid fa-circle-question"></i> @msgConfirmTitle</Title>
+    <Body>
+        <p>
+            @msgConfirm
+        </p>
+    </Body>
+    <Footer>
+        <button type="button" class="btn btn-danger"><i class="fa-solid fa-trash"></i> Yes</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" @onclick="() => modalConfirm!.Close()"><i class="fa-solid fa-right-from-bracket"></i> Cancel</button>
+    </Footer>
+</Modal>
+
 <h3>Vehicles</h3>
 
 @if (loadDataErrorMsg != null) 
@@ -52,11 +94,13 @@ else {
         <div class="row">
             <div class="col-md">
                 <div class="alert alert-primary" role="alert">
-                    @if(Filters.Count > 0) {
-                        <button type="button" class="btn btn-primary btn-sm me-3" @onclick="@FilterClear">Filters (Clear) <i class="fa-solid fa-filter-circle-xmark"></i></button>
+                    @if (FiltersVeh.Count > 0)
+                    {
+                        <button type="button" class="btn btn-primary btn-sm me-3" @onclick="@FilterVehClear">Filters (Clear) <i class="fa-solid fa-filter-circle-xmark"></i></button>
 
                         int filterNumber = 0;
-                        @foreach(var filter in Filters) {
+                        @foreach (var filter in FiltersVeh)
+                        {
                             filterNumber += 1;
 
                             @if (filterNumber > 1) {
@@ -75,56 +119,56 @@ else {
                             <PropertyColumn Title="ID" Property="@(p => p.SubmissionID)" Sortable="true">
                                 <ColumnOptions>
                                     <div class="search-box">
-                                        <input type="number" class="form-control" autofocus @bind="FilterSubmissionID" @bind:event="oninput" @onkeyup="FilterRefresh" @onchange="FilterRefresh" />
+                                        <input type="number" class="form-control" autofocus @bind="FilterVehSubmissionID" @bind:event="oninput" @onkeyup="FilterVehRefresh" @onchange="FilterVehRefresh" />
                                     </div>
                                 </ColumnOptions>
                             </PropertyColumn>
                             <PropertyColumn Title="Date" Property="@(p => p.submissionDate)" Format="dd/MM/yyyy" Sortable="true">
                                 <ColumnOptions>
                                     <div class="search-box">
-                                        <input type="date" class="form-control" autofocus @bind="FilterSubmissionDate" @bind:event="oninput" @onkeyup="FilterRefresh" @onchange="FilterRefresh" />
+                                        <input type="date" class="form-control" autofocus @bind="FilterVehSubmissionDate" @bind:event="oninput" @onkeyup="FilterVehRefresh" @onchange="FilterVehRefresh" />
                                     </div>
                                 </ColumnOptions>
                             </PropertyColumn>
                             <PropertyColumn Property="@(p => p.Surname)" Sortable="true">
                                 <ColumnOptions>
                                     <div class="search-box">
-                                        <input type="search" class="form-control" autofocus @bind="FilterSurname" @bind:event="oninput" placeholder="Surname..." @onkeyup="FilterRefresh" @onchange="FilterRefresh" />
+                                        <input type="search" class="form-control" autofocus @bind="FilterVehSurname" @bind:event="oninput" placeholder="Surname..." @onkeyup="FilterVehRefresh" @onchange="FilterVehRefresh" />
                                     </div>
                                 </ColumnOptions>
                             </PropertyColumn>
                             <PropertyColumn Property="@(p => p.Forename)" Sortable="true">
                                 <ColumnOptions>
                                     <div class="search-box">
-                                        <input type="search" class="form-control" autofocus @bind="FilterForename" @bind:event="oninput" placeholder="Forename..." @onkeyup="FilterRefresh" @onchange="FilterRefresh" />
+                                        <input type="search" class="form-control" autofocus @bind="FilterVehForename" @bind:event="oninput" placeholder="Forename..." @onkeyup="FilterVehRefresh" @onchange="FilterVehRefresh" />
                                     </div>
                                 </ColumnOptions>
                             </PropertyColumn>
                             <PropertyColumn Property="@(p => p.Email)" Sortable="true">
                                 <ColumnOptions>
                                     <div class="search-box">
-                                        <input type="search" class="form-control" autofocus @bind="FilterEmail" @bind:event="oninput" placeholder="Email..." @onkeyup="FilterRefresh" @onchange="FilterRefresh" />
+                                        <input type="search" class="form-control" autofocus @bind="FilterVehEmail" @bind:event="oninput" placeholder="Email..." @onkeyup="FilterVehRefresh" @onchange="FilterVehRefresh" />
                                     </div>
                                 </ColumnOptions>
                             </PropertyColumn>
                             <PropertyColumn Title="Reg No" Property="@(p => p.RegistrationNumber)" Sortable="true">
                                 <ColumnOptions>
                                     <div class="search-box">
-                                        <input type="search" class="form-control" autofocus @bind="FilterRegistration" @bind:event="oninput" placeholder="Registration Number..." @onkeyup="FilterRefresh" @onchange="FilterRefresh" />
+                                        <input type="search" class="form-control" autofocus @bind="FilterVehRegistration" @bind:event="oninput" placeholder="Registration Number..." @onkeyup="FilterVehRefresh" @onchange="FilterVehRefresh" />
                                     </div>
                                 </ColumnOptions>
                             </PropertyColumn>
                             <PropertyColumn Property="@(p => p.Make)" Sortable="true">
                                 <ColumnOptions>
                                     <div class="search-box">
-                                        <input type="search" class="form-control" autofocus @bind="FilterMake" @bind:event="oninput" placeholder="Make..." @onkeyup="FilterRefresh" @onchange="FilterRefresh" />
+                                        <input type="search" class="form-control" autofocus @bind="FilterVehMake" @bind:event="oninput" placeholder="Make..." @onkeyup="FilterVehRefresh" @onchange="FilterVehRefresh" />
                                     </div>
                                 </ColumnOptions>
                             </PropertyColumn>
                             <PropertyColumn Property="@(p => p.Model)" Sortable="true">
                                 <ColumnOptions>
                                     <div class="search-box">
-                                        <input type="search" class="form-control" autofocus @bind="FilterModel" @bind:event="oninput" placeholder="Model..." @onkeyup="FilterRefresh" @onchange="FilterRefresh" />
+                                        <input type="search" class="form-control" autofocus @bind="FilterVehModel" @bind:event="oninput" placeholder="Model..." @onkeyup="FilterVehRefresh" @onchange="FilterVehRefresh" />
                                     </div>
                                 </ColumnOptions>
                             </PropertyColumn>
@@ -136,14 +180,473 @@ else {
     </div>
 
     <Modal @ref="modalVehicle">
-        <Title><i class="fa-solid fa-car"></i> @msgVehicleTitle</Title>
+        <Title><i class="fa-solid fa-car"></i> Vehicle @selectedVehicle?.SubmissionID</Title>
         <Body>
-            <p>
-                @msgVehicle
-            </p>
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="customer-tab" data-bs-toggle="tab" data-bs-target="#customer-tab-pane" type="button" role="tab" aria-controls="customer-tab-pane" aria-selected="true"><i class="fa-solid fa-user"></i> Customer</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="vehicle-tab" data-bs-toggle="tab" data-bs-target="#vehicle-tab-pane" type="button" role="tab" aria-controls="vehicle-tab-pane" aria-selected="false"><i class="fa-solid fa-car"></i> Vehicle</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="messages-tab" data-bs-toggle="tab" data-bs-target="#messages-tab-pane" type="button" role="tab" aria-controls="messages-tab-pane" aria-selected="false"><i class="fa-solid fa-envelope"></i> Messages</button>
+                </li>
+            </ul>
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="customer-tab-pane" role="tabpanel" aria-labelledby="customer-tab" tabindex="0">
+                    <div class="bd-callout bd-callout-primary bd-callout-grey GreyBackground">
+                        <div class="container">
+                            <div class="row mb-3 align-items-center">
+                                <div class="col-md text-center">
+                                    <h4><i class="fa-solid fa-user"></i> Customer Details</h4>
+                                </div>
+                            </div>
+
+                            <div class="row align-items-center">
+                                <div class="col-md-6">
+                                    <div class="row mb-3 align-items-center">
+                                        <div class="col-md-4">
+                                            Forename
+                                        </div>
+                                        <div class="col-md-8 Text">
+                                            <strong>@selectedVehicle?.Forename</strong>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="row mb-3 align-items-center">
+                                        <div class="col-md-4">
+                                            Surname
+                                        </div>
+                                        <div class="col-md-8 Text">
+                                            <strong>@selectedVehicle?.Surname</strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row align-items-center">
+                                <div class="col-md-6">
+                                    <div class="row mb-3 align-items-center">
+                                        <div class="col-md-4">
+                                            Email
+                                        </div>
+                                        <div class="col-md-8 Text">
+                                            @selectedVehicle?.Email
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="row mb-3 align-items-center">
+                                        <div class="col-md-4">
+                                            Registration Number
+                                        </div>
+                                        <div class="col-md-8 Text">
+                                            @selectedVehicle?.RegistrationNumber
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row align-items-center">
+                                <div class="col-md mb-1">
+                                    Message
+                                </div>
+                            </div>
+                            <div class="row align-items-center">
+                                <div class="col-md">
+                                    <div class="Textarea">
+                                        @selectedVehicle?.Message
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bd-callout bd-callout-warning bd-callout-grey GreyBackground">
+                        <div class="container">
+                            <div class="row mb-3 align-items-center">
+                                <div class="col-md text-center">
+                                    <h4><i class="fa-solid fa-scale-balanced"></i> Offer Details</h4>
+                                </div>
+                            </div>
+
+                            <div class="row align-items-center">
+                                <div class="col-md-6">
+                                    <div class="row mb-3 align-items-center">
+                                        <div class="col-md-4">
+                                            Has Accepted Offer
+                                        </div>
+                                        <div class="col-md-8 Text TextYes">
+                                            <strong>Yes</strong>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="row mb-3 align-items-center">
+                                        <div class="col-md-4">
+                                            Last Offer Amount
+                                        </div>
+                                        <div class="col-md-8 Text">
+                                            <strong>&pound; 500.00</strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row align-items-center">
+                                <div class="col-md-6">
+                                    <div class="row mb-3 align-items-center">
+                                        <div class="col-md-4">
+                                            Last Contacted
+                                        </div>
+                                        <div class="col-md-8 Text">
+                                            13/12/2024
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="row mb-3 align-items-center">
+                                        <div class="col-md-4">
+                                            Messages Sent
+                                        </div>
+                                        <div class="col-md-8 Text">
+                                            3
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="vehicle-tab-pane" role="tabpanel" aria-labelledby="vehicle-tab" tabindex="0">
+                    <div class="bd-callout bd-callout-purple bd-callout-grey GreyBackground">
+                        <div class="container">
+                            <div class="row mb-3 align-items-center">
+                                <div class="col-md text-center">
+                                    <h4><i class="fa-solid fa-car"></i> Vehicle Details</h4>
+                                </div>
+                            </div>
+
+                            <div class="row align-items-center">
+                                <div class="col-md-6">
+                                    <div class="row mb-3 align-items-center">
+                                        <div class="col-md-4">
+                                            Registration Number
+                                        </div>
+                                        <div class="col-md-8 Text">
+                                            <strong>@selectedVehicle?.RegistrationNumber</strong>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="row mb-3 align-items-center">
+                                        <div class="col-md-4">
+                                            Year of Manufacture
+                                        </div>
+                                        <div class="col-md-8 Text">
+                                            <strong>@selectedVehicle?.YearOfManufacture</strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row align-items-center">
+                                <div class="col-md-6">
+                                    <div class="row mb-3 align-items-center">
+                                        <div class="col-md-4">
+                                            Make
+                                        </div>
+                                        <div class="col-md-8 Text">
+                                            @selectedVehicle?.Make
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="row mb-3 align-items-center">
+                                        <div class="col-md-4">
+                                            Model
+                                        </div>
+                                        <div class="col-md-8 Text">
+                                            @selectedVehicle?.Model
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row align-items-center">
+                                <div class="col-md-6">
+                                    <div class="row mb-3 align-items-center">
+                                        <div class="col-md-4">
+                                            Description
+                                        </div>
+                                        <div class="col-md-8 Text">
+                                            @selectedVehicle?.Description
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="row mb-3 align-items-center">
+                                        <div class="col-md-4">
+                                            Derivative
+                                        </div>
+                                        <div class="col-md-8 Text">
+                                            @selectedVehicle?.Derivative
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row align-items-center">
+                                <div class="col-md-6">
+                                    <div class="row mb-3 align-items-center">
+                                        <div class="col-md-4">
+                                            Colour
+                                        </div>
+                                        <div class="col-md-8 Text">
+                                            @selectedVehicle?.Colour
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="row mb-3 align-items-center">
+                                        <div class="col-md-4">
+                                            Body Style
+                                        </div>
+                                        <div class="col-md-8 Text">
+                                            @selectedVehicle?.BodyStyle
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row align-items-center">
+                                <div class="col-md-6">
+                                    <div class="row mb-3 align-items-center">
+                                        <div class="col-md-4">
+                                            Fuel Type
+                                        </div>
+                                        <div class="col-md-8 Text">
+                                            @selectedVehicle?.FuelType
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="row mb-3 align-items-center">
+                                        <div class="col-md-4">
+                                            Transmission Type
+                                        </div>
+                                        <div class="col-md-8 Text">
+                                            @selectedVehicle?.TransmissionType
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row align-items-center">
+                                <div class="col-md-6">
+                                    <div class="row mb-3 align-items-center">
+                                        <div class="col-md-4">
+                                            Engine Size CC
+                                        </div>
+                                        <div class="col-md-8 Text">
+                                            @selectedVehicle?.EngineSizeCC
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="row mb-3 align-items-center">
+                                        <div class="col-md-4">
+                                            Category
+                                        </div>
+                                        <div class="col-md-8 Text">
+                                            @selectedVehicle?.Category
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row align-items-center">
+                                <div class="col-md-6">
+                                    <div class="row mb-3 align-items-center">
+                                        <div class="col-md-4">
+                                            Door Count
+                                        </div>
+                                        <div class="col-md-8 Text">
+                                            @selectedVehicle?.DoorCount
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="row mb-3 align-items-center">
+                                        <div class="col-md-4">
+                                            Gear Count
+                                        </div>
+                                        <div class="col-md-8 Text">
+                                            @selectedVehicle?.GearCount
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row align-items-center">
+                                <div class="col-md-6">
+                                    <div class="row mb-3 align-items-center">
+                                        <div class="col-md-4">
+                                            Drive Axle
+                                        </div>
+                                        <div class="col-md-8 Text">
+                                            @selectedVehicle?.DriveAxle
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="row mb-3 align-items-center">
+                                        <div class="col-md-4">
+                                            EngineCode
+                                        </div>
+                                        <div class="col-md-8 Text">
+                                            @selectedVehicle?.EngineCode
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row align-items-center">
+                                <div class="col-md-6">
+                                    <div class="row mb-3 align-items-center">
+                                        <div class="col-md-4">
+                                            Engine Cylinder Count
+                                        </div>
+                                        <div class="col-md-8 Text">
+                                            @selectedVehicle?.EngineCylinderCount
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="row mb-3 align-items-center">
+                                        <div class="col-md-4">
+                                            Engine Size Litre
+                                        </div>
+                                        <div class="col-md-8 Text">
+                                            @selectedVehicle?.EngineSizeLitre
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row align-items-center">
+                                <div class="col-md-6">
+                                    <div class="row mb-3 align-items-center">
+                                        <div class="col-md-4">
+                                            Wheelbase MM
+                                        </div>
+                                        <div class="col-md-8 Text">
+                                            @selectedVehicle?.WheelbaseMM
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="messages-tab-pane" role="tabpanel" aria-labelledby="messages-tab" tabindex="0">
+                    <div class="row">
+                        <div class="col-md">
+                            <div class="alert alert-primary" role="alert">
+                                @if (FiltersMsg.Count > 0)
+                                {
+                                    <button type="button" class="btn btn-primary btn-sm me-3" @onclick="@FilterMsgClear">Filters (Clear) <i class="fa-solid fa-filter-circle-xmark"></i></button>
+
+                                    int filterNumber = 0;
+                                    @foreach (var filter in FiltersMsg)
+                                    {
+                                        filterNumber += 1;
+
+                                        @if (filterNumber > 1)
+                                        {
+                                            <span class="ps-3 pe-3">|</span>
+                                        }
+                                        <span>@filter</span>
+                                    }
+                                }
+                            </div>
+                            <div class="TableContainer">
+                                <div class="table-responsive-dialog">
+                                    <QuickGrid Items="@FilteredMessages" Virtualize="true" Class="table table-striped table-hover table-bordered">
+                                        <TemplateColumn Title="">
+                                            <button type="button" class="btn btn-primary btn-sm"><i class="fa-solid fa-up-right-from-square"></i></button>
+                                        </TemplateColumn>
+                                        <PropertyColumn Title="ID" Property="@(p => p.MessageID)" Sortable="true">
+                                            <ColumnOptions>
+                                                <div class="search-box">
+                                                    <input type="number" class="form-control" autofocus @bind="FilterMsgMessageID" @bind:event="oninput" @onkeyup="FilterMsgRefresh" @onchange="FilterMsgRefresh" />
+                                                </div>
+                                            </ColumnOptions>
+                                        </PropertyColumn>
+                                        <PropertyColumn Title="Date" Property="@(p => p.SentDate)" Format="dd/MM/yyyy" Sortable="true">
+                                            <ColumnOptions>
+                                                <div class="search-box">
+                                                    <input type="date" class="form-control" autofocus @bind="FilterMsgSentDate" @bind:event="oninput" @onkeyup="FilterMsgRefresh" @onchange="FilterMsgRefresh" />
+                                                </div>
+                                            </ColumnOptions>
+                                        </PropertyColumn>
+                                        <PropertyColumn Property="@(p => p.Message)" Sortable="true">
+                                            <ColumnOptions>
+                                                <div class="search-box">
+                                                    <input type="search" class="form-control" autofocus @bind="FilterMsgMessage" @bind:event="oninput" placeholder="Message..." @onkeyup="FilterMsgRefresh" @onchange="FilterMsgRefresh" />
+                                                </div>
+                                            </ColumnOptions>
+                                        </PropertyColumn>
+                                        <PropertyColumn Property="@(p => p.Type)" Sortable="true">
+                                            <ColumnOptions>
+                                                <div class="search-box">
+                                                    <input type="search" class="form-control" autofocus @bind="FilterMsgType" @bind:event="oninput" placeholder="Message..." @onkeyup="FilterMsgRefresh" @onchange="FilterMsgRefresh" />
+                                                </div>
+                                            </ColumnOptions>
+                                        </PropertyColumn>
+                                        <PropertyColumn Property="@(p => p.Amount)" Sortable="true">
+                                            <ColumnOptions>
+                                                <div class="search-box">
+                                                    <input type="search" class="form-control" autofocus @bind="FilterMsgAmount" @bind:event="oninput" placeholder="Amount..." @onkeyup="FilterMsgRefresh" @onchange="FilterMsgRefresh" />
+                                                </div>
+                                            </ColumnOptions>
+                                        </PropertyColumn>
+                                        <PropertyColumn Property="@(p => p.Accepted)" Sortable="true">
+                                            <ColumnOptions>
+                                                <div class="search-box">
+                                                    <input type="search" class="form-control" autofocus @bind="FilterMsgAccepted" @bind:event="oninput" placeholder="Accepted..." @onkeyup="FilterMsgRefresh" @onchange="FilterMsgRefresh" />
+                                                </div>
+                                            </ColumnOptions>
+                                        </PropertyColumn>
+                                        <PropertyColumn Property="@(p => p.Status)" Sortable="true">
+                                            <ColumnOptions>
+                                                <div class="search-box">
+                                                    <input type="search" class="form-control" autofocus @bind="FilterMsgStatus" @bind:event="oninput" placeholder="Status..." @onkeyup="FilterMsgRefresh" @onchange="FilterMsgRefresh" />
+                                                </div>
+                                            </ColumnOptions>
+                                        </PropertyColumn>
+                                        <PropertyColumn Title="Sent By" Property="@(p => p.SentBy)" Sortable="true">
+                                            <ColumnOptions>
+                                                <div class="search-box">
+                                                    <input type="search" class="form-control" autofocus @bind="FilterMsgSentBy" @bind:event="oninput" placeholder="Sent By..." @onkeyup="FilterMsgRefresh" @onchange="FilterMsgRefresh" />
+                                                </div>
+                                            </ColumnOptions>
+                                        </PropertyColumn>
+                                    </QuickGrid>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </Body>
         <Footer>
-            <button type="button" class="btn btn-secondary" data-dismiss="modal" @onclick="() => modalVehicle!.Close()">Close</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" @onclick="CloseVehicle">Close</button>
         </Footer>
     </Modal>
 }
@@ -152,35 +655,76 @@ else {
     [Parameter]
     public int? VehicleID { get; set; }
 
+    public string? action { get; set; }
+
+    private Modal? modalInfo { get; set; }
+    public string? msgInfoTitle = null;
+    public MarkupString? msgInfo = null;
+
+    private Modal? modalError { get; set; }
+    public string? msgErrorTitle = null;
+    public MarkupString? msgError = null;
+    public string? msgErrorStackTrace = null;
+
+    private Modal? modalConfirm { get; set; }
+    public string? msgConfirmTitle = null;
+    public MarkupString? msgConfirm = null;
+
     public string? loadDataErrorMsg = null;
+
     private List<VehicleModel>? vehicles;
+    private VehicleModel? selectedVehicle;
+    private List<MessageModel>? selectedVehicleMessages;
+
     private IQueryable<VehicleModel>? FilteredVehicles =>
         (vehicles)?.AsQueryable()
         .Where(
             v => 
-            v.SubmissionID == (FilterSubmissionID ?? v.SubmissionID)
-            && DateOnly.FromDateTime(v.submissionDate ?? DateTime.Now)! == DateOnly.FromDateTime((DateTime)(FilterSubmissionDate ?? v.submissionDate)!)
-            && v.Surname!.Contains(FilterSurname ?? string.Empty, StringComparison.CurrentCultureIgnoreCase)
-            && v.Forename!.Contains(FilterForename ?? string.Empty, StringComparison.CurrentCultureIgnoreCase)
-            && v.Email!.Contains(FilterEmail ?? string.Empty, StringComparison.CurrentCultureIgnoreCase)
-            && v.RegistrationNumber!.Contains(FilterRegistration ?? string.Empty, StringComparison.CurrentCultureIgnoreCase)
-            && v.Make!.Contains(FilterMake ?? string.Empty, StringComparison.CurrentCultureIgnoreCase)
-            && v.Model!.Contains(FilterModel ?? string.Empty, StringComparison.CurrentCultureIgnoreCase)
+            v.SubmissionID == (FilterVehSubmissionID ?? v.SubmissionID)
+            && DateOnly.FromDateTime(v.submissionDate ?? DateTime.Now)! == DateOnly.FromDateTime((DateTime)(FilterVehSubmissionDate ?? v.submissionDate)!)
+            && v.Surname!.Contains(FilterVehSurname ?? string.Empty, StringComparison.CurrentCultureIgnoreCase)
+            && v.Forename!.Contains(FilterVehForename ?? string.Empty, StringComparison.CurrentCultureIgnoreCase)
+            && v.Email!.Contains(FilterVehEmail ?? string.Empty, StringComparison.CurrentCultureIgnoreCase)
+            && v.RegistrationNumber!.Contains(FilterVehRegistration ?? string.Empty, StringComparison.CurrentCultureIgnoreCase)
+            && v.Make!.Contains(FilterVehMake ?? string.Empty, StringComparison.CurrentCultureIgnoreCase)
+            && v.Model!.Contains(FilterVehModel ?? string.Empty, StringComparison.CurrentCultureIgnoreCase)
         );
 
-    int? FilterSubmissionID;
-    DateTime? FilterSubmissionDate;
-    string FilterSurname = string.Empty;
-    string FilterForename = string.Empty;
-    string FilterEmail = string.Empty;
-    string FilterRegistration = string.Empty;
-    string FilterMake = string.Empty;
-    string FilterModel = string.Empty;
-    List<string> Filters = new List<string>();
+    int? FilterVehSubmissionID;
+    DateTime? FilterVehSubmissionDate;
+    string FilterVehSurname = string.Empty;
+    string FilterVehForename = string.Empty;
+    string FilterVehEmail = string.Empty;
+    string FilterVehRegistration = string.Empty;
+    string FilterVehMake = string.Empty;
+    string FilterVehModel = string.Empty;
+    List<string> FiltersVeh = new List<string>();
+
+    int? FilterMsgMessageID;
+    string? FilterMsgMessage;
+    MessageType? FilterMsgType;
+    decimal? FilterMsgAmount;
+    bool? FilterMsgAccepted;
+    MessageStatus? FilterMsgStatus;
+    string? FilterMsgSentBy;
+    DateTime? FilterMsgSentDate;
+    List<string> FiltersMsg = new List<string>();
+
+    private IQueryable<MessageModel>? FilteredMessages =>
+        (selectedVehicleMessages)?.AsQueryable()
+        .Where(
+            m =>
+            m.MessageID == (FilterMsgMessageID ?? m.MessageID)
+            && DateOnly.FromDateTime(m.SentDate ?? DateTime.Now)! == DateOnly.FromDateTime((DateTime)(FilterMsgSentDate ?? m.SentDate)!)
+            && m.Message!.Contains(FilterMsgMessage ?? string.Empty, StringComparison.CurrentCultureIgnoreCase)
+            && m.Type! == (FilterMsgType ?? m.Type)
+            && m.Accepted! == (FilterMsgAccepted ?? m.Accepted)
+            && m.Status! == (FilterMsgStatus ?? m.Status)
+            && m.SentBy!.Contains(FilterMsgSentBy ?? string.Empty, StringComparison.CurrentCultureIgnoreCase)
+        );
+
     private string? vehicleEndPoint;
 
-    public string? msgVehicleTitle = null;
-    public string? msgVehicle = null;
     private Modal? modalVehicle { get; set; }
 
     protected override async Task OnInitializedAsync() 
@@ -199,7 +743,7 @@ else {
                 loadDataErrorMsg = $"You are not authorised to view this page";
 
                 //Redirect to login screen
-                NavManager.NavigateTo("/Login/Vehicles");
+                NavManager.NavigateTo($"Login/Vehicles");
             }
             else if (ex.Message.Contains("404 (Not Found)"))
             {
@@ -213,62 +757,151 @@ else {
         }
     }
 
-    private void FilterRefresh()
+    private void FilterVehRefresh()
     {
-        Filters.Clear();
+        FiltersVeh.Clear();
 
-        if (FilterSubmissionID != null)
+        if (FilterVehSubmissionID != null)
         {
-            Filters.Add($"ID: '{FilterSubmissionID.ToString()}'");
+            FiltersVeh.Add($"ID: '{FilterVehSubmissionID.ToString()}'");
         }
-        if (FilterSubmissionDate != null)
+        if (FilterVehSubmissionDate != null)
         {
-            Filters.Add($"Date: '{((DateTime)FilterSubmissionDate).ToString("dd/MM/yyyy")}'");
+            FiltersVeh.Add($"Date: '{((DateTime)FilterVehSubmissionDate).ToString("dd/MM/yyyy")}'");
         }
-        if (FilterSurname.Length > 0)
+        if (FilterVehSurname.Length > 0)
         {
-            Filters.Add($"Surname: '{FilterSurname}'");
+            FiltersVeh.Add($"Surname: '{FilterVehSurname}'");
         }
-        if (FilterForename.Length > 0)
+        if (FilterVehForename.Length > 0)
         {
-            Filters.Add($"Forename: '{FilterForename}'");
+            FiltersVeh.Add($"Forename: '{FilterVehForename}'");
         }
-        if (FilterEmail.Length > 0)
+        if (FilterVehEmail.Length > 0)
         {
-            Filters.Add($"Email: '{FilterEmail}'");
+            FiltersVeh.Add($"Email: '{FilterVehEmail}'");
         }
-        if (FilterRegistration.Length > 0)
+        if (FilterVehRegistration.Length > 0)
         {
-            Filters.Add($"Reg No: '{FilterRegistration}'");
+            FiltersVeh.Add($"Reg No: '{FilterVehRegistration}'");
         }
-        if (FilterMake.Length > 0)
+        if (FilterVehMake.Length > 0)
         {
-            Filters.Add($"Make: '{FilterMake}'");
+            FiltersVeh.Add($"Make: '{FilterVehMake}'");
         }
-        if (FilterModel.Length > 0)
+        if (FilterVehModel.Length > 0)
         {
-            Filters.Add($"Model: '{FilterModel}'");
+            FiltersVeh.Add($"Model: '{FilterVehModel}'");
         }
     }
 
-    private void FilterClear()
+    private void FilterVehClear()
     {
-        FilterSubmissionID = null;
-        FilterSubmissionDate = null;
-        FilterSurname = string.Empty;
-        FilterForename = string.Empty;
-        FilterEmail = string.Empty;
-        FilterRegistration = string.Empty;
-        FilterMake = string.Empty;
-        FilterModel = string.Empty;
-        Filters.Clear();
+        FilterVehSubmissionID = null;
+        FilterVehSubmissionDate = null;
+        FilterVehSurname = string.Empty;
+        FilterVehForename = string.Empty;
+        FilterVehEmail = string.Empty;
+        FilterVehRegistration = string.Empty;
+        FilterVehMake = string.Empty;
+        FilterVehModel = string.Empty;
+
+        FiltersVeh.Clear();
     }
 
-    private async Task EditVehicle(int vehicleID)
+    private void FilterMsgRefresh()
     {
-        msgVehicleTitle = $"Vehicle {vehicleID}";
-        msgVehicle = $"Record for vehicle";
-        modalVehicle!.MakeLarge();
-        modalVehicle!.Open();
+        FiltersMsg.Clear();
+
+        if (FilterMsgMessageID != null)
+        {
+            FiltersMsg.Add($"ID: '{FilterMsgMessageID.ToString()}'");
+        }
+        if (FilterMsgSentDate != null)
+        {
+            FiltersMsg.Add($"Date: '{((DateTime)FilterMsgSentDate).ToString("dd/MM/yyyy")}'");
+        }
+        if (FilterMsgMessage?.Length > 0)
+        {
+            FiltersMsg.Add($"Message: '{FilterMsgMessage}'");
+        }
+        if (FilterMsgType != null)
+        {
+            FiltersMsg.Add($"Type: '{FilterMsgType}'");
+        }
+        if (FilterMsgAmount != null)
+        {
+            FiltersMsg.Add($"Amount: '{FilterMsgAmount.ToString()}'");
+        }
+        if (FilterMsgAccepted != null)
+        {
+            FiltersMsg.Add($"Accepted: '{((bool)(FilterMsgAccepted = true) ? "Y" : "N")}'");
+        }
+        if (FilterMsgStatus != null)
+        {
+            FiltersMsg.Add($"Status: '{FilterMsgStatus}'");
+        }
+        if (FilterMsgSentBy != null)
+        {
+            FiltersMsg.Add($"Sent By: '{FilterMsgSentBy}'");
+        }
+    }
+
+    private void FilterMsgClear()
+    {
+        FilterMsgMessageID = null;
+        FilterMsgMessage = string.Empty;
+        FilterMsgType = null;
+        FilterMsgAmount = null;
+        FilterMsgAccepted = null;
+        FilterMsgStatus = null;
+        FilterMsgSentBy = string.Empty;
+        FilterMsgSentDate = null;
+
+        FiltersMsg.Clear();
+    }
+
+    private void EditVehicle(int submissionID)
+    {
+        selectedVehicle = GetVehicle(submissionID);
+        selectedVehicleMessages = GetMessages(submissionID);
+
+        if (selectedVehicle != null) {
+            modalVehicle!.MakeLarge();
+            modalVehicle!.Open();
+        }
+        else {
+            action = "Error";
+
+            msgErrorTitle = $"Cannot Load Vehicle {submissionID}";
+            msgError = (MarkupString)$"Unfortunately the vehicle could not be loaded due to an error.<br />Please try again.";
+            msgErrorStackTrace = null;
+
+            modalError!.Open();
+        }
+    }
+
+    private VehicleModel? GetVehicle(int submissionID)
+    {
+        return vehicles?.Where(v => v.SubmissionID == submissionID).FirstOrDefault();
+    }
+
+    private List<MessageModel>? GetMessages(int submissionID)
+    {
+        List<MessageModel> messages = new List<MessageModel>
+        {
+            new MessageModel { MessageID = 1, Message = "The best offer I can give you", Type = MessageType.InitialOffer, Amount=250, Accepted = false, Status = MessageStatus.Sent, SentBy = "robin.wilson@robindigital.co.uk", SentDate = DateTime.Now},
+            new MessageModel { MessageID = 2, Message = "An even better offer", Type = MessageType.FollowUp, Amount=350, Accepted = false, Status = MessageStatus.Sent, SentBy = "robin.wilson@robindigital.co.uk", SentDate = DateTime.Now},
+            new MessageModel { MessageID = 3, Message = "Final offer", Type = MessageType.FinalOffer, Amount=500, Accepted = true, Status = MessageStatus.Sent, SentBy = "robin.wilson@robindigital.co.uk", SentDate = DateTime.Now}
+        };
+
+        return messages;
+    }
+
+    private void CloseVehicle() 
+    {
+        selectedVehicle = null;
+        selectedVehicleMessages = new List<MessageModel>();
+        modalVehicle!.Close();
     }
 }

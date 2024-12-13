@@ -125,3 +125,9 @@ code {
         max-width: calc(100vw - 20rem);
     }
 }
+
+.table-responsive-dialog {
+    overflow: auto;
+    white-space: nowrap;
+    max-width: calc(100vw);
+}

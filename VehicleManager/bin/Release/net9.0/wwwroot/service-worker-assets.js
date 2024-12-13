@@ -1,5 +1,5 @@
 self.assetsManifest = {
-  "version": "qUm0tyTH",
+  "version": "rb2qd4jg",
   "assets": [
     {
       "hash": "sha256-1FZfisxX/QTNE8VKi5JGSInbKA3Ce61NL0409Y5V+Co=",
@@ -778,19 +778,19 @@ self.assetsManifest = {
       "url": "_framework/System.Xml.XmlSerializer.bq97vodilp.wasm"
     },
     {
-      "hash": "sha256-ussMcer9EiEFB7dVYhi40Ca5eNnWbhwcNP3FV9/DNy4=",
-      "url": "_framework/VehicleManager.a03i85rgjs.pdb"
+      "hash": "sha256-erbYHEoLpuHO6V8tolKZwIUS3M3qZRTrtDghNYz1yy8=",
+      "url": "_framework/VehicleManager.mo92wz6by9.pdb"
     },
     {
-      "hash": "sha256-RVOdqPQws/qeNHyJjDmbjjCEUJnupJYhTjq4i1WCdZg=",
-      "url": "_framework/VehicleManager.jmxao7du69.wasm"
+      "hash": "sha256-z+i03CgRZ2Q/O2I7hzbtY+9A6BJSmhTO598mW+buyfQ=",
+      "url": "_framework/VehicleManager.v8tboqku8c.wasm"
     },
     {
       "hash": "sha256-0VmBdMjdc0nZGHDSfaGirT6y3mJTM0qx8eqCUC/rpiE=",
       "url": "_framework/WindowsBase.377bly7twj.wasm"
     },
     {
-      "hash": "sha256-bEOOBFI/gadvfY2w/zvgJNguq5x08z3E7jGpREIC5tw=",
+      "hash": "sha256-QESQ2+i7XU87Qq9a6ijjT/wssRU5PQNAFJHbYNqvdFM=",
       "url": "_framework/blazor.boot.json"
     },
     {
@@ -843,18 +843,22 @@ self.assetsManifest = {
     },
     {
       "hash": "sha256-eQqSfqUxBskY0i79YvtjmoviCZKkDbBjYYzT/C4LbDo=",
+      "url": "appsettings.Development.json"
+    },
+    {
+      "hash": "sha256-eQqSfqUxBskY0i79YvtjmoviCZKkDbBjYYzT/C4LbDo=",
       "url": "appsettings.json"
     },
     {
-      "hash": "sha256-PhDrMWjyuCTdPOagBk7vdf9n5tGrgPvYl4LncSuUc7g=",
+      "hash": "sha256-GJNIbroTscqZ3roOusrtaVLGH+jSte/jfHCdF/ha030=",
       "url": "css/VehicleManager.css"
     },
     {
-      "hash": "sha256-wE4hohf8o1OFpJoeB5iQGFsSpS0N9rLRwUiHCiqRwpE=",
+      "hash": "sha256-gGq3JNSJz0dpwUCoc42Mk4otQo/baf+7gK6xeS3yUL0=",
       "url": "css/app.css"
     },
     {
-      "hash": "sha256-cvmH35ojb+LTgQb9n285t8dajNsV/ikXk25Du0yQMmc=",
+      "hash": "sha256-g6wwcnRqLjLvTosGnxK85L1Rjads/9M6G4NrxXOFwos=",
       "url": "css/callout.css"
     },
     {
@@ -874,7 +878,7 @@ self.assetsManifest = {
       "url": "images/LinesCircuit.jpg"
     },
     {
-      "hash": "sha256-IYJLlJNLI+wH7xY9mnMt36k8TRM3ThkzFPUke3Fwx50=",
+      "hash": "sha256-XKVaf9gXClvKfzllWZ5CEGQ0K1mTNsO8Lb9c0Ju/yw0=",
       "url": "index.html"
     },
     {
