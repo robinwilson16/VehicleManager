@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "VehicleManager",
   "resources": {
-    "hash": "sha256-4b7b5ZvZZ70LjdBnJsOdbIWVxOzFi3zCLanun5ABnYs=",
+    "hash": "sha256-TgHL41oYWBHUtKwPBrENJm2L7bXNHz3xNNOsY5E4G+c=",
     "fingerprinting": {
       "Blazored.FluentValidation.x0xsecpmtx.wasm": "Blazored.FluentValidation.wasm",
       "FluentValidation.a26tmul8eq.wasm": "FluentValidation.wasm",
@@ -28,6 +28,7 @@
       "Microsoft.Extensions.Primitives.3sx0y6ui4u.wasm": "Microsoft.Extensions.Primitives.wasm",
       "Microsoft.JSInterop.sk08br83jz.wasm": "Microsoft.JSInterop.wasm",
       "Microsoft.JSInterop.WebAssembly.fkdz83fr0b.wasm": "Microsoft.JSInterop.WebAssembly.wasm",
+      "TinyMCE.Blazor.ll1a586db2.wasm": "TinyMCE.Blazor.wasm",
       "Microsoft.CSharp.mnvthyn9ga.wasm": "Microsoft.CSharp.wasm",
       "Microsoft.VisualBasic.Core.g11rmyyh65.wasm": "Microsoft.VisualBasic.Core.wasm",
       "Microsoft.VisualBasic.txibwr0y0j.wasm": "Microsoft.VisualBasic.wasm",
@@ -204,8 +205,8 @@
       "icudt_CJK.tjcz0u77k5.dat": "icudt_CJK.dat",
       "icudt_EFIGS.tptq2av103.dat": "icudt_EFIGS.dat",
       "icudt_no_CJK.lfu7j35m59.dat": "icudt_no_CJK.dat",
-      "VehicleManager.dpad73k9bm.wasm": "VehicleManager.wasm",
-      "VehicleManager.aa9io5xomp.pdb": "VehicleManager.pdb"
+      "VehicleManager.mqspwpnlxh.wasm": "VehicleManager.wasm",
+      "VehicleManager.w4clbhu15q.pdb": "VehicleManager.pdb"
     },
     "jsModuleNative": {
       "dotnet.native.hmanx9razn.js": "sha256-d7UNSArplVrX3arY2Kmhxp1wN79ng8hLqIBrkiQ9Gbo="
@@ -251,6 +252,7 @@
       "Microsoft.Extensions.Primitives.3sx0y6ui4u.wasm": "sha256-A0WIty9B3GNUBtsykg0eb3kD47r0/Cpfk8q1Ei8ECrc=",
       "Microsoft.JSInterop.sk08br83jz.wasm": "sha256-FNS+xvA0GFiM2CVWHljv47AO+crkl0V7XiidkkMbVSw=",
       "Microsoft.JSInterop.WebAssembly.fkdz83fr0b.wasm": "sha256-kSwbIGuYmzrEilFXnLY8mKBXXFQtVXKAF/Qa323+Fnk=",
+      "TinyMCE.Blazor.ll1a586db2.wasm": "sha256-mQsTm1or+jsATmWkhFb299cL4Tn/WigajeiYmp8+kdU=",
       "Microsoft.CSharp.mnvthyn9ga.wasm": "sha256-fpFq3tiKl2KyIwwxqx00V0KgBM6xAe3+4MacTs9d0c0=",
       "Microsoft.VisualBasic.Core.g11rmyyh65.wasm": "sha256-BDwtMGszyqpVVjJQLJlpzwUZYXvG7ReKXIkB6OiAxVU=",
       "Microsoft.VisualBasic.txibwr0y0j.wasm": "sha256-X9/DgjYY/yytG8fIqL2MB7tBD3j/fo5VFEUVNS0k55Q=",
@@ -418,10 +420,16 @@
       "WindowsBase.377bly7twj.wasm": "sha256-0VmBdMjdc0nZGHDSfaGirT6y3mJTM0qx8eqCUC/rpiE=",
       "mscorlib.o0184ey5ia.wasm": "sha256-2GxNKZQJVJvYMUxSTuXa5V2qxawSMMHZtwG33SKVCZU=",
       "netstandard.hb3h2rr8mk.wasm": "sha256-DWn9+RH/ElZQ6imlYqVwZvir1KTzNwY18AzGmnyiymU=",
-      "VehicleManager.dpad73k9bm.wasm": "sha256-cUp9lC80qk4i5G+ohRDz6Qqh5lX2GIC7Qvj1TeUM4bw="
+      "VehicleManager.mqspwpnlxh.wasm": "sha256-Qs50U2ew5w6R25/j9Gb7C7btEmajMKNQZlQj41KCNvU="
     },
     "pdb": {
-      "VehicleManager.aa9io5xomp.pdb": "sha256-fqSVl0lkkKiSsFGfjngZ8/e1k2b4jpZPFq29FiSWcnk="
+      "VehicleManager.w4clbhu15q.pdb": "sha256-UOCSKnz7qzDXP5OwYfQrg7vRQKF+D7ZpqU9XKOcymMU="
+    },
+    "libraryInitializers": {
+      "_content/TinyMCE.Blazor/TinyMce.Blazor.lib.module.js": "sha256-XsRnQkvbM/leotRxAbM8p6giRHM1kT/1feTIEzpYil4="
+    },
+    "modulesAfterRuntimeReady": {
+      "../_content/TinyMCE.Blazor/TinyMce.Blazor.lib.module.js": "sha256-XsRnQkvbM/leotRxAbM8p6giRHM1kT/1feTIEzpYil4="
     }
   },
   "cacheBootResources": true,

@@ -79,6 +79,14 @@
               "target": "Package",
               "version": "[9.0.0, )",
               "autoReferenced": true
+            },
+            "TinyMCE": {
+              "target": "Package",
+              "version": "[7.6.0, )"
+            },
+            "TinyMCE.Blazor": {
+              "target": "Package",
+              "version": "[2.0.0, )"
             }
           },
           "imports": [

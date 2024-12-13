@@ -1,9 +1,11 @@
-﻿namespace VehicleManager.Models
+﻿using Microsoft.AspNetCore.Components;
+
+namespace VehicleManager.Models
 {
     public class MessageModel
     {
         public int MessageID { get; set; }
-        public string? Message { get; set; }
+        public MarkupString? Message { get; set; }
         public MessageType? Type { get; set; }
         public decimal? Amount { get; set; }
         public bool? Accepted { get; set; }

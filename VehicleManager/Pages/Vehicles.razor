@@ -5,6 +5,7 @@
 @using VehicleManager.Services
 @using System.Net
 @using Microsoft.AspNetCore.Components.QuickGrid
+@using TinyMCE.Blazor
 
 @inject HttpClient Http
 @inject IConfiguration configuration
@@ -642,11 +643,68 @@ else {
                             </div>
                         </div>
                     </div>
+                    <div class="row mt-3">
+                        <div class="col-md text-end">
+                            <button type="button" class="btn btn-primary mb-3" @onclick="CreateMessage"><i class="fa-solid fa-envelope-open-text"></i> Send a New Message</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </Body>
         <Footer>
             <button type="button" class="btn btn-secondary" data-dismiss="modal" @onclick="CloseVehicle">Close</button>
+        </Footer>
+    </Modal>
+
+    <Modal @ref="modalMessage">
+        <Title><i class="fa-solid fa-envelope-open-text"></i> New Message to @selectedVehicle?.Forename @selectedVehicle?.Surname about @selectedVehicle?.Colour @selectedVehicle?.Make (@selectedVehicle?.RegistrationNumber)</Title>
+        <Body>
+            <div class="bd-callout bd-callout-primary bd-callout-grey GreyBackground">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md">
+                            <div class="row mb-3 align-items-center">
+                                <div class="col-md text-center">
+                                    <h4><i class="fa-solid fa-envelope-open-text"></i> New Message to @selectedVehicle?.Forename @selectedVehicle?.Surname</h4>
+                                </div>
+                            </div>
+
+                            <div class="row g-3 mb-3">
+                                <div class="col-md-4">
+                                    <label class="col-form-label"><i class="fa-solid fa-angles-right"></i> Message Template</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <select class="form-select">
+                                        <option value="">-- Choose Template --</option>
+                                        <option value="InitialOffer">Email Client (initial offer email)</option>
+                                        <option value="FollowUp">Attempted to Contact (follow up email)</option>
+                                        <option value="AdditionalInfo">Additional Info (if they need more info)</option>
+                                        <option value="FinalOffer">Final Offer (If they need to send a counter offer)</option>
+                                        <option value="GoogleReview">Google Review (including offer for a prize draw)</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row g-3">
+                                <div class="col-md">
+                                    <label class="col-form-label"><i class="fa-solid fa-note-sticky"></i> Message:</label>
+                                </div>
+                            </div>
+                            <div class="row g-3 mb-3">
+                                <div class="col-md">
+                                        <Editor
+                                            ScriptSrc="./lib/tinymce/tinymce.min.js"
+                                        />
+                                    @* <textarea class="form-control"></textarea> *@
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </Body>
+        <Footer>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" @onclick="() => modalMessage!.Close()">Close</button>
         </Footer>
     </Modal>
 }
@@ -716,7 +774,7 @@ else {
             m =>
             m.MessageID == (FilterMsgMessageID ?? m.MessageID)
             && DateOnly.FromDateTime(m.SentDate ?? DateTime.Now)! == DateOnly.FromDateTime((DateTime)(FilterMsgSentDate ?? m.SentDate)!)
-            && m.Message!.Contains(FilterMsgMessage ?? string.Empty, StringComparison.CurrentCultureIgnoreCase)
+            && m.Message.ToString()!.Contains(FilterMsgMessage ?? string.Empty, StringComparison.CurrentCultureIgnoreCase)
             && m.Type! == (FilterMsgType ?? m.Type)
             && m.Accepted! == (FilterMsgAccepted ?? m.Accepted)
             && m.Status! == (FilterMsgStatus ?? m.Status)
@@ -726,6 +784,7 @@ else {
     private string? vehicleEndPoint;
 
     private Modal? modalVehicle { get; set; }
+    private Modal? modalMessage { get; set; }
 
     protected override async Task OnInitializedAsync() 
     {
@@ -890,9 +949,9 @@ else {
     {
         List<MessageModel> messages = new List<MessageModel>
         {
-            new MessageModel { MessageID = 1, Message = "The best offer I can give you", Type = MessageType.InitialOffer, Amount=250, Accepted = false, Status = MessageStatus.Sent, SentBy = "robin.wilson@robindigital.co.uk", SentDate = DateTime.Now},
-            new MessageModel { MessageID = 2, Message = "An even better offer", Type = MessageType.FollowUp, Amount=350, Accepted = false, Status = MessageStatus.Sent, SentBy = "robin.wilson@robindigital.co.uk", SentDate = DateTime.Now},
-            new MessageModel { MessageID = 3, Message = "Final offer", Type = MessageType.FinalOffer, Amount=500, Accepted = true, Status = MessageStatus.Sent, SentBy = "robin.wilson@robindigital.co.uk", SentDate = DateTime.Now}
+            new MessageModel { MessageID = 1, Message = (MarkupString)"The best offer I can give you", Type = MessageType.InitialOffer, Amount=250, Accepted = false, Status = MessageStatus.Sent, SentBy = "robin.wilson@robindigital.co.uk", SentDate = DateTime.Now},
+            new MessageModel { MessageID = 2, Message = (MarkupString)"An even better offer", Type = MessageType.FollowUp, Amount=350, Accepted = false, Status = MessageStatus.Sent, SentBy = "robin.wilson@robindigital.co.uk", SentDate = DateTime.Now},
+            new MessageModel { MessageID = 3, Message = (MarkupString)"Final offer", Type = MessageType.FinalOffer, Amount=500, Accepted = true, Status = MessageStatus.Sent, SentBy = "robin.wilson@robindigital.co.uk", SentDate = DateTime.Now}
         };
 
         return messages;
@@ -903,5 +962,11 @@ else {
         selectedVehicle = null;
         selectedVehicleMessages = new List<MessageModel>();
         modalVehicle!.Close();
+    }
+
+    private void CreateMessage() 
+    {
+        modalMessage!.MakeLarge();
+        modalMessage!.Open();
     }
 }

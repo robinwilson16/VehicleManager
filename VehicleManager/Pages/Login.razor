@@ -324,7 +324,7 @@ else {
     private void GoToLoggedInArea()
     {
         if (ReturnToPage != null) {
-            NavManager.NavigateTo(NavManager.BaseUri + ReturnToPage);
+            NavManager.NavigateTo(ReturnToPage);
         }
         else {
             NavManager.NavigateTo(NavManager.BaseUri);
