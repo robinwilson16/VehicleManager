@@ -1661,6 +1661,42 @@
       "PackagePath": "staticwebassets\\sample-data\\weather.json"
     },
     {
+      "Id": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\wwwroot\\sounds\\confirm.mp3",
+      "PackagePath": "staticwebassets\\sounds\\confirm.mp3"
+    },
+    {
+      "Id": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\wwwroot\\sounds\\confirm.wav",
+      "PackagePath": "staticwebassets\\sounds\\confirm.wav"
+    },
+    {
+      "Id": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\wwwroot\\sounds\\error.mp3",
+      "PackagePath": "staticwebassets\\sounds\\error.mp3"
+    },
+    {
+      "Id": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\wwwroot\\sounds\\error.wav",
+      "PackagePath": "staticwebassets\\sounds\\error.wav"
+    },
+    {
+      "Id": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\wwwroot\\sounds\\prompt.mp3",
+      "PackagePath": "staticwebassets\\sounds\\prompt.mp3"
+    },
+    {
+      "Id": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\wwwroot\\sounds\\question2.mp3",
+      "PackagePath": "staticwebassets\\sounds\\question2.mp3"
+    },
+    {
+      "Id": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\wwwroot\\sounds\\question3.mp3",
+      "PackagePath": "staticwebassets\\sounds\\question3.mp3"
+    },
+    {
+      "Id": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\wwwroot\\sounds\\question5.mp3",
+      "PackagePath": "staticwebassets\\sounds\\question5.mp3"
+    },
+    {
+      "Id": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\wwwroot\\sounds\\question6.mp3",
+      "PackagePath": "staticwebassets\\sounds\\question6.mp3"
+    },
+    {
       "Id": "obj\\Debug\\net9.0\\staticwebassets\\msbuild.VehicleManager.Microsoft.AspNetCore.StaticWebAssetEndpoints.props",
       "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssetEndpoints.props"
     },

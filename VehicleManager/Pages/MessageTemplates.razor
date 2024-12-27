@@ -1,0 +1,918 @@
+﻿@page "/MessageTemplates"
+@page "/MessageTemplates/{MessageTemplateID}"
+
+@using VehicleManager.Models
+@using VehicleManager.Services
+@using System.Net
+@using Microsoft.AspNetCore.Components.QuickGrid
+@using TinyMCE.Blazor
+
+@inject HttpClient Http
+@inject IConfiguration configuration
+@inject NavigationManager NavManager
+@inject ILogger<MessageTemplateModel> Logger
+@inject AppData appData
+
+<PageTitle>Message Templates @@ Broken Motor</PageTitle>
+
+<audio src="@soundEffect" autoplay></audio>
+
+<Modal @ref="modalInfo">
+    <Title><i class="fa-solid fa-circle-info"></i> @msgInfoTitle</Title>
+    <Body>
+        <p>
+            @msgInfo
+        </p>
+    </Body>
+    <Footer>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" @onclick="() => modalError!.Close()">Close</button>
+    </Footer>
+</Modal>
+
+<Modal @ref="modalError">
+    <Title><i class="fa-solid fa-triangle-exclamation"></i> @msgErrorTitle</Title>
+    <Body>
+        <div class="alert alert-danger" role="alert">
+            @msgError
+        </div>
+        @if (msgErrorStackTrace != null)
+        {
+            <p><i class="fa-solid fa-bug"></i> Stack Trace:</p>
+            <pre class="pre-scrollable ErrorDetails">@msgErrorStackTrace</pre>
+        }
+    </Body>
+    <Footer>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" @onclick="() => modalError!.Close()">Close</button>
+    </Footer>
+</Modal>
+
+<Modal @ref="modalConfirm">
+    <Title><i class="fa-solid fa-circle-question"></i> @msgConfirmTitle</Title>
+    <Body>
+        <p>
+            @msgConfirm
+        </p>
+    </Body>
+    <Footer>
+        <button type="button" class="btn btn-danger" @onclick="FormAction"><i class="fa-solid fa-trash"></i> Yes</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" @onclick="() => modalConfirm!.Close()"><i class="fa-solid fa-right-from-bracket"></i> Cancel</button>
+    </Footer>
+</Modal>
+
+<h3><i class="fa-solid fa-message"></i> Message Templates</h3>
+
+@if (loadDataErrorMsg != null) 
+{
+    <div class="container">
+        <div class="row">
+            <div class="col-md">
+                <div class="alert alert-danger hstack gap-3" role="alert">
+                    <div>
+                        <h1><i class="fa-solid fa-triangle-exclamation"></i></h1>
+                    </div>
+                    <div>
+                        <p>
+                            @loadDataErrorMsg
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else if(messageTemplates == null) {
+    <div class="container">
+        <div class="row">
+            <div class="col-md">
+                <div class="alert alert-primary text-center" role="alert">
+                    <h1>
+                        <i class="fa-solid fa-spinner fa-spin"></i> Loading ...
+                    </h1>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else {
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md">
+                <div class="alert alert-primary" role="alert">
+                    @if (FiltersMain.Count > 0)
+                    {
+                        <button type="button" class="btn btn-primary btn-sm me-3" @onclick="@FilterMainClear">Filters (Clear) <i class="fa-solid fa-filter-circle-xmark"></i></button>
+
+                        int filterNumber = 0;
+                        @foreach (var filter in FiltersMain)
+                        {
+                            filterNumber += 1;
+
+                            @if (filterNumber > 1) {
+                                <span class="ps-3 pe-3">|</span>
+                            }
+                            <span>@filter</span>
+                        }
+                    }
+                </div>
+                <div class="TableContainer">
+                    <div class="table-responsive">
+                        <QuickGrid Items="@FilteredMessageTemplates" Virtualize="true" Class="table table-striped table-hover table-bordered" TGridItem="MessageTemplateModel">
+
+                            <TemplateColumn Title="" Sortable="true" SortBy="GridSort<MessageTemplateModel>.ByDescending(x => x.MessageTemplateID)">
+                                <button type="button" class="btn btn-primary btn-sm" @onclick="()=>EditMessageTemplate(context.MessageTemplateID)"><i class="fa-solid fa-up-right-from-square"></i></button>
+                            </TemplateColumn>
+
+                            <TemplateColumn Title="ID" Sortable="true" SortBy="GridSort<MessageTemplateModel>.ByDescending(x => x.MessageTemplateID)">
+                                <ChildContent>
+                                    <div @onclick="()=>SelectMessageTemplate(context?.MessageTemplateID)" class="@(context?.MessageTemplateID == selectedMessageTemplate?.MessageTemplateID ? "SelectedRow" : "")">
+                                        <div class="col-justify-start">@context.MessageTemplateID</div>
+                                    </div>
+                                </ChildContent>
+                                <ColumnOptions>
+                                    <div class="search-box">
+                                        <input type="number" class="form-control" autofocus @bind="FilterMainMessageTemplateID" @bind:event="oninput" @onkeyup="FilterMainRefresh" @onchange="FilterMainRefresh" />
+                                    </div>
+                                </ColumnOptions>
+                            </TemplateColumn>
+
+                            <TemplateColumn Title="Code" Sortable="true" SortBy="GridSort<MessageTemplateModel>.ByDescending(x => x.Code)">
+                                <ChildContent>
+                                    <div @onclick="()=>SelectMessageTemplate(context?.MessageTemplateID)" class="@(context?.MessageTemplateID == selectedMessageTemplate?.MessageTemplateID ? "SelectedRow" : "")">
+                                        <div class="col-justify-start">@context.Code</div>
+                                    </div>
+                                </ChildContent>
+                                <ColumnOptions>
+                                    <div class="search-box">
+                                        <input type="search" class="form-control" autofocus @bind="FilterMainCode" @bind:event="oninput" placeholder="Code..." @onkeyup="FilterMainRefresh" @onchange="FilterMainRefresh" />
+                                    </div>
+                                </ColumnOptions>
+                            </TemplateColumn>
+
+                            <TemplateColumn Title="Name" Sortable="true" SortBy="GridSort<MessageTemplateModel>.ByDescending(x => x.Name)">
+                                <ChildContent>
+                                    <div @onclick="()=>SelectMessageTemplate(context?.MessageTemplateID)" class="@(context?.MessageTemplateID == selectedMessageTemplate?.MessageTemplateID ? "SelectedRow" : "")">
+                                        <div class="col-justify-start">@context.Name</div>
+                                    </div>
+                                </ChildContent>
+                                <ColumnOptions>
+                                    <div class="search-box">
+                                        <input type="search" class="form-control" autofocus @bind="FilterMainName" @bind:event="oninput" placeholder="Name..." @onkeyup="FilterMainRefresh" @onchange="FilterMainRefresh" />
+                                    </div>
+                                </ColumnOptions>
+                            </TemplateColumn>
+
+                            <TemplateColumn Title="Sequence" Sortable="true" SortBy="GridSort<MessageTemplateModel>.ByDescending(x => x.Sequence)">
+                                <ChildContent>
+                                    <div @onclick="()=>SelectMessageTemplate(context?.MessageTemplateID)" class="@(context?.MessageTemplateID == selectedMessageTemplate?.MessageTemplateID ? "SelectedRow" : "")">
+                                        <div class="col-justify-start">@context.Sequence</div>
+                                    </div>
+                                </ChildContent>
+                                <ColumnOptions>
+                                    <div class="search-box">
+                                        <input type="search" class="form-control" autofocus @bind="FilterMainSequence" @bind:event="oninput" placeholder="Sequence..." @onkeyup="FilterMainRefresh" @onchange="FilterMainRefresh" />
+                                    </div>
+                                </ColumnOptions>
+                            </TemplateColumn>
+
+                            <TemplateColumn Title="Is Enabled" Sortable="true" SortBy="GridSort<MessageTemplateModel>.ByDescending(x => x.IsEnabled)">
+                                <ChildContent>
+                                    <div @onclick="()=>SelectMessageTemplate(context?.MessageTemplateID)" class="@(context?.MessageTemplateID == selectedMessageTemplate?.MessageTemplateID ? "SelectedRow" : "")">
+                                        <div class="col-justify-start">
+                                            <button type="button" class="btn @(context!.IsEnabled == true? "btn-primary" : "btn-outline-primary")"><i class="@(context!.IsEnabled == null? "fa-regular fa-square-minus" : context!.IsEnabled == true? "fa-solid fa-square-check" : "fa-regular fa-square")"></i></button>
+                                        </div>
+                                    </div>
+                                </ChildContent>
+                                <ColumnOptions>
+                                    <div class="search-box">
+                                        <button type="button" class="btn @(FilterMainIsEnabled == true? "btn-primary" : "btn-outline-primary")" @onclick="ToggleFilterMainIsEnabled"><i class="@(FilterMainIsEnabled == null? "fa-regular fa-square-minus" : FilterMainIsEnabled == true? "fa-solid fa-square-check" : "fa-regular fa-square")"></i></button>
+                                    </div>
+                                </ColumnOptions>
+                            </TemplateColumn>
+
+                            <TemplateColumn Title="Created By" Sortable="true" SortBy="GridSort<MessageTemplateModel>.ByDescending(x => x.CreatedBy)">
+                                <ChildContent>
+                                    <div @onclick="()=>SelectMessageTemplate(context?.MessageTemplateID)" class="@(context?.MessageTemplateID == selectedMessageTemplate?.MessageTemplateID ? "SelectedRow" : "")">
+                                        <div class="col-justify-start">@context.CreatedBy</div>
+                                    </div>
+                                </ChildContent>
+                                <ColumnOptions>
+                                    <div class="search-box">
+                                        <input type="search" class="form-control" autofocus @bind="FilterMainCreatedBy" @bind:event="oninput" placeholder="Created By..." @onkeyup="FilterMainRefresh" @onchange="FilterMainRefresh" />
+                                    </div>
+                                </ColumnOptions>
+                            </TemplateColumn>
+
+                            <TemplateColumn Title="Created Date" Sortable="true" SortBy="GridSort<MessageTemplateModel>.ByDescending(x => x.CreatedDate)">
+                                <ChildContent>
+                                    <div @onclick="()=>SelectMessageTemplate(context?.MessageTemplateID)" class="@(context?.MessageTemplateID == selectedMessageTemplate?.MessageTemplateID ? "SelectedRow" : "")">
+                                        <div class="col-justify-start">@(context?.CreatedDate == null? "" : context?.CreatedDate.Value.ToString("dd/MM/yyyy"))</div>
+                                    </div>
+                                </ChildContent>
+                                <ColumnOptions>
+                                    <div class="search-box">
+                                        <input type="date" class="form-control" autofocus @bind="FilterMainCreatedDate" @bind:event="oninput" @onkeyup="FilterMainRefresh" @onchange="FilterMainRefresh" />
+                                    </div>
+                                </ColumnOptions>
+                            </TemplateColumn>
+
+                            <TemplateColumn Title="Last Updated By" Sortable="true" SortBy="GridSort<MessageTemplateModel>.ByDescending(x => x.LastUpdatedBy)">
+                                <ChildContent>
+                                    <div @onclick="()=>SelectMessageTemplate(context?.MessageTemplateID)" class="@(context?.MessageTemplateID == selectedMessageTemplate?.MessageTemplateID ? "SelectedRow" : "")">
+                                        <div class="col-justify-start">@context.LastUpdatedBy</div>
+                                    </div>
+                                </ChildContent>
+                                <ColumnOptions>
+                                    <div class="search-box">
+                                        <input type="search" class="form-control" autofocus @bind="FilterMainLastUpdatedBy" @bind:event="oninput" placeholder="Last Updated By..." @onkeyup="FilterMainRefresh" @onchange="FilterMainRefresh" />
+                                    </div>
+                                </ColumnOptions>
+                            </TemplateColumn>
+
+                            <TemplateColumn Title="Last Updated Date" Sortable="true" SortBy="GridSort<MessageTemplateModel>.ByDescending(x => x.LastUpdatedDate)">
+                                <ChildContent>
+                                    <div @onclick="()=>SelectMessageTemplate(context?.MessageTemplateID)" class="@(context?.MessageTemplateID == selectedMessageTemplate?.MessageTemplateID ? "SelectedRow" : "")">
+                                        <div class="col-justify-start">@(context?.CreatedDate == null ? "" : context?.CreatedDate.Value.ToString("dd/MM/yyyy"))</div>
+                                    </div>
+                                </ChildContent>
+                                <ColumnOptions>
+                                    <div class="search-box">
+                                        <input type="date" class="form-control" autofocus @bind="FilterMainLastUpdatedDate" @bind:event="oninput" @onkeyup="FilterMainRefresh" @onchange="FilterMainRefresh" />
+                                    </div>
+                                </ColumnOptions>
+                            </TemplateColumn>
+
+                        </QuickGrid>
+                    </div>
+                </div>
+                <div class="alert alert-secondary" role="alert">
+                    <div class="row">
+                        <div class="col-md">
+                            <div class="d-grid gap-2 d-md-block text-start">
+                                <button type="button" class="btn btn-primary me-md-3" @onclick="()=>EditMessageTemplate(null)"><i class="fa-solid fa-square-plus"></i> New...</button>
+                                <button type="button" class="btn btn-danger me-md-3" @onclick="DeleteMessageTemplateConfirm" disabled="@(selectedMessageTemplate?.MessageTemplateID == 0 ? true : false)"><i class="fa-solid fa-trash-can"></i> Delete...</button>
+                                @if (selectedMessageTemplate?.MessageTemplateID > 0) {
+                                    <span>1 Record Selected</span>
+                                }
+                            </div>
+                        </div>
+                        <div class="col-md text-end">
+
+                            @if (FiltersMain.Count > 0)
+                            {
+                                <div class="col-md text-end fw-bold text-primary">
+                                    @FilteredMessageTemplates?.Count() Records (Filtered)
+                                </div>
+                            }
+                            else {
+                                <div class="col-md text-end">
+                                    @FilteredMessageTemplates?.Count() Records
+                                </div>
+                            }
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <Modal @ref="modalMessageTemplate">
+        <Title>
+            @if (@selectedMessageTemplate?.MessageTemplateID > 0)
+            {
+                @:<i class="fa-solid fa-message"></i> Message Template @selectedMessageTemplate?.MessageTemplateID
+            }
+            else {
+                @:<i class="fa-solid fa-message"></i> New Message Template
+            }
+        </Title>
+        <Body>
+            <EditForm FormName="MessageTemplateForm" Model="selectedMessageTemplate" OnValidSubmit="() => SaveMessageTemplate(true)">
+                <FluentValidationValidator @ref="_fluentValidationValidator" />
+                <div class="bd-callout bd-callout-primary bd-callout-grey GreyBackground">
+                    <div class="container">
+
+                        @if (selectedMessageTemplate == null) {
+                            <div class="row">
+                                <div class="col-md">
+                                    <div class="alert alert-primary text-center" role="alert">
+                                        <h1>
+                                            <i class="fa-solid fa-spinner fa-spin"></i> Loading ...
+                                        </h1>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        else {
+
+                            <div class="row g-3 mb-3">
+                                <div class="col-md-4">
+                                    <label class="col-form-label"><i class="fa-solid fa-angles-right"></i> Code</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <InputText @bind-Value="selectedMessageTemplate!.Code" class="form-control" />
+                                    <ValidationMessage For="@(() => selectedMessageTemplate!.Code)" />
+                                </div>
+                            </div>
+
+                            <div class="row g-3 mb-3">
+                                <div class="col-md-4">
+                                    <label class="col-form-label"><i class="fa-solid fa-angles-right"></i> Name</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <InputText @bind-Value="selectedMessageTemplate!.Name" class="form-control" />
+                                    <ValidationMessage For="@(() => selectedMessageTemplate!.Name)" />
+                                </div>
+                            </div>
+
+                            <div class="row g-3 mb-3">
+                                <div class="col-md">
+                                    Template Text
+                                </div>
+                            </div>
+                            <div class="row g-3 mb-3">
+                                <div class="col-md">
+                                    <Editor ScriptSrc="./lib/tinymce/tinymce.min.js" @bind-Value="selectedMessageTemplate!.TemplateContent" Field="() => selectedMessageTemplate!.TemplateContent" LicenseKey="gpl" />
+                                    @* <InputTextArea @bind-Value="selectedMessageTemplate!.TemplateContent" class="form-control" /> *@
+                                    <ValidationMessage For="@(() => selectedMessageTemplate!.TemplateContent)" />
+                                </div>
+                            </div>
+
+                            <div class="row g-3 mb-3">
+                                <div class="col-md-4">
+                                    <label class="col-form-label"><i class="fa-solid fa-angles-right"></i> Name</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <InputText @bind-Value="selectedMessageTemplate!.Name" class="form-control" />
+                                    <ValidationMessage For="@(() => selectedMessageTemplate!.Name)" />
+                                </div>
+                            </div>
+
+                            <div class="row g-3 mb-3">
+                                <div class="col-md-4">
+                                    <label class="col-form-label"><i class="fa-solid fa-angles-right"></i> Sequence</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <InputNumber @bind-Value="selectedMessageTemplate!.Sequence" class="form-control" />
+                                    <ValidationMessage For="@(() => selectedMessageTemplate!.Sequence)" />
+                                </div>
+                            </div>
+
+                            <div class="row g-3 mb-3">
+                                <div class="col-md-4">
+                                    <label class="col-form-label"><i class="fa-solid fa-angles-right"></i> Is Enabled</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="d-grid gap-2 d-md-block">
+                                        <button type="button" class="btn @(selectedMessageTemplate!.IsEnabled == true? "btn-primary" : "btn-outline-primary") YesNoButton me-md-3" @onclick="(e) => ToggleMessageTemplateIsEnabled()"><i class="@(selectedMessageTemplate!.IsEnabled == true? "fa-solid fa-square-check" : "fa-regular fa-square")"></i></button>
+                                    </div>
+                                    <ValidationMessage For="@(() => selectedMessageTemplate!.IsEnabled)" />
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <ValidationSummary />
+
+            </EditForm>
+        </Body>
+        <Footer>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" @onclick="() => AdvanceToMessageTemplate(-1)"><i class="fa-solid fa-square-caret-left"></i></button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" @onclick="() => AdvanceToMessageTemplate(1)"><i class="fa-solid fa-square-caret-right"></i></button>
+            <button type="button" class="btn btn-success" data-dismiss="modal" @onclick="() => SaveMessageTemplate(true)"><i class="fa-solid fa-floppy-disk"></i> Save and Close</button>
+            <button type="button" class="btn btn-primary" data-dismiss="modal" @onclick="() => SaveMessageTemplate(false)"><i class="fa-solid fa-floppy-disk"></i> Save</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal" @onclick="CancelMessageTemplateConfirm"><i class="fa-solid fa-rotate-left"></i> Cancel</button>
+        </Footer>
+    </Modal>
+}
+
+@code {
+    [Parameter]
+    public int? MessageTemplateID { get; set; }
+
+    public string? action { get; set; }
+    public string? soundEffect { get; set; }
+
+    private Modal? modalInfo { get; set; }
+    public string? msgInfoTitle = null;
+    public MarkupString? msgInfo = null;
+
+    private Modal? modalError { get; set; }
+    public string? msgErrorTitle = null;
+    public MarkupString? msgError = null;
+    public string? msgErrorStackTrace = null;
+
+    private Modal? modalConfirm { get; set; }
+    public string? msgConfirmTitle = null;
+    public MarkupString? msgConfirm = null;
+
+    public string? loadDataErrorMsg = null;
+
+    private List<MessageTemplateModel>? messageTemplates { get; set; }
+
+    [SupplyParameterFromForm]
+    public MessageTemplateModel? selectedMessageTemplate { get; set; } = new MessageTemplateModel();
+
+    private FluentValidationValidator? _fluentValidationValidator;
+
+    private IQueryable<MessageTemplateModel>? FilteredMessageTemplates =>
+        (messageTemplates)?.AsQueryable()
+        .Where(
+            t => 
+            (FilterMainMessageTemplateID == null ? true : t.MessageTemplateID == (FilterMainMessageTemplateID ?? t.MessageTemplateID))
+            && (FilterMainCode == null ? true : (t.Code ?? string.Empty).Contains(FilterMainCode, StringComparison.CurrentCultureIgnoreCase))
+            && (FilterMainName == null ? true : (t.Name ?? string.Empty).Contains(FilterMainName, StringComparison.CurrentCultureIgnoreCase))
+            && (FilterMainTemplateContent == null ? true : (t.TemplateContent ?? string.Empty).Contains(FilterMainTemplateContent, StringComparison.CurrentCultureIgnoreCase))
+            && (FilterMainSequence == null ? true : t.Sequence == FilterMainSequence)
+            && (FilterMainIsEnabled == null ? true : t.IsEnabled == FilterMainIsEnabled)
+            && (FilterMainCreatedBy == null ? true : (t.CreatedBy ?? string.Empty).Contains(FilterMainCreatedBy, StringComparison.CurrentCultureIgnoreCase))
+            && (FilterMainCreatedDate == null ? true : DateOnly.FromDateTime(t.CreatedDate ?? DateTime.MinValue) == DateOnly.FromDateTime((DateTime)(FilterMainCreatedDate ?? t.CreatedDate)!))
+            && (FilterMainLastUpdatedBy == null ? true : (t.LastUpdatedBy ?? string.Empty).Contains(FilterMainLastUpdatedBy, StringComparison.CurrentCultureIgnoreCase))
+            && (FilterMainLastUpdatedDate == null ? true : DateOnly.FromDateTime(t.LastUpdatedDate ?? DateTime.MinValue) == DateOnly.FromDateTime((DateTime)(FilterMainLastUpdatedDate ?? t.LastUpdatedDate)!))
+        );
+
+    List<string> FiltersMain = new List<string>();
+    int? FilterMainMessageTemplateID;
+    string FilterMainCode = string.Empty;
+    string FilterMainName = string.Empty;
+    string FilterMainTemplateContent = string.Empty;
+    int? FilterMainSequence;
+    bool? FilterMainIsEnabled;
+    string FilterMainCreatedBy = string.Empty;
+    DateTime? FilterMainCreatedDate;
+    string FilterMainLastUpdatedBy = string.Empty;
+    DateTime? FilterMainLastUpdatedDate;
+
+    private string? messageTemplateEndPoint;
+
+    private Modal? modalMessageTemplate { get; set; }
+
+    protected override async Task OnInitializedAsync() 
+    {
+        messageTemplateEndPoint = $"{configuration["APIEndpoint"]}/MessageTemplate";
+
+        try
+        {
+            messageTemplates = await Http.GetFromJsonAsync<List<MessageTemplateModel>>(messageTemplateEndPoint);
+        }
+        catch (HttpRequestException ex)
+        {
+            HandleJsonException(ex, "MessageTemplate", MessageTemplateID.ToString() ?? "");
+        }
+    }
+
+    private void FilterMainRefresh()
+    {
+        FiltersMain.Clear();
+
+        if (FilterMainMessageTemplateID != null)
+        {
+            FiltersMain.Add($"ID: '{FilterMainMessageTemplateID.ToString()}'");
+        }
+        if (FilterMainCode.Length > 0)
+        {
+            FiltersMain.Add($"Code: '{FilterMainCode}'");
+        }
+        if (FilterMainName.Length > 0)
+        {
+            FiltersMain.Add($"Name: '{FilterMainName}'");
+        }
+        if (FilterMainTemplateContent.Length > 0)
+        {
+            FiltersMain.Add($"Template Content: '{FilterMainTemplateContent}'");
+        }
+        if (FilterMainSequence != null)
+        {
+            FiltersMain.Add($"Sequence: '{FilterMainSequence.ToString()}'");
+        }
+        if (FilterMainIsEnabled != null)
+        {
+            FiltersMain.Add($"Accepted: '{((bool)(FilterMainIsEnabled = true) ? "Y" : "N")}'");
+        }
+        if (FilterMainCreatedBy.Length > 0)
+        {
+            FiltersMain.Add($"Created By: '{FilterMainCreatedBy}'");
+        }
+        if (FilterMainCreatedDate != null)
+        {
+            FiltersMain.Add($"Created Date: '{((DateTime)FilterMainCreatedDate).ToString("dd/MM/yyyy")}'");
+        }
+        if (FilterMainLastUpdatedBy.Length > 0)
+        {
+            FiltersMain.Add($"Last Updated By: '{FilterMainLastUpdatedBy}'");
+        }
+        if (FilterMainLastUpdatedDate != null)
+        {
+            FiltersMain.Add($"Last Updated Date: '{((DateTime)FilterMainLastUpdatedDate).ToString("dd/MM/yyyy")}'");
+        }
+    }
+
+    private void FilterMainClear()
+    {
+        FilterMainMessageTemplateID = null;
+        FilterMainCode = string.Empty;
+        FilterMainName = string.Empty;
+        FilterMainTemplateContent = string.Empty;
+        FilterMainSequence = null;
+        FilterMainIsEnabled = null;
+        FilterMainCreatedBy = string.Empty;
+        FilterMainCreatedDate = null;
+        FilterMainLastUpdatedBy = string.Empty;
+        FilterMainLastUpdatedDate = null;
+
+        FiltersMain.Clear();
+    }
+
+    public void ToggleFilterMainIsEnabled()
+    {
+        if (FilterMainIsEnabled == null)
+        {
+            FilterMainIsEnabled = true;
+        }
+        else if (FilterMainIsEnabled == true)
+        {
+            FilterMainIsEnabled = false;
+        }
+        else if (FilterMainIsEnabled == false)
+        {
+            FilterMainIsEnabled = null;
+        }
+
+        FilterMainRefresh();
+    }
+
+    private async Task FormAction()
+    {
+        //Determine what clear form button should do on dialog box
+
+        if (action == "ClearFormConfirm")
+        {
+            ClearForm();
+        }
+        else if (action == "CancelMessageTemplateConfirm")
+        {
+            CancelMessageTemplate();
+        }
+        else if (action == "DeleteMessageTemplateConfirm")
+        {
+            await DeleteMessageTemplate();
+        }  
+        else
+        {
+            action = "Error";
+            soundEffect = "sounds/error.mp3";
+
+            msgErrorTitle = $"Invalid Action";
+            msgError = (MarkupString)$"An invalid option was specified. Please try again.";
+            msgErrorStackTrace = null;
+
+            modalError!.Open();
+        }
+    }
+
+    private void ClearFormConfirm()
+    {
+        action = "ClearFormConfirm";
+        soundEffect = "sounds/prompt.mp3";
+
+        msgConfirmTitle = $"Clear Form?";
+        msgConfirm = (MarkupString)$"Are you sure you want to clear all information on this form?";
+
+        modalConfirm!.Open();
+    }
+
+    private void ClearForm()
+    {
+        action = "ClearForm";
+
+        selectedMessageTemplate = new MessageTemplateModel();
+
+        modalConfirm!.Close();
+    }
+
+    private MessageTemplateModel? GetMessageTemplate(int messageTemplateID)
+    {
+        return messageTemplates?.Where(t => t.MessageTemplateID == messageTemplateID).FirstOrDefault();
+    }
+
+    private void SelectMessageTemplate(int? messageTemplateID)
+    {
+        if (messageTemplateID != null && messageTemplateID > 0)
+        {
+            selectedMessageTemplate = GetMessageTemplate(messageTemplateID ?? 0);
+        }
+        else
+        {
+            selectedMessageTemplate = new MessageTemplateModel();
+        }
+    }
+
+    public void AdvanceToMessageTemplate(int numRecords)
+    {
+        int? currentRecordID = selectedMessageTemplate?.MessageTemplateID;
+        MessageTemplateModel? nextRecord = new MessageTemplateModel();
+
+        if (numRecords > 0) 
+        {
+            nextRecord =
+            FilteredMessageTemplates?
+            .SkipWhile(obj => obj.MessageTemplateID != currentRecordID)
+            .Skip(numRecords)
+            .FirstOrDefault();
+        }
+        else if (numRecords < 0)
+        {
+            int numRecordsBack = Math.Abs(numRecords);
+            nextRecord =
+                FilteredMessageTemplates?
+                .Reverse()
+                .SkipWhile(obj => obj.MessageTemplateID != currentRecordID)
+                .Skip(numRecordsBack)
+                .FirstOrDefault();
+        }
+
+        if (nextRecord != null)
+        {
+            if (nextRecord?.MessageTemplateID != null)
+            {
+                selectedMessageTemplate = nextRecord;
+            }
+        }
+    }
+
+    private void EditMessageTemplate(int? messageTemplateID)
+    {
+        SelectMessageTemplate(messageTemplateID);
+
+        if (selectedMessageTemplate != null)
+        {
+            modalMessageTemplate!.MakeLarge();
+            modalMessageTemplate!.Open();
+        }
+        else
+        {
+            action = "Error";
+            soundEffect = "sounds/error.mp3";
+
+            msgErrorTitle = $"Cannot Load Message Template {messageTemplateID}";
+            msgError = (MarkupString)$"Unfortunately the message template could not be loaded due to an error.<br />Please try again.";
+            msgErrorStackTrace = null;
+
+            modalError!.Open();
+        }
+    }
+
+    private async Task SaveMessageTemplate(bool? CloseDialogAfterSave)
+    {
+        string? saveEndPoint;
+
+        if (await _fluentValidationValidator!.ValidateAsync())
+        {
+            Logger.LogInformation("Id = {Id}", selectedMessageTemplate?.MessageTemplateID);
+
+            try
+            {
+                if (selectedMessageTemplate != null)
+                {
+                    HttpResponseMessage formResponse = new HttpResponseMessage();
+
+                    if (selectedMessageTemplate?.MessageTemplateID > 0) {
+                        //Update existing record
+                        saveEndPoint = $"{configuration["APIEndpoint"]}/MessageTemplate/{selectedMessageTemplate?.MessageTemplateID}";
+                        formResponse = await Http.PutAsJsonAsync<MessageTemplateModel>(saveEndPoint, selectedMessageTemplate!);
+                    }
+                    else 
+                    {
+                        //Insert new record
+                        saveEndPoint = $"{configuration["APIEndpoint"]}/MessageTemplate";
+                        formResponse = await Http.PostAsJsonAsync<MessageTemplateModel>(saveEndPoint, selectedMessageTemplate!);
+                    }
+
+                    if (formResponse.IsSuccessStatusCode != true)
+                    {
+                        string responseBody = await formResponse.Content.ReadAsStringAsync();
+                        action = "Error";
+                        soundEffect = "sounds/error.mp3";
+
+                        msgErrorTitle = $"Cannot Save Message Template Record";
+                        msgError = (MarkupString)$"Unfortunately the Message Template Record could not be saved successfully due to an error.<br />Please check your network connection and attempt to save again.";
+                        msgErrorStackTrace = responseBody;
+
+                        modalError!.Open();
+                    }
+                    else
+                    {
+                        soundEffect = "sounds/confirm.mp3";
+
+                        if (selectedMessageTemplate?.MessageTemplateID > 0)
+                        {
+                            //Update existing record
+                            if (CloseDialogAfterSave == true)
+                            {
+                                CloseMessageTemplate();
+                            }
+                        }
+                        else 
+                        {
+                            //Insert new record
+
+                            //Get ID of newly inserted record and add new item to model so shows on screen
+                            MessageTemplateModel insertedMessageTemplate = await formResponse.Content.ReadFromJsonAsync<MessageTemplateModel>() ?? new MessageTemplateModel();
+
+                            if (insertedMessageTemplate.MessageTemplateID > 0)
+                            {
+                                messageTemplates?.Add(insertedMessageTemplate);
+
+                                if (CloseDialogAfterSave == true)
+                                {
+                                    CloseMessageTemplate();
+                                }
+                            }
+                            else
+                            {
+                                action = "Error";
+                                soundEffect = "sounds/error.mp3";
+
+                                msgErrorTitle = $"Cannot Save Message Template Record";
+                                msgError = (MarkupString)$"Unfortunately the Message Template Record could not be saved successfully due to an error.<br />Please check your network connection and attempt to save again.";
+                                msgErrorStackTrace = null;
+
+                                modalError!.Open();
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    action = "Error";
+                    soundEffect = "sounds/error.mp3";
+
+                    msgErrorTitle = $"Cannot Save Message Template Record";
+                    msgError = (MarkupString)$"Unfortunately the Message Template Record could not be saved successfully due to an error.<br />Please check your network connection and attempt to save again.";
+                    msgErrorStackTrace = null;
+
+                    modalError!.Open();
+                }
+
+            }
+            catch (HttpRequestException ex)
+            {
+                HandleJsonException(ex, "MessageTemplate", selectedMessageTemplate?.MessageTemplateID.ToString() ?? "0");
+            }
+        }
+    }
+
+    private void DeleteMessageTemplateConfirm()
+    {
+        if (selectedMessageTemplate?.MessageTemplateID > 0)
+        {
+            action = "DeleteMessageTemplateConfirm";
+            soundEffect = "sounds/prompt.mp3";
+
+            msgConfirmTitle = $"Confirm Delete?";
+            msgConfirm = (MarkupString)$"Are you sure you want to delete the message template named \"{selectedMessageTemplate.Name}\"?";
+
+            modalConfirm!.OpenOnTop1();
+        }
+        else
+        {
+            action = "Error";
+            soundEffect = "sounds/error.mp3";
+
+            msgErrorTitle = $"No Message Template Selected";
+            msgError = (MarkupString)$"Please select a message template first before pressing the Delete button or if try to select one again if one had been selected.";
+            msgErrorStackTrace = null;
+
+            modalError!.Open();
+        }
+    }
+
+    private async Task DeleteMessageTemplate()
+    {
+        string? deleteEndPoint;
+
+        Logger.LogInformation("Id = {Id}", selectedMessageTemplate?.MessageTemplateID);
+
+        modalConfirm!.Close();
+
+        try
+        {
+            if (selectedMessageTemplate != null)
+            {
+                MessageTemplateModel formResponse = new MessageTemplateModel();
+
+                if (selectedMessageTemplate?.MessageTemplateID > 0)
+                {
+                    deleteEndPoint = $"{configuration["APIEndpoint"]}/MessageTemplate/{selectedMessageTemplate?.MessageTemplateID}";
+                    formResponse = await Http.DeleteFromJsonAsync<MessageTemplateModel>(deleteEndPoint) ?? new MessageTemplateModel();
+
+                    if (formResponse.MessageTemplateID > 0)
+                    {
+                        //Remove record from screen as well
+                        messageTemplates?.Remove(selectedMessageTemplate!);
+                    }
+                    else
+                    {
+                        action = "Error";
+                        soundEffect = "sounds/error.mp3";
+
+                        msgErrorTitle = $"Cannot Delete Message Template Record";
+                        msgError = (MarkupString)$"Unfortunately the Message Template Record could not be deleted successfully due to an error.<br />Please check your network connection and attempt to save again.";
+                        msgErrorStackTrace = null;
+
+                        modalError!.Open();
+                    }
+                }
+                else
+                {
+                    action = "Error";
+                    soundEffect = "sounds/error.mp3";
+
+                    msgErrorTitle = $"No Message Template Selected";
+                    msgError = (MarkupString)$"Please select a message template first before pressing the Delete button or if try to select one again if one had been selected.";
+                    msgErrorStackTrace = null;
+
+                    modalError!.Open();
+                }
+            }
+            else
+            {
+                action = "Error";
+                soundEffect = "sounds/error.mp3";
+
+                msgErrorTitle = $"Cannot Save Message Template Record";
+                msgError = (MarkupString)$"Unfortunately the Message Template Record could not be saved successfully due to an error.<br />Please check your network connection and attempt to save again.";
+                msgErrorStackTrace = null;
+
+                modalError!.Open();
+            }
+
+        }
+        catch (HttpRequestException ex)
+        {
+            HandleJsonException(ex, "MessageTemplate", selectedMessageTemplate?.MessageTemplateID.ToString() ?? "0");
+        }
+    }
+
+    private void CancelMessageTemplateConfirm()
+    {
+        action = "CancelMessageTemplateConfirm";
+        soundEffect = "sounds/prompt.mp3";
+
+        msgConfirmTitle = $"Confirm Cancel?";
+        msgConfirm = (MarkupString)$"Are you sure you want to cancel and lose any changes made?";
+
+        modalConfirm!.OpenOnTop1();
+    }
+
+    private void CancelMessageTemplate()
+    {
+        CloseMessageTemplate();
+    }
+
+    private void CloseMessageTemplate()
+    {
+        selectedMessageTemplate = new MessageTemplateModel();
+        modalMessageTemplate!.Close();
+        modalConfirm!.Close();
+    }
+
+    public void ToggleMessageTemplateIsEnabled()
+    {
+        if (selectedMessageTemplate != null)
+        {
+            if (selectedMessageTemplate.IsEnabled == true)
+            {
+                selectedMessageTemplate.IsEnabled = false;
+            }
+            else
+            {
+                selectedMessageTemplate.IsEnabled = true;
+            }
+        }
+    }
+
+    private void HandleJsonException(HttpRequestException ex, string objectName, string objectID)
+    {
+        if (ex.Message.Contains(HttpStatusCode.Unauthorized.ToString()))
+        {
+            loadDataErrorMsg = $"You are not authorised to view this page";
+
+            //Redirect to login screen
+            NavManager.NavigateTo($"Login/Vehicles");
+        }
+        else if (ex.Message.Contains("404 (Not Found)"))
+        {
+            loadDataErrorMsg = $"The {objectName} \"{objectID}\" is not found";
+        }
+        else if (ex.Message.Contains("400 (Bad Request)"))
+        {
+            loadDataErrorMsg = $"The {objectName} \"{objectID}\" resulted in an invalid request";
+        }
+        else
+        {
+            loadDataErrorMsg = $"Error: {ex.Message}";
+        }
+    }
+}

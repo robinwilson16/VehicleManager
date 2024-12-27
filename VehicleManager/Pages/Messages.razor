@@ -1,0 +1,665 @@
+﻿@page "/Messages"
+@page "/Messages/{MessageID}"
+
+@using VehicleManager.Models
+@using VehicleManager.Services
+@using System.Net
+@using Microsoft.AspNetCore.Components.QuickGrid
+@using TinyMCE.Blazor
+
+@inject HttpClient Http
+@inject IConfiguration configuration
+@inject NavigationManager NavManager
+@inject ILogger<MessageTemplateModel> Logger
+@inject AppData appData
+
+<PageTitle>Messages @@ Broken Motor</PageTitle>
+
+<audio src="@soundEffect" autoplay></audio>
+
+<Modal @ref="modalInfo">
+    <Title><i class="fa-solid fa-circle-info"></i> @msgInfoTitle</Title>
+    <Body>
+        <p>
+            @msgInfo
+        </p>
+    </Body>
+    <Footer>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" @onclick="() => modalError!.Close()">Close</button>
+    </Footer>
+</Modal>
+
+<Modal @ref="modalError">
+    <Title><i class="fa-solid fa-triangle-exclamation"></i> @msgErrorTitle</Title>
+    <Body>
+        <div class="alert alert-danger" role="alert">
+            @msgError
+        </div>
+        @if (msgErrorStackTrace != null)
+        {
+            <p><i class="fa-solid fa-bug"></i> Stack Trace:</p>
+            <pre class="pre-scrollable ErrorDetails">@msgErrorStackTrace</pre>
+        }
+    </Body>
+    <Footer>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" @onclick="() => modalError!.Close()">Close</button>
+    </Footer>
+</Modal>
+
+<Modal @ref="modalConfirm">
+    <Title><i class="fa-solid fa-circle-question"></i> @msgConfirmTitle</Title>
+    <Body>
+        <p>
+            @msgConfirm
+        </p>
+    </Body>
+    <Footer>
+        <button type="button" class="btn btn-danger" @onclick="FormAction"><i class="fa-solid fa-trash"></i> Yes</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" @onclick="() => modalConfirm!.Close()"><i class="fa-solid fa-right-from-bracket"></i> Cancel</button>
+    </Footer>
+</Modal>
+
+<h3><i class="fa-solid fa-envelopes-bulk"></i> Messages</h3>
+
+@if (loadDataErrorMsg != null) 
+{
+    <div class="container">
+        <div class="row">
+            <div class="col-md">
+                <div class="alert alert-danger hstack gap-3" role="alert">
+                    <div>
+                        <h1><i class="fa-solid fa-triangle-exclamation"></i></h1>
+                    </div>
+                    <div>
+                        <p>
+                            @loadDataErrorMsg
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else if(messages == null) {
+    <div class="container">
+        <div class="row">
+            <div class="col-md">
+                <div class="alert alert-primary text-center" role="alert">
+                    <h1>
+                        <i class="fa-solid fa-spinner fa-spin"></i> Loading ...
+                    </h1>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else {
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md">
+                <div class="alert alert-primary" role="alert">
+                    @if (FiltersMain.Count > 0)
+                    {
+                        <button type="button" class="btn btn-primary btn-sm me-3" @onclick="@FilterMainClear">Filters (Clear) <i class="fa-solid fa-filter-circle-xmark"></i></button>
+
+                        int filterNumber = 0;
+                        @foreach (var filter in FiltersMain)
+                        {
+                            filterNumber += 1;
+
+                            @if (filterNumber > 1) {
+                                <span class="ps-3 pe-3">|</span>
+                            }
+                            <span>@filter</span>
+                        }
+                    }
+                </div>
+                <div class="TableContainer">
+                    <div class="table-responsive">
+                        <QuickGrid Items="@FilteredMessages" Virtualize="true" Class="table table-striped table-hover table-bordered" TGridItem="MessageModel">
+
+                            <TemplateColumn Title="" Sortable="true" SortBy="GridSort<MessageModel>.ByDescending(x => x.MessageID)">
+                                <button type="button" class="btn btn-primary btn-sm" @onclick="()=>EditMessage(context.MessageID)"><i class="fa-solid fa-up-right-from-square"></i></button>
+                            </TemplateColumn>
+
+                            <TemplateColumn Title="ID" Sortable="true" SortBy="GridSort<MessageModel>.ByDescending(x => x.MessageID)">
+                                <ChildContent>
+                                    <div @onclick="()=>SelectMessage(context?.MessageID)" class="@(context?.MessageID == selectedMessage?.MessageID ? "SelectedRow" : "")">
+                                        <div class="col-justify-start">@context.MessageID</div>
+                                    </div>
+                                </ChildContent>
+                                <ColumnOptions>
+                                    <div class="search-box">
+                                        <input type="number" class="form-control" autofocus @bind="FilterMainMessageID" @bind:event="oninput" @onkeyup="FilterMainRefresh" @onchange="FilterMainRefresh" />
+                                    </div>
+                                </ColumnOptions>
+                            </TemplateColumn>
+
+                        </QuickGrid>
+                    </div>
+                </div>
+                <div class="alert alert-secondary" role="alert">
+                    <div class="row">
+                        <div class="col-md">
+                            <div class="d-grid gap-2 d-md-block text-start">
+                                <button type="button" class="btn btn-primary me-md-3" @onclick="()=>EditMessage(null)"><i class="fa-solid fa-square-plus"></i> New...</button>
+                                <button type="button" class="btn btn-danger me-md-3" @onclick="DeleteMessageConfirm" disabled="@(selectedMessage?.MessageID == 0 ? true : false)"><i class="fa-solid fa-trash-can"></i> Delete...</button>
+                                @if (selectedMessage?.MessageID > 0) {
+                                    <span>1 Record Selected</span>
+                                }
+                            </div>
+                        </div>
+                        <div class="col-md text-end">
+
+                            @if (FiltersMain.Count > 0)
+                            {
+                                <div class="col-md text-end fw-bold text-primary">
+                                    @FilteredMessages?.Count() Records (Filtered)
+                                </div>
+                            }
+                            else {
+                                <div class="col-md text-end">
+                                    @FilteredMessages?.Count() Records
+                                </div>
+                            }
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <Modal @ref="modalMessage">
+        <Title>
+            @if (@selectedMessage?.MessageID > 0)
+            {
+                @:<i class="fa-solid fa-message"></i> Message @selectedMessage?.MessageID
+            }
+            else {
+                @:<i class="fa-solid fa-message"></i> New Message
+            }
+        </Title>
+        <Body>
+            <EditForm FormName="MessageForm" Model="selectedMessage" OnValidSubmit="() => SaveMessage(true)">
+                <FluentValidationValidator @ref="_fluentValidationValidator" />
+                <div class="bd-callout bd-callout-primary bd-callout-grey GreyBackground">
+                    <div class="container">
+
+                        @if (selectedMessage == null) {
+                            <div class="row">
+                                <div class="col-md">
+                                    <div class="alert alert-primary text-center" role="alert">
+                                        <h1>
+                                            <i class="fa-solid fa-spinner fa-spin"></i> Loading ...
+                                        </h1>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        else {
+
+                            <div class="row g-3 mb-3">
+                                <div class="col-md-4">
+                                    <label class="col-form-label"><i class="fa-solid fa-angles-right"></i> Subject</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <InputText @bind-Value="selectedMessage!.Subject" class="form-control" />
+                                    <ValidationMessage For="@(() => selectedMessage!.Subject)" />
+                                </div>
+                            </div>
+
+                        }
+                    </div>
+                </div>
+
+                <ValidationSummary />
+
+            </EditForm>
+        </Body>
+        <Footer>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" @onclick="() => AdvanceToMessage(-1)"><i class="fa-solid fa-square-caret-left"></i></button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" @onclick="() => AdvanceToMessage(1)"><i class="fa-solid fa-square-caret-right"></i></button>
+            <button type="button" class="btn btn-success" data-dismiss="modal" @onclick="() => SaveMessage(true)"><i class="fa-solid fa-floppy-disk"></i> Save and Close</button>
+            <button type="button" class="btn btn-primary" data-dismiss="modal" @onclick="() => SaveMessage(false)"><i class="fa-solid fa-floppy-disk"></i> Save</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal" @onclick="CancelMessageConfirm"><i class="fa-solid fa-rotate-left"></i> Cancel</button>
+        </Footer>
+    </Modal>
+}
+
+@code {
+    [Parameter]
+    public int? MessageID { get; set; }
+
+    public string? action { get; set; }
+    public string? soundEffect { get; set; }
+
+    private Modal? modalInfo { get; set; }
+    public string? msgInfoTitle = null;
+    public MarkupString? msgInfo = null;
+
+    private Modal? modalError { get; set; }
+    public string? msgErrorTitle = null;
+    public MarkupString? msgError = null;
+    public string? msgErrorStackTrace = null;
+
+    private Modal? modalConfirm { get; set; }
+    public string? msgConfirmTitle = null;
+    public MarkupString? msgConfirm = null;
+
+    public string? loadDataErrorMsg = null;
+
+    private List<MessageModel>? messages { get; set; }
+
+    [SupplyParameterFromForm]
+    public MessageModel? selectedMessage { get; set; } = new MessageModel();
+
+    private FluentValidationValidator? _fluentValidationValidator;
+
+    private IQueryable<MessageModel>? FilteredMessages =>
+        (messages)?.AsQueryable()
+        .Where(
+            t => 
+            (FilterMainMessageID == null ? true : t.MessageID == (FilterMainMessageID ?? t.MessageID))
+
+        );
+
+    List<string> FiltersMain = new List<string>();
+    int? FilterMainMessageID;
+    
+
+    private string? messageEndPoint;
+
+    private Modal? modalMessage { get; set; }
+
+    protected override async Task OnInitializedAsync() 
+    {
+        messageEndPoint = $"{configuration["APIEndpoint"]}/Message";
+
+        try
+        {
+            messages = await Http.GetFromJsonAsync<List<MessageModel>>(messageEndPoint);
+        }
+        catch (HttpRequestException ex)
+        {
+            HandleJsonException(ex, "Message", MessageID.ToString() ?? "");
+        }
+    }
+
+    private void FilterMainRefresh()
+    {
+        FiltersMain.Clear();
+
+        if (FilterMainMessageID != null)
+        {
+            FiltersMain.Add($"ID: '{FilterMainMessageID.ToString()}'");
+        }
+        
+    }
+
+    private void FilterMainClear()
+    {
+        FilterMainMessageID = null;
+
+        FiltersMain.Clear();
+    }
+
+    private async Task FormAction()
+    {
+        //Determine what clear form button should do on dialog box
+
+        if (action == "ClearFormConfirm")
+        {
+            ClearForm();
+        }
+        else if (action == "CancelMessageConfirm")
+        {
+            CancelMessage();
+        }
+        else if (action == "DeleteMessageConfirm")
+        {
+            await DeleteMessage();
+        }  
+        else
+        {
+            action = "Error";
+            soundEffect = "sounds/error.mp3";
+
+            msgErrorTitle = $"Invalid Action";
+            msgError = (MarkupString)$"An invalid option was specified. Please try again.";
+            msgErrorStackTrace = null;
+
+            modalError!.Open();
+        }
+    }
+
+    private void ClearFormConfirm()
+    {
+        action = "ClearFormConfirm";
+        soundEffect = "sounds/prompt.mp3";
+
+        msgConfirmTitle = $"Clear Form?";
+        msgConfirm = (MarkupString)$"Are you sure you want to clear all information on this form?";
+
+        modalConfirm!.Open();
+    }
+
+    private void ClearForm()
+    {
+        action = "ClearForm";
+
+        selectedMessage = new MessageModel();
+
+        modalConfirm!.Close();
+    }
+
+    private MessageModel? GetMessage(int messageID)
+    {
+        return messages?.Where(t => t.MessageID == messageID).FirstOrDefault();
+    }
+
+    private void SelectMessage(int? messageID)
+    {
+        if (messageID != null && messageID > 0)
+        {
+            selectedMessage = GetMessage(messageID ?? 0);
+        }
+        else
+        {
+            selectedMessage = new MessageModel();
+        }
+    }
+
+    public void AdvanceToMessage(int numRecords)
+    {
+        int? currentRecordID = selectedMessage?.MessageID;
+        MessageModel? nextRecord = new MessageModel();
+
+        if (numRecords > 0) 
+        {
+            nextRecord =
+            FilteredMessages?
+            .SkipWhile(obj => obj.MessageID != currentRecordID)
+            .Skip(numRecords)
+            .FirstOrDefault();
+        }
+        else if (numRecords < 0)
+        {
+            int numRecordsBack = Math.Abs(numRecords);
+            nextRecord =
+                FilteredMessages?
+                .Reverse()
+                .SkipWhile(obj => obj.MessageID != currentRecordID)
+                .Skip(numRecordsBack)
+                .FirstOrDefault();
+        }
+
+        if (nextRecord != null)
+        {
+            if (nextRecord?.MessageID != null)
+            {
+                selectedMessage = nextRecord;
+            }
+        }
+    }
+
+    private void EditMessage(int? messageID)
+    {
+        SelectMessage(messageID);
+
+        if (selectedMessage != null)
+        {
+            modalMessage!.MakeLarge();
+            modalMessage!.Open();
+        }
+        else
+        {
+            action = "Error";
+            soundEffect = "sounds/error.mp3";
+
+            msgErrorTitle = $"Cannot Load Message {messageID}";
+            msgError = (MarkupString)$"Unfortunately the message could not be loaded due to an error.<br />Please try again.";
+            msgErrorStackTrace = null;
+
+            modalError!.Open();
+        }
+    }
+
+    private async Task SaveMessage(bool? CloseDialogAfterSave)
+    {
+        string? saveEndPoint;
+
+        if (await _fluentValidationValidator!.ValidateAsync())
+        {
+            Logger.LogInformation("Id = {Id}", selectedMessage?.MessageID);
+
+            try
+            {
+                if (selectedMessage != null)
+                {
+                    HttpResponseMessage formResponse = new HttpResponseMessage();
+
+                    if (selectedMessage?.MessageID > 0) {
+                        //Update existing record
+                        saveEndPoint = $"{configuration["APIEndpoint"]}/Message/{selectedMessage?.MessageID}";
+                        formResponse = await Http.PutAsJsonAsync<MessageModel>(saveEndPoint, selectedMessage!);
+                    }
+                    else 
+                    {
+                        //Insert new record
+                        saveEndPoint = $"{configuration["APIEndpoint"]}/Message";
+                        formResponse = await Http.PostAsJsonAsync<MessageModel>(saveEndPoint, selectedMessage!);
+                    }
+
+                    if (formResponse.IsSuccessStatusCode != true)
+                    {
+                        string responseBody = await formResponse.Content.ReadAsStringAsync();
+                        action = "Error";
+                        soundEffect = "sounds/error.mp3";
+
+                        msgErrorTitle = $"Cannot Save Message Record";
+                        msgError = (MarkupString)$"Unfortunately the Message Record could not be saved successfully due to an error.<br />Please check your network connection and attempt to save again.";
+                        msgErrorStackTrace = responseBody;
+
+                        modalError!.Open();
+                    }
+                    else
+                    {
+                        soundEffect = "sounds/confirm.mp3";
+
+                        if (selectedMessage?.MessageID > 0)
+                        {
+                            //Update existing record
+                            if (CloseDialogAfterSave == true)
+                            {
+                                CloseMessage();
+                            }
+                        }
+                        else 
+                        {
+                            //Insert new record
+
+                            //Get ID of newly inserted record and add new item to model so shows on screen
+                            MessageModel insertedMessage = await formResponse.Content.ReadFromJsonAsync<MessageModel>() ?? new MessageModel();
+
+                            if (insertedMessage.MessageID > 0)
+                            {
+                                messages?.Add(insertedMessage);
+
+                                if (CloseDialogAfterSave == true)
+                                {
+                                    CloseMessage();
+                                }
+                            }
+                            else
+                            {
+                                action = "Error";
+                                soundEffect = "sounds/error.mp3";
+
+                                msgErrorTitle = $"Cannot Save Message Record";
+                                msgError = (MarkupString)$"Unfortunately the Message Record could not be saved successfully due to an error.<br />Please check your network connection and attempt to save again.";
+                                msgErrorStackTrace = null;
+
+                                modalError!.Open();
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    action = "Error";
+                    soundEffect = "sounds/error.mp3";
+
+                    msgErrorTitle = $"Cannot Save Message Record";
+                    msgError = (MarkupString)$"Unfortunately the Message Record could not be saved successfully due to an error.<br />Please check your network connection and attempt to save again.";
+                    msgErrorStackTrace = null;
+
+                    modalError!.Open();
+                }
+
+            }
+            catch (HttpRequestException ex)
+            {
+                HandleJsonException(ex, "Message", selectedMessage?.MessageID.ToString() ?? "0");
+            }
+        }
+    }
+
+    private void DeleteMessageConfirm()
+    {
+        if (selectedMessage?.MessageID > 0)
+        {
+            action = "DeleteMessageConfirm";
+            soundEffect = "sounds/prompt.mp3";
+
+            msgConfirmTitle = $"Confirm Delete?";
+            msgConfirm = (MarkupString)$"Are you sure you want to delete the message with the Subject \"{selectedMessage.Subject}\" sent to {selectedMessage.To}?";
+
+            modalConfirm!.OpenOnTop1();
+        }
+        else
+        {
+            action = "Error";
+            soundEffect = "sounds/error.mp3";
+
+            msgErrorTitle = $"No Message Selected";
+            msgError = (MarkupString)$"Please select a message first before pressing the Delete button or if try to select one again if one had been selected.";
+            msgErrorStackTrace = null;
+
+            modalError!.Open();
+        }
+    }
+
+    private async Task DeleteMessage()
+    {
+        string? deleteEndPoint;
+
+        Logger.LogInformation("Id = {Id}", selectedMessage?.MessageID);
+
+        modalConfirm!.Close();
+
+        try
+        {
+            if (selectedMessage != null)
+            {
+                MessageModel formResponse = new MessageModel();
+
+                if (selectedMessage?.MessageID > 0)
+                {
+                    deleteEndPoint = $"{configuration["APIEndpoint"]}/Message/{selectedMessage?.MessageID}";
+                    formResponse = await Http.DeleteFromJsonAsync<MessageModel>(deleteEndPoint) ?? new MessageModel();
+
+                    if (formResponse.MessageID > 0)
+                    {
+                        //Remove record from screen as well
+                        messages?.Remove(selectedMessage!);
+                    }
+                    else
+                    {
+                        action = "Error";
+                        soundEffect = "sounds/error.mp3";
+
+                        msgErrorTitle = $"Cannot Delete Message Record";
+                        msgError = (MarkupString)$"Unfortunately the Message Record could not be deleted successfully due to an error.<br />Please check your network connection and attempt to save again.";
+                        msgErrorStackTrace = null;
+
+                        modalError!.Open();
+                    }
+                }
+                else
+                {
+                    action = "Error";
+                    soundEffect = "sounds/error.mp3";
+
+                    msgErrorTitle = $"No Message Selected";
+                    msgError = (MarkupString)$"Please select a message first before pressing the Delete button or if try to select one again if one had been selected.";
+                    msgErrorStackTrace = null;
+
+                    modalError!.Open();
+                }
+            }
+            else
+            {
+                action = "Error";
+                soundEffect = "sounds/error.mp3";
+
+                msgErrorTitle = $"Cannot Save Message Record";
+                msgError = (MarkupString)$"Unfortunately the Message Record could not be saved successfully due to an error.<br />Please check your network connection and attempt to save again.";
+                msgErrorStackTrace = null;
+
+                modalError!.Open();
+            }
+
+        }
+        catch (HttpRequestException ex)
+        {
+            HandleJsonException(ex, "Message", selectedMessage?.MessageID.ToString() ?? "0");
+        }
+    }
+
+    private void CancelMessageConfirm()
+    {
+        action = "CancelMessageConfirm";
+        soundEffect = "sounds/prompt.mp3";
+
+        msgConfirmTitle = $"Confirm Cancel?";
+        msgConfirm = (MarkupString)$"Are you sure you want to cancel and lose any changes made?";
+
+        modalConfirm!.OpenOnTop1();
+    }
+
+    private void CancelMessage()
+    {
+        CloseMessage();
+    }
+
+    private void CloseMessage()
+    {
+        selectedMessage = new MessageModel();
+        modalMessage!.Close();
+        modalConfirm!.Close();
+    }
+
+    private void HandleJsonException(HttpRequestException ex, string objectName, string objectID)
+    {
+        if (ex.Message.Contains(HttpStatusCode.Unauthorized.ToString()))
+        {
+            loadDataErrorMsg = $"You are not authorised to view this page";
+
+            //Redirect to login screen
+            NavManager.NavigateTo($"Login/Vehicles");
+        }
+        else if (ex.Message.Contains("404 (Not Found)"))
+        {
+            loadDataErrorMsg = $"The {objectName} \"{objectID}\" is not found";
+        }
+        else if (ex.Message.Contains("400 (Bad Request)"))
+        {
+            loadDataErrorMsg = $"The {objectName} \"{objectID}\" resulted in an invalid request";
+        }
+        else
+        {
+            loadDataErrorMsg = $"Error: {ex.Message}";
+        }
+    }
+}

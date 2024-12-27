@@ -80,6 +80,16 @@ body {
 }
 
 .VersionText {
-    color: #CCCCCC;
+    /*color: #CCCCCC;*/ 
+    color: #555555;
     font-size: 0.8em;
+}
+
+/*td:has(div[class='bg-info']) {
+    background-color: #198754 !important;
+}*/
+
+tr:has(td):has(div[class='SelectedRow']) td {
+    color: #052c65;
+    background-color: #cfe2ff;
 }

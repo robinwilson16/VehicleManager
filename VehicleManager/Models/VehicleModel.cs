@@ -23,6 +23,8 @@ namespace VehicleManager.Models
         public string? Surname { get; set; }
         public string? Forename { get; set; }
         public string? Email { get; set; }
+        public string? Tel { get; set; }
+        public string? PostCode { get; set; }
         public string? Message { get; set; }
         public string? RegistrationNumber { get; set; }
         public string? YearOfManufacture { get; set; }
@@ -43,5 +45,6 @@ namespace VehicleManager.Models
         public string? EngineCylinderCount { get; set; }
         public string? EngineSizeLitre { get; set; }
         public string? WheelbaseMM { get; set; }
+        public virtual CustomerModel? Customer { get; set; }
     }
 }

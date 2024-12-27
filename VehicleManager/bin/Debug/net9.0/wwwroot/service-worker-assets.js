@@ -1,8 +1,8 @@
 self.assetsManifest = {
-  "version": "4CjEFJ1C",
+  "version": "OgrcUbDo",
   "assets": [
     {
-      "hash": "sha256-1FZfisxX/QTNE8VKi5JGSInbKA3Ce61NL0409Y5V+Co=",
+      "hash": "sha256-bVLkJUoSfLi7TG2nvXTxy+KhGkcA/8xKiv8RuGMJFVI=",
       "url": "VehicleManager.styles.css"
     },
     {
@@ -786,19 +786,19 @@ self.assetsManifest = {
       "url": "_framework/TinyMCE.Blazor.ll1a586db2.wasm"
     },
     {
-      "hash": "sha256-Qs50U2ew5w6R25/j9Gb7C7btEmajMKNQZlQj41KCNvU=",
-      "url": "_framework/VehicleManager.mqspwpnlxh.wasm"
+      "hash": "sha256-55XL23/PEpBtlyymcbQoafLppJYMbeTvbjiPL1le2ls=",
+      "url": "_framework/VehicleManager.3lfwzjp3ey.pdb"
     },
     {
-      "hash": "sha256-UOCSKnz7qzDXP5OwYfQrg7vRQKF+D7ZpqU9XKOcymMU=",
-      "url": "_framework/VehicleManager.w4clbhu15q.pdb"
+      "hash": "sha256-QK7ATIFr7JYAXmxKueSjdislXS+0XG0bITsNiSCi9/U=",
+      "url": "_framework/VehicleManager.o6x1ctfhfh.wasm"
     },
     {
       "hash": "sha256-0VmBdMjdc0nZGHDSfaGirT6y3mJTM0qx8eqCUC/rpiE=",
       "url": "_framework/WindowsBase.377bly7twj.wasm"
     },
     {
-      "hash": "sha256-C+IiJjURGC6sAFauttl8uR52OI9OHMNuhmuCqOoe9es=",
+      "hash": "sha256-Glrxg6q82fG6EG65LHMyoaKTgW6pKg9ge2h2ul7q47k=",
       "url": "_framework/blazor.boot.json"
     },
     {
@@ -850,15 +850,15 @@ self.assetsManifest = {
       "url": "_framework/netstandard.hb3h2rr8mk.wasm"
     },
     {
-      "hash": "sha256-eQqSfqUxBskY0i79YvtjmoviCZKkDbBjYYzT/C4LbDo=",
+      "hash": "sha256-FNPUdqayDaYwu3claS7k0UVMBSbzKnSCmfA3J5OLgus=",
       "url": "appsettings.Development.json"
     },
     {
-      "hash": "sha256-eQqSfqUxBskY0i79YvtjmoviCZKkDbBjYYzT/C4LbDo=",
+      "hash": "sha256-ubphhMavlENKy34Z0Omv1Te9hk7wzi7xyM7SEr2dp0I=",
       "url": "appsettings.json"
     },
     {
-      "hash": "sha256-GJNIbroTscqZ3roOusrtaVLGH+jSte/jfHCdF/ha030=",
+      "hash": "sha256-x+rwQZiaOJpkiShTUoaAzxCaAtUXJUDjQQzckkbAyDs=",
       "url": "css/VehicleManager.css"
     },
     {
@@ -2500,6 +2500,42 @@ self.assetsManifest = {
     {
       "hash": "sha256-enKgCMkYmCpfEcmg6Annbmc40VZ/A6aYYSQjZfVn2cU=",
       "url": "sample-data/weather.json"
+    },
+    {
+      "hash": "sha256-dI5tA6VZrJCdBLn6kH/KNCTGvwCqRbytP2oHI45Y9ss=",
+      "url": "sounds/confirm.mp3"
+    },
+    {
+      "hash": "sha256-nuHoXpaVa1FhoV19gNnhp6q3A6BAdZRFZBRhDdr5diw=",
+      "url": "sounds/confirm.wav"
+    },
+    {
+      "hash": "sha256-oP2usefdxWxMcSsW3WplHePWjwRgiy+dxB2CkRNUtzM=",
+      "url": "sounds/error.mp3"
+    },
+    {
+      "hash": "sha256-xHY3p10KekDO2a5oEeTwKgASJ3k3srupwIRNQAEZtkw=",
+      "url": "sounds/error.wav"
+    },
+    {
+      "hash": "sha256-IIgd78FwTPvw4Uq3Y48lHSu3j3Sui+pR6NbkP7yJve8=",
+      "url": "sounds/prompt.mp3"
+    },
+    {
+      "hash": "sha256-atISTJHx5bltFBLnTeBc65UrQfBQgZFEOq2xW5MA/5Y=",
+      "url": "sounds/question2.mp3"
+    },
+    {
+      "hash": "sha256-oLBhWR4pGfQ6/46q/VkR0lAxstWRFKE/Pc4NpSuzF7A=",
+      "url": "sounds/question3.mp3"
+    },
+    {
+      "hash": "sha256-u9+XNW0YZvrLlfnAXY4RCYkKT8dbQjDCdMVwMD/3vUQ=",
+      "url": "sounds/question5.mp3"
+    },
+    {
+      "hash": "sha256-D8t6ABt/rdwaUSD6leTLlU1gFjVDD/Wa8yLZFM5xMfo=",
+      "url": "sounds/question6.mp3"
     }
   ]
 };

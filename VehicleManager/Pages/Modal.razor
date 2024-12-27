@@ -1,4 +1,4 @@
-﻿<div class="modal @modalClass" tabindex="-1" role="dialog" style="display:@modalDisplay; overflow-y: auto;">
+﻿<div class="modal @modalClass" tabindex="-1" role="dialog" style="display:@modalDisplay; overflow-y: auto;@modalZIndex">
     <div class="modal-dialog @modalIsLarge" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -17,7 +17,7 @@
 
 @if (showBackdrop == true)
 {
-    <div class="modal-backdrop fade show"></div>
+    <div class="modal-backdrop fade show" style="@backdropZIndex"></div>
 }
 
 @code {
@@ -34,6 +34,8 @@
     private string modalClass = "";
     private string modalIsLarge = "";
     private bool showBackdrop = false;
+    private string backdropZIndex = "";
+    private string modalZIndex = "";
 
     public void MakeLarge()
     {
@@ -47,9 +49,18 @@
 
     public void Open()
     {
-        modalDisplay = "block;";
+        modalDisplay = "block";
         modalClass = "show";
         showBackdrop = true;
+    }
+
+    public void OpenOnTop1()
+    {
+        modalDisplay = "block";
+        modalClass = "show";
+        showBackdrop = true;
+        backdropZIndex = "z-index:1060;";
+        modalZIndex = " z-index:1061;";
     }
 
     public void Close()
@@ -57,5 +68,7 @@
         modalDisplay = "none";
         modalClass = "";
         showBackdrop = false;
+        backdropZIndex = "";
+        modalZIndex = "";
     }
 }

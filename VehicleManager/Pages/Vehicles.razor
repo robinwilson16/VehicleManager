@@ -12,7 +12,9 @@
 @inject NavigationManager NavManager
 @inject AppData appData
 
-<PageTitle>Vehicles</PageTitle>
+<PageTitle>Vehicles @@ Broken Motor</PageTitle>
+
+<audio src="@soundEffect" autoplay></audio>
 
 <Modal @ref="modalInfo">
     <Title><i class="fa-solid fa-circle-info"></i> @msgInfoTitle</Title>
@@ -56,7 +58,7 @@
     </Footer>
 </Modal>
 
-<h3>Vehicles</h3>
+<h3><i class="fa-solid fa-car-burst"></i> Vehicles</h3>
 
 @if (loadDataErrorMsg != null) 
 {
@@ -95,12 +97,12 @@ else {
         <div class="row">
             <div class="col-md">
                 <div class="alert alert-primary" role="alert">
-                    @if (FiltersVeh.Count > 0)
+                    @if (FiltersMain.Count > 0)
                     {
-                        <button type="button" class="btn btn-primary btn-sm me-3" @onclick="@FilterVehClear">Filters (Clear) <i class="fa-solid fa-filter-circle-xmark"></i></button>
+                        <button type="button" class="btn btn-primary btn-sm me-3" @onclick="@FilterMainClear">Filters (Clear) <i class="fa-solid fa-filter-circle-xmark"></i></button>
 
                         int filterNumber = 0;
-                        @foreach (var filter in FiltersVeh)
+                        @foreach (var filter in FiltersMain)
                         {
                             filterNumber += 1;
 
@@ -113,67 +115,172 @@ else {
                 </div>
                 <div class="TableContainer">
                     <div class="table-responsive">
-                        <QuickGrid Items="@FilteredVehicles" Virtualize="true" Class="table table-striped table-hover table-bordered">
-                            <TemplateColumn Title="">
+                        <QuickGrid Items="@FilteredVehicles" Virtualize="true" Class="table table-striped table-hover table-bordered" TGridItem="VehicleModel">
+
+                            <TemplateColumn Title="" Sortable="true" SortBy="GridSort<VehicleModel>.ByDescending(x => x.SubmissionID)">
                                 <button type="button" class="btn btn-primary btn-sm" @onclick="()=>EditVehicle(context.SubmissionID)"><i class="fa-solid fa-up-right-from-square"></i></button>
                             </TemplateColumn>
-                            <PropertyColumn Title="ID" Property="@(p => p.SubmissionID)" Sortable="true">
+
+                            <TemplateColumn Title="ID" Sortable="true" SortBy="GridSort<VehicleModel>.ByDescending(x => x.SubmissionID)">
+                                <ChildContent>
+                                    <div @onclick="()=>SelectVehicle(context?.SubmissionID)" class="@(context?.SubmissionID == selectedVehicle?.SubmissionID ? "SelectedRow" : "")">
+                                        <div class="col-justify-start">@context.SubmissionID</div>
+                                    </div>
+                                </ChildContent>
                                 <ColumnOptions>
                                     <div class="search-box">
-                                        <input type="number" class="form-control" autofocus @bind="FilterVehSubmissionID" @bind:event="oninput" @onkeyup="FilterVehRefresh" @onchange="FilterVehRefresh" />
+                                        <input type="number" class="form-control" autofocus @bind="FilterMainSubmissionID" @bind:event="oninput" @onkeyup="FilterMainRefresh" @onchange="FilterMainRefresh" />
                                     </div>
                                 </ColumnOptions>
-                            </PropertyColumn>
-                            <PropertyColumn Title="Date" Property="@(p => p.submissionDate)" Format="dd/MM/yyyy" Sortable="true">
+                            </TemplateColumn>
+
+                            <TemplateColumn Title="Date" Sortable="true" SortBy="GridSort<VehicleModel>.ByDescending(x => x.submissionDate)">
+                                <ChildContent>
+                                    <div @onclick="()=>SelectVehicle(context?.SubmissionID)" class="@(context?.SubmissionID == selectedVehicle?.SubmissionID ? "SelectedRow" : "")">
+                                        <div class="col-justify-start">@(context?.submissionDate == null ? "" : context?.submissionDate.Value.ToString("dd/MM/yyyy"))</div>
+                                    </div>
+                                </ChildContent>
                                 <ColumnOptions>
                                     <div class="search-box">
-                                        <input type="date" class="form-control" autofocus @bind="FilterVehSubmissionDate" @bind:event="oninput" @onkeyup="FilterVehRefresh" @onchange="FilterVehRefresh" />
+                                        <input type="date" class="form-control" autofocus @bind="FilterMainSubmissionDate" @bind:event="oninput" @onkeyup="FilterMainRefresh" @onchange="FilterMainRefresh" />
                                     </div>
                                 </ColumnOptions>
-                            </PropertyColumn>
-                            <PropertyColumn Property="@(p => p.Surname)" Sortable="true">
+                            </TemplateColumn>
+
+                            <TemplateColumn Title="Surname" Sortable="true" SortBy="GridSort<VehicleModel>.ByDescending(x => x.Surname)">
+                                <ChildContent>
+                                    <div @onclick="()=>SelectVehicle(context?.SubmissionID)" class="@(context?.SubmissionID == selectedVehicle?.SubmissionID ? "SelectedRow" : "")">
+                                        <div class="col-justify-start">@context.Surname</div>
+                                    </div>
+                                </ChildContent>
                                 <ColumnOptions>
                                     <div class="search-box">
-                                        <input type="search" class="form-control" autofocus @bind="FilterVehSurname" @bind:event="oninput" placeholder="Surname..." @onkeyup="FilterVehRefresh" @onchange="FilterVehRefresh" />
+                                        <input type="search" class="form-control" autofocus @bind="FilterMainSurname" @bind:event="oninput" placeholder="Surname..." @onkeyup="FilterMainRefresh" @onchange="FilterMainRefresh" />
                                     </div>
                                 </ColumnOptions>
-                            </PropertyColumn>
-                            <PropertyColumn Property="@(p => p.Forename)" Sortable="true">
+                            </TemplateColumn>
+
+                            <TemplateColumn Title="Forename" Sortable="true" SortBy="GridSort<VehicleModel>.ByDescending(x => x.Forename)">
+                                <ChildContent>
+                                    <div @onclick="()=>SelectVehicle(context?.SubmissionID)" class="@(context?.SubmissionID == selectedVehicle?.SubmissionID ? "SelectedRow" : "")">
+                                        <div class="col-justify-start">@context.Forename</div>
+                                    </div>
+                                </ChildContent>
                                 <ColumnOptions>
                                     <div class="search-box">
-                                        <input type="search" class="form-control" autofocus @bind="FilterVehForename" @bind:event="oninput" placeholder="Forename..." @onkeyup="FilterVehRefresh" @onchange="FilterVehRefresh" />
+                                        <input type="search" class="form-control" autofocus @bind="FilterMainForename" @bind:event="oninput" placeholder="Forename..." @onkeyup="FilterMainRefresh" @onchange="FilterMainRefresh" />
                                     </div>
                                 </ColumnOptions>
-                            </PropertyColumn>
-                            <PropertyColumn Property="@(p => p.Email)" Sortable="true">
+                            </TemplateColumn>
+
+                            <TemplateColumn Title="Email Address" Sortable="true" SortBy="GridSort<VehicleModel>.ByDescending(x => x.Email)">
+                                <ChildContent>
+                                    <div @onclick="()=>SelectVehicle(context?.SubmissionID)" class="@(context?.SubmissionID == selectedVehicle?.SubmissionID ? "SelectedRow" : "")">
+                                        <div class="col-justify-start">@context.Email</div>
+                                    </div>
+                                </ChildContent>
                                 <ColumnOptions>
                                     <div class="search-box">
-                                        <input type="search" class="form-control" autofocus @bind="FilterVehEmail" @bind:event="oninput" placeholder="Email..." @onkeyup="FilterVehRefresh" @onchange="FilterVehRefresh" />
+                                        <input type="search" class="form-control" autofocus @bind="FilterMainEmail" @bind:event="oninput" placeholder="Email..." @onkeyup="FilterMainRefresh" @onchange="FilterMainRefresh" />
                                     </div>
                                 </ColumnOptions>
-                            </PropertyColumn>
-                            <PropertyColumn Title="Reg No" Property="@(p => p.RegistrationNumber)" Sortable="true">
+                            </TemplateColumn>
+
+                            <TemplateColumn Title="Telephone Number" Sortable="true" SortBy="GridSort<VehicleModel>.ByDescending(x => x.Tel)">
+                                <ChildContent>
+                                    <div @onclick="()=>SelectVehicle(context?.SubmissionID)" class="@(context?.SubmissionID == selectedVehicle?.SubmissionID ? "SelectedRow" : "")">
+                                        <div class="col-justify-start">@context.Tel</div>
+                                    </div>
+                                </ChildContent>
                                 <ColumnOptions>
                                     <div class="search-box">
-                                        <input type="search" class="form-control" autofocus @bind="FilterVehRegistration" @bind:event="oninput" placeholder="Registration Number..." @onkeyup="FilterVehRefresh" @onchange="FilterVehRefresh" />
+                                        <input type="search" class="form-control" autofocus @bind="FilterMainTel" @bind:event="oninput" placeholder="Email..." @onkeyup="FilterMainRefresh" @onchange="FilterMainRefresh" />
                                     </div>
                                 </ColumnOptions>
-                            </PropertyColumn>
-                            <PropertyColumn Property="@(p => p.Make)" Sortable="true">
+                            </TemplateColumn>
+
+                            <TemplateColumn Title="Post Code" Sortable="true" SortBy="GridSort<VehicleModel>.ByDescending(x => x.PostCode)">
+                                <ChildContent>
+                                    <div @onclick="()=>SelectVehicle(context?.SubmissionID)" class="@(context?.SubmissionID == selectedVehicle?.SubmissionID ? "SelectedRow" : "")">
+                                        <div class="col-justify-start">@context.PostCode</div>
+                                    </div>
+                                </ChildContent>
                                 <ColumnOptions>
                                     <div class="search-box">
-                                        <input type="search" class="form-control" autofocus @bind="FilterVehMake" @bind:event="oninput" placeholder="Make..." @onkeyup="FilterVehRefresh" @onchange="FilterVehRefresh" />
+                                        <input type="search" class="form-control" autofocus @bind="FilterMainPostCode" @bind:event="oninput" placeholder="Email..." @onkeyup="FilterMainRefresh" @onchange="FilterMainRefresh" />
                                     </div>
                                 </ColumnOptions>
-                            </PropertyColumn>
-                            <PropertyColumn Property="@(p => p.Model)" Sortable="true">
+                            </TemplateColumn>
+
+                            <TemplateColumn Title="Reg Number" Sortable="true" SortBy="GridSort<VehicleModel>.ByDescending(x => x.RegistrationNumber)">
+                                <ChildContent>
+                                    <div @onclick="()=>SelectVehicle(context?.SubmissionID)" class="@(context?.SubmissionID == selectedVehicle?.SubmissionID ? "SelectedRow" : "")">
+                                        <div class="col-justify-start">@context.RegistrationNumber</div>
+                                    </div>
+                                </ChildContent>
                                 <ColumnOptions>
                                     <div class="search-box">
-                                        <input type="search" class="form-control" autofocus @bind="FilterVehModel" @bind:event="oninput" placeholder="Model..." @onkeyup="FilterVehRefresh" @onchange="FilterVehRefresh" />
+                                        <input type="search" class="form-control" autofocus @bind="FilterMainRegistration" @bind:event="oninput" placeholder="Registration Number..." @onkeyup="FilterMainRefresh" @onchange="FilterMainRefresh" />
                                     </div>
                                 </ColumnOptions>
-                            </PropertyColumn>
+                            </TemplateColumn>
+
+                            <TemplateColumn Title="Make" Sortable="true" SortBy="GridSort<VehicleModel>.ByDescending(x => x.Make)">
+                                <ChildContent>
+                                    <div @onclick="()=>SelectVehicle(context?.SubmissionID)" class="@(context?.SubmissionID == selectedVehicle?.SubmissionID ? "SelectedRow" : "")">
+                                        <div class="col-justify-start">@context.Make</div>
+                                    </div>
+                                </ChildContent>
+                                <ColumnOptions>
+                                    <div class="search-box">
+                                        <input type="search" class="form-control" autofocus @bind="FilterMainMake" @bind:event="oninput" placeholder="Make..." @onkeyup="FilterMainRefresh" @onchange="FilterMainRefresh" />
+                                    </div>
+                                </ColumnOptions>
+                            </TemplateColumn>
+
+                            <TemplateColumn Title="Model" Sortable="true" SortBy="GridSort<VehicleModel>.ByDescending(x => x.Model)">
+                                <ChildContent>
+                                    <div @onclick="()=>SelectVehicle(context?.SubmissionID)" class="@(context?.SubmissionID == selectedVehicle?.SubmissionID ? "SelectedRow" : "")">
+                                        <div class="col-justify-start">@context.Model</div>
+                                    </div>
+                                </ChildContent>
+                                <ColumnOptions>
+                                    <div class="search-box">
+                                        <input type="search" class="form-control" autofocus @bind="FilterMainModel" @bind:event="oninput" placeholder="Model..." @onkeyup="FilterMainRefresh" @onchange="FilterMainRefresh" />
+                                    </div>
+                                </ColumnOptions>
+                            </TemplateColumn>
+
                         </QuickGrid>
+                    </div>
+                </div>
+                <div class="alert alert-secondary" role="alert">
+                    <div class="row">
+                        <div class="col-md">
+                            <div class="d-grid gap-2 d-md-block text-start">
+                                
+                                @if (selectedVehicle?.SubmissionID > 0)
+                                {
+                                    <span>1 Record Selected</span>
+                                }
+                            </div>
+                        </div>
+                        <div class="col-md text-end">
+
+                            @if (FiltersMain.Count > 0)
+                            {
+                                <div class="col-md text-end fw-bold text-primary">
+                                    @FilteredVehicles?.Count() Records (Filtered)
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="col-md text-end">
+                                    @FilteredVehicles?.Count() Records
+                                </div>
+                            }
+
+                        </div>
                     </div>
                 </div>
             </div>
@@ -241,10 +348,33 @@ else {
                                 <div class="col-md-6">
                                     <div class="row mb-3 align-items-center">
                                         <div class="col-md-4">
+                                            Telephone
+                                        </div>
+                                        <div class="col-md-8 Text">
+                                            @selectedVehicle?.Tel
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row align-items-center">
+                                <div class="col-md-6">
+                                    <div class="row mb-3 align-items-center">
+                                        <div class="col-md-4">
                                             Registration Number
                                         </div>
                                         <div class="col-md-8 Text">
                                             @selectedVehicle?.RegistrationNumber
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="row mb-3 align-items-center">
+                                        <div class="col-md-4">
+                                            Post Code
+                                        </div>
+                                        <div class="col-md-8 Text">
+                                            @selectedVehicle?.PostCode
                                         </div>
                                     </div>
                                 </div>
@@ -603,38 +733,38 @@ else {
                                                 </div>
                                             </ColumnOptions>
                                         </PropertyColumn>
-                                        <PropertyColumn Property="@(p => p.Type)" Sortable="true">
+                                        <PropertyColumn Property="@(p => p.MessageTypeID)" Sortable="true">
                                             <ColumnOptions>
                                                 <div class="search-box">
                                                     <input type="search" class="form-control" autofocus @bind="FilterMsgType" @bind:event="oninput" placeholder="Message..." @onkeyup="FilterMsgRefresh" @onchange="FilterMsgRefresh" />
                                                 </div>
                                             </ColumnOptions>
                                         </PropertyColumn>
-                                        <PropertyColumn Property="@(p => p.Amount)" Sortable="true">
+                                        <PropertyColumn Property="@(p => p.AmountOffered)" Sortable="true">
                                             <ColumnOptions>
                                                 <div class="search-box">
                                                     <input type="search" class="form-control" autofocus @bind="FilterMsgAmount" @bind:event="oninput" placeholder="Amount..." @onkeyup="FilterMsgRefresh" @onchange="FilterMsgRefresh" />
                                                 </div>
                                             </ColumnOptions>
                                         </PropertyColumn>
-                                        <PropertyColumn Property="@(p => p.Accepted)" Sortable="true">
+                                        <PropertyColumn Property="@(p => p.IsAccepted)" Sortable="true">
                                             <ColumnOptions>
                                                 <div class="search-box">
-                                                    <input type="search" class="form-control" autofocus @bind="FilterMsgAccepted" @bind:event="oninput" placeholder="Accepted..." @onkeyup="FilterMsgRefresh" @onchange="FilterMsgRefresh" />
+                                                    <input type="search" class="form-control" autofocus @bind="FilterMsgIsAccepted" @bind:event="oninput" placeholder="Accepted..." @onkeyup="FilterMsgRefresh" @onchange="FilterMsgRefresh" />
                                                 </div>
                                             </ColumnOptions>
                                         </PropertyColumn>
-                                        <PropertyColumn Property="@(p => p.Status)" Sortable="true">
+                                        <PropertyColumn Property="@(p => p.MessageStatusID)" Sortable="true">
                                             <ColumnOptions>
                                                 <div class="search-box">
                                                     <input type="search" class="form-control" autofocus @bind="FilterMsgStatus" @bind:event="oninput" placeholder="Status..." @onkeyup="FilterMsgRefresh" @onchange="FilterMsgRefresh" />
                                                 </div>
                                             </ColumnOptions>
                                         </PropertyColumn>
-                                        <PropertyColumn Title="Sent By" Property="@(p => p.SentBy)" Sortable="true">
+                                        <PropertyColumn Title="Sent By" Property="@(p => p.From)" Sortable="true">
                                             <ColumnOptions>
                                                 <div class="search-box">
-                                                    <input type="search" class="form-control" autofocus @bind="FilterMsgSentBy" @bind:event="oninput" placeholder="Sent By..." @onkeyup="FilterMsgRefresh" @onchange="FilterMsgRefresh" />
+                                                    <input type="search" class="form-control" autofocus @bind="FilterMsgFrom" @bind:event="oninput" placeholder="Sent By..." @onkeyup="FilterMsgRefresh" @onchange="FilterMsgRefresh" />
                                                 </div>
                                             </ColumnOptions>
                                         </PropertyColumn>
@@ -652,7 +782,9 @@ else {
             </div>
         </Body>
         <Footer>
-            <button type="button" class="btn btn-secondary" data-dismiss="modal" @onclick="CloseVehicle">Close</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" @onclick="() => AdvanceToVehicle(-1)"><i class="fa-solid fa-square-caret-left"></i></button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" @onclick="() => AdvanceToVehicle(1)"><i class="fa-solid fa-square-caret-right"></i></button>
+            <button type="button" class="btn btn-primary" data-dismiss="modal" @onclick="CloseVehicle"><i class="fa-solid fa-rotate-left"></i> Close</button>
         </Footer>
     </Modal>
 
@@ -692,9 +824,9 @@ else {
                             </div>
                             <div class="row g-3 mb-3">
                                 <div class="col-md">
-                                        <Editor
-                                            ScriptSrc="./lib/tinymce/tinymce.min.js"
-                                        />
+                                    <Editor
+                                    ScriptSrc="./lib/tinymce/tinymce.min.js"
+                                    />
                                     @* <textarea class="form-control"></textarea> *@
                                 </div>
                             </div>
@@ -714,6 +846,7 @@ else {
     public int? VehicleID { get; set; }
 
     public string? action { get; set; }
+    public string? soundEffect { get; set; }
 
     private Modal? modalInfo { get; set; }
     public string? msgInfoTitle = null;
@@ -738,35 +871,39 @@ else {
         (vehicles)?.AsQueryable()
         .Where(
             v => 
-            v.SubmissionID == (FilterVehSubmissionID ?? v.SubmissionID)
-            && DateOnly.FromDateTime(v.submissionDate ?? DateTime.Now)! == DateOnly.FromDateTime((DateTime)(FilterVehSubmissionDate ?? v.submissionDate)!)
-            && v.Surname!.Contains(FilterVehSurname ?? string.Empty, StringComparison.CurrentCultureIgnoreCase)
-            && v.Forename!.Contains(FilterVehForename ?? string.Empty, StringComparison.CurrentCultureIgnoreCase)
-            && v.Email!.Contains(FilterVehEmail ?? string.Empty, StringComparison.CurrentCultureIgnoreCase)
-            && v.RegistrationNumber!.Contains(FilterVehRegistration ?? string.Empty, StringComparison.CurrentCultureIgnoreCase)
-            && v.Make!.Contains(FilterVehMake ?? string.Empty, StringComparison.CurrentCultureIgnoreCase)
-            && v.Model!.Contains(FilterVehModel ?? string.Empty, StringComparison.CurrentCultureIgnoreCase)
+            (FilterMainSubmissionID == null ? true : v.SubmissionID == (FilterMainSubmissionID ?? v.SubmissionID))
+            && (FilterMainSubmissionDate == null ? true : DateOnly.FromDateTime(v.submissionDate ?? DateTime.MinValue) == DateOnly.FromDateTime((DateTime)(FilterMainSubmissionDate ?? v.submissionDate)!))
+            && (FilterMainSurname == null ? true : (v.Surname ?? string.Empty).Contains(FilterMainSurname, StringComparison.CurrentCultureIgnoreCase))
+            && (FilterMainForename == null ? true : (v.Forename ?? string.Empty).Contains(FilterMainForename, StringComparison.CurrentCultureIgnoreCase))
+            && (FilterMainEmail == null ? true : (v.Email ?? string.Empty).Contains(FilterMainEmail, StringComparison.CurrentCultureIgnoreCase))
+            && (FilterMainTel == null ? true : (v.Tel ?? string.Empty).Contains(FilterMainTel, StringComparison.CurrentCultureIgnoreCase))
+            && (FilterMainPostCode == null ? true : (v.PostCode ?? string.Empty).Contains(FilterMainPostCode, StringComparison.CurrentCultureIgnoreCase))
+            && (FilterMainRegistration == null ? true : (v.RegistrationNumber ?? string.Empty).Contains(FilterMainRegistration, StringComparison.CurrentCultureIgnoreCase))
+            && (FilterMainMake == null ? true : (v.Make ?? string.Empty).Contains(FilterMainMake, StringComparison.CurrentCultureIgnoreCase))
+            && (FilterMainModel == null ? true : (v.Model ?? string.Empty).Contains(FilterMainModel, StringComparison.CurrentCultureIgnoreCase))
         );
 
-    int? FilterVehSubmissionID;
-    DateTime? FilterVehSubmissionDate;
-    string FilterVehSurname = string.Empty;
-    string FilterVehForename = string.Empty;
-    string FilterVehEmail = string.Empty;
-    string FilterVehRegistration = string.Empty;
-    string FilterVehMake = string.Empty;
-    string FilterVehModel = string.Empty;
-    List<string> FiltersVeh = new List<string>();
-
+    List<string> FiltersMain = new List<string>();
+    int? FilterMainSubmissionID;
+    DateTime? FilterMainSubmissionDate;
+    string FilterMainSurname = string.Empty;
+    string FilterMainForename = string.Empty;
+    string FilterMainEmail = string.Empty;
+    string FilterMainTel = string.Empty;
+    string FilterMainPostCode = string.Empty;
+    string FilterMainRegistration = string.Empty;
+    string FilterMainMake = string.Empty;
+    string FilterMainModel = string.Empty;
+    
+    List<string> FiltersMsg = new List<string>();
     int? FilterMsgMessageID;
     string? FilterMsgMessage;
     MessageType? FilterMsgType;
     decimal? FilterMsgAmount;
-    bool? FilterMsgAccepted;
+    bool? FilterMsgIsAccepted;
     MessageStatus? FilterMsgStatus;
-    string? FilterMsgSentBy;
+    string? FilterMsgFrom;
     DateTime? FilterMsgSentDate;
-    List<string> FiltersMsg = new List<string>();
 
     private IQueryable<MessageModel>? FilteredMessages =>
         (selectedVehicleMessages)?.AsQueryable()
@@ -775,10 +912,10 @@ else {
             m.MessageID == (FilterMsgMessageID ?? m.MessageID)
             && DateOnly.FromDateTime(m.SentDate ?? DateTime.Now)! == DateOnly.FromDateTime((DateTime)(FilterMsgSentDate ?? m.SentDate)!)
             && m.Message.ToString()!.Contains(FilterMsgMessage ?? string.Empty, StringComparison.CurrentCultureIgnoreCase)
-            && m.Type! == (FilterMsgType ?? m.Type)
-            && m.Accepted! == (FilterMsgAccepted ?? m.Accepted)
-            && m.Status! == (FilterMsgStatus ?? m.Status)
-            && m.SentBy!.Contains(FilterMsgSentBy ?? string.Empty, StringComparison.CurrentCultureIgnoreCase)
+            && m.MessageTypeID! == (FilterMsgType ?? m.MessageTypeID)
+            && m.IsAccepted! == (FilterMsgIsAccepted ?? m.IsAccepted)
+            && m.MessageStatusID! == (FilterMsgStatus ?? m.MessageStatusID)
+            && m.From!.Contains(FilterMsgFrom ?? string.Empty, StringComparison.CurrentCultureIgnoreCase)
         );
 
     private string? vehicleEndPoint;
@@ -788,7 +925,7 @@ else {
 
     protected override async Task OnInitializedAsync() 
     {
-        vehicleEndPoint = $"{configuration["APIEndpoint"]}/FormEntries";
+        vehicleEndPoint = $"{configuration["VehicleEndpoint"]}/FormEntries";
 
         try
         {
@@ -797,75 +934,70 @@ else {
         }
         catch (HttpRequestException ex)
         {
-            if (ex.Message.Contains(HttpStatusCode.Unauthorized.ToString()))
-            {
-                loadDataErrorMsg = $"You are not authorised to view this page";
-
-                //Redirect to login screen
-                NavManager.NavigateTo($"Login/Vehicles");
-            }
-            else if (ex.Message.Contains("404 (Not Found)"))
-            {
-                loadDataErrorMsg = $"The API for Returning Vehicles Is Not Found";
-            }
-            else if (ex.Message.Contains("400 (Bad Request)"))
-            {
-                loadDataErrorMsg = $"The API for Returning Vehicles Is Not Responding Correctly";
-            }
-            else loadDataErrorMsg = $"Error: {ex.Message}";
+            HandleJsonException(ex, "Vehicle", VehicleID.ToString() ?? "");
         }
     }
 
-    private void FilterVehRefresh()
+    private void FilterMainRefresh()
     {
-        FiltersVeh.Clear();
+        FiltersMain.Clear();
 
-        if (FilterVehSubmissionID != null)
+        if (FilterMainSubmissionID != null)
         {
-            FiltersVeh.Add($"ID: '{FilterVehSubmissionID.ToString()}'");
+            FiltersMain.Add($"ID: '{FilterMainSubmissionID.ToString()}'");
         }
-        if (FilterVehSubmissionDate != null)
+        if (FilterMainSubmissionDate != null)
         {
-            FiltersVeh.Add($"Date: '{((DateTime)FilterVehSubmissionDate).ToString("dd/MM/yyyy")}'");
+            FiltersMain.Add($"Date: '{((DateTime)FilterMainSubmissionDate).ToString("dd/MM/yyyy")}'");
         }
-        if (FilterVehSurname.Length > 0)
+        if (FilterMainSurname.Length > 0)
         {
-            FiltersVeh.Add($"Surname: '{FilterVehSurname}'");
+            FiltersMain.Add($"Surname: '{FilterMainSurname}'");
         }
-        if (FilterVehForename.Length > 0)
+        if (FilterMainForename.Length > 0)
         {
-            FiltersVeh.Add($"Forename: '{FilterVehForename}'");
+            FiltersMain.Add($"Forename: '{FilterMainForename}'");
         }
-        if (FilterVehEmail.Length > 0)
+        if (FilterMainEmail.Length > 0)
         {
-            FiltersVeh.Add($"Email: '{FilterVehEmail}'");
+            FiltersMain.Add($"Email: '{FilterMainEmail}'");
         }
-        if (FilterVehRegistration.Length > 0)
+        if (FilterMainTel.Length > 0)
         {
-            FiltersVeh.Add($"Reg No: '{FilterVehRegistration}'");
+            FiltersMain.Add($"Tel: '{FilterMainTel}'");
         }
-        if (FilterVehMake.Length > 0)
+        if (FilterMainPostCode.Length > 0)
         {
-            FiltersVeh.Add($"Make: '{FilterVehMake}'");
+            FiltersMain.Add($"Post Code: '{FilterMainPostCode}'");
         }
-        if (FilterVehModel.Length > 0)
+        if (FilterMainRegistration.Length > 0)
         {
-            FiltersVeh.Add($"Model: '{FilterVehModel}'");
+            FiltersMain.Add($"Reg No: '{FilterMainRegistration}'");
+        }
+        if (FilterMainMake.Length > 0)
+        {
+            FiltersMain.Add($"Make: '{FilterMainMake}'");
+        }
+        if (FilterMainModel.Length > 0)
+        {
+            FiltersMain.Add($"Model: '{FilterMainModel}'");
         }
     }
 
-    private void FilterVehClear()
+    private void FilterMainClear()
     {
-        FilterVehSubmissionID = null;
-        FilterVehSubmissionDate = null;
-        FilterVehSurname = string.Empty;
-        FilterVehForename = string.Empty;
-        FilterVehEmail = string.Empty;
-        FilterVehRegistration = string.Empty;
-        FilterVehMake = string.Empty;
-        FilterVehModel = string.Empty;
+        FilterMainSubmissionID = null;
+        FilterMainSubmissionDate = null;
+        FilterMainSurname = string.Empty;
+        FilterMainForename = string.Empty;
+        FilterMainEmail = string.Empty;
+        FilterMainTel = string.Empty;
+        FilterMainPostCode = string.Empty;
+        FilterMainRegistration = string.Empty;
+        FilterMainMake = string.Empty;
+        FilterMainModel = string.Empty;
 
-        FiltersVeh.Clear();
+        FiltersMain.Clear();
     }
 
     private void FilterMsgRefresh()
@@ -892,17 +1024,17 @@ else {
         {
             FiltersMsg.Add($"Amount: '{FilterMsgAmount.ToString()}'");
         }
-        if (FilterMsgAccepted != null)
+        if (FilterMsgIsAccepted != null)
         {
-            FiltersMsg.Add($"Accepted: '{((bool)(FilterMsgAccepted = true) ? "Y" : "N")}'");
+            FiltersMsg.Add($"Accepted: '{((bool)(FilterMsgIsAccepted = true) ? "Y" : "N")}'");
         }
         if (FilterMsgStatus != null)
         {
             FiltersMsg.Add($"Status: '{FilterMsgStatus}'");
         }
-        if (FilterMsgSentBy != null)
+        if (FilterMsgFrom != null)
         {
-            FiltersMsg.Add($"Sent By: '{FilterMsgSentBy}'");
+            FiltersMsg.Add($"Sent By: '{FilterMsgFrom}'");
         }
     }
 
@@ -912,12 +1044,45 @@ else {
         FilterMsgMessage = string.Empty;
         FilterMsgType = null;
         FilterMsgAmount = null;
-        FilterMsgAccepted = null;
+        FilterMsgIsAccepted = null;
         FilterMsgStatus = null;
-        FilterMsgSentBy = string.Empty;
+        FilterMsgFrom = string.Empty;
         FilterMsgSentDate = null;
 
         FiltersMsg.Clear();
+    }
+
+    public void AdvanceToVehicle(int numRecords)
+    {
+        int? currentRecordID = selectedVehicle?.SubmissionID;
+        VehicleModel? nextRecord = new VehicleModel();
+
+        if (numRecords > 0)
+        {
+            nextRecord =
+            FilteredVehicles?
+            .SkipWhile(obj => obj.SubmissionID != currentRecordID)
+            .Skip(numRecords)
+            .FirstOrDefault();
+        }
+        else if (numRecords < 0)
+        {
+            int numRecordsBack = Math.Abs(numRecords);
+            nextRecord =
+                FilteredVehicles?
+                .Reverse()
+                .SkipWhile(obj => obj.SubmissionID != currentRecordID)
+                .Skip(numRecordsBack)
+                .FirstOrDefault();
+        }
+
+        if (nextRecord != null)
+        {
+            if (nextRecord?.SubmissionID != null)
+            {
+                selectedVehicle = nextRecord;
+            }
+        }
     }
 
     private void EditVehicle(int submissionID)
@@ -931,6 +1096,7 @@ else {
         }
         else {
             action = "Error";
+            soundEffect = "sounds/error.mp3";
 
             msgErrorTitle = $"Cannot Load Vehicle {submissionID}";
             msgError = (MarkupString)$"Unfortunately the vehicle could not be loaded due to an error.<br />Please try again.";
@@ -945,13 +1111,25 @@ else {
         return vehicles?.Where(v => v.SubmissionID == submissionID).FirstOrDefault();
     }
 
+    private void SelectVehicle(int? submissionID)
+    {
+        if (submissionID != null && submissionID > 0)
+        {
+            selectedVehicle = GetVehicle(submissionID ?? 0);
+        }
+        else
+        {
+            selectedVehicle = new VehicleModel();
+        }
+    }
+
     private List<MessageModel>? GetMessages(int submissionID)
     {
         List<MessageModel> messages = new List<MessageModel>
         {
-            new MessageModel { MessageID = 1, Message = (MarkupString)"The best offer I can give you", Type = MessageType.InitialOffer, Amount=250, Accepted = false, Status = MessageStatus.Sent, SentBy = "robin.wilson@robindigital.co.uk", SentDate = DateTime.Now},
-            new MessageModel { MessageID = 2, Message = (MarkupString)"An even better offer", Type = MessageType.FollowUp, Amount=350, Accepted = false, Status = MessageStatus.Sent, SentBy = "robin.wilson@robindigital.co.uk", SentDate = DateTime.Now},
-            new MessageModel { MessageID = 3, Message = (MarkupString)"Final offer", Type = MessageType.FinalOffer, Amount=500, Accepted = true, Status = MessageStatus.Sent, SentBy = "robin.wilson@robindigital.co.uk", SentDate = DateTime.Now}
+            new MessageModel { MessageID = 1, Message = (MarkupString)"The best offer I can give you", MessageTypeID = MessageType.ToCustomer, AmountOffered=250, IsAccepted = false, MessageStatusID = MessageStatus.Sent, From = "robin.wilson@robindigital.co.uk", SentDate = DateTime.Now},
+            new MessageModel { MessageID = 2, Message = (MarkupString)"An even better offer", MessageTypeID = MessageType.ToCustomer, AmountOffered=350, IsAccepted = false, MessageStatusID = MessageStatus.Sent, From = "robin.wilson@robindigital.co.uk", SentDate = DateTime.Now},
+            new MessageModel { MessageID = 3, Message = (MarkupString)"Final offer", MessageTypeID = MessageType.ToCustomer, AmountOffered=500, IsAccepted = true, MessageStatusID = MessageStatus.Sent, From = "robin.wilson@robindigital.co.uk", SentDate = DateTime.Now}
         };
 
         return messages;
@@ -968,5 +1146,28 @@ else {
     {
         modalMessage!.MakeLarge();
         modalMessage!.Open();
+    }
+
+    private void HandleJsonException(HttpRequestException ex, string objectName, string objectID)
+    {
+        if (ex.Message.Contains(HttpStatusCode.Unauthorized.ToString()))
+        {
+            loadDataErrorMsg = $"You are not authorised to view this page";
+
+            //Redirect to login screen
+            NavManager.NavigateTo($"Login/Vehicles");
+        }
+        else if (ex.Message.Contains("404 (Not Found)"))
+        {
+            loadDataErrorMsg = $"The {objectName} \"{objectID}\" is not found";
+        }
+        else if (ex.Message.Contains("400 (Bad Request)"))
+        {
+            loadDataErrorMsg = $"The {objectName} \"{objectID}\" resulted in an invalid request";
+        }
+        else
+        {
+            loadDataErrorMsg = $"Error: {ex.Message}";
+        }
     }
 }

@@ -205,6 +205,7 @@ C:\Users\robin.wilson\source\repos\VehicleManager\VehicleManager\wwwroot\lib\tin
 C:\Users\robin.wilson\source\repos\VehicleManager\VehicleManager\wwwroot\lib\font-awesome\js\all.min.js
 C:\Users\robin.wilson\source\repos\VehicleManager\VehicleManager\wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.css
 C:\Users\robin.wilson\source\repos\VehicleManager\VehicleManager\wwwroot\lib\bootstrap\js\bootstrap.bundle.js
+C:\Users\robin.wilson\source\repos\VehicleManager\VehicleManager\wwwroot\sounds\error.wav
 C:\Users\robin.wilson\source\repos\VehicleManager\VehicleManager\wwwroot\lib\tinymce\skins\content\tinymce-5\content.min.css
 C:\Users\robin.wilson\source\repos\VehicleManager\VehicleManager\wwwroot\lib\bootstrap\css\bootstrap.rtl.css.map
 C:\Users\robin.wilson\source\repos\VehicleManager\VehicleManager\wwwroot\lib\tinymce\skins\ui\tinymce-5-dark\content.inline.min.css
@@ -233,6 +234,7 @@ C:\Users\robin.wilson\source\repos\VehicleManager\VehicleManager\wwwroot\lib\tin
 C:\Users\robin.wilson\source\repos\VehicleManager\VehicleManager\wwwroot\lib\tinymce\plugins\autoresize\plugin.js
 C:\Users\robin.wilson\source\repos\VehicleManager\VehicleManager\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.rtl.css.map
 C:\Users\robin.wilson\source\repos\VehicleManager\VehicleManager\wwwroot\lib\bootstrap\css\bootstrap-grid.min.css.map
+C:\Users\robin.wilson\source\repos\VehicleManager\VehicleManager\wwwroot\sounds\confirm.wav
 C:\Users\robin.wilson\source\repos\VehicleManager\VehicleManager\wwwroot\lib\font-awesome\css\v4-shims.min.css
 C:\Users\robin.wilson\source\repos\VehicleManager\VehicleManager\wwwroot\lib\tinymce\plugins\anchor\plugin.min.js
 C:\Users\robin.wilson\source\repos\VehicleManager\VehicleManager\wwwroot\lib\tinymce\plugins\insertdatetime\plugin.min.js
@@ -719,3 +721,12 @@ wwwroot\lib\tinymce\tinymce.js
 wwwroot\lib\tinymce\tinymce.min.js
 wwwroot\manifest.webmanifest
 wwwroot\sample-data\weather.json
+wwwroot\sounds\confirm.mp3
+wwwroot\sounds\confirm.wav
+wwwroot\sounds\error.mp3
+wwwroot\sounds\error.wav
+wwwroot\sounds\prompt.mp3
+wwwroot\sounds\question2.mp3
+wwwroot\sounds\question3.mp3
+wwwroot\sounds\question5.mp3
+wwwroot\sounds\question6.mp3
