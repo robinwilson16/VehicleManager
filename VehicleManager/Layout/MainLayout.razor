@@ -10,18 +10,29 @@
 
     <main>
         <div class="top-row px-4">
-            @if (appData?.CurrentUser?.Email != null)
-            {
-                <span class="me-3">Logged In As</span> <span class="btn btn-outline-light"><i class="fa-solid fa-user"></i> @appData.CurrentUser.Forename @appData.CurrentUser.Surname</span>
-                <NavLink class="btn btn-light" href="Logout">
-                    <i class="fa-solid fa-person-walking-dashed-line-arrow-right"></i> Log Out
-                </NavLink>
-            }
-            else {
-                <NavLink class="btn btn-light" href="Login">
-                    <i class="fa-solid fa-lock"></i> Login
-                </NavLink>
-            }
+            <div class="row h-100">
+                <div class="col-md align-content-center">
+                    
+                </div>
+                <div class="col-md align-content-center text-md-center">
+                    <img class="img-fluid rounded LogoHeader ms-auto me-auto" src="images/BrokenMotorLogo.png" title="Broken Motor Logo" />
+                </div>
+                <div class="col-md align-content-center text-md-end">
+                    @if (appData?.CurrentUser?.Email != null)
+                    {
+                        <span class="me-3">Logged In As</span> <span class="btn btn-outline-primary"><i class="fa-solid fa-user"></i> @appData.CurrentUser.Forename @appData.CurrentUser.Surname</span>
+                        <NavLink class="btn btn-primary" href="Logout">
+                            <i class="fa-solid fa-person-walking-dashed-line-arrow-right"></i> Log Out
+                        </NavLink>
+                    }
+                    else
+                    {
+                        <NavLink class="btn btn-primary" href="Login">
+                            <i class="fa-solid fa-lock"></i> Login
+                        </NavLink>
+                    }
+                </div>
+            </div>
         </div>
 
         <article class="content px-4">

@@ -41,6 +41,14 @@
       "PackagePath": "staticwebassets\\icon-512.png"
     },
     {
+      "Id": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\wwwroot\\images\\BackgroundWaves.png",
+      "PackagePath": "staticwebassets\\images\\BackgroundWaves.png"
+    },
+    {
+      "Id": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\wwwroot\\images\\BrokenMotorLogo.png",
+      "PackagePath": "staticwebassets\\images\\BrokenMotorLogo.png"
+    },
+    {
       "Id": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\wwwroot\\images\\LinesCircuit.jpg",
       "PackagePath": "staticwebassets\\images\\LinesCircuit.jpg"
     },

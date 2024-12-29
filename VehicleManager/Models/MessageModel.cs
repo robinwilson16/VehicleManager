@@ -2,6 +2,10 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using FluentValidation;
+using System.Text.Json.Serialization;
+using System.ComponentModel;
+using System;
+using System.Runtime;
 
 namespace VehicleManager.Models
 {
@@ -10,11 +14,15 @@ namespace VehicleManager.Models
         [Key]
         public int MessageID { get; set; }
         public Guid? MessageGUID { get; set; }
-        public MessageType MessageTypeID { get; set; }
+
+        [DisplayName("Message Type")]
+        [Display(Name = "Testing")]
+        public MessageType? MessageTypeID { get; set; }
         public virtual MessageTemplateModel? MessageTemplate { get; set; }
         public string? Subject { get; set; }
-        public MarkupString? Message { get; set; }
+        public string? Message { get; set; }
         public bool? MessageIsHTML { get; set; }
+        public int? VehicleID { get; set; }
         public virtual VehicleModel? Vehicle { get; set; }
 
         [Column(TypeName = "decimal(19,4)")]
@@ -34,11 +42,17 @@ namespace VehicleManager.Models
         public DateTime? CreatedDate { get; set; }
         public string? LastUpdatedBy { get; set; }
         public DateTime? LastUpdatedDate { get; set; }
+
+        //Does not clone related entities
+        //public MessageModel CloneShallow() => (MessageModel)MemberwiseClone();
     }
 
     public enum MessageType
     {
+        [Display(Name = "To Customer")]
         ToCustomer = 1,
+
+        [Display(Name = "To Company")]
         ToCompany = 2
     }
 
@@ -53,7 +67,7 @@ namespace VehicleManager.Models
     {
         public MessageValidator()
         {
-            RuleFor(t => t.Subject).NotNull().WithMessage("You must provide a subject for the email");
+            RuleFor(m => m.Subject).NotNull().WithMessage("You must provide a subject for the email");
         }
     }
 }

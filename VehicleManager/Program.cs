@@ -1,6 +1,9 @@
+using FluentValidation;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using System;
 using VehicleManager;
+using VehicleManager.Models;
 using VehicleManager.Services;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);

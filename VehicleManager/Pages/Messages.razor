@@ -3,9 +3,12 @@
 
 @using VehicleManager.Models
 @using VehicleManager.Services
+@using VehicleManager.Shared
 @using System.Net
 @using Microsoft.AspNetCore.Components.QuickGrid
 @using TinyMCE.Blazor
+@using System.Globalization
+@using System.Reflection
 
 @inject HttpClient Http
 @inject IConfiguration configuration
@@ -96,7 +99,7 @@ else if(messages == null) {
 else {
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md">
+            <div class="col-md TableArea pt-3 rounded">
                 <div class="alert alert-primary" role="alert">
                     @if (FiltersMain.Count > 0)
                     {
@@ -124,7 +127,7 @@ else {
 
                             <TemplateColumn Title="ID" Sortable="true" SortBy="GridSort<MessageModel>.ByDescending(x => x.MessageID)">
                                 <ChildContent>
-                                    <div @onclick="()=>SelectMessage(context?.MessageID)" class="@(context?.MessageID == selectedMessage?.MessageID ? "SelectedRow" : "")">
+                                    <div @onclick="()=>SelectMessage(context?.MessageID)" class="@TableCSS(context)">
                                         <div class="col-justify-start">@context.MessageID</div>
                                     </div>
                                 </ChildContent>
@@ -135,6 +138,249 @@ else {
                                 </ColumnOptions>
                             </TemplateColumn>
 
+                            <TemplateColumn Title="Type" Sortable="true" SortBy="GridSort<MessageModel>.ByDescending(x => x.MessageID)">
+                                <ChildContent>
+                                    <div @onclick="()=>SelectMessage(context?.MessageID)" class="@TableCSS(context)">
+                                        <div class="col-justify-start">@context?.MessageTypeID?.GetDisplayName()</div>
+                                    </div>
+                                </ChildContent>
+                                <ColumnOptions>
+                                    <div class="search-box">
+                                        <input type="number" class="form-control" autofocus @bind="FilterMainMessageType" @bind:event="oninput" @onkeyup="FilterMainRefresh" @onchange="FilterMainRefresh" />
+                                    </div>
+                                </ColumnOptions>
+                            </TemplateColumn>
+
+                            <TemplateColumn Title="Template" Sortable="true" SortBy="GridSort<MessageModel>.ByDescending(x => x.MessageTemplate)">
+                                <ChildContent>
+                                    <div @onclick="()=>SelectMessage(context?.MessageID)" class="@TableCSS(context)">
+                                        <div class="col-justify-start">@context.MessageTemplate?.Name</div>
+                                    </div>
+                                </ChildContent>
+                                <ColumnOptions>
+                                    <div class="search-box">
+                                        <input type="text" class="form-control" autofocus @bind="FilterMainSubject" @bind:event="oninput" @onkeyup="FilterMainRefresh" @onchange="FilterMainRefresh" />
+                                    </div>
+                                </ColumnOptions>
+                            </TemplateColumn>
+
+                            <TemplateColumn Title="Subject" Sortable="true" SortBy="GridSort<MessageModel>.ByDescending(x => x.Subject)">
+                                <ChildContent>
+                                    <div @onclick="()=>SelectMessage(context?.MessageID)" class="@TableCSS(context)">
+                                        <div class="col-justify-start">@context.Subject</div>
+                                    </div>
+                                </ChildContent>
+                                <ColumnOptions>
+                                    <div class="search-box">
+                                        <input type="text" class="form-control" autofocus @bind="FilterMainSubject" @bind:event="oninput" @onkeyup="FilterMainRefresh" @onchange="FilterMainRefresh" />
+                                    </div>
+                                </ColumnOptions>
+                            </TemplateColumn>
+
+                            <TemplateColumn Title="Vehicle ID" Sortable="true" SortBy="GridSort<MessageModel>.ByDescending(x => x.VehicleID)">
+                                <ChildContent>
+                                    <div @onclick="()=>SelectMessage(context?.MessageID)" class="@TableCSS(context)">
+                                        <div class="col-justify-start">@context.VehicleID</div>
+                                    </div>
+                                </ChildContent>
+                                <ColumnOptions>
+                                    <div class="search-box">
+                                        <input type="number" class="form-control" autofocus @bind="FilterMainVehicleID" @bind:event="oninput" @onkeyup="FilterMainRefresh" @onchange="FilterMainRefresh" />
+                                    </div>
+                                </ColumnOptions>
+                            </TemplateColumn>
+
+                            <TemplateColumn Title="&pound; Offered" Sortable="true" SortBy="GridSort<MessageModel>.ByDescending(x => x.AmountOffered)">
+                                <ChildContent>
+                                    <div @onclick="()=>SelectMessage(context?.MessageID)" class="@TableCSS(context)">
+                                        <div class="col-justify-start text-center">
+                                            <h5 class="pt-1 pb-0 mb-0">
+                                                <span class="badge @(context!.IsAccepted == true? "text-bg-success" : "text-bg-danger")">
+                                                    @(context?.AmountOffered == null ? "" : context?.AmountOffered.Value.ToString("C0", new CultureInfo("en-GB")))
+                                                </span>
+                                            </h5>
+                                        </div>
+                                    </div>
+                                </ChildContent>
+                                <ColumnOptions>
+                                    <div class="search-box">
+                                        <input type="number" class="form-control" autofocus @bind="FilterMainAmountOffered" @bind:event="oninput" @onkeyup="FilterMainRefresh" @onchange="FilterMainRefresh" />
+                                    </div>
+                                </ColumnOptions>
+                            </TemplateColumn>
+
+                            <TemplateColumn Title="Accepted?" Sortable="true" SortBy="GridSort<MessageModel>.ByDescending(x => x.IsAccepted)">
+                                <ChildContent>
+                                    <div @onclick="()=>SelectMessage(context?.MessageID)" class="@TableCSS(context)">
+                                        <div class="col-justify-start text-center">
+                                            <i class="@CSSFunctions.BoolCSS(context.IsAccepted)"></i>
+                                        </div>
+                                    </div>
+                                </ChildContent>
+                                <ColumnOptions>
+                                    <div class="search-box">
+                                        <button type="button" class="btn @(FilterMainIsAccepted == true? "btn-primary" : "btn-outline-primary")" @onclick="ToggleFilterMainIsAccepted"><i class="@(FilterMainIsAccepted == null? "fa-regular fa-square-minus" : FilterMainIsAccepted == true? "fa-solid fa-square-check" : "fa-regular fa-square")"></i></button>
+                                    </div>
+                                </ColumnOptions>
+                            </TemplateColumn>
+
+                            <TemplateColumn Title="From" Sortable="true" SortBy="GridSort<MessageModel>.ByDescending(x => x.From)">
+                                <ChildContent>
+                                    <div @onclick="()=>SelectMessage(context?.MessageID)" class="@TableCSS(context)">
+                                        <div class="col-justify-start">@context.From</div>
+                                    </div>
+                                </ChildContent>
+                                <ColumnOptions>
+                                    <div class="search-box">
+                                        <input type="text" class="form-control" autofocus @bind="FilterMainFrom" @bind:event="oninput" @onkeyup="FilterMainRefresh" @onchange="FilterMainRefresh" />
+                                    </div>
+                                </ColumnOptions>
+                            </TemplateColumn>
+
+                            <TemplateColumn Title="From Name" Sortable="true" SortBy="GridSort<MessageModel>.ByDescending(x => x.FromName)">
+                                <ChildContent>
+                                    <div @onclick="()=>SelectMessage(context?.MessageID)" class="@TableCSS(context)">
+                                        <div class="col-justify-start">@context.FromName</div>
+                                    </div>
+                                </ChildContent>
+                                <ColumnOptions>
+                                    <div class="search-box">
+                                        <input type="text" class="form-control" autofocus @bind="FilterMainFromName" @bind:event="oninput" @onkeyup="FilterMainRefresh" @onchange="FilterMainRefresh" />
+                                    </div>
+                                </ColumnOptions>
+                            </TemplateColumn>
+
+                            <TemplateColumn Title="To" Sortable="true" SortBy="GridSort<MessageModel>.ByDescending(x => x.To)">
+                                <ChildContent>
+                                    <div @onclick="()=>SelectMessage(context?.MessageID)" class="@TableCSS(context)">
+                                        <div class="col-justify-start">@context.To</div>
+                                    </div>
+                                </ChildContent>
+                                <ColumnOptions>
+                                    <div class="search-box">
+                                        <input type="text" class="form-control" autofocus @bind="FilterMainTo" @bind:event="oninput" @onkeyup="FilterMainRefresh" @onchange="FilterMainRefresh" />
+                                    </div>
+                                </ColumnOptions>
+                            </TemplateColumn>
+
+                            <TemplateColumn Title="To Name" Sortable="true" SortBy="GridSort<MessageModel>.ByDescending(x => x.ToName)">
+                                <ChildContent>
+                                    <div @onclick="()=>SelectMessage(context?.MessageID)" class="@TableCSS(context)">
+                                        <div class="col-justify-start">@context.ToName</div>
+                                    </div>
+                                </ChildContent>
+                                <ColumnOptions>
+                                    <div class="search-box">
+                                        <input type="text" class="form-control" autofocus @bind="FilterMainToName" @bind:event="oninput" @onkeyup="FilterMainRefresh" @onchange="FilterMainRefresh" />
+                                    </div>
+                                </ColumnOptions>
+                            </TemplateColumn>
+
+                            <TemplateColumn Title="Sent?" Sortable="true" SortBy="GridSort<MessageModel>.ByDescending(x => x.IsSent)">
+                                <ChildContent>
+                                    <div @onclick="()=>SelectMessage(context?.MessageID)" class="@TableCSS(context)">
+                                        <div class="col-justify-start text-center">
+                                            <i class="@CSSFunctions.BoolCSS(context.IsSent)"></i>
+                                        </div>
+                                    </div>
+                                </ChildContent>
+                                <ColumnOptions>
+                                    <div class="search-box">
+                                        <button type="button" class="btn @(FilterMainIsSent == true? "btn-primary" : "btn-outline-primary")" @onclick="ToggleFilterMainIsSent"><i class="@(FilterMainIsSent == null? "fa-regular fa-square-minus" : FilterMainIsSent == true? "fa-solid fa-square-check" : "fa-regular fa-square")"></i></button>
+                                    </div>
+                                </ColumnOptions>
+                            </TemplateColumn>
+
+                            <TemplateColumn Title="Sent Date" Sortable="true" SortBy="GridSort<MessageModel>.ByDescending(x => x.SentDate)">
+                                <ChildContent>
+                                    <div @onclick="()=>SelectMessage(context?.MessageID)" class="@TableCSS(context)">
+                                        <div class="col-justify-start">@(context?.SentDate == null ? "" : context?.SentDate.Value.ToString("dd/MM/yyyy"))</div>
+                                    </div>
+                                </ChildContent>
+                                <ColumnOptions>
+                                    <div class="search-box">
+                                        <input type="date" class="form-control" autofocus @bind="FilterMainSentDate" @bind:event="oninput" @onkeyup="FilterMainRefresh" @onchange="FilterMainRefresh" />
+                                    </div>
+                                </ColumnOptions>
+                            </TemplateColumn>
+
+                            <TemplateColumn Title="Status" Sortable="true" SortBy="GridSort<MessageModel>.ByDescending(x => x.MessageStatusID)">
+                                <ChildContent>
+                                    <div @onclick="()=>SelectMessage(context?.MessageID)" class="@TableCSS(context)">
+                                        <div class="col-justify-start">@context?.MessageStatusID?.GetDisplayName()</div>
+                                    </div>
+                                </ChildContent>
+                                <ColumnOptions>
+                                    <div class="search-box">
+                                        <input type="text" class="form-control" autofocus @bind="FilterMainMessageStatus" @bind:event="oninput" @onkeyup="FilterMainRefresh" @onchange="FilterMainRefresh" />
+                                    </div>
+                                </ColumnOptions>
+                            </TemplateColumn>
+
+                            <TemplateColumn Title="Unique Customer Reference" Sortable="true" SortBy="GridSort<MessageModel>.ByDescending(x => x.MessageID)">
+                                <ChildContent>
+                                    <div @onclick="()=>SelectMessage(context?.MessageID)" class="@TableCSS(context)">
+                                        <div class="col-justify-start">@context.MessageGUID</div>
+                                    </div>
+                                </ChildContent>
+                                <ColumnOptions>
+                                    <div class="search-box">
+                                        <input type="text" class="form-control" autofocus @bind="FilterMainMessageGUID" @bind:event="oninput" @onkeyup="FilterMainRefresh" @onchange="FilterMainRefresh" />
+                                    </div>
+                                </ColumnOptions>
+                            </TemplateColumn>
+
+                            <TemplateColumn Title="Created By" Sortable="true" SortBy="GridSort<MessageModel>.ByDescending(x => x.CreatedBy)">
+                                <ChildContent>
+                                    <div @onclick="()=>SelectMessage(context?.MessageID)" class="@TableCSS(context)">
+                                        <div class="col-justify-start">@context.CreatedBy</div>
+                                    </div>
+                                </ChildContent>
+                                <ColumnOptions>
+                                    <div class="search-box">
+                                        <input type="search" class="form-control" autofocus @bind="FilterMainCreatedBy" @bind:event="oninput" placeholder="Created By..." @onkeyup="FilterMainRefresh" @onchange="FilterMainRefresh" />
+                                    </div>
+                                </ColumnOptions>
+                            </TemplateColumn>
+
+                            <TemplateColumn Title="Created Date" Sortable="true" SortBy="GridSort<MessageModel>.ByDescending(x => x.CreatedDate)">
+                                <ChildContent>
+                                    <div @onclick="()=>SelectMessage(context?.MessageID)" class="@TableCSS(context)">
+                                        <div class="col-justify-start">@(context?.CreatedDate == null ? "" : context?.CreatedDate.Value.ToString("dd/MM/yyyy"))</div>
+                                    </div>
+                                </ChildContent>
+                                <ColumnOptions>
+                                    <div class="search-box">
+                                        <input type="date" class="form-control" autofocus @bind="FilterMainCreatedDate" @bind:event="oninput" @onkeyup="FilterMainRefresh" @onchange="FilterMainRefresh" />
+                                    </div>
+                                </ColumnOptions>
+                            </TemplateColumn>
+
+                            <TemplateColumn Title="Last Updated By" Sortable="true" SortBy="GridSort<MessageModel>.ByDescending(x => x.LastUpdatedBy)">
+                                <ChildContent>
+                                    <div @onclick="()=>SelectMessage(context?.MessageID)" class="@TableCSS(context)">
+                                        <div class="col-justify-start">@context.LastUpdatedBy</div>
+                                    </div>
+                                </ChildContent>
+                                <ColumnOptions>
+                                    <div class="search-box">
+                                        <input type="search" class="form-control" autofocus @bind="FilterMainLastUpdatedBy" @bind:event="oninput" placeholder="Last Updated By..." @onkeyup="FilterMainRefresh" @onchange="FilterMainRefresh" />
+                                    </div>
+                                </ColumnOptions>
+                            </TemplateColumn>
+
+                            <TemplateColumn Title="Last Updated Date" Sortable="true" SortBy="GridSort<MessageModel>.ByDescending(x => x.LastUpdatedDate)">
+                                <ChildContent>
+                                    <div @onclick="()=>SelectMessage(context?.MessageID)" class="@TableCSS(context)">
+                                        <div class="col-justify-start">@(context?.CreatedDate == null ? "" : context?.CreatedDate.Value.ToString("dd/MM/yyyy"))</div>
+                                    </div>
+                                </ChildContent>
+                                <ColumnOptions>
+                                    <div class="search-box">
+                                        <input type="date" class="form-control" autofocus @bind="FilterMainLastUpdatedDate" @bind:event="oninput" @onkeyup="FilterMainRefresh" @onchange="FilterMainRefresh" />
+                                    </div>
+                                </ColumnOptions>
+                            </TemplateColumn>
                         </QuickGrid>
                     </div>
                 </div>
@@ -172,21 +418,21 @@ else {
 
     <Modal @ref="modalMessage">
         <Title>
-            @if (@selectedMessage?.MessageID > 0)
+            @if (@_selectedMessage?.MessageID > 0)
             {
-                @:<i class="fa-solid fa-message"></i> Message @selectedMessage?.MessageID
+                @:<i class="fa-solid fa-message"></i> Message @_selectedMessage?.MessageID
             }
             else {
                 @:<i class="fa-solid fa-message"></i> New Message
             }
         </Title>
         <Body>
-            <EditForm FormName="MessageForm" Model="selectedMessage" OnValidSubmit="() => SaveMessage(true)">
+            <EditForm EditContext="@EditContextMain" OnValidSubmit="() => SaveMessage(true)">
                 <FluentValidationValidator @ref="_fluentValidationValidator" />
-                <div class="bd-callout bd-callout-primary bd-callout-grey GreyBackground">
+                <div class="bd-callout bd-callout-VM bd-callout-grey GreyBackground">
                     <div class="container">
 
-                        @if (selectedMessage == null) {
+                        @if (_selectedMessage == null) {
                             <div class="row">
                                 <div class="col-md">
                                     <div class="alert alert-primary text-center" role="alert">
@@ -200,15 +446,154 @@ else {
                         else {
 
                             <div class="row g-3 mb-3">
-                                <div class="col-md-4">
-                                    <label class="col-form-label"><i class="fa-solid fa-angles-right"></i> Subject</label>
+                                <div class="col-md">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label class="col-form-label"><i class="fa-solid fa-angles-right"></i> From</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <InputText @bind-Value="_selectedMessage!.FromName" class="form-control" placeholder="Name" />
+                                            <ValidationMessage For="@(() => _selectedMessage!.FromName)" />
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col-md-8">
-                                    <InputText @bind-Value="selectedMessage!.Subject" class="form-control" />
-                                    <ValidationMessage For="@(() => selectedMessage!.Subject)" />
+                                <div class="col-md">
+                                    <InputText @bind-Value="_selectedMessage!.From" class="form-control" placeholder="Email" />
+                                    <ValidationMessage For="@(() => _selectedMessage!.From)" />
                                 </div>
                             </div>
 
+                            <div class="row g-3 mb-3">
+                                <div class="col-md">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label class="col-form-label"><i class="fa-solid fa-angles-right"></i> To</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <InputText @bind-Value="_selectedMessage!.ToName" class="form-control"  placeholder="Name" />
+                                            <ValidationMessage For="@(() => _selectedMessage!.ToName)" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md">
+                                    <InputText @bind-Value="_selectedMessage!.To" class="form-control" placeholder="Email" />
+                                    <ValidationMessage For="@(() => _selectedMessage!.To)" />
+                                </div>
+                            </div>
+
+                            <div class="row g-3 mb-3">
+                                <div class="col-md-2">
+                                    <label class="col-form-label"><i class="fa-solid fa-angles-right"></i> Template</label>
+                                </div>
+                                <div class="col-md-10">
+                                    @if (_selectedMessage!.MessageTemplate != null)
+                                    {
+                                        <InputSelect @bind-Value="_selectedMessage!.MessageTemplate!.MessageTemplateID" class="form-control">
+                                            <option value="">-- Please Select --</option>
+                                            @if (messageTemplates != null)
+                                            {
+                                                foreach (var template in messageTemplates)
+                                                {
+                                                    <option value="@template.MessageTemplateID">@template.Name</option>
+                                                }
+                                            }
+                                        </InputSelect>
+                                        <ValidationMessage For="@(() => _selectedMessage!.MessageTemplate.MessageTemplateID)" />
+                                    }
+
+                                </div>
+                            </div>
+
+                            <div class="row g-3 mb-3">
+                                <div class="col-md-2">
+                                    <label class="col-form-label"><i class="fa-solid fa-angles-right"></i> Subject</label>
+                                </div>
+                                <div class="col-md-10">
+                                    <InputText @bind-Value="_selectedMessage!.Subject" class="form-control" />
+                                    <ValidationMessage For="@(() => _selectedMessage!.Subject)" />
+                                </div>
+                            </div>
+
+                            <div class="row g-3 mb-3">
+                                <div class="col-md">
+                                    Message
+                                </div>
+                            </div>
+                            <div class="row g-3 mb-3">
+                                <div class="col-md">
+                                    <Editor ScriptSrc="./lib/tinymce/tinymce.min.js" @bind-Value="_selectedMessage!.Message" Field="() => _selectedMessage!.Message" LicenseKey="gpl" />
+                                    @* <InputTextArea @bind-Value="selectedMessage!.Message" class="form-control" /> *@
+                                    <ValidationMessage For="@(() => selectedMessage!.Message)" />
+                                </div>
+                            </div>
+
+                            <div class="row g-3 mb-3">
+                                <div class="col-md-2">
+                                    <label class="col-form-label"><i class="fa-solid fa-angles-right"></i> Vehicle</label>
+                                </div>
+                                <div class="col-md-10">
+                                    <InputNumber @bind-Value="_selectedMessage!.VehicleID" class="form-control" />
+                                    <ValidationMessage For="@(() => _selectedMessage!.VehicleID)" />
+                                </div>
+                            </div>
+
+                            <div class="row g-3 mb-3">
+                                <div class="col-md">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label class="col-form-label"><i class="fa-solid fa-angles-right"></i> <i class="fa-solid fa-sterling-sign"></i> Offered</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <InputNumber @bind-Value="_selectedMessage!.AmountOffered" class="form-control" />
+                                            <ValidationMessage For="@(() => _selectedMessage!.AmountOffered)" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label class="col-form-label"><i class="fa-solid fa-angles-right"></i> Accepted?</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="d-grid gap-2 d-md-block">
+                                                <button type="button" class="btn @(_selectedMessage!.IsAccepted == true? "btn-primary" : "btn-outline-primary") me-md-3" @onclick="(e) => ToggleMessageIsAccepted()"><i class="@(_selectedMessage!.IsAccepted == true? "fa-solid fa-square-check" : "fa-regular fa-square")"></i></button>
+                                            </div>
+                                            <ValidationMessage For="@(() => _selectedMessage!.IsAccepted)" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row g-3 mb-3">
+                                <div class="col-md">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label class="col-form-label"><i class="fa-solid fa-angles-right"></i> Sent Date</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <InputDate @bind-Value="_selectedMessage!.SentDate" class="form-control" />
+                                            <ValidationMessage For="@(() => _selectedMessage!.SentDate)" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label class="col-form-label"><i class="fa-solid fa-angles-right"></i> <i class="fa-solid fa-sterling-sign"></i> Status</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <InputSelect @bind-Value="_selectedMessage!.MessageStatusID" class="form-control">
+                                                <option value="">-- Please Select --</option>
+                                                @foreach (var value in Enum.GetValues<MessageStatus>())
+                                                {
+                                                    <option value="@value">@value</option>
+                                                }
+                                            </InputSelect>
+                                            <ValidationMessage For="@(() => _selectedMessage!.MessageStatusID)" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         }
                     </div>
                 </div>
@@ -220,16 +605,25 @@ else {
         <Footer>
             <button type="button" class="btn btn-secondary" data-dismiss="modal" @onclick="() => AdvanceToMessage(-1)"><i class="fa-solid fa-square-caret-left"></i></button>
             <button type="button" class="btn btn-secondary" data-dismiss="modal" @onclick="() => AdvanceToMessage(1)"><i class="fa-solid fa-square-caret-right"></i></button>
-            <button type="button" class="btn btn-success" data-dismiss="modal" @onclick="() => SaveMessage(true)"><i class="fa-solid fa-floppy-disk"></i> Save and Close</button>
-            <button type="button" class="btn btn-primary" data-dismiss="modal" @onclick="() => SaveMessage(false)"><i class="fa-solid fa-floppy-disk"></i> Save</button>
-            <button type="button" class="btn btn-danger" data-dismiss="modal" @onclick="CancelMessageConfirm"><i class="fa-solid fa-rotate-left"></i> Cancel</button>
+            <button type="button" class="btn btn-info" data-dismiss="modal" @onclick="() => SendMessage(true)"><i class="fa-solid fa-paper-plane"></i> Send</button>
+
+            @if (selectedMessageChanges?.Count > 0)
+            {
+                <button type="button" class="btn btn-success" data-dismiss="modal" @onclick="() => SaveMessage(true)"><i class="fa-solid fa-floppy-disk"></i> Save and Close</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" @onclick="() => SaveMessage(false)"><i class="fa-solid fa-floppy-disk"></i> Save</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" @onclick="CancelMessageConfirm"><i class="fa-solid fa-rotate-left"></i> Cancel <strong>@(selectedMessageChanges?.Count ?? 1)</strong> Changes</button>
+            }
+            else
+            {
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" @onclick="CloseMessage"><i class="fa-solid fa-rotate-left"></i> Close</button>
+            }
         </Footer>
     </Modal>
 }
 
 @code {
-    [Parameter]
-    public int? MessageID { get; set; }
+    public EditContext? EditContextMain { get; set; }
+    private FluentValidationValidator? _fluentValidationValidator;
 
     public string? action { get; set; }
     public string? soundEffect { get; set; }
@@ -249,32 +643,90 @@ else {
 
     public string? loadDataErrorMsg = null;
 
+    [Parameter]
+    public int? MessageID { get; set; }
+
     private List<MessageModel>? messages { get; set; }
 
     [SupplyParameterFromForm]
     public MessageModel? selectedMessage { get; set; } = new MessageModel();
+    private MessageModel? _selectedMessage { get; set; } = new MessageModel();
+    private IDictionary<string, string>? selectedMessageChanges = new Dictionary<string, string>();
 
-    private FluentValidationValidator? _fluentValidationValidator;
+    //Related datasets
+    private List<MessageTemplateModel>? messageTemplates { get; set; }
 
     private IQueryable<MessageModel>? FilteredMessages =>
         (messages)?.AsQueryable()
         .Where(
-            t => 
-            (FilterMainMessageID == null ? true : t.MessageID == (FilterMainMessageID ?? t.MessageID))
-
+            m => 
+            (FilterMainMessageID == null ? true : m.MessageID == (FilterMainMessageID ?? m.MessageID))
+            && (FilterMainMessageGUID == null ? true : (m.MessageGUID.ToString() ?? string.Empty).Contains(FilterMainMessageGUID, StringComparison.CurrentCultureIgnoreCase))
+            && (FilterMainMessageType == null ? true : (m.MessageTypeID.GetDisplayName() ?? string.Empty).Contains(FilterMainMessageType, StringComparison.CurrentCultureIgnoreCase))
+            && (FilterMainSubject == null ? true : (m.Subject ?? string.Empty).Contains(FilterMainSubject, StringComparison.CurrentCultureIgnoreCase))
+            && (FilterMainMessage == null ? true : (m.Message ?? string.Empty).Contains(FilterMainMessage, StringComparison.CurrentCultureIgnoreCase))
+            && (FilterMainMessageIsHTML == null ? true : m.MessageIsHTML == FilterMainMessageIsHTML)
+            && (FilterMainVehicleID == null ? true : m.VehicleID == FilterMainVehicleID)
+            && (FilterMainAmountOffered == null ? true : m.AmountOffered == FilterMainAmountOffered)
+            && (FilterMainIsAccepted == null ? true : m.IsAccepted == FilterMainIsAccepted)
+            && (FilterMainFrom == null ? true : (m.From ?? string.Empty).Contains(FilterMainFrom, StringComparison.CurrentCultureIgnoreCase))
+            && (FilterMainFromName == null ? true : (m.FromName ?? string.Empty).Contains(FilterMainFromName, StringComparison.CurrentCultureIgnoreCase))
+            && (FilterMainTo == null ? true : (m.To ?? string.Empty).Contains(FilterMainTo, StringComparison.CurrentCultureIgnoreCase))
+            && (FilterMainToName == null ? true : (m.ToName ?? string.Empty).Contains(FilterMainToName, StringComparison.CurrentCultureIgnoreCase))
+            && (FilterMainCC == null ? true : (m.CC ?? string.Empty).Contains(FilterMainCC, StringComparison.CurrentCultureIgnoreCase))
+            && (FilterMainBCC == null ? true : (m.BCC ?? string.Empty).Contains(FilterMainBCC, StringComparison.CurrentCultureIgnoreCase))
+            && (FilterMainIsSent == null ? true : m.IsSent == FilterMainIsSent)
+            && (FilterMainSentDate == null ? true : DateOnly.FromDateTime(m.SentDate ?? DateTime.MinValue) == DateOnly.FromDateTime((DateTime)(FilterMainSentDate ?? m.SentDate)!))
+            && (FilterMainMessageStatus == null ? true : (m.MessageStatusID.GetDisplayName() ?? string.Empty).Contains(FilterMainMessageStatus, StringComparison.CurrentCultureIgnoreCase))
+            && (FilterMainCreatedBy == null ? true : (m.CreatedBy ?? string.Empty).Contains(FilterMainCreatedBy, StringComparison.CurrentCultureIgnoreCase))
+            && (FilterMainCreatedDate == null ? true : DateOnly.FromDateTime(m.CreatedDate ?? DateTime.MinValue) == DateOnly.FromDateTime((DateTime)(FilterMainCreatedDate ?? m.CreatedDate)!))
+            && (FilterMainLastUpdatedBy == null ? true : (m.LastUpdatedBy ?? string.Empty).Contains(FilterMainLastUpdatedBy, StringComparison.CurrentCultureIgnoreCase))
+            && (FilterMainLastUpdatedDate == null ? true : DateOnly.FromDateTime(m.LastUpdatedDate ?? DateTime.MinValue) == DateOnly.FromDateTime((DateTime)(FilterMainLastUpdatedDate ?? m.LastUpdatedDate)!))
         );
 
     List<string> FiltersMain = new List<string>();
     int? FilterMainMessageID;
-    
+    string? FilterMainMessageGUID;
+    string? FilterMainMessageType;
+    string? FilterMainSubject;
+    string? FilterMainMessage;
+    bool? FilterMainMessageIsHTML;
+    int? FilterMainVehicleID;
+    decimal? FilterMainAmountOffered;
+    bool? FilterMainIsAccepted;
+    string? FilterMainFrom;
+    string? FilterMainFromName;
+    string? FilterMainTo;
+    string? FilterMainToName;
+    string? FilterMainCC;
+    string? FilterMainBCC;
+    bool? FilterMainIsSent;
+    DateTime? FilterMainSentDate;
+    string? FilterMainMessageStatus;
+    string? FilterMainCreatedBy;
+    DateTime? FilterMainCreatedDate;
+    string? FilterMainLastUpdatedBy;
+    DateTime? FilterMainLastUpdatedDate;
 
     private string? messageEndPoint;
+    private string? messageTemplateEndPoint;
 
     private Modal? modalMessage { get; set; }
 
     protected override async Task OnInitializedAsync() 
     {
+        if (_selectedMessage != null)
+            EditContextMain = new EditContext(_selectedMessage);
+        
+        if (EditContextMain != null)
+        {
+            EditContextMain.OnFieldChanged += ChangeMessage;
+        }
+        _fluentValidationValidator = new FluentValidationValidator();
+
+        bool? isError = false;
         messageEndPoint = $"{configuration["APIEndpoint"]}/Message";
+        messageTemplateEndPoint = $"{configuration["APIEndpoint"]}/MessageTemplate";
 
         try
         {
@@ -282,8 +734,38 @@ else {
         }
         catch (HttpRequestException ex)
         {
+            isError = true;
             HandleJsonException(ex, "Message", MessageID.ToString() ?? "");
         }
+
+        if (isError != true) {
+            //Load other objects
+
+            try
+            {
+                messageTemplates = await Http.GetFromJsonAsync<List<MessageTemplateModel>>(messageTemplateEndPoint);
+            }
+            catch (HttpRequestException ex)
+            {
+                isError = true;
+                HandleJsonException(ex, "MessageTemplate", MessageID.ToString() ?? "");
+            }
+        }
+    }
+
+    public string TableCSS(MessageModel? context)
+    {
+        string css = "";
+        if (context?.MessageID == selectedMessage?.MessageID)
+        {
+            css = "SelectedRow";
+        }
+        else if (context?.IsSent != true)
+        {
+            css = "ErrorRow";
+        }
+
+        return css;
     }
 
     private void FilterMainRefresh()
@@ -294,14 +776,172 @@ else {
         {
             FiltersMain.Add($"ID: '{FilterMainMessageID.ToString()}'");
         }
-        
+        if (FilterMainMessageGUID != null)
+        {
+            FiltersMain.Add($"GUID: '{FilterMainMessageGUID}'");
+        }
+        if (FilterMainMessageType != null)
+        {
+            FiltersMain.Add($"Type: '{FilterMainMessageType}'");
+        }
+        if (FilterMainSubject != null)
+        {
+            FiltersMain.Add($"Subject: '{FilterMainSubject}'");
+        }
+        if (FilterMainMessage != null)
+        {
+            FiltersMain.Add($"Message: '{FilterMainMessage}'");
+        }
+        if (FilterMainMessageIsHTML != null)
+        {
+            FiltersMain.Add($"Is HTML: '{((bool)(FilterMainMessageIsHTML = true) ? "Y" : "N")}'");
+        }
+        if (FilterMainVehicleID != null)
+        {
+            FiltersMain.Add($"Vehicle ID: '{FilterMainVehicleID.ToString()}'");
+        }
+        if (FilterMainAmountOffered != null)
+        {
+            FiltersMain.Add($"Amount Offered: '{FilterMainAmountOffered.ToString()}'");
+        }
+        if (FilterMainIsAccepted != null)
+        {
+            FiltersMain.Add($"Is Accepted: '{((bool)(FilterMainIsAccepted = true) ? "Y" : "N")}'");
+        }
+        if (FilterMainFrom != null)
+        {
+            FiltersMain.Add($"From (Email): '{FilterMainFrom}'");
+        }
+        if (FilterMainFromName != null)
+        {
+            FiltersMain.Add($"From (Name): '{FilterMainFromName}'");
+        }
+        if (FilterMainTo != null)
+        {
+            FiltersMain.Add($"To (Email): '{FilterMainTo}'");
+        }
+        if (FilterMainToName != null)
+        {
+            FiltersMain.Add($"To (Name): '{FilterMainToName}'");
+        }
+        if (FilterMainCC != null)
+        {
+            FiltersMain.Add($"To (CC): '{FilterMainCC}'");
+        }
+        if (FilterMainBCC != null)
+        {
+            FiltersMain.Add($"To (BCC): '{FilterMainBCC}'");
+        }
+        if (FilterMainIsSent != null)
+        {
+            FiltersMain.Add($"Is Sent: '{((bool)(FilterMainIsSent = true) ? "Y" : "N")}'");
+        }
+        if (FilterMainSentDate != null)
+        {
+            FiltersMain.Add($"Sent Date: '{FilterMainSentDate.Value.ToString("dd/MM/yyyy")}'");
+        }
+        if (FilterMainMessageStatus != null)
+        {
+            FiltersMain.Add($"Status: '{FilterMainMessageStatus}'");
+        }
+        if (FilterMainCreatedBy != null)
+        {
+            FiltersMain.Add($"Created By: '{FilterMainCreatedBy}'");
+        }
+        if (FilterMainCreatedDate != null)
+        {
+            FiltersMain.Add($"Created Date: '{FilterMainCreatedDate.Value.ToString("dd/MM/yyyy")}'");
+        }
+        if (FilterMainLastUpdatedBy != null)
+        {
+            FiltersMain.Add($"Last Updated By: '{FilterMainLastUpdatedBy}'");
+        }
+        if (FilterMainLastUpdatedDate != null)
+        {
+            FiltersMain.Add($"Last Updated Date: '{FilterMainLastUpdatedDate.Value.ToString("dd/MM/yyyy")}'");
+        }
     }
 
     private void FilterMainClear()
     {
         FilterMainMessageID = null;
+        FilterMainMessageGUID = null;
+        FilterMainMessageType = null;
+        FilterMainSubject = null;
+        FilterMainMessage = null;
+        FilterMainMessageIsHTML = null;
+        FilterMainVehicleID = null;
+        FilterMainAmountOffered = null;
+        FilterMainIsAccepted = null;
+        FilterMainFrom = null;
+        FilterMainFromName = null;
+        FilterMainTo = null;
+        FilterMainToName = null;
+        FilterMainCC = null;
+        FilterMainBCC = null;
+        FilterMainIsSent = null;
+        FilterMainSentDate = null;
+        FilterMainMessageStatus = null;
+        FilterMainCreatedBy = null;
+        FilterMainCreatedDate = null;
+        FilterMainLastUpdatedBy = null;
+        FilterMainLastUpdatedDate = null;
 
         FiltersMain.Clear();
+    }
+
+    public void ToggleFilterMainMessageIsHTML()
+    {
+        if (FilterMainMessageIsHTML == null)
+        {
+            FilterMainMessageIsHTML = true;
+        }
+        else if (FilterMainMessageIsHTML == true)
+        {
+            FilterMainMessageIsHTML = false;
+        }
+        else if (FilterMainMessageIsHTML == false)
+        {
+            FilterMainMessageIsHTML = null;
+        }
+
+        FilterMainRefresh();
+    }
+
+    public void ToggleFilterMainIsAccepted()
+    {
+        if (FilterMainIsAccepted == null)
+        {
+            FilterMainIsAccepted = true;
+        }
+        else if (FilterMainIsAccepted == true)
+        {
+            FilterMainIsAccepted = false;
+        }
+        else if (FilterMainIsAccepted == false)
+        {
+            FilterMainIsAccepted = null;
+        }
+
+        FilterMainRefresh();
+    }
+
+    public void ToggleFilterMainIsSent()
+    {
+        if (FilterMainIsSent == null)
+        {
+            FilterMainIsSent = true;
+        }
+        else if (FilterMainIsSent == true)
+        {
+            FilterMainIsSent = false;
+        }
+        else if (FilterMainIsSent == false)
+        {
+            FilterMainIsSent = null;
+        }
+
+        FilterMainRefresh();
     }
 
     private async Task FormAction()
@@ -355,7 +995,18 @@ else {
 
     private MessageModel? GetMessage(int messageID)
     {
-        return messages?.Where(t => t.MessageID == messageID).FirstOrDefault();
+        return 
+        messages?
+        .Where(t => t.MessageID == messageID)
+        .FirstOrDefault();
+    }
+
+    private MessageTemplateModel? GetMessageTemplate(int messageTemplateID)
+    {
+        return
+        messageTemplates?
+        .Where(t => t.MessageTemplateID == messageTemplateID)
+        .FirstOrDefault();
     }
 
     private void SelectMessage(int? messageID)
@@ -368,37 +1019,80 @@ else {
         {
             selectedMessage = new MessageModel();
         }
+
+        //Keep a copy of this object to be used for edit form so original object can remain untouched until save operation (otherwise it changes on screen)
+        if (selectedMessage != null)
+            _selectedMessage = selectedMessage?.Clone();
     }
 
-    public void AdvanceToMessage(int numRecords)
+    public async Task AdvanceToMessage(int numRecords)
     {
-        int? currentRecordID = selectedMessage?.MessageID;
-        MessageModel? nextRecord = new MessageModel();
+        if (await SaveMessage(false) == true)
+        {
+            int? currentRecordID = selectedMessage?.MessageID;
+            MessageModel? nextRecord = new MessageModel();
 
-        if (numRecords > 0) 
-        {
-            nextRecord =
-            FilteredMessages?
-            .SkipWhile(obj => obj.MessageID != currentRecordID)
-            .Skip(numRecords)
-            .FirstOrDefault();
-        }
-        else if (numRecords < 0)
-        {
-            int numRecordsBack = Math.Abs(numRecords);
-            nextRecord =
-                FilteredMessages?
-                .Reverse()
-                .SkipWhile(obj => obj.MessageID != currentRecordID)
-                .Skip(numRecordsBack)
-                .FirstOrDefault();
-        }
-
-        if (nextRecord != null)
-        {
-            if (nextRecord?.MessageID != null)
+            if (numRecords > 0)
             {
-                selectedMessage = nextRecord;
+                nextRecord =
+                FilteredMessages?
+                .SkipWhile(obj => obj.MessageID != currentRecordID)
+                .Skip(numRecords)
+                .FirstOrDefault();
+            }
+            else if (numRecords < 0)
+            {
+                int numRecordsBack = Math.Abs(numRecords);
+                nextRecord =
+                    FilteredMessages?
+                    .Reverse()
+                    .SkipWhile(obj => obj.MessageID != currentRecordID)
+                    .Skip(numRecordsBack)
+                    .FirstOrDefault();
+            }
+
+            if (nextRecord != null)
+            {
+                if (nextRecord?.MessageID != null)
+                {
+                    selectedMessage = nextRecord;
+                    _selectedMessage = nextRecord;
+                }
+            }
+        }
+    }
+
+    public void ToggleMessageIsAccepted()
+    {
+        if (_selectedMessage != null)
+        {
+            if (_selectedMessage.IsAccepted == true)
+            {
+                _selectedMessage.IsAccepted = false;
+            }
+            else
+            {
+                _selectedMessage.IsAccepted = true;
+            }
+        }
+    }
+
+    protected void ChangeMessage(object? sender, FieldChangedEventArgs? e)
+    {
+        string? fieldName = e?.FieldIdentifier.FieldName;
+        string? fieldValue = e?.FieldIdentifier.Model.GetType().GetProperty(fieldName ?? "")?.GetValue(_selectedMessage)?.ToString();
+
+        fieldValue = StringFunctions.FormatFieldChangedValue(fieldValue);
+
+        if (selectedMessageChanges != null && fieldName != null)
+        {
+            if (selectedMessageChanges.ContainsKey(fieldName))
+            {
+                selectedMessageChanges[fieldName] = fieldValue ?? "";
+            }
+            else
+            {
+                selectedMessageChanges.Add(fieldName, fieldValue ?? "");
             }
         }
     }
@@ -407,7 +1101,7 @@ else {
     {
         SelectMessage(messageID);
 
-        if (selectedMessage != null)
+        if (_selectedMessage != null)
         {
             modalMessage!.MakeLarge();
             modalMessage!.Open();
@@ -425,30 +1119,34 @@ else {
         }
     }
 
-    private async Task SaveMessage(bool? CloseDialogAfterSave)
+    private async Task<bool> SaveMessage(bool? CloseDialogAfterSave)
     {
         string? saveEndPoint;
+        bool returnValue = false;
 
         if (await _fluentValidationValidator!.ValidateAsync())
         {
-            Logger.LogInformation("Id = {Id}", selectedMessage?.MessageID);
+            Logger.LogInformation("Id = {Id}", _selectedMessage?.MessageID);
 
             try
             {
-                if (selectedMessage != null)
+                if (selectedMessage != null && _selectedMessage != null)
                 {
+                    //Update related entities (as only IDs are updated on the form so rest of object is not updated)
+                    _selectedMessage.MessageTemplate = GetMessageTemplate(_selectedMessage.MessageTemplate?.MessageTemplateID ?? 0);
+                    
                     HttpResponseMessage formResponse = new HttpResponseMessage();
 
-                    if (selectedMessage?.MessageID > 0) {
+                    if (_selectedMessage?.MessageID > 0) {
                         //Update existing record
                         saveEndPoint = $"{configuration["APIEndpoint"]}/Message/{selectedMessage?.MessageID}";
-                        formResponse = await Http.PutAsJsonAsync<MessageModel>(saveEndPoint, selectedMessage!);
+                        formResponse = await Http.PutAsJsonAsync<MessageModel>(saveEndPoint, _selectedMessage!);
                     }
                     else 
                     {
                         //Insert new record
                         saveEndPoint = $"{configuration["APIEndpoint"]}/Message";
-                        formResponse = await Http.PostAsJsonAsync<MessageModel>(saveEndPoint, selectedMessage!);
+                        formResponse = await Http.PostAsJsonAsync<MessageModel>(saveEndPoint, _selectedMessage!);
                     }
 
                     if (formResponse.IsSuccessStatusCode != true)
@@ -465,9 +1163,13 @@ else {
                     }
                     else
                     {
-                        soundEffect = "sounds/confirm.mp3";
+                        //Copy properties back to tracked object being saved
+                        _selectedMessage.CopyProperties(selectedMessage);
 
-                        if (selectedMessage?.MessageID > 0)
+                        soundEffect = "sounds/confirm.mp3";
+                        returnValue = true;
+
+                        if (_selectedMessage?.MessageID > 0)
                         {
                             //Update existing record
                             if (CloseDialogAfterSave == true)
@@ -520,8 +1222,18 @@ else {
             }
             catch (HttpRequestException ex)
             {
-                HandleJsonException(ex, "Message", selectedMessage?.MessageID.ToString() ?? "0");
+                HandleJsonException(ex, "Message", _selectedMessage?.MessageID.ToString() ?? "0");
             }
+        }
+
+        return returnValue;
+    }
+
+    public async Task SendMessage(bool? CloseDialogAfterSave)
+    {
+        if (await SaveMessage(CloseDialogAfterSave) == true)
+        {
+            //Send email
         }
     }
 
@@ -622,22 +1334,63 @@ else {
         action = "CancelMessageConfirm";
         soundEffect = "sounds/prompt.mp3";
 
+        string? numberOfChanges = $"{selectedMessageChanges?.Count} {(selectedMessageChanges?.Count == 1 ? "Change" : "Changes")}";
+        string? listOfChanges = selectedMessageChanges?.Select(x => $"<li>{x.Key}: {x.Value}</li>").Aggregate((x, y) => $"{x}{y}"); //Aggregation in case of duplication
+
         msgConfirmTitle = $"Confirm Cancel?";
-        msgConfirm = (MarkupString)$"Are you sure you want to cancel and lose any changes made?";
+        msgConfirm = (MarkupString)$@"
+            <p>
+                You have made the following changes:<br />
+                - Message: {numberOfChanges}:
+                <ul>
+                {listOfChanges}
+                </ul>
+            </p>
+            <p>
+                Are you sure you want to cancel and lose these changes?
+            </p>";
 
         modalConfirm!.OpenOnTop1();
     }
 
     private void CancelMessage()
     {
+        //selectedMessage = _selectedMessage;
+
+        //Set object back to original values
+        if (selectedMessage != null)
+        {
+            //selectedMessage.Subject = _selectedMessage?.Subject;
+        }
+
+        // if (selectedMessage != null && _selectedMessage != null)
+        //     _selectedMessage.CopyProperties(selectedMessage);
+
+        //Better way?
+        // PropertyInfo[]? properties = _selectedMessage?.GetType().GetProperties();
+        // if (properties != null)
+        // {
+        //     foreach (PropertyInfo property in properties)
+        //     {
+        //         // Get the name and value of each property
+        //         string? propertyName = property.Name;
+        //         object? propertyValue = property.GetValue(selectedMessage);
+
+        //         //Console.WriteLine($"{propertyName}: {propertyValue}");
+        //         selectedMessage?.GetType().GetProperty(propertyName)?.SetValue(selectedMessage, propertyValue);
+        //         //selectedMessage?.GetType().GetProperty(propertyName)?.SetValue(_selectedMessage, _selectedMessage?.GetType().GetProperty(propertyName)?.GetValue(_selectedMessage));
+        //     }
+        // }
+
         CloseMessage();
     }
 
     private void CloseMessage()
     {
-        selectedMessage = new MessageModel();
         modalMessage!.Close();
         modalConfirm!.Close();
+
+        selectedMessageChanges?.Clear();
     }
 
     private void HandleJsonException(HttpRequestException ex, string objectName, string objectID)

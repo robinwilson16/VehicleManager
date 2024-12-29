@@ -1,8 +1,8 @@
 self.assetsManifest = {
-  "version": "OgrcUbDo",
+  "version": "D6s2Ms+Q",
   "assets": [
     {
-      "hash": "sha256-bVLkJUoSfLi7TG2nvXTxy+KhGkcA/8xKiv8RuGMJFVI=",
+      "hash": "sha256-xBZ+mbV4oAxwQ4qYu1lHOgW4KrV38QzS7Ip/j7Yno6s=",
       "url": "VehicleManager.styles.css"
     },
     {
@@ -786,19 +786,19 @@ self.assetsManifest = {
       "url": "_framework/TinyMCE.Blazor.ll1a586db2.wasm"
     },
     {
-      "hash": "sha256-55XL23/PEpBtlyymcbQoafLppJYMbeTvbjiPL1le2ls=",
-      "url": "_framework/VehicleManager.3lfwzjp3ey.pdb"
+      "hash": "sha256-4wljhPQwC5/z93+neI6uCzBLwbxpkHjS0YZBBrN5MT0=",
+      "url": "_framework/VehicleManager.56ca2eaflj.wasm"
     },
     {
-      "hash": "sha256-QK7ATIFr7JYAXmxKueSjdislXS+0XG0bITsNiSCi9/U=",
-      "url": "_framework/VehicleManager.o6x1ctfhfh.wasm"
+      "hash": "sha256-MefCQXsgF2Vy7zmKJgg2GYyy2/k8yOEeUeIsjhQCI9A=",
+      "url": "_framework/VehicleManager.hktu2t6nnr.pdb"
     },
     {
       "hash": "sha256-0VmBdMjdc0nZGHDSfaGirT6y3mJTM0qx8eqCUC/rpiE=",
       "url": "_framework/WindowsBase.377bly7twj.wasm"
     },
     {
-      "hash": "sha256-Glrxg6q82fG6EG65LHMyoaKTgW6pKg9ge2h2ul7q47k=",
+      "hash": "sha256-M64ichxpcRa5EMYPENcilHkm4SdaJH2xcxX0WWTavgs=",
       "url": "_framework/blazor.boot.json"
     },
     {
@@ -858,7 +858,7 @@ self.assetsManifest = {
       "url": "appsettings.json"
     },
     {
-      "hash": "sha256-x+rwQZiaOJpkiShTUoaAzxCaAtUXJUDjQQzckkbAyDs=",
+      "hash": "sha256-U8O8ag/OVOsEMeW2+T5EjpjnNrCxcNoUpNXcYNzqXSY=",
       "url": "css/VehicleManager.css"
     },
     {
@@ -880,6 +880,14 @@ self.assetsManifest = {
     {
       "hash": "sha256-oEo6d+KqX5fjxTiZk/w9NB3Mi0+ycS5yLwCKwr4IkbA=",
       "url": "icon-512.png"
+    },
+    {
+      "hash": "sha256-aNJcOiXez60ZbkrJznwukJLqHk+fYELlNemp/Oyt+uc=",
+      "url": "images/BackgroundWaves.png"
+    },
+    {
+      "hash": "sha256-RuiAuDuQS4NP1KNiZntTUZWZI7M3MHlI3ptSWSBfqfQ=",
+      "url": "images/BrokenMotorLogo.png"
     },
     {
       "hash": "sha256-MKHB8kwMYJuV1Ofnaen8SMxnO1K9+zZ19gQke7FcsmQ=",

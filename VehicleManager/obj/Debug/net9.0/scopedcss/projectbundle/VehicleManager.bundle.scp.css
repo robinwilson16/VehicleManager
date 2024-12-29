@@ -16,9 +16,9 @@ main[b-zjt9343po9] {
 .top-row[b-zjt9343po9] {
     background-color: #46af6b; /*Changed*/
     border-bottom: 1px solid #d6d5d5;
-    justify-content: flex-end;
+    /*justify-content: flex-end;*/ /*Changed*/
     height: 3.5rem;
-    display: flex;
+    /*display: flex;*/ /*Changed*/
     align-items: center;
     color: #FFFFFF; /*Added*/
 }

@@ -3,6 +3,7 @@
 
 @using VehicleManager.Models
 @using VehicleManager.Services
+@using VehicleManager.Shared
 @using System.Net
 @using Microsoft.AspNetCore.Components.QuickGrid
 @using TinyMCE.Blazor
@@ -96,7 +97,7 @@ else if(messageTemplates == null) {
 else {
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md">
+            <div class="col-md TableArea pt-3 rounded">
                 <div class="alert alert-primary" role="alert">
                     @if (FiltersMain.Count > 0)
                     {
@@ -124,7 +125,7 @@ else {
 
                             <TemplateColumn Title="ID" Sortable="true" SortBy="GridSort<MessageTemplateModel>.ByDescending(x => x.MessageTemplateID)">
                                 <ChildContent>
-                                    <div @onclick="()=>SelectMessageTemplate(context?.MessageTemplateID)" class="@(context?.MessageTemplateID == selectedMessageTemplate?.MessageTemplateID ? "SelectedRow" : "")">
+                                    <div @onclick="()=>SelectMessageTemplate(context?.MessageTemplateID)" class="@TableCSS(context)">
                                         <div class="col-justify-start">@context.MessageTemplateID</div>
                                     </div>
                                 </ChildContent>
@@ -137,7 +138,7 @@ else {
 
                             <TemplateColumn Title="Code" Sortable="true" SortBy="GridSort<MessageTemplateModel>.ByDescending(x => x.Code)">
                                 <ChildContent>
-                                    <div @onclick="()=>SelectMessageTemplate(context?.MessageTemplateID)" class="@(context?.MessageTemplateID == selectedMessageTemplate?.MessageTemplateID ? "SelectedRow" : "")">
+                                    <div @onclick="()=>SelectMessageTemplate(context?.MessageTemplateID)" class="@TableCSS(context)">
                                         <div class="col-justify-start">@context.Code</div>
                                     </div>
                                 </ChildContent>
@@ -150,7 +151,7 @@ else {
 
                             <TemplateColumn Title="Name" Sortable="true" SortBy="GridSort<MessageTemplateModel>.ByDescending(x => x.Name)">
                                 <ChildContent>
-                                    <div @onclick="()=>SelectMessageTemplate(context?.MessageTemplateID)" class="@(context?.MessageTemplateID == selectedMessageTemplate?.MessageTemplateID ? "SelectedRow" : "")">
+                                    <div @onclick="()=>SelectMessageTemplate(context?.MessageTemplateID)" class="@TableCSS(context)">
                                         <div class="col-justify-start">@context.Name</div>
                                     </div>
                                 </ChildContent>
@@ -163,8 +164,8 @@ else {
 
                             <TemplateColumn Title="Sequence" Sortable="true" SortBy="GridSort<MessageTemplateModel>.ByDescending(x => x.Sequence)">
                                 <ChildContent>
-                                    <div @onclick="()=>SelectMessageTemplate(context?.MessageTemplateID)" class="@(context?.MessageTemplateID == selectedMessageTemplate?.MessageTemplateID ? "SelectedRow" : "")">
-                                        <div class="col-justify-start">@context.Sequence</div>
+                                    <div @onclick="()=>SelectMessageTemplate(context?.MessageTemplateID)" class="@TableCSS(context)">
+                                        <div class="col-justify-start text-center">@context.Sequence</div>
                                     </div>
                                 </ChildContent>
                                 <ColumnOptions>
@@ -176,9 +177,9 @@ else {
 
                             <TemplateColumn Title="Is Enabled" Sortable="true" SortBy="GridSort<MessageTemplateModel>.ByDescending(x => x.IsEnabled)">
                                 <ChildContent>
-                                    <div @onclick="()=>SelectMessageTemplate(context?.MessageTemplateID)" class="@(context?.MessageTemplateID == selectedMessageTemplate?.MessageTemplateID ? "SelectedRow" : "")">
-                                        <div class="col-justify-start">
-                                            <button type="button" class="btn @(context!.IsEnabled == true? "btn-primary" : "btn-outline-primary")"><i class="@(context!.IsEnabled == null? "fa-regular fa-square-minus" : context!.IsEnabled == true? "fa-solid fa-square-check" : "fa-regular fa-square")"></i></button>
+                                    <div @onclick="()=>SelectMessageTemplate(context?.MessageTemplateID)" class="@TableCSS(context)">
+                                        <div class="col-justify-start text-center">
+                                            <i class="@CSSFunctions.BoolCSS(context.IsEnabled)"></i>
                                         </div>
                                     </div>
                                 </ChildContent>
@@ -191,7 +192,7 @@ else {
 
                             <TemplateColumn Title="Created By" Sortable="true" SortBy="GridSort<MessageTemplateModel>.ByDescending(x => x.CreatedBy)">
                                 <ChildContent>
-                                    <div @onclick="()=>SelectMessageTemplate(context?.MessageTemplateID)" class="@(context?.MessageTemplateID == selectedMessageTemplate?.MessageTemplateID ? "SelectedRow" : "")">
+                                    <div @onclick="()=>SelectMessageTemplate(context?.MessageTemplateID)" class="@TableCSS(context)">
                                         <div class="col-justify-start">@context.CreatedBy</div>
                                     </div>
                                 </ChildContent>
@@ -204,7 +205,7 @@ else {
 
                             <TemplateColumn Title="Created Date" Sortable="true" SortBy="GridSort<MessageTemplateModel>.ByDescending(x => x.CreatedDate)">
                                 <ChildContent>
-                                    <div @onclick="()=>SelectMessageTemplate(context?.MessageTemplateID)" class="@(context?.MessageTemplateID == selectedMessageTemplate?.MessageTemplateID ? "SelectedRow" : "")">
+                                    <div @onclick="()=>SelectMessageTemplate(context?.MessageTemplateID)" class="@TableCSS(context)">
                                         <div class="col-justify-start">@(context?.CreatedDate == null? "" : context?.CreatedDate.Value.ToString("dd/MM/yyyy"))</div>
                                     </div>
                                 </ChildContent>
@@ -217,7 +218,7 @@ else {
 
                             <TemplateColumn Title="Last Updated By" Sortable="true" SortBy="GridSort<MessageTemplateModel>.ByDescending(x => x.LastUpdatedBy)">
                                 <ChildContent>
-                                    <div @onclick="()=>SelectMessageTemplate(context?.MessageTemplateID)" class="@(context?.MessageTemplateID == selectedMessageTemplate?.MessageTemplateID ? "SelectedRow" : "")">
+                                    <div @onclick="()=>SelectMessageTemplate(context?.MessageTemplateID)" class="@TableCSS(context)">
                                         <div class="col-justify-start">@context.LastUpdatedBy</div>
                                     </div>
                                 </ChildContent>
@@ -230,7 +231,7 @@ else {
 
                             <TemplateColumn Title="Last Updated Date" Sortable="true" SortBy="GridSort<MessageTemplateModel>.ByDescending(x => x.LastUpdatedDate)">
                                 <ChildContent>
-                                    <div @onclick="()=>SelectMessageTemplate(context?.MessageTemplateID)" class="@(context?.MessageTemplateID == selectedMessageTemplate?.MessageTemplateID ? "SelectedRow" : "")">
+                                    <div @onclick="()=>SelectMessageTemplate(context?.MessageTemplateID)" class="@TableCSS(context)">
                                         <div class="col-justify-start">@(context?.CreatedDate == null ? "" : context?.CreatedDate.Value.ToString("dd/MM/yyyy"))</div>
                                     </div>
                                 </ChildContent>
@@ -278,21 +279,21 @@ else {
 
     <Modal @ref="modalMessageTemplate">
         <Title>
-            @if (@selectedMessageTemplate?.MessageTemplateID > 0)
+            @if (@_selectedMessageTemplate?.MessageTemplateID > 0)
             {
-                @:<i class="fa-solid fa-message"></i> Message Template @selectedMessageTemplate?.MessageTemplateID
+                @:<i class="fa-solid fa-message"></i> Message Template @_selectedMessageTemplate?.MessageTemplateID
             }
             else {
                 @:<i class="fa-solid fa-message"></i> New Message Template
             }
         </Title>
         <Body>
-            <EditForm FormName="MessageTemplateForm" Model="selectedMessageTemplate" OnValidSubmit="() => SaveMessageTemplate(true)">
+            <EditForm EditContext="@EditContextMain" OnValidSubmit="() => SaveMessageTemplate(true)">
                 <FluentValidationValidator @ref="_fluentValidationValidator" />
-                <div class="bd-callout bd-callout-primary bd-callout-grey GreyBackground">
+                <div class="bd-callout bd-callout-VM bd-callout-grey GreyBackground">
                     <div class="container">
 
-                        @if (selectedMessageTemplate == null) {
+                        @if (_selectedMessageTemplate == null) {
                             <div class="row">
                                 <div class="col-md">
                                     <div class="alert alert-primary text-center" role="alert">
@@ -310,8 +311,8 @@ else {
                                     <label class="col-form-label"><i class="fa-solid fa-angles-right"></i> Code</label>
                                 </div>
                                 <div class="col-md-8">
-                                    <InputText @bind-Value="selectedMessageTemplate!.Code" class="form-control" />
-                                    <ValidationMessage For="@(() => selectedMessageTemplate!.Code)" />
+                                    <InputText @bind-Value="_selectedMessageTemplate!.Code" class="form-control" />
+                                    <ValidationMessage For="@(() => _selectedMessageTemplate!.Code)" />
                                 </div>
                             </div>
 
@@ -320,8 +321,8 @@ else {
                                     <label class="col-form-label"><i class="fa-solid fa-angles-right"></i> Name</label>
                                 </div>
                                 <div class="col-md-8">
-                                    <InputText @bind-Value="selectedMessageTemplate!.Name" class="form-control" />
-                                    <ValidationMessage For="@(() => selectedMessageTemplate!.Name)" />
+                                    <InputText @bind-Value="_selectedMessageTemplate!.Name" class="form-control" />
+                                    <ValidationMessage For="@(() => _selectedMessageTemplate!.Name)" />
                                 </div>
                             </div>
 
@@ -332,19 +333,9 @@ else {
                             </div>
                             <div class="row g-3 mb-3">
                                 <div class="col-md">
-                                    <Editor ScriptSrc="./lib/tinymce/tinymce.min.js" @bind-Value="selectedMessageTemplate!.TemplateContent" Field="() => selectedMessageTemplate!.TemplateContent" LicenseKey="gpl" />
-                                    @* <InputTextArea @bind-Value="selectedMessageTemplate!.TemplateContent" class="form-control" /> *@
-                                    <ValidationMessage For="@(() => selectedMessageTemplate!.TemplateContent)" />
-                                </div>
-                            </div>
-
-                            <div class="row g-3 mb-3">
-                                <div class="col-md-4">
-                                    <label class="col-form-label"><i class="fa-solid fa-angles-right"></i> Name</label>
-                                </div>
-                                <div class="col-md-8">
-                                    <InputText @bind-Value="selectedMessageTemplate!.Name" class="form-control" />
-                                    <ValidationMessage For="@(() => selectedMessageTemplate!.Name)" />
+                                    <Editor ScriptSrc="./lib/tinymce/tinymce.min.js" @bind-Value="_selectedMessageTemplate!.TemplateContent" Field="() => _selectedMessageTemplate!.TemplateContent" LicenseKey="gpl" />
+                                    @* <InputTextArea @bind-Value="_selectedMessageTemplate!.TemplateContent" class="form-control" /> *@
+                                    <ValidationMessage For="@(() => _selectedMessageTemplate!.TemplateContent)" />
                                 </div>
                             </div>
 
@@ -353,8 +344,8 @@ else {
                                     <label class="col-form-label"><i class="fa-solid fa-angles-right"></i> Sequence</label>
                                 </div>
                                 <div class="col-md-8">
-                                    <InputNumber @bind-Value="selectedMessageTemplate!.Sequence" class="form-control" />
-                                    <ValidationMessage For="@(() => selectedMessageTemplate!.Sequence)" />
+                                    <InputNumber @bind-Value="_selectedMessageTemplate!.Sequence" class="form-control" />
+                                    <ValidationMessage For="@(() => _selectedMessageTemplate!.Sequence)" />
                                 </div>
                             </div>
 
@@ -364,9 +355,9 @@ else {
                                 </div>
                                 <div class="col-md-8">
                                     <div class="d-grid gap-2 d-md-block">
-                                        <button type="button" class="btn @(selectedMessageTemplate!.IsEnabled == true? "btn-primary" : "btn-outline-primary") YesNoButton me-md-3" @onclick="(e) => ToggleMessageTemplateIsEnabled()"><i class="@(selectedMessageTemplate!.IsEnabled == true? "fa-solid fa-square-check" : "fa-regular fa-square")"></i></button>
+                                        <button type="button" class="btn @(_selectedMessageTemplate!.IsEnabled == true? "btn-primary" : "btn-outline-primary") me-md-3" @onclick="(e) => ToggleMessageTemplateIsEnabled()"><i class="@(_selectedMessageTemplate!.IsEnabled == true? "fa-solid fa-square-check" : "fa-regular fa-square")"></i></button>
                                     </div>
-                                    <ValidationMessage For="@(() => selectedMessageTemplate!.IsEnabled)" />
+                                    <ValidationMessage For="@(() => _selectedMessageTemplate!.IsEnabled)" />
                                 </div>
                             </div>
                         }
@@ -380,16 +371,24 @@ else {
         <Footer>
             <button type="button" class="btn btn-secondary" data-dismiss="modal" @onclick="() => AdvanceToMessageTemplate(-1)"><i class="fa-solid fa-square-caret-left"></i></button>
             <button type="button" class="btn btn-secondary" data-dismiss="modal" @onclick="() => AdvanceToMessageTemplate(1)"><i class="fa-solid fa-square-caret-right"></i></button>
-            <button type="button" class="btn btn-success" data-dismiss="modal" @onclick="() => SaveMessageTemplate(true)"><i class="fa-solid fa-floppy-disk"></i> Save and Close</button>
-            <button type="button" class="btn btn-primary" data-dismiss="modal" @onclick="() => SaveMessageTemplate(false)"><i class="fa-solid fa-floppy-disk"></i> Save</button>
-            <button type="button" class="btn btn-danger" data-dismiss="modal" @onclick="CancelMessageTemplateConfirm"><i class="fa-solid fa-rotate-left"></i> Cancel</button>
+            @if (selectedMessageTemplateChanges?.Count > 0)
+            {
+                <button type="button" class="btn btn-success" data-dismiss="modal" @onclick="() => SaveMessageTemplate(true)"><i class="fa-solid fa-floppy-disk"></i> Save and Close</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" @onclick="() => SaveMessageTemplate(false)"><i class="fa-solid fa-floppy-disk"></i> Save</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" @onclick="CancelMessageTemplateConfirm"><i class="fa-solid fa-rotate-left"></i> Cancel <strong>@(selectedMessageTemplateChanges?.Count ?? 1)</strong> Changes</button>
+            }
+            else 
+            {
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" @onclick="CloseMessageTemplate"><i class="fa-solid fa-rotate-left"></i> Close</button>
+            }
+
         </Footer>
     </Modal>
 }
 
 @code {
-    [Parameter]
-    public int? MessageTemplateID { get; set; }
+    public EditContext? EditContextMain { get; set; }
+    private FluentValidationValidator? _fluentValidationValidator;
 
     public string? action { get; set; }
     public string? soundEffect { get; set; }
@@ -409,12 +408,15 @@ else {
 
     public string? loadDataErrorMsg = null;
 
+    [Parameter]
+    public int? MessageTemplateID { get; set; }
+
     private List<MessageTemplateModel>? messageTemplates { get; set; }
 
     [SupplyParameterFromForm]
     public MessageTemplateModel? selectedMessageTemplate { get; set; } = new MessageTemplateModel();
-
-    private FluentValidationValidator? _fluentValidationValidator;
+    private MessageTemplateModel? _selectedMessageTemplate { get; set; } = new MessageTemplateModel();
+    private IDictionary<string, string>? selectedMessageTemplateChanges = new Dictionary<string, string>();
 
     private IQueryable<MessageTemplateModel>? FilteredMessageTemplates =>
         (messageTemplates)?.AsQueryable()
@@ -434,14 +436,14 @@ else {
 
     List<string> FiltersMain = new List<string>();
     int? FilterMainMessageTemplateID;
-    string FilterMainCode = string.Empty;
-    string FilterMainName = string.Empty;
-    string FilterMainTemplateContent = string.Empty;
+    string? FilterMainCode;
+    string? FilterMainName;
+    string? FilterMainTemplateContent;
     int? FilterMainSequence;
     bool? FilterMainIsEnabled;
-    string FilterMainCreatedBy = string.Empty;
+    string? FilterMainCreatedBy;
     DateTime? FilterMainCreatedDate;
-    string FilterMainLastUpdatedBy = string.Empty;
+    string? FilterMainLastUpdatedBy;
     DateTime? FilterMainLastUpdatedDate;
 
     private string? messageTemplateEndPoint;
@@ -450,6 +452,16 @@ else {
 
     protected override async Task OnInitializedAsync() 
     {
+        if (_selectedMessageTemplate != null)
+            EditContextMain = new EditContext(_selectedMessageTemplate);
+
+        if (EditContextMain != null)
+        {
+            EditContextMain.OnFieldChanged += ChangeMessageTemplate;
+        }
+        _fluentValidationValidator = new FluentValidationValidator();
+
+        bool? isError = false;
         messageTemplateEndPoint = $"{configuration["APIEndpoint"]}/MessageTemplate";
 
         try
@@ -458,8 +470,29 @@ else {
         }
         catch (HttpRequestException ex)
         {
+            isError = true;
             HandleJsonException(ex, "MessageTemplate", MessageTemplateID.ToString() ?? "");
         }
+
+        if (isError != true)
+        {
+            //Load other objects
+        }
+    }
+
+    public string TableCSS(MessageTemplateModel? context)
+    {
+        string css = "";
+        if (context?.MessageTemplateID == selectedMessageTemplate?.MessageTemplateID)
+        {
+            css = "SelectedRow";
+        }
+        else if (context?.IsEnabled != true)
+        {
+            css = "DisabledRow";
+        }
+
+        return css;
     }
 
     private void FilterMainRefresh()
@@ -470,15 +503,15 @@ else {
         {
             FiltersMain.Add($"ID: '{FilterMainMessageTemplateID.ToString()}'");
         }
-        if (FilterMainCode.Length > 0)
+        if (FilterMainCode != null)
         {
             FiltersMain.Add($"Code: '{FilterMainCode}'");
         }
-        if (FilterMainName.Length > 0)
+        if (FilterMainName != null)
         {
             FiltersMain.Add($"Name: '{FilterMainName}'");
         }
-        if (FilterMainTemplateContent.Length > 0)
+        if (FilterMainTemplateContent != null)
         {
             FiltersMain.Add($"Template Content: '{FilterMainTemplateContent}'");
         }
@@ -490,35 +523,35 @@ else {
         {
             FiltersMain.Add($"Accepted: '{((bool)(FilterMainIsEnabled = true) ? "Y" : "N")}'");
         }
-        if (FilterMainCreatedBy.Length > 0)
+        if (FilterMainCreatedBy != null)
         {
             FiltersMain.Add($"Created By: '{FilterMainCreatedBy}'");
         }
         if (FilterMainCreatedDate != null)
         {
-            FiltersMain.Add($"Created Date: '{((DateTime)FilterMainCreatedDate).ToString("dd/MM/yyyy")}'");
+            FiltersMain.Add($"Created Date: '{FilterMainCreatedDate.Value.ToString("dd/MM/yyyy")}'");
         }
-        if (FilterMainLastUpdatedBy.Length > 0)
+        if (FilterMainLastUpdatedBy != null)
         {
             FiltersMain.Add($"Last Updated By: '{FilterMainLastUpdatedBy}'");
         }
         if (FilterMainLastUpdatedDate != null)
         {
-            FiltersMain.Add($"Last Updated Date: '{((DateTime)FilterMainLastUpdatedDate).ToString("dd/MM/yyyy")}'");
+            FiltersMain.Add($"Last Updated Date: '{FilterMainLastUpdatedDate.Value.ToString("dd/MM/yyyy")}'");
         }
     }
 
     private void FilterMainClear()
     {
         FilterMainMessageTemplateID = null;
-        FilterMainCode = string.Empty;
-        FilterMainName = string.Empty;
-        FilterMainTemplateContent = string.Empty;
+        FilterMainCode = null;
+        FilterMainName = null;
+        FilterMainTemplateContent = null;
         FilterMainSequence = null;
         FilterMainIsEnabled = null;
-        FilterMainCreatedBy = string.Empty;
+        FilterMainCreatedBy = null;
         FilterMainCreatedDate = null;
-        FilterMainLastUpdatedBy = string.Empty;
+        FilterMainLastUpdatedBy = null;
         FilterMainLastUpdatedDate = null;
 
         FiltersMain.Clear();
@@ -606,37 +639,79 @@ else {
         {
             selectedMessageTemplate = new MessageTemplateModel();
         }
+
+        //Keep a copy of this object to be used for edit form so original object can remain untouched until save operation (otherwise it changes on screen)
+        if (selectedMessageTemplate != null)
+            _selectedMessageTemplate = selectedMessageTemplate?.Clone();
     }
 
-    public void AdvanceToMessageTemplate(int numRecords)
+    public async Task AdvanceToMessageTemplate(int numRecords)
     {
-        int? currentRecordID = selectedMessageTemplate?.MessageTemplateID;
-        MessageTemplateModel? nextRecord = new MessageTemplateModel();
+        if (await SaveMessageTemplate(false) == true) {
+            int? currentRecordID = selectedMessageTemplate?.MessageTemplateID;
+            MessageTemplateModel? nextRecord = new MessageTemplateModel();
 
-        if (numRecords > 0) 
-        {
-            nextRecord =
-            FilteredMessageTemplates?
-            .SkipWhile(obj => obj.MessageTemplateID != currentRecordID)
-            .Skip(numRecords)
-            .FirstOrDefault();
-        }
-        else if (numRecords < 0)
-        {
-            int numRecordsBack = Math.Abs(numRecords);
-            nextRecord =
-                FilteredMessageTemplates?
-                .Reverse()
-                .SkipWhile(obj => obj.MessageTemplateID != currentRecordID)
-                .Skip(numRecordsBack)
-                .FirstOrDefault();
-        }
-
-        if (nextRecord != null)
-        {
-            if (nextRecord?.MessageTemplateID != null)
+            if (numRecords > 0)
             {
-                selectedMessageTemplate = nextRecord;
+                nextRecord =
+                FilteredMessageTemplates?
+                .SkipWhile(obj => obj.MessageTemplateID != currentRecordID)
+                .Skip(numRecords)
+                .FirstOrDefault();
+            }
+            else if (numRecords < 0)
+            {
+                int numRecordsBack = Math.Abs(numRecords);
+                nextRecord =
+                    FilteredMessageTemplates?
+                    .Reverse()
+                    .SkipWhile(obj => obj.MessageTemplateID != currentRecordID)
+                    .Skip(numRecordsBack)
+                    .FirstOrDefault();
+            }
+
+            if (nextRecord != null)
+            {
+                if (nextRecord?.MessageTemplateID != null)
+                {
+                    selectedMessageTemplate = nextRecord;
+                    _selectedMessageTemplate = nextRecord;
+                }
+            }
+        }
+    }
+
+    public void ToggleMessageTemplateIsEnabled()
+    {
+        if (_selectedMessageTemplate != null)
+        {
+            if (_selectedMessageTemplate.IsEnabled == true)
+            {
+                _selectedMessageTemplate.IsEnabled = false;
+            }
+            else
+            {
+                _selectedMessageTemplate.IsEnabled = true;
+            }
+        }
+    }
+
+    protected void ChangeMessageTemplate(object? sender, FieldChangedEventArgs? e)
+    {
+        string? fieldName = e?.FieldIdentifier.FieldName;
+        string? fieldValue = e?.FieldIdentifier.Model.GetType().GetProperty(fieldName ?? "")?.GetValue(_selectedMessageTemplate)?.ToString();
+
+        fieldValue = StringFunctions.FormatFieldChangedValue(fieldValue);
+
+        if (selectedMessageTemplateChanges != null && fieldName != null)
+        {
+            if (selectedMessageTemplateChanges.ContainsKey(fieldName))
+            {
+                selectedMessageTemplateChanges[fieldName] = fieldValue ?? "";
+            }
+            else
+            {
+                selectedMessageTemplateChanges.Add(fieldName, fieldValue ?? "");
             }
         }
     }
@@ -645,7 +720,7 @@ else {
     {
         SelectMessageTemplate(messageTemplateID);
 
-        if (selectedMessageTemplate != null)
+        if (_selectedMessageTemplate != null)
         {
             modalMessageTemplate!.MakeLarge();
             modalMessageTemplate!.Open();
@@ -663,9 +738,10 @@ else {
         }
     }
 
-    private async Task SaveMessageTemplate(bool? CloseDialogAfterSave)
+    private async Task<bool> SaveMessageTemplate(bool? CloseDialogAfterSave)
     {
         string? saveEndPoint;
+        bool returnValue = false;
 
         if (await _fluentValidationValidator!.ValidateAsync())
         {
@@ -673,20 +749,23 @@ else {
 
             try
             {
-                if (selectedMessageTemplate != null)
+                if (selectedMessageTemplate != null && _selectedMessageTemplate != null)
                 {
+                    //Update related entities (as only IDs are updated on the form so rest of object is not updated)
+                    //None
+
                     HttpResponseMessage formResponse = new HttpResponseMessage();
 
-                    if (selectedMessageTemplate?.MessageTemplateID > 0) {
+                    if (_selectedMessageTemplate?.MessageTemplateID > 0) {
                         //Update existing record
-                        saveEndPoint = $"{configuration["APIEndpoint"]}/MessageTemplate/{selectedMessageTemplate?.MessageTemplateID}";
-                        formResponse = await Http.PutAsJsonAsync<MessageTemplateModel>(saveEndPoint, selectedMessageTemplate!);
+                        saveEndPoint = $"{configuration["APIEndpoint"]}/MessageTemplate/{_selectedMessageTemplate?.MessageTemplateID}";
+                        formResponse = await Http.PutAsJsonAsync<MessageTemplateModel>(saveEndPoint, _selectedMessageTemplate!);
                     }
                     else 
                     {
                         //Insert new record
                         saveEndPoint = $"{configuration["APIEndpoint"]}/MessageTemplate";
-                        formResponse = await Http.PostAsJsonAsync<MessageTemplateModel>(saveEndPoint, selectedMessageTemplate!);
+                        formResponse = await Http.PostAsJsonAsync<MessageTemplateModel>(saveEndPoint, _selectedMessageTemplate!);
                     }
 
                     if (formResponse.IsSuccessStatusCode != true)
@@ -703,9 +782,13 @@ else {
                     }
                     else
                     {
-                        soundEffect = "sounds/confirm.mp3";
+                        //Copy properties back to tracked object being saved
+                        _selectedMessageTemplate.CopyProperties(selectedMessageTemplate);
 
-                        if (selectedMessageTemplate?.MessageTemplateID > 0)
+                        soundEffect = "sounds/confirm.mp3";
+                        returnValue = true;
+
+                        if (_selectedMessageTemplate?.MessageTemplateID > 0)
                         {
                             //Update existing record
                             if (CloseDialogAfterSave == true)
@@ -758,9 +841,11 @@ else {
             }
             catch (HttpRequestException ex)
             {
-                HandleJsonException(ex, "MessageTemplate", selectedMessageTemplate?.MessageTemplateID.ToString() ?? "0");
+                HandleJsonException(ex, "MessageTemplate", _selectedMessageTemplate?.MessageTemplateID.ToString() ?? "0");
             }
         }
+
+        return returnValue;
     }
 
     private void DeleteMessageTemplateConfirm()
@@ -860,8 +945,21 @@ else {
         action = "CancelMessageTemplateConfirm";
         soundEffect = "sounds/prompt.mp3";
 
+        string? numberOfChanges = $"{selectedMessageTemplateChanges?.Count} {(selectedMessageTemplateChanges?.Count == 1 ? "Change" : "Changes")}";
+        string? listOfChanges = selectedMessageTemplateChanges?.Select(x => $"<li>{x.Key}: {x.Value}</li>").Aggregate((x, y) => $"{x}{y}"); //Aggregation in case of duplication
+
         msgConfirmTitle = $"Confirm Cancel?";
-        msgConfirm = (MarkupString)$"Are you sure you want to cancel and lose any changes made?";
+        msgConfirm = (MarkupString)$@"
+            <p>
+                You have made the following changes:<br />
+                - MessageTemplate: {numberOfChanges}:
+                <ul>
+                    {listOfChanges}
+                </ul>
+            </p>
+            <p>
+                Are you sure you want to cancel and lose these changes?  
+            </p>";
 
         modalConfirm!.OpenOnTop1();
     }
@@ -873,24 +971,10 @@ else {
 
     private void CloseMessageTemplate()
     {
-        selectedMessageTemplate = new MessageTemplateModel();
         modalMessageTemplate!.Close();
         modalConfirm!.Close();
-    }
 
-    public void ToggleMessageTemplateIsEnabled()
-    {
-        if (selectedMessageTemplate != null)
-        {
-            if (selectedMessageTemplate.IsEnabled == true)
-            {
-                selectedMessageTemplate.IsEnabled = false;
-            }
-            else
-            {
-                selectedMessageTemplate.IsEnabled = true;
-            }
-        }
+        selectedMessageTemplateChanges?.Clear();
     }
 
     private void HandleJsonException(HttpRequestException ex, string objectName, string objectID)

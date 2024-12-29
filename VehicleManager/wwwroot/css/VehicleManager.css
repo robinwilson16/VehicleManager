@@ -1,18 +1,88 @@
-﻿.modal-body {
+﻿body {
+    background-image: url("../images/BackgroundWaves.png");
+    background-position: bottom;
+    background-size: 100% auto;
+    background-repeat: no-repeat;
+}
+
+/*Stop model growing past end of the page*/
+.modal-body {
     max-height: 80vh;
     overflow-y: auto;
 }
 
-body {
-}
-
 .Logo {
-    max-width: 300px;
+    max-width: 400px;
 }
 
 .LogoHeader {
-    max-width: 100px;
+    max-width: 200px;
 }
+
+.btn-primary {
+    background-color: #2e6b43;
+    border-color: #2e6b43;
+}
+
+    .btn-primary:hover {
+        background-color: #65ad7f;
+        border-color: #2e6b43;
+    }
+
+    .btn-primary a:link,
+    .btn-primary a:active,
+    .btn-primary a:visited {
+        background-color: #2e6b43;
+        border-color: #2e6b43;
+    }
+
+    .btn-primary a:hover {
+        background-color: #65ad7f;
+        border-color: #2e6b43;
+    }
+
+.btn-outline-primary {
+    border-color: #2e6b43;
+    color: #2e6b43;
+}
+
+    .btn-outline-primary:hover {
+        background-color: #2e6b43;
+        border-color: #65ad7f;
+    }
+
+    .btn-outline-primary a:link,
+    .btn-outline-primary a:active,
+    .btn-outline-primary a:visited {
+        border-color: #2e6b43;
+        color: #2e6b43;
+    }
+
+    .btn-outline-primary a:hover {
+        background-color: #2e6b43;
+        border-color: #65ad7f;
+    }
+
+.alert-primary {
+    background-color: #cbe8d5;
+    border-color: #46af6b;
+}
+
+ul.nav-tabs > .nav-item > button.nav-link {
+    color: #2e6b43;
+}
+
+    ul.nav-tabs > .nav-item > button.nav-link:hover {
+        color: #65ad7f;
+    }
+
+.bd-callout-VM {
+    border-left-color: #2e6b43 !important;
+}
+
+    .bd-callout-VM h4 {
+        color: #2e6b43;
+    }
 
 .bd-callout-VM-blue {
     border-left-color: #84b9e5 !important;
@@ -36,6 +106,10 @@ body {
 
 .bd-callout-VM-success {
     border-left-color: #1B5E20 !important;
+}
+
+.TableArea {
+    background-color: #e8f5ed;
 }
 
 .WhiteBackground {
@@ -90,6 +164,16 @@ body {
 }*/
 
 tr:has(td):has(div[class='SelectedRow']) td {
-    color: #052c65;
-    background-color: #cfe2ff;
+    /*color: #052c65;
+    background-color: #cfe2ff;*/
+    color: #2e6b43;
+    background-color: #cbe8d5;
+}
+
+tr:has(td):has(div[class='DisabledRow']) td {
+    color: #666666;
+}
+
+tr:has(td):has(div[class='ErrorRow']) td {
+    color: #b71c1c;
 }

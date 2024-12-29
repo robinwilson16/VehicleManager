@@ -17,7 +17,7 @@ namespace VehicleManager.Models
         [Display(Name = "Submission Date")]
         public DateTime? submissionDate
         {
-            get { return DateTime.Parse(SubmissionDate ?? "", new CultureInfo("en-GB")); }
+            get { return SubmissionDate == null ? null : DateTime.ParseExact(SubmissionDate ?? "", "yyyy-MM-dd HH:mm:ss", new CultureInfo("en-GB")); }
         }
         public int? SubmissionCount { get; set; }
         public string? Surname { get; set; }
@@ -45,6 +45,8 @@ namespace VehicleManager.Models
         public string? EngineCylinderCount { get; set; }
         public string? EngineSizeLitre { get; set; }
         public string? WheelbaseMM { get; set; }
+
+        [JsonIgnore]
         public virtual CustomerModel? Customer { get; set; }
     }
 }

@@ -3,6 +3,7 @@
 
 @using VehicleManager.Models
 @using VehicleManager.Services
+@using VehicleManager.Shared
 @using System.Net
 @using Microsoft.AspNetCore.Components.QuickGrid
 @using TinyMCE.Blazor
@@ -95,7 +96,7 @@ else if(vehicles == null) {
 else {
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md">
+            <div class="col-md TableArea pt-3 rounded">
                 <div class="alert alert-primary" role="alert">
                     @if (FiltersMain.Count > 0)
                     {
@@ -123,7 +124,7 @@ else {
 
                             <TemplateColumn Title="ID" Sortable="true" SortBy="GridSort<VehicleModel>.ByDescending(x => x.SubmissionID)">
                                 <ChildContent>
-                                    <div @onclick="()=>SelectVehicle(context?.SubmissionID)" class="@(context?.SubmissionID == selectedVehicle?.SubmissionID ? "SelectedRow" : "")">
+                                    <div @onclick="()=>SelectVehicle(context?.SubmissionID)" class="@TableCSS(context)">
                                         <div class="col-justify-start">@context.SubmissionID</div>
                                     </div>
                                 </ChildContent>
@@ -136,7 +137,7 @@ else {
 
                             <TemplateColumn Title="Date" Sortable="true" SortBy="GridSort<VehicleModel>.ByDescending(x => x.submissionDate)">
                                 <ChildContent>
-                                    <div @onclick="()=>SelectVehicle(context?.SubmissionID)" class="@(context?.SubmissionID == selectedVehicle?.SubmissionID ? "SelectedRow" : "")">
+                                    <div @onclick="()=>SelectVehicle(context?.SubmissionID)" class="@TableCSS(context)">
                                         <div class="col-justify-start">@(context?.submissionDate == null ? "" : context?.submissionDate.Value.ToString("dd/MM/yyyy"))</div>
                                     </div>
                                 </ChildContent>
@@ -149,7 +150,7 @@ else {
 
                             <TemplateColumn Title="Surname" Sortable="true" SortBy="GridSort<VehicleModel>.ByDescending(x => x.Surname)">
                                 <ChildContent>
-                                    <div @onclick="()=>SelectVehicle(context?.SubmissionID)" class="@(context?.SubmissionID == selectedVehicle?.SubmissionID ? "SelectedRow" : "")">
+                                    <div @onclick="()=>SelectVehicle(context?.SubmissionID)" class="@TableCSS(context)">
                                         <div class="col-justify-start">@context.Surname</div>
                                     </div>
                                 </ChildContent>
@@ -162,7 +163,7 @@ else {
 
                             <TemplateColumn Title="Forename" Sortable="true" SortBy="GridSort<VehicleModel>.ByDescending(x => x.Forename)">
                                 <ChildContent>
-                                    <div @onclick="()=>SelectVehicle(context?.SubmissionID)" class="@(context?.SubmissionID == selectedVehicle?.SubmissionID ? "SelectedRow" : "")">
+                                    <div @onclick="()=>SelectVehicle(context?.SubmissionID)" class="@TableCSS(context)">
                                         <div class="col-justify-start">@context.Forename</div>
                                     </div>
                                 </ChildContent>
@@ -175,7 +176,7 @@ else {
 
                             <TemplateColumn Title="Email Address" Sortable="true" SortBy="GridSort<VehicleModel>.ByDescending(x => x.Email)">
                                 <ChildContent>
-                                    <div @onclick="()=>SelectVehicle(context?.SubmissionID)" class="@(context?.SubmissionID == selectedVehicle?.SubmissionID ? "SelectedRow" : "")">
+                                    <div @onclick="()=>SelectVehicle(context?.SubmissionID)" class="@TableCSS(context)">
                                         <div class="col-justify-start">@context.Email</div>
                                     </div>
                                 </ChildContent>
@@ -188,7 +189,7 @@ else {
 
                             <TemplateColumn Title="Telephone Number" Sortable="true" SortBy="GridSort<VehicleModel>.ByDescending(x => x.Tel)">
                                 <ChildContent>
-                                    <div @onclick="()=>SelectVehicle(context?.SubmissionID)" class="@(context?.SubmissionID == selectedVehicle?.SubmissionID ? "SelectedRow" : "")">
+                                    <div @onclick="()=>SelectVehicle(context?.SubmissionID)" class="@TableCSS(context)">
                                         <div class="col-justify-start">@context.Tel</div>
                                     </div>
                                 </ChildContent>
@@ -201,7 +202,7 @@ else {
 
                             <TemplateColumn Title="Post Code" Sortable="true" SortBy="GridSort<VehicleModel>.ByDescending(x => x.PostCode)">
                                 <ChildContent>
-                                    <div @onclick="()=>SelectVehicle(context?.SubmissionID)" class="@(context?.SubmissionID == selectedVehicle?.SubmissionID ? "SelectedRow" : "")">
+                                    <div @onclick="()=>SelectVehicle(context?.SubmissionID)" class="@TableCSS(context)">
                                         <div class="col-justify-start">@context.PostCode</div>
                                     </div>
                                 </ChildContent>
@@ -214,7 +215,7 @@ else {
 
                             <TemplateColumn Title="Reg Number" Sortable="true" SortBy="GridSort<VehicleModel>.ByDescending(x => x.RegistrationNumber)">
                                 <ChildContent>
-                                    <div @onclick="()=>SelectVehicle(context?.SubmissionID)" class="@(context?.SubmissionID == selectedVehicle?.SubmissionID ? "SelectedRow" : "")">
+                                    <div @onclick="()=>SelectVehicle(context?.SubmissionID)" class="@TableCSS(context)">
                                         <div class="col-justify-start">@context.RegistrationNumber</div>
                                     </div>
                                 </ChildContent>
@@ -227,7 +228,7 @@ else {
 
                             <TemplateColumn Title="Make" Sortable="true" SortBy="GridSort<VehicleModel>.ByDescending(x => x.Make)">
                                 <ChildContent>
-                                    <div @onclick="()=>SelectVehicle(context?.SubmissionID)" class="@(context?.SubmissionID == selectedVehicle?.SubmissionID ? "SelectedRow" : "")">
+                                    <div @onclick="()=>SelectVehicle(context?.SubmissionID)" class="@TableCSS(context)">
                                         <div class="col-justify-start">@context.Make</div>
                                     </div>
                                 </ChildContent>
@@ -240,7 +241,7 @@ else {
 
                             <TemplateColumn Title="Model" Sortable="true" SortBy="GridSort<VehicleModel>.ByDescending(x => x.Model)">
                                 <ChildContent>
-                                    <div @onclick="()=>SelectVehicle(context?.SubmissionID)" class="@(context?.SubmissionID == selectedVehicle?.SubmissionID ? "SelectedRow" : "")">
+                                    <div @onclick="()=>SelectVehicle(context?.SubmissionID)" class="@TableCSS(context)">
                                         <div class="col-justify-start">@context.Model</div>
                                     </div>
                                 </ChildContent>
@@ -258,7 +259,7 @@ else {
                     <div class="row">
                         <div class="col-md">
                             <div class="d-grid gap-2 d-md-block text-start">
-                                
+
                                 @if (selectedVehicle?.SubmissionID > 0)
                                 {
                                     <span>1 Record Selected</span>
@@ -303,7 +304,7 @@ else {
             </ul>
             <div class="tab-content" id="myTabContent">
                 <div class="tab-pane fade show active" id="customer-tab-pane" role="tabpanel" aria-labelledby="customer-tab" tabindex="0">
-                    <div class="bd-callout bd-callout-primary bd-callout-grey GreyBackground">
+                    <div class="bd-callout bd-callout-VM bd-callout-grey GreyBackground">
                         <div class="container">
                             <div class="row mb-3 align-items-center">
                                 <div class="col-md text-center">
@@ -784,7 +785,17 @@ else {
         <Footer>
             <button type="button" class="btn btn-secondary" data-dismiss="modal" @onclick="() => AdvanceToVehicle(-1)"><i class="fa-solid fa-square-caret-left"></i></button>
             <button type="button" class="btn btn-secondary" data-dismiss="modal" @onclick="() => AdvanceToVehicle(1)"><i class="fa-solid fa-square-caret-right"></i></button>
-            <button type="button" class="btn btn-primary" data-dismiss="modal" @onclick="CloseVehicle"><i class="fa-solid fa-rotate-left"></i> Close</button>
+
+            @if (selectedVehicleChanges?.Count > 0)
+            {
+                <button type="button" class="btn btn-success" data-dismiss="modal" @onclick="() => SaveVehicle(true)"><i class="fa-solid fa-floppy-disk"></i> Save and Close</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" @onclick="() => SaveVehicle(false)"><i class="fa-solid fa-floppy-disk"></i> Save</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" @onclick="CancelVehicleConfirm"><i class="fa-solid fa-rotate-left"></i> Cancel <strong>@(selectedVehicleChanges?.Count ?? 1)</strong> Changes</button>
+            }
+            else
+            {
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" @onclick="CloseVehicle"><i class="fa-solid fa-rotate-left"></i> Close</button>
+            }
         </Footer>
     </Modal>
 
@@ -842,8 +853,8 @@ else {
 }
 
 @code {
-    [Parameter]
-    public int? VehicleID { get; set; }
+    public EditContext? EditContextMain { get; set; }
+    private FluentValidationValidator? _fluentValidationValidator;
 
     public string? action { get; set; }
     public string? soundEffect { get; set; }
@@ -863,8 +874,17 @@ else {
 
     public string? loadDataErrorMsg = null;
 
+    [Parameter]
+    public int? VehicleID { get; set; }
+
     private List<VehicleModel>? vehicles;
-    private VehicleModel? selectedVehicle;
+
+    [SupplyParameterFromForm]
+    public VehicleModel? selectedVehicle { get; set; } = new VehicleModel();
+    private VehicleModel? _selectedVehicle { get; set; } = new VehicleModel();
+    private IDictionary<string, string>? selectedVehicleChanges = new Dictionary<string, string>();
+
+    //Related datasets
     private List<MessageModel>? selectedVehicleMessages;
 
     private IQueryable<VehicleModel>? FilteredVehicles =>
@@ -886,15 +906,15 @@ else {
     List<string> FiltersMain = new List<string>();
     int? FilterMainSubmissionID;
     DateTime? FilterMainSubmissionDate;
-    string FilterMainSurname = string.Empty;
-    string FilterMainForename = string.Empty;
-    string FilterMainEmail = string.Empty;
-    string FilterMainTel = string.Empty;
-    string FilterMainPostCode = string.Empty;
-    string FilterMainRegistration = string.Empty;
-    string FilterMainMake = string.Empty;
-    string FilterMainModel = string.Empty;
-    
+    string? FilterMainSurname;
+    string? FilterMainForename;
+    string? FilterMainEmail;
+    string? FilterMainTel;
+    string? FilterMainPostCode;
+    string? FilterMainRegistration;
+    string? FilterMainMake;
+    string? FilterMainModel;
+
     List<string> FiltersMsg = new List<string>();
     int? FilterMsgMessageID;
     string? FilterMsgMessage;
@@ -925,6 +945,16 @@ else {
 
     protected override async Task OnInitializedAsync() 
     {
+        if (_selectedVehicle != null)
+            EditContextMain = new EditContext(_selectedVehicle);
+        
+        if (EditContextMain != null)
+        {
+            EditContextMain.OnFieldChanged += ChangeVehicle;
+        }
+        _fluentValidationValidator = new FluentValidationValidator();
+
+        bool? isError = false;
         vehicleEndPoint = $"{configuration["VehicleEndpoint"]}/FormEntries";
 
         try
@@ -936,6 +966,22 @@ else {
         {
             HandleJsonException(ex, "Vehicle", VehicleID.ToString() ?? "");
         }
+
+        if (isError != true)
+        {
+            //Load other objects
+        }
+    }
+
+    public string TableCSS(VehicleModel? context)
+    {
+        string css = "";
+        if (context?.SubmissionID == selectedVehicle?.SubmissionID)
+        {
+            css = "SelectedRow";
+        }
+
+        return css;
     }
 
     private void FilterMainRefresh()
@@ -948,37 +994,37 @@ else {
         }
         if (FilterMainSubmissionDate != null)
         {
-            FiltersMain.Add($"Date: '{((DateTime)FilterMainSubmissionDate).ToString("dd/MM/yyyy")}'");
+            FiltersMain.Add($"Date: '{FilterMainSubmissionDate.Value.ToString("dd/MM/yyyy")}'");
         }
-        if (FilterMainSurname.Length > 0)
+        if (FilterMainSurname != null)
         {
             FiltersMain.Add($"Surname: '{FilterMainSurname}'");
         }
-        if (FilterMainForename.Length > 0)
+        if (FilterMainForename != null)
         {
             FiltersMain.Add($"Forename: '{FilterMainForename}'");
         }
-        if (FilterMainEmail.Length > 0)
+        if (FilterMainEmail != null)
         {
             FiltersMain.Add($"Email: '{FilterMainEmail}'");
         }
-        if (FilterMainTel.Length > 0)
+        if (FilterMainTel != null)
         {
             FiltersMain.Add($"Tel: '{FilterMainTel}'");
         }
-        if (FilterMainPostCode.Length > 0)
+        if (FilterMainPostCode != null)
         {
             FiltersMain.Add($"Post Code: '{FilterMainPostCode}'");
         }
-        if (FilterMainRegistration.Length > 0)
+        if (FilterMainRegistration != null)
         {
             FiltersMain.Add($"Reg No: '{FilterMainRegistration}'");
         }
-        if (FilterMainMake.Length > 0)
+        if (FilterMainMake != null)
         {
             FiltersMain.Add($"Make: '{FilterMainMake}'");
         }
-        if (FilterMainModel.Length > 0)
+        if (FilterMainModel != null)
         {
             FiltersMain.Add($"Model: '{FilterMainModel}'");
         }
@@ -988,14 +1034,14 @@ else {
     {
         FilterMainSubmissionID = null;
         FilterMainSubmissionDate = null;
-        FilterMainSurname = string.Empty;
-        FilterMainForename = string.Empty;
-        FilterMainEmail = string.Empty;
-        FilterMainTel = string.Empty;
-        FilterMainPostCode = string.Empty;
-        FilterMainRegistration = string.Empty;
-        FilterMainMake = string.Empty;
-        FilterMainModel = string.Empty;
+        FilterMainSurname = null;
+        FilterMainForename = null;
+        FilterMainEmail = null;
+        FilterMainTel = null;
+        FilterMainPostCode = null;
+        FilterMainRegistration = null;
+        FilterMainMake = null;
+        FilterMainModel = null;
 
         FiltersMain.Clear();
     }
@@ -1041,15 +1087,85 @@ else {
     private void FilterMsgClear()
     {
         FilterMsgMessageID = null;
-        FilterMsgMessage = string.Empty;
+        FilterMsgMessage = null;
         FilterMsgType = null;
         FilterMsgAmount = null;
         FilterMsgIsAccepted = null;
         FilterMsgStatus = null;
-        FilterMsgFrom = string.Empty;
+        FilterMsgFrom = null;
         FilterMsgSentDate = null;
 
         FiltersMsg.Clear();
+    }
+
+    private async Task FormAction()
+    {
+        //Determine what clear form button should do on dialog box
+
+        if (action == "ClearFormConfirm")
+        {
+            ClearForm();
+        }
+        else if (action == "CancelVehicleConfirm")
+        {
+            CancelVehicle();
+        }
+        else if (action == "DeleteVehicleConfirm")
+        {
+            await DeleteVehicle();
+        }
+        else
+        {
+            action = "Error";
+            soundEffect = "sounds/error.mp3";
+
+            msgErrorTitle = $"Invalid Action";
+            msgError = (MarkupString)$"An invalid option was specified. Please try again.";
+            msgErrorStackTrace = null;
+
+            modalError!.Open();
+        }
+    }
+
+    private void ClearFormConfirm()
+    {
+        action = "ClearFormConfirm";
+        soundEffect = "sounds/prompt.mp3";
+
+        msgConfirmTitle = $"Clear Form?";
+        msgConfirm = (MarkupString)$"Are you sure you want to clear all information on this form?";
+
+        modalConfirm!.Open();
+    }
+
+    private void ClearForm()
+    {
+        action = "ClearForm";
+
+        selectedVehicle = new VehicleModel();
+
+        modalConfirm!.Close();
+    }
+
+    private VehicleModel? GetVehicle(int submissionID)
+    {
+        return vehicles?.Where(v => v.SubmissionID == submissionID).FirstOrDefault();
+    }
+
+    private void SelectVehicle(int? submissionID)
+    {
+        if (submissionID != null && submissionID > 0)
+        {
+            selectedVehicle = GetVehicle(submissionID ?? 0);
+        }
+        else
+        {
+            selectedVehicle = new VehicleModel();
+        }
+
+        //Keep a copy of this object to be used for edit form so original object can remain untouched until save operation (otherwise it changes on screen)
+        if (selectedVehicle != null)
+            _selectedVehicle = selectedVehicle?.Clone();
     }
 
     public void AdvanceToVehicle(int numRecords)
@@ -1081,6 +1197,27 @@ else {
             if (nextRecord?.SubmissionID != null)
             {
                 selectedVehicle = nextRecord;
+                _selectedVehicle = nextRecord;
+            }
+        }
+    }
+
+    protected void ChangeVehicle(object? sender, FieldChangedEventArgs? e)
+    {
+        string? fieldName = e?.FieldIdentifier.FieldName;
+        string? fieldValue = e?.FieldIdentifier.Model.GetType().GetProperty(fieldName ?? "")?.GetValue(_selectedVehicle)?.ToString();
+
+        fieldValue = StringFunctions.FormatFieldChangedValue(fieldValue);
+
+        if (selectedVehicleChanges != null && fieldName != null)
+        {
+            if (selectedVehicleChanges.ContainsKey(fieldName))
+            {
+                selectedVehicleChanges[fieldName] = fieldValue ?? "";
+            }
+            else
+            {
+                selectedVehicleChanges.Add(fieldName, fieldValue ?? "");
             }
         }
     }
@@ -1090,7 +1227,7 @@ else {
         selectedVehicle = GetVehicle(submissionID);
         selectedVehicleMessages = GetMessages(submissionID);
 
-        if (selectedVehicle != null) {
+        if (_selectedVehicle != null) {
             modalVehicle!.MakeLarge();
             modalVehicle!.Open();
         }
@@ -1106,40 +1243,90 @@ else {
         }
     }
 
-    private VehicleModel? GetVehicle(int submissionID)
+    private async Task SaveVehicle(bool closeAfterSave)
     {
-        return vehicles?.Where(v => v.SubmissionID == submissionID).FirstOrDefault();
+        if (_selectedVehicle != null)
+        {
+            
+        }
     }
 
-    private void SelectVehicle(int? submissionID)
+    private void DeleteVehicleConfirm()
     {
-        if (submissionID != null && submissionID > 0)
+        if (selectedVehicle?.SubmissionID > 0)
         {
-            selectedVehicle = GetVehicle(submissionID ?? 0);
+            action = "DeleteMessageConfirm";
+            soundEffect = "sounds/prompt.mp3";
+
+            msgConfirmTitle = $"Confirm Delete?";
+            msgConfirm = (MarkupString)$"Are you sure you want to delete the {selectedVehicle.Make} {selectedVehicle.Model} ({selectedVehicle.RegistrationNumber})?";
+
+            modalConfirm!.OpenOnTop1();
         }
         else
         {
-            selectedVehicle = new VehicleModel();
+            action = "Error";
+            soundEffect = "sounds/error.mp3";
+
+            msgErrorTitle = $"No Message Selected";
+            msgError = (MarkupString)$"Please select a vehicle first before pressing the Delete button or if try to select one again if one had been selected.";
+            msgErrorStackTrace = null;
+
+            modalError!.Open();
         }
+    }
+
+    private async Task DeleteVehicle()
+    {
+
+    }
+
+    private void CancelVehicleConfirm()
+    {
+        action = "CancelVehicleConfirm";
+        soundEffect = "sounds/prompt.mp3";
+
+        string? numberOfChanges = $"{selectedVehicleChanges?.Count} {(selectedVehicleChanges?.Count == 1 ? "Change" : "Changes")}";
+        string? listOfChanges = selectedVehicleChanges?.Select(x => $"<li>{x.Key}: {x.Value}</li>").Aggregate((x, y) => $"{x}{y}"); //Aggregation in case of duplication
+
+        msgConfirmTitle = $"Confirm Cancel?";
+        msgConfirm = (MarkupString)$@"
+            <p>
+                You have made the following changes:<br />
+                - Vehicle: {numberOfChanges}:
+                <ul>
+                {listOfChanges}
+                </ul>
+            </p>
+            <p>
+                Are you sure you want to cancel and lose these changes?
+            </p>";
+
+        modalConfirm!.OpenOnTop1();
+    }
+
+    private void CancelVehicle()
+    {
+        CloseVehicle();
+    }
+
+    private void CloseVehicle() 
+    {
+        modalVehicle!.Close();
+
+        selectedVehicleChanges?.Clear();
     }
 
     private List<MessageModel>? GetMessages(int submissionID)
     {
         List<MessageModel> messages = new List<MessageModel>
         {
-            new MessageModel { MessageID = 1, Message = (MarkupString)"The best offer I can give you", MessageTypeID = MessageType.ToCustomer, AmountOffered=250, IsAccepted = false, MessageStatusID = MessageStatus.Sent, From = "robin.wilson@robindigital.co.uk", SentDate = DateTime.Now},
-            new MessageModel { MessageID = 2, Message = (MarkupString)"An even better offer", MessageTypeID = MessageType.ToCustomer, AmountOffered=350, IsAccepted = false, MessageStatusID = MessageStatus.Sent, From = "robin.wilson@robindigital.co.uk", SentDate = DateTime.Now},
-            new MessageModel { MessageID = 3, Message = (MarkupString)"Final offer", MessageTypeID = MessageType.ToCustomer, AmountOffered=500, IsAccepted = true, MessageStatusID = MessageStatus.Sent, From = "robin.wilson@robindigital.co.uk", SentDate = DateTime.Now}
+            new MessageModel { MessageID = 1, Message = "The best offer I can give you", MessageTypeID = MessageType.ToCustomer, AmountOffered=250, IsAccepted = false, MessageStatusID = MessageStatus.Sent, From = "robin.wilson@robindigital.co.uk", SentDate = DateTime.Now},
+            new MessageModel { MessageID = 2, Message = "An even better offer", MessageTypeID = MessageType.ToCustomer, AmountOffered=350, IsAccepted = false, MessageStatusID = MessageStatus.Sent, From = "robin.wilson@robindigital.co.uk", SentDate = DateTime.Now},
+            new MessageModel { MessageID = 3, Message = "Final offer", MessageTypeID = MessageType.ToCustomer, AmountOffered=500, IsAccepted = true, MessageStatusID = MessageStatus.Sent, From = "robin.wilson@robindigital.co.uk", SentDate = DateTime.Now}
         };
 
         return messages;
-    }
-
-    private void CloseVehicle() 
-    {
-        selectedVehicle = null;
-        selectedVehicleMessages = new List<MessageModel>();
-        modalVehicle!.Close();
     }
 
     private void CreateMessage() 

@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using Microsoft.AspNetCore.Components;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace VehicleManager.Models
 {
@@ -21,13 +22,16 @@ namespace VehicleManager.Models
 
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime? LastUpdatedDate { get; set; }
+
+        [JsonIgnore]
+        public virtual ICollection<MessageModel>? Messages { get; set; }
     }
 
     public class MessageTemplateValidator : AbstractValidator<MessageTemplateModel>
     {
         public MessageTemplateValidator()
         {
-            RuleFor(t => t.Code).NotNull().WithMessage("You must provide a code");
+            RuleFor(t => t.Code).NotEmpty().WithMessage("You must provide a code");
             RuleFor(t => t.Name).NotNull().WithMessage("You must provide a name");
             RuleFor(t => t.TemplateContent).NotNull().WithMessage("You must provide content for the template");
         }
