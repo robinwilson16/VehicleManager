@@ -452,14 +452,7 @@ else {
 
     protected override async Task OnInitializedAsync() 
     {
-        if (_selectedMessageTemplate != null)
-            EditContextMain = new EditContext(_selectedMessageTemplate);
-
-        if (EditContextMain != null)
-        {
-            EditContextMain.OnFieldChanged += ChangeMessageTemplate;
-        }
-        _fluentValidationValidator = new FluentValidationValidator();
+        SetEditorContextMain();
 
         bool? isError = false;
         messageTemplateEndPoint = $"{configuration["APIEndpoint"]}/MessageTemplate";
@@ -477,6 +470,17 @@ else {
         if (isError != true)
         {
             //Load other objects
+        }
+    }
+
+    public void SetEditorContextMain()
+    {
+        if (_selectedMessageTemplate != null)
+            EditContextMain = new EditContext(_selectedMessageTemplate);
+
+        if (EditContextMain != null)
+        {
+            EditContextMain.OnFieldChanged += ChangeMessageTemplate;
         }
     }
 
@@ -719,6 +723,8 @@ else {
     private void EditMessageTemplate(int? messageTemplateID)
     {
         SelectMessageTemplate(messageTemplateID);
+
+        SetEditorContextMain();
 
         if (_selectedMessageTemplate != null)
         {

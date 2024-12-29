@@ -67,7 +67,7 @@ namespace VehicleManager.Models
     {
         public MessageValidator()
         {
-            RuleFor(m => m.Subject).NotNull().WithMessage("You must provide a subject for the email");
+            RuleFor(m => m.Subject).NotEmpty().WithMessage("You must provide a subject for the email");
         }
     }
 }

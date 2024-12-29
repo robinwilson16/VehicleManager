@@ -715,14 +715,7 @@ else {
 
     protected override async Task OnInitializedAsync() 
     {
-        if (_selectedMessage != null)
-            EditContextMain = new EditContext(_selectedMessage);
-        
-        if (EditContextMain != null)
-        {
-            EditContextMain.OnFieldChanged += ChangeMessage;
-        }
-        _fluentValidationValidator = new FluentValidationValidator();
+        SetEditorContextMain();
 
         bool? isError = false;
         messageEndPoint = $"{configuration["APIEndpoint"]}/Message";
@@ -750,6 +743,17 @@ else {
                 isError = true;
                 HandleJsonException(ex, "MessageTemplate", MessageID.ToString() ?? "");
             }
+        }
+    }
+
+    public void SetEditorContextMain()
+    {
+        if (_selectedMessage != null)
+            EditContextMain = new EditContext(_selectedMessage);
+
+        if (EditContextMain != null)
+        {
+            EditContextMain.OnFieldChanged += ChangeMessage;
         }
     }
 
@@ -1100,6 +1104,8 @@ else {
     private void EditMessage(int? messageID)
     {
         SelectMessage(messageID);
+
+        SetEditorContextMain();
 
         if (_selectedMessage != null)
         {
