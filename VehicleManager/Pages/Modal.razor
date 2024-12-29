@@ -3,7 +3,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">@Title</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @onclick="Close"></button>
+                @WindowControls
             </div>
             <div class="modal-body">
                 @Body
@@ -21,6 +21,9 @@
 }
 
 @code {
+    [Parameter]
+    public RenderFragment? WindowControls { get; set; }
+
     [Parameter]
     public RenderFragment? Title { get; set; }
 
@@ -61,6 +64,24 @@
         showBackdrop = true;
         backdropZIndex = "z-index:1060;";
         modalZIndex = " z-index:1061;";
+    }
+
+    public void OpenOnTop2()
+    {
+        modalDisplay = "block";
+        modalClass = "show";
+        showBackdrop = true;
+        backdropZIndex = "z-index:1062;";
+        modalZIndex = " z-index:1063;";
+    }
+
+    public void OpenOnTop3()
+    {
+        modalDisplay = "block";
+        modalClass = "show";
+        showBackdrop = true;
+        backdropZIndex = "z-index:1064;";
+        modalZIndex = " z-index:1065;";
     }
 
     public void Close()

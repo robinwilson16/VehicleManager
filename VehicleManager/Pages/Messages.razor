@@ -21,6 +21,9 @@
 <audio src="@soundEffect" autoplay></audio>
 
 <Modal @ref="modalInfo">
+    <WindowControls>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @onclick="() => modalInfo!.Close()"></button>
+    </WindowControls>
     <Title><i class="fa-solid fa-circle-info"></i> @msgInfoTitle</Title>
     <Body>
         <p>
@@ -28,11 +31,14 @@
         </p>
     </Body>
     <Footer>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal" @onclick="() => modalError!.Close()">Close</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @onclick="() => modalInfo!.Close()">Close</button>
     </Footer>
 </Modal>
 
 <Modal @ref="modalError">
+    <WindowControls>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @onclick="() => modalError!.Close()"></button>
+    </WindowControls>
     <Title><i class="fa-solid fa-triangle-exclamation"></i> @msgErrorTitle</Title>
     <Body>
         <div class="alert alert-danger" role="alert">
@@ -45,11 +51,14 @@
         }
     </Body>
     <Footer>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal" @onclick="() => modalError!.Close()">Close</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @onclick="() => modalError!.Close()">Close</button>
     </Footer>
 </Modal>
 
 <Modal @ref="modalConfirm">
+    <WindowControls>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @onclick="() => modalConfirm!.Close()"></button>
+    </WindowControls>
     <Title><i class="fa-solid fa-circle-question"></i> @msgConfirmTitle</Title>
     <Body>
         <p>
@@ -58,7 +67,7 @@
     </Body>
     <Footer>
         <button type="button" class="btn btn-danger" @onclick="FormAction"><i class="fa-solid fa-trash"></i> Yes</button>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal" @onclick="() => modalConfirm!.Close()"><i class="fa-solid fa-right-from-bracket"></i> Cancel</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @onclick="() => modalConfirm!.Close()"><i class="fa-solid fa-right-from-bracket"></i> Cancel</button>
     </Footer>
 </Modal>
 
@@ -83,7 +92,8 @@
         </div>
     </div>
 }
-else if(messages == null) {
+else if (mainRecords == null)
+{
     <div class="container">
         <div class="row">
             <div class="col-md">
@@ -119,15 +129,15 @@ else {
                 </div>
                 <div class="TableContainer">
                     <div class="table-responsive">
-                        <QuickGrid Items="@FilteredMessages" Virtualize="true" Class="table table-striped table-hover table-bordered" TGridItem="MessageModel">
+                        <QuickGrid Items="@FilteredMainRecords" Virtualize="true" Class="table table-striped table-hover table-bordered" TGridItem="MessageModel">
 
                             <TemplateColumn Title="" Sortable="true" SortBy="GridSort<MessageModel>.ByDescending(x => x.MessageID)">
-                                <button type="button" class="btn btn-primary btn-sm" @onclick="()=>EditMessage(context.MessageID)"><i class="fa-solid fa-up-right-from-square"></i></button>
+                                <button type="button" class="btn btn-primary btn-sm" @onclick="()=>EditMainRecord(context.MessageID)"><i class="fa-solid fa-up-right-from-square"></i></button>
                             </TemplateColumn>
 
                             <TemplateColumn Title="ID" Sortable="true" SortBy="GridSort<MessageModel>.ByDescending(x => x.MessageID)">
                                 <ChildContent>
-                                    <div @onclick="()=>SelectMessage(context?.MessageID)" class="@TableCSS(context)">
+                                    <div @onclick="()=>SelectMainRecord(context?.MessageID)" class="@TableCSS(context)">
                                         <div class="col-justify-start">@context.MessageID</div>
                                     </div>
                                 </ChildContent>
@@ -140,7 +150,7 @@ else {
 
                             <TemplateColumn Title="Type" Sortable="true" SortBy="GridSort<MessageModel>.ByDescending(x => x.MessageID)">
                                 <ChildContent>
-                                    <div @onclick="()=>SelectMessage(context?.MessageID)" class="@TableCSS(context)">
+                                    <div @onclick="()=>SelectMainRecord(context?.MessageID)" class="@TableCSS(context)">
                                         <div class="col-justify-start">@context?.MessageTypeID?.GetDisplayName()</div>
                                     </div>
                                 </ChildContent>
@@ -153,7 +163,7 @@ else {
 
                             <TemplateColumn Title="Template" Sortable="true" SortBy="GridSort<MessageModel>.ByDescending(x => x.MessageTemplate)">
                                 <ChildContent>
-                                    <div @onclick="()=>SelectMessage(context?.MessageID)" class="@TableCSS(context)">
+                                    <div @onclick="()=>SelectMainRecord(context?.MessageID)" class="@TableCSS(context)">
                                         <div class="col-justify-start">@context.MessageTemplate?.Name</div>
                                     </div>
                                 </ChildContent>
@@ -166,7 +176,7 @@ else {
 
                             <TemplateColumn Title="Subject" Sortable="true" SortBy="GridSort<MessageModel>.ByDescending(x => x.Subject)">
                                 <ChildContent>
-                                    <div @onclick="()=>SelectMessage(context?.MessageID)" class="@TableCSS(context)">
+                                    <div @onclick="()=>SelectMainRecord(context?.MessageID)" class="@TableCSS(context)">
                                         <div class="col-justify-start">@context.Subject</div>
                                     </div>
                                 </ChildContent>
@@ -179,7 +189,7 @@ else {
 
                             <TemplateColumn Title="Vehicle ID" Sortable="true" SortBy="GridSort<MessageModel>.ByDescending(x => x.VehicleID)">
                                 <ChildContent>
-                                    <div @onclick="()=>SelectMessage(context?.MessageID)" class="@TableCSS(context)">
+                                    <div @onclick="()=>SelectMainRecord(context?.MessageID)" class="@TableCSS(context)">
                                         <div class="col-justify-start">@context.VehicleID</div>
                                     </div>
                                 </ChildContent>
@@ -192,7 +202,7 @@ else {
 
                             <TemplateColumn Title="&pound; Offered" Sortable="true" SortBy="GridSort<MessageModel>.ByDescending(x => x.AmountOffered)">
                                 <ChildContent>
-                                    <div @onclick="()=>SelectMessage(context?.MessageID)" class="@TableCSS(context)">
+                                    <div @onclick="()=>SelectMainRecord(context?.MessageID)" class="@TableCSS(context)">
                                         <div class="col-justify-start text-center">
                                             <h5 class="pt-1 pb-0 mb-0">
                                                 <span class="badge @(context!.IsAccepted == true? "text-bg-success" : "text-bg-danger")">
@@ -211,7 +221,7 @@ else {
 
                             <TemplateColumn Title="Accepted?" Sortable="true" SortBy="GridSort<MessageModel>.ByDescending(x => x.IsAccepted)">
                                 <ChildContent>
-                                    <div @onclick="()=>SelectMessage(context?.MessageID)" class="@TableCSS(context)">
+                                    <div @onclick="()=>SelectMainRecord(context?.MessageID)" class="@TableCSS(context)">
                                         <div class="col-justify-start text-center">
                                             <i class="@CSSFunctions.BoolCSS(context.IsAccepted)"></i>
                                         </div>
@@ -226,7 +236,7 @@ else {
 
                             <TemplateColumn Title="From" Sortable="true" SortBy="GridSort<MessageModel>.ByDescending(x => x.From)">
                                 <ChildContent>
-                                    <div @onclick="()=>SelectMessage(context?.MessageID)" class="@TableCSS(context)">
+                                    <div @onclick="()=>SelectMainRecord(context?.MessageID)" class="@TableCSS(context)">
                                         <div class="col-justify-start">@context.From</div>
                                     </div>
                                 </ChildContent>
@@ -239,7 +249,7 @@ else {
 
                             <TemplateColumn Title="From Name" Sortable="true" SortBy="GridSort<MessageModel>.ByDescending(x => x.FromName)">
                                 <ChildContent>
-                                    <div @onclick="()=>SelectMessage(context?.MessageID)" class="@TableCSS(context)">
+                                    <div @onclick="()=>SelectMainRecord(context?.MessageID)" class="@TableCSS(context)">
                                         <div class="col-justify-start">@context.FromName</div>
                                     </div>
                                 </ChildContent>
@@ -252,7 +262,7 @@ else {
 
                             <TemplateColumn Title="To" Sortable="true" SortBy="GridSort<MessageModel>.ByDescending(x => x.To)">
                                 <ChildContent>
-                                    <div @onclick="()=>SelectMessage(context?.MessageID)" class="@TableCSS(context)">
+                                    <div @onclick="()=>SelectMainRecord(context?.MessageID)" class="@TableCSS(context)">
                                         <div class="col-justify-start">@context.To</div>
                                     </div>
                                 </ChildContent>
@@ -265,7 +275,7 @@ else {
 
                             <TemplateColumn Title="To Name" Sortable="true" SortBy="GridSort<MessageModel>.ByDescending(x => x.ToName)">
                                 <ChildContent>
-                                    <div @onclick="()=>SelectMessage(context?.MessageID)" class="@TableCSS(context)">
+                                    <div @onclick="()=>SelectMainRecord(context?.MessageID)" class="@TableCSS(context)">
                                         <div class="col-justify-start">@context.ToName</div>
                                     </div>
                                 </ChildContent>
@@ -278,7 +288,7 @@ else {
 
                             <TemplateColumn Title="Sent?" Sortable="true" SortBy="GridSort<MessageModel>.ByDescending(x => x.IsSent)">
                                 <ChildContent>
-                                    <div @onclick="()=>SelectMessage(context?.MessageID)" class="@TableCSS(context)">
+                                    <div @onclick="()=>SelectMainRecord(context?.MessageID)" class="@TableCSS(context)">
                                         <div class="col-justify-start text-center">
                                             <i class="@CSSFunctions.BoolCSS(context.IsSent)"></i>
                                         </div>
@@ -293,7 +303,7 @@ else {
 
                             <TemplateColumn Title="Sent Date" Sortable="true" SortBy="GridSort<MessageModel>.ByDescending(x => x.SentDate)">
                                 <ChildContent>
-                                    <div @onclick="()=>SelectMessage(context?.MessageID)" class="@TableCSS(context)">
+                                    <div @onclick="()=>SelectMainRecord(context?.MessageID)" class="@TableCSS(context)">
                                         <div class="col-justify-start">@(context?.SentDate == null ? "" : context?.SentDate.Value.ToString("dd/MM/yyyy"))</div>
                                     </div>
                                 </ChildContent>
@@ -306,7 +316,7 @@ else {
 
                             <TemplateColumn Title="Status" Sortable="true" SortBy="GridSort<MessageModel>.ByDescending(x => x.MessageStatusID)">
                                 <ChildContent>
-                                    <div @onclick="()=>SelectMessage(context?.MessageID)" class="@TableCSS(context)">
+                                    <div @onclick="()=>SelectMainRecord(context?.MessageID)" class="@TableCSS(context)">
                                         <div class="col-justify-start">@context?.MessageStatusID?.GetDisplayName()</div>
                                     </div>
                                 </ChildContent>
@@ -319,7 +329,7 @@ else {
 
                             <TemplateColumn Title="Unique Customer Reference" Sortable="true" SortBy="GridSort<MessageModel>.ByDescending(x => x.MessageID)">
                                 <ChildContent>
-                                    <div @onclick="()=>SelectMessage(context?.MessageID)" class="@TableCSS(context)">
+                                    <div @onclick="()=>SelectMainRecord(context?.MessageID)" class="@TableCSS(context)">
                                         <div class="col-justify-start">@context.MessageGUID</div>
                                     </div>
                                 </ChildContent>
@@ -332,7 +342,7 @@ else {
 
                             <TemplateColumn Title="Created By" Sortable="true" SortBy="GridSort<MessageModel>.ByDescending(x => x.CreatedBy)">
                                 <ChildContent>
-                                    <div @onclick="()=>SelectMessage(context?.MessageID)" class="@TableCSS(context)">
+                                    <div @onclick="()=>SelectMainRecord(context?.MessageID)" class="@TableCSS(context)">
                                         <div class="col-justify-start">@context.CreatedBy</div>
                                     </div>
                                 </ChildContent>
@@ -345,7 +355,7 @@ else {
 
                             <TemplateColumn Title="Created Date" Sortable="true" SortBy="GridSort<MessageModel>.ByDescending(x => x.CreatedDate)">
                                 <ChildContent>
-                                    <div @onclick="()=>SelectMessage(context?.MessageID)" class="@TableCSS(context)">
+                                    <div @onclick="()=>SelectMainRecord(context?.MessageID)" class="@TableCSS(context)">
                                         <div class="col-justify-start">@(context?.CreatedDate == null ? "" : context?.CreatedDate.Value.ToString("dd/MM/yyyy"))</div>
                                     </div>
                                 </ChildContent>
@@ -358,7 +368,7 @@ else {
 
                             <TemplateColumn Title="Last Updated By" Sortable="true" SortBy="GridSort<MessageModel>.ByDescending(x => x.LastUpdatedBy)">
                                 <ChildContent>
-                                    <div @onclick="()=>SelectMessage(context?.MessageID)" class="@TableCSS(context)">
+                                    <div @onclick="()=>SelectMainRecord(context?.MessageID)" class="@TableCSS(context)">
                                         <div class="col-justify-start">@context.LastUpdatedBy</div>
                                     </div>
                                 </ChildContent>
@@ -371,7 +381,7 @@ else {
 
                             <TemplateColumn Title="Last Updated Date" Sortable="true" SortBy="GridSort<MessageModel>.ByDescending(x => x.LastUpdatedDate)">
                                 <ChildContent>
-                                    <div @onclick="()=>SelectMessage(context?.MessageID)" class="@TableCSS(context)">
+                                    <div @onclick="()=>SelectMainRecord(context?.MessageID)" class="@TableCSS(context)">
                                         <div class="col-justify-start">@(context?.CreatedDate == null ? "" : context?.CreatedDate.Value.ToString("dd/MM/yyyy"))</div>
                                     </div>
                                 </ChildContent>
@@ -388,9 +398,9 @@ else {
                     <div class="row">
                         <div class="col-md">
                             <div class="d-grid gap-2 d-md-block text-start">
-                                <button type="button" class="btn btn-primary me-md-3" @onclick="()=>EditMessage(null)"><i class="fa-solid fa-square-plus"></i> New...</button>
-                                <button type="button" class="btn btn-danger me-md-3" @onclick="DeleteMessageConfirm" disabled="@(selectedMessage?.MessageID == 0 ? true : false)"><i class="fa-solid fa-trash-can"></i> Delete...</button>
-                                @if (selectedMessage?.MessageID > 0) {
+                                <button type="button" class="btn btn-primary me-md-3" @onclick="()=>EditMainRecord(null)"><i class="fa-solid fa-square-plus"></i> New...</button>
+                                <button type="button" class="btn btn-danger me-md-3" @onclick="DeleteMainRecordConfirm" disabled="@(selectedRecord?.MessageID == 0 ? true : false)"><i class="fa-solid fa-trash-can"></i> Delete...</button>
+                                @if (selectedRecord?.MessageID > 0) {
                                     <span>1 Record Selected</span>
                                 }
                             </div>
@@ -400,12 +410,12 @@ else {
                             @if (FiltersMain.Count > 0)
                             {
                                 <div class="col-md text-end fw-bold text-primary">
-                                    @FilteredMessages?.Count() Records (Filtered)
+                                    @FilteredMainRecords?.Count() Records (Filtered)
                                 </div>
                             }
                             else {
                                 <div class="col-md text-end">
-                                    @FilteredMessages?.Count() Records
+                                    @FilteredMainRecords?.Count() Records
                                 </div>
                             }
 
@@ -417,22 +427,32 @@ else {
     </div>
 
     <Modal @ref="modalMessage">
-        <Title>
-            @if (@_selectedMessage?.MessageID > 0)
+        <WindowControls>
+            @if (selectedRecordChanges?.Count > 0)
             {
-                @:<i class="fa-solid fa-message"></i> Message @_selectedMessage?.MessageID
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @onclick="CancelMainRecordConfirm"></button>
+            }
+            else
+            {
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @onclick="() => modalMessage!.Close()"></button>
+            }
+        </WindowControls>
+        <Title>
+            @if (@selectedRecordCopy?.MessageID > 0)
+            {
+                @:<i class="fa-solid fa-message"></i> Message @selectedRecordCopy?.MessageID
             }
             else {
                 @:<i class="fa-solid fa-message"></i> New Message
             }
         </Title>
         <Body>
-            <EditForm EditContext="@EditContextMain" OnValidSubmit="() => SaveMessage(true)">
+            <EditForm EditContext="@EditContextMain" OnValidSubmit="() => SaveMainRecord(true)">
                 <FluentValidationValidator @ref="_fluentValidationValidator" />
                 <div class="bd-callout bd-callout-VM bd-callout-grey GreyBackground">
                     <div class="container">
 
-                        @if (_selectedMessage == null) {
+                        @if (selectedRecordCopy == null) {
                             <div class="row">
                                 <div class="col-md">
                                     <div class="alert alert-primary text-center" role="alert">
@@ -452,14 +472,14 @@ else {
                                             <label class="col-form-label"><i class="fa-solid fa-angles-right"></i> From</label>
                                         </div>
                                         <div class="col-md-8">
-                                            <InputText @bind-Value="_selectedMessage!.FromName" class="form-control" placeholder="Name" />
-                                            <ValidationMessage For="@(() => _selectedMessage!.FromName)" />
+                                            <InputText @bind-Value="selectedRecordCopy!.FromName" class="form-control" placeholder="Name" />
+                                            <ValidationMessage For="@(() => selectedRecordCopy!.FromName)" />
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md">
-                                    <InputText @bind-Value="_selectedMessage!.From" class="form-control" placeholder="Email" />
-                                    <ValidationMessage For="@(() => _selectedMessage!.From)" />
+                                    <InputText @bind-Value="selectedRecordCopy!.From" class="form-control" placeholder="Email" />
+                                    <ValidationMessage For="@(() => selectedRecordCopy!.From)" />
                                 </div>
                             </div>
 
@@ -470,14 +490,14 @@ else {
                                             <label class="col-form-label"><i class="fa-solid fa-angles-right"></i> To</label>
                                         </div>
                                         <div class="col-md-8">
-                                            <InputText @bind-Value="_selectedMessage!.ToName" class="form-control"  placeholder="Name" />
-                                            <ValidationMessage For="@(() => _selectedMessage!.ToName)" />
+                                            <InputText @bind-Value="selectedRecordCopy!.ToName" class="form-control"  placeholder="Name" />
+                                            <ValidationMessage For="@(() => selectedRecordCopy!.ToName)" />
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md">
-                                    <InputText @bind-Value="_selectedMessage!.To" class="form-control" placeholder="Email" />
-                                    <ValidationMessage For="@(() => _selectedMessage!.To)" />
+                                    <InputText @bind-Value="selectedRecordCopy!.To" class="form-control" placeholder="Email" />
+                                    <ValidationMessage For="@(() => selectedRecordCopy!.To)" />
                                 </div>
                             </div>
 
@@ -486,9 +506,9 @@ else {
                                     <label class="col-form-label"><i class="fa-solid fa-angles-right"></i> Template</label>
                                 </div>
                                 <div class="col-md-10">
-                                    @if (_selectedMessage!.MessageTemplate != null)
+                                    @if (selectedRecordCopy!.MessageTemplate != null)
                                     {
-                                        <InputSelect @bind-Value="_selectedMessage!.MessageTemplate!.MessageTemplateID" class="form-control">
+                                        <InputSelect @bind-Value="selectedRecordCopy!.MessageTemplate!.MessageTemplateID" class="form-control">
                                             <option value="">-- Please Select --</option>
                                             @if (messageTemplates != null)
                                             {
@@ -498,7 +518,7 @@ else {
                                                 }
                                             }
                                         </InputSelect>
-                                        <ValidationMessage For="@(() => _selectedMessage!.MessageTemplate.MessageTemplateID)" />
+                                        <ValidationMessage For="@(() => selectedRecordCopy!.MessageTemplate.MessageTemplateID)" />
                                     }
 
                                 </div>
@@ -509,8 +529,8 @@ else {
                                     <label class="col-form-label"><i class="fa-solid fa-angles-right"></i> Subject</label>
                                 </div>
                                 <div class="col-md-10">
-                                    <InputText @bind-Value="_selectedMessage!.Subject" class="form-control" />
-                                    <ValidationMessage For="@(() => _selectedMessage!.Subject)" />
+                                    <InputText @bind-Value="selectedRecordCopy!.Subject" class="form-control" />
+                                    <ValidationMessage For="@(() => selectedRecordCopy!.Subject)" />
                                 </div>
                             </div>
 
@@ -521,9 +541,9 @@ else {
                             </div>
                             <div class="row g-3 mb-3">
                                 <div class="col-md">
-                                    <Editor ScriptSrc="./lib/tinymce/tinymce.min.js" @bind-Value="_selectedMessage!.Message" Field="() => _selectedMessage!.Message" LicenseKey="gpl" />
-                                    @* <InputTextArea @bind-Value="selectedMessage!.Message" class="form-control" /> *@
-                                    <ValidationMessage For="@(() => selectedMessage!.Message)" />
+                                    <Editor ScriptSrc="./lib/tinymce/tinymce.min.js" @bind-Value="selectedRecordCopy!.Message" Field="() => selectedRecordCopy!.Message" LicenseKey="gpl" />
+                                    @* <InputTextArea @bind-Value="selectedRecord!.Message" class="form-control" /> *@
+                                    <ValidationMessage For="@(() => selectedRecord!.Message)" />
                                 </div>
                             </div>
 
@@ -532,8 +552,8 @@ else {
                                     <label class="col-form-label"><i class="fa-solid fa-angles-right"></i> Vehicle</label>
                                 </div>
                                 <div class="col-md-10">
-                                    <InputNumber @bind-Value="_selectedMessage!.VehicleID" class="form-control" />
-                                    <ValidationMessage For="@(() => _selectedMessage!.VehicleID)" />
+                                    <InputNumber @bind-Value="selectedRecordCopy!.VehicleID" class="form-control" />
+                                    <ValidationMessage For="@(() => selectedRecordCopy!.VehicleID)" />
                                 </div>
                             </div>
 
@@ -544,8 +564,8 @@ else {
                                             <label class="col-form-label"><i class="fa-solid fa-angles-right"></i> <i class="fa-solid fa-sterling-sign"></i> Offered</label>
                                         </div>
                                         <div class="col-md-8">
-                                            <InputNumber @bind-Value="_selectedMessage!.AmountOffered" class="form-control" />
-                                            <ValidationMessage For="@(() => _selectedMessage!.AmountOffered)" />
+                                            <InputNumber @bind-Value="selectedRecordCopy!.AmountOffered" class="form-control" />
+                                            <ValidationMessage For="@(() => selectedRecordCopy!.AmountOffered)" />
                                         </div>
                                     </div>
                                 </div>
@@ -556,9 +576,9 @@ else {
                                         </div>
                                         <div class="col-md-8">
                                             <div class="d-grid gap-2 d-md-block">
-                                                <button type="button" class="btn @(_selectedMessage!.IsAccepted == true? "btn-primary" : "btn-outline-primary") me-md-3" @onclick="(e) => ToggleMessageIsAccepted()"><i class="@(_selectedMessage!.IsAccepted == true? "fa-solid fa-square-check" : "fa-regular fa-square")"></i></button>
+                                                <button type="button" class="btn @(selectedRecordCopy!.IsAccepted == true? "btn-primary" : "btn-outline-primary") me-md-3" @onclick="(e) => ToggleMainRecordIsAccepted()"><i class="@(selectedRecordCopy!.IsAccepted == true? "fa-solid fa-square-check" : "fa-regular fa-square")"></i></button>
                                             </div>
-                                            <ValidationMessage For="@(() => _selectedMessage!.IsAccepted)" />
+                                            <ValidationMessage For="@(() => selectedRecordCopy!.IsAccepted)" />
                                         </div>
                                     </div>
                                 </div>
@@ -571,8 +591,8 @@ else {
                                             <label class="col-form-label"><i class="fa-solid fa-angles-right"></i> Sent Date</label>
                                         </div>
                                         <div class="col-md-8">
-                                            <InputDate @bind-Value="_selectedMessage!.SentDate" class="form-control" />
-                                            <ValidationMessage For="@(() => _selectedMessage!.SentDate)" />
+                                            <InputDate @bind-Value="selectedRecordCopy!.SentDate" class="form-control" />
+                                            <ValidationMessage For="@(() => selectedRecordCopy!.SentDate)" />
                                         </div>
                                     </div>
                                 </div>
@@ -582,14 +602,14 @@ else {
                                             <label class="col-form-label"><i class="fa-solid fa-angles-right"></i> <i class="fa-solid fa-sterling-sign"></i> Status</label>
                                         </div>
                                         <div class="col-md-8">
-                                            <InputSelect @bind-Value="_selectedMessage!.MessageStatusID" class="form-control">
+                                            <InputSelect @bind-Value="selectedRecordCopy!.MessageStatusID" class="form-control">
                                                 <option value="">-- Please Select --</option>
                                                 @foreach (var value in Enum.GetValues<MessageStatus>())
                                                 {
                                                     <option value="@value">@value</option>
                                                 }
                                             </InputSelect>
-                                            <ValidationMessage For="@(() => _selectedMessage!.MessageStatusID)" />
+                                            <ValidationMessage For="@(() => selectedRecordCopy!.MessageStatusID)" />
                                         </div>
                                     </div>
                                 </div>
@@ -603,19 +623,19 @@ else {
             </EditForm>
         </Body>
         <Footer>
-            <button type="button" class="btn btn-secondary" data-dismiss="modal" @onclick="() => AdvanceToMessage(-1)"><i class="fa-solid fa-square-caret-left"></i></button>
-            <button type="button" class="btn btn-secondary" data-dismiss="modal" @onclick="() => AdvanceToMessage(1)"><i class="fa-solid fa-square-caret-right"></i></button>
-            <button type="button" class="btn btn-info" data-dismiss="modal" @onclick="() => SendMessage(true)"><i class="fa-solid fa-paper-plane"></i> Send</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @onclick="() => AdvanceToMainRecord(-1)"><i class="fa-solid fa-square-caret-left"></i></button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @onclick="() => AdvanceToMainRecord(1)"><i class="fa-solid fa-square-caret-right"></i></button>
+            <button type="button" class="btn btn-info" data-bs-dismiss="modal" @onclick="() => SendMessage(true)"><i class="fa-solid fa-paper-plane"></i> Send</button>
 
-            @if (selectedMessageChanges?.Count > 0)
+            @if (selectedRecordChanges?.Count > 0)
             {
-                <button type="button" class="btn btn-success" data-dismiss="modal" @onclick="() => SaveMessage(true)"><i class="fa-solid fa-floppy-disk"></i> Save and Close</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal" @onclick="() => SaveMessage(false)"><i class="fa-solid fa-floppy-disk"></i> Save</button>
-                <button type="button" class="btn btn-danger" data-dismiss="modal" @onclick="CancelMessageConfirm"><i class="fa-solid fa-rotate-left"></i> Cancel <strong>@(selectedMessageChanges?.Count ?? 1)</strong> Changes</button>
+                <button type="button" class="btn btn-success" data-bs-dismiss="modal" @onclick="() => SaveMainRecord(true)"><i class="fa-solid fa-floppy-disk"></i> Save and Close</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @onclick="() => SaveMainRecord(false)"><i class="fa-solid fa-floppy-disk"></i> Save</button>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal" @onclick="CancelMainRecordConfirm"><i class="fa-solid fa-rotate-left"></i> Cancel <strong>@(selectedRecordChanges?.Count ?? 1)</strong> Changes</button>
             }
             else
             {
-                <button type="button" class="btn btn-secondary" data-dismiss="modal" @onclick="CloseMessage"><i class="fa-solid fa-rotate-left"></i> Close</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @onclick="CloseMainRecord"><i class="fa-solid fa-rotate-left"></i> Close</button>
             }
         </Footer>
     </Modal>
@@ -646,18 +666,18 @@ else {
     [Parameter]
     public int? MessageID { get; set; }
 
-    private List<MessageModel>? messages { get; set; }
+    private List<MessageModel>? mainRecords { get; set; }
 
     [SupplyParameterFromForm]
-    public MessageModel? selectedMessage { get; set; } = new MessageModel();
-    private MessageModel? _selectedMessage { get; set; } = new MessageModel();
-    private IDictionary<string, string>? selectedMessageChanges = new Dictionary<string, string>();
+    public MessageModel? selectedRecord { get; set; } = new MessageModel();
+    private MessageModel? selectedRecordCopy { get; set; } = new MessageModel();
+    private IDictionary<string, string>? selectedRecordChanges = new Dictionary<string, string>();
 
     //Related datasets
     private List<MessageTemplateModel>? messageTemplates { get; set; }
 
-    private IQueryable<MessageModel>? FilteredMessages =>
-        (messages)?.AsQueryable()
+    private IQueryable<MessageModel>? FilteredMainRecords =>
+        (mainRecords)?.AsQueryable()
         .Where(
             m => 
             (FilterMainMessageID == null ? true : m.MessageID == (FilterMainMessageID ?? m.MessageID))
@@ -723,7 +743,7 @@ else {
 
         try
         {
-            messages = await Http.GetFromJsonAsync<List<MessageModel>>(messageEndPoint);
+            mainRecords = await Http.GetFromJsonAsync<List<MessageModel>>(messageEndPoint);
         }
         catch (HttpRequestException ex)
         {
@@ -748,19 +768,20 @@ else {
 
     public void SetEditorContextMain()
     {
-        if (_selectedMessage != null)
-            EditContextMain = new EditContext(_selectedMessage);
+        //When Edit Form is based on an Edit Context this must be called each time the context changes for validation to work
+        if (selectedRecordCopy != null)
+            EditContextMain = new EditContext(selectedRecordCopy);
 
         if (EditContextMain != null)
         {
-            EditContextMain.OnFieldChanged += ChangeMessage;
+            EditContextMain.OnFieldChanged += ChangeMainRecord;
         }
     }
 
     public string TableCSS(MessageModel? context)
     {
         string css = "";
-        if (context?.MessageID == selectedMessage?.MessageID)
+        if (context?.MessageID == selectedRecord?.MessageID)
         {
             css = "SelectedRow";
         }
@@ -956,18 +977,18 @@ else {
         {
             ClearForm();
         }
-        else if (action == "CancelMessageConfirm")
+        else if (action == "CancelMainRecordConfirm")
         {
-            CancelMessage();
+            CancelMainRecord();
         }
-        else if (action == "DeleteMessageConfirm")
+        else if (action == "DeleteMainRecordConfirm")
         {
-            await DeleteMessage();
+            await DeleteMainRecord();
         }  
         else
         {
             action = "Error";
-            soundEffect = "sounds/error.mp3";
+            soundEffect = SoundFunctions.GetErrorSound();
 
             msgErrorTitle = $"Invalid Action";
             msgError = (MarkupString)$"An invalid option was specified. Please try again.";
@@ -980,7 +1001,7 @@ else {
     private void ClearFormConfirm()
     {
         action = "ClearFormConfirm";
-        soundEffect = "sounds/prompt.mp3";
+        soundEffect = SoundFunctions.GetPromptSound();
 
         msgConfirmTitle = $"Clear Form?";
         msgConfirm = (MarkupString)$"Are you sure you want to clear all information on this form?";
@@ -992,54 +1013,46 @@ else {
     {
         action = "ClearForm";
 
-        selectedMessage = new MessageModel();
+        selectedRecord = new MessageModel();
 
         modalConfirm!.Close();
     }
 
-    private MessageModel? GetMessage(int messageID)
+    private MessageModel? GetMainRecord(int recordID)
     {
         return 
-        messages?
-        .Where(t => t.MessageID == messageID)
+        mainRecords?
+        .Where(t => t.MessageID == recordID)
         .FirstOrDefault();
     }
 
-    private MessageTemplateModel? GetMessageTemplate(int messageTemplateID)
+    private void SelectMainRecord(int? recordID)
     {
-        return
-        messageTemplates?
-        .Where(t => t.MessageTemplateID == messageTemplateID)
-        .FirstOrDefault();
-    }
-
-    private void SelectMessage(int? messageID)
-    {
-        if (messageID != null && messageID > 0)
+        if (recordID != null && recordID > 0)
         {
-            selectedMessage = GetMessage(messageID ?? 0);
+            selectedRecord = GetMainRecord(recordID ?? 0);
         }
         else
         {
-            selectedMessage = new MessageModel();
+            selectedRecord = new MessageModel();
         }
 
         //Keep a copy of this object to be used for edit form so original object can remain untouched until save operation (otherwise it changes on screen)
-        if (selectedMessage != null)
-            _selectedMessage = selectedMessage?.Clone();
+        if (selectedRecord != null)
+            selectedRecordCopy = selectedRecord?.Clone();
     }
 
-    public async Task AdvanceToMessage(int numRecords)
+    public async Task AdvanceToMainRecord(int numRecords)
     {
-        if (await SaveMessage(false) == true)
+        if (await SaveMainRecord(false) == true)
         {
-            int? currentRecordID = selectedMessage?.MessageID;
+            int? currentRecordID = selectedRecord?.MessageID;
             MessageModel? nextRecord = new MessageModel();
 
             if (numRecords > 0)
             {
                 nextRecord =
-                FilteredMessages?
+                FilteredMainRecords?
                 .SkipWhile(obj => obj.MessageID != currentRecordID)
                 .Skip(numRecords)
                 .FirstOrDefault();
@@ -1048,7 +1061,7 @@ else {
             {
                 int numRecordsBack = Math.Abs(numRecords);
                 nextRecord =
-                    FilteredMessages?
+                    FilteredMainRecords?
                     .Reverse()
                     .SkipWhile(obj => obj.MessageID != currentRecordID)
                     .Skip(numRecordsBack)
@@ -1059,55 +1072,55 @@ else {
             {
                 if (nextRecord?.MessageID != null)
                 {
-                    selectedMessage = nextRecord;
-                    _selectedMessage = nextRecord;
+                    selectedRecord = nextRecord;
+                    selectedRecordCopy = nextRecord;
                 }
             }
         }
     }
 
-    public void ToggleMessageIsAccepted()
+    public void ToggleMainRecordIsAccepted()
     {
-        if (_selectedMessage != null)
+        if (selectedRecordCopy != null)
         {
-            if (_selectedMessage.IsAccepted == true)
+            if (selectedRecordCopy.IsAccepted == true)
             {
-                _selectedMessage.IsAccepted = false;
+                selectedRecordCopy.IsAccepted = false;
             }
             else
             {
-                _selectedMessage.IsAccepted = true;
+                selectedRecordCopy.IsAccepted = true;
             }
         }
     }
 
-    protected void ChangeMessage(object? sender, FieldChangedEventArgs? e)
+    protected void ChangeMainRecord(object? sender, FieldChangedEventArgs? e)
     {
         string? fieldName = e?.FieldIdentifier.FieldName;
-        string? fieldValue = e?.FieldIdentifier.Model.GetType().GetProperty(fieldName ?? "")?.GetValue(_selectedMessage)?.ToString();
+        string? fieldValue = e?.FieldIdentifier.Model.GetType().GetProperty(fieldName ?? "")?.GetValue(selectedRecordCopy)?.ToString();
 
         fieldValue = StringFunctions.FormatFieldChangedValue(fieldValue);
 
-        if (selectedMessageChanges != null && fieldName != null)
+        if (selectedRecordChanges != null && fieldName != null)
         {
-            if (selectedMessageChanges.ContainsKey(fieldName))
+            if (selectedRecordChanges.ContainsKey(fieldName))
             {
-                selectedMessageChanges[fieldName] = fieldValue ?? "";
+                selectedRecordChanges[fieldName] = fieldValue ?? "";
             }
             else
             {
-                selectedMessageChanges.Add(fieldName, fieldValue ?? "");
+                selectedRecordChanges.Add(fieldName, fieldValue ?? "");
             }
         }
     }
 
-    private void EditMessage(int? messageID)
+    private void EditMainRecord(int? messageID)
     {
-        SelectMessage(messageID);
+        SelectMainRecord(messageID);
 
         SetEditorContextMain();
 
-        if (_selectedMessage != null)
+        if (selectedRecordCopy != null)
         {
             modalMessage!.MakeLarge();
             modalMessage!.Open();
@@ -1115,7 +1128,7 @@ else {
         else
         {
             action = "Error";
-            soundEffect = "sounds/error.mp3";
+            soundEffect = SoundFunctions.GetErrorSound();
 
             msgErrorTitle = $"Cannot Load Message {messageID}";
             msgError = (MarkupString)$"Unfortunately the message could not be loaded due to an error.<br />Please try again.";
@@ -1125,41 +1138,41 @@ else {
         }
     }
 
-    private async Task<bool> SaveMessage(bool? CloseDialogAfterSave)
+    private async Task<bool> SaveMainRecord(bool? CloseDialogAfterSave)
     {
         string? saveEndPoint;
         bool returnValue = false;
 
         if (await _fluentValidationValidator!.ValidateAsync())
         {
-            Logger.LogInformation("Id = {Id}", _selectedMessage?.MessageID);
+            Logger.LogInformation("Id = {Id}", selectedRecordCopy?.MessageID);
 
             try
             {
-                if (selectedMessage != null && _selectedMessage != null)
+                if (selectedRecord != null && selectedRecordCopy != null)
                 {
                     //Update related entities (as only IDs are updated on the form so rest of object is not updated)
-                    _selectedMessage.MessageTemplate = GetMessageTemplate(_selectedMessage.MessageTemplate?.MessageTemplateID ?? 0);
+                    selectedRecordCopy.MessageTemplate = GetMessageTemplate(selectedRecordCopy.MessageTemplate?.MessageTemplateID ?? 0);
                     
                     HttpResponseMessage formResponse = new HttpResponseMessage();
 
-                    if (_selectedMessage?.MessageID > 0) {
+                    if (selectedRecordCopy?.MessageID > 0) {
                         //Update existing record
-                        saveEndPoint = $"{configuration["APIEndpoint"]}/Message/{selectedMessage?.MessageID}";
-                        formResponse = await Http.PutAsJsonAsync<MessageModel>(saveEndPoint, _selectedMessage!);
+                        saveEndPoint = $"{configuration["APIEndpoint"]}/Message/{selectedRecord?.MessageID}";
+                        formResponse = await Http.PutAsJsonAsync<MessageModel>(saveEndPoint, selectedRecordCopy!);
                     }
                     else 
                     {
                         //Insert new record
                         saveEndPoint = $"{configuration["APIEndpoint"]}/Message";
-                        formResponse = await Http.PostAsJsonAsync<MessageModel>(saveEndPoint, _selectedMessage!);
+                        formResponse = await Http.PostAsJsonAsync<MessageModel>(saveEndPoint, selectedRecordCopy!);
                     }
 
                     if (formResponse.IsSuccessStatusCode != true)
                     {
                         string responseBody = await formResponse.Content.ReadAsStringAsync();
                         action = "Error";
-                        soundEffect = "sounds/error.mp3";
+                        soundEffect = SoundFunctions.GetErrorSound();
 
                         msgErrorTitle = $"Cannot Save Message Record";
                         msgError = (MarkupString)$"Unfortunately the Message Record could not be saved successfully due to an error.<br />Please check your network connection and attempt to save again.";
@@ -1170,17 +1183,19 @@ else {
                     else
                     {
                         //Copy properties back to tracked object being saved
-                        _selectedMessage.CopyProperties(selectedMessage);
+                        selectedRecordCopy.CopyProperties(selectedRecord);
 
-                        soundEffect = "sounds/confirm.mp3";
+                        selectedRecordChanges?.Clear();
+
+                        soundEffect = SoundFunctions.GetConfirmSound();
                         returnValue = true;
 
-                        if (_selectedMessage?.MessageID > 0)
+                        if (selectedRecordCopy?.MessageID > 0)
                         {
                             //Update existing record
                             if (CloseDialogAfterSave == true)
                             {
-                                CloseMessage();
+                                CloseMainRecord();
                             }
                         }
                         else 
@@ -1192,17 +1207,17 @@ else {
 
                             if (insertedMessage.MessageID > 0)
                             {
-                                messages?.Add(insertedMessage);
+                                mainRecords?.Add(insertedMessage);
 
                                 if (CloseDialogAfterSave == true)
                                 {
-                                    CloseMessage();
+                                    CloseMainRecord();
                                 }
                             }
                             else
                             {
                                 action = "Error";
-                                soundEffect = "sounds/error.mp3";
+                                soundEffect = SoundFunctions.GetErrorSound();
 
                                 msgErrorTitle = $"Cannot Save Message Record";
                                 msgError = (MarkupString)$"Unfortunately the Message Record could not be saved successfully due to an error.<br />Please check your network connection and attempt to save again.";
@@ -1216,7 +1231,7 @@ else {
                 else
                 {
                     action = "Error";
-                    soundEffect = "sounds/error.mp3";
+                    soundEffect = SoundFunctions.GetErrorSound();
 
                     msgErrorTitle = $"Cannot Save Message Record";
                     msgError = (MarkupString)$"Unfortunately the Message Record could not be saved successfully due to an error.<br />Please check your network connection and attempt to save again.";
@@ -1228,37 +1243,29 @@ else {
             }
             catch (HttpRequestException ex)
             {
-                HandleJsonException(ex, "Message", _selectedMessage?.MessageID.ToString() ?? "0");
+                HandleJsonException(ex, "Message", selectedRecordCopy?.MessageID.ToString() ?? "0");
             }
         }
 
         return returnValue;
     }
 
-    public async Task SendMessage(bool? CloseDialogAfterSave)
+    private void DeleteMainRecordConfirm()
     {
-        if (await SaveMessage(CloseDialogAfterSave) == true)
+        if (selectedRecord?.MessageID > 0)
         {
-            //Send email
-        }
-    }
-
-    private void DeleteMessageConfirm()
-    {
-        if (selectedMessage?.MessageID > 0)
-        {
-            action = "DeleteMessageConfirm";
-            soundEffect = "sounds/prompt.mp3";
+            action = "DeleteMainRecordConfirm";
+            soundEffect = SoundFunctions.GetPromptSound();
 
             msgConfirmTitle = $"Confirm Delete?";
-            msgConfirm = (MarkupString)$"Are you sure you want to delete the message with the Subject \"{selectedMessage.Subject}\" sent to {selectedMessage.To}?";
+            msgConfirm = (MarkupString)$"Are you sure you want to delete the message with the Subject \"{selectedRecord.Subject}\" sent to {selectedRecord.To}?";
 
             modalConfirm!.OpenOnTop1();
         }
         else
         {
             action = "Error";
-            soundEffect = "sounds/error.mp3";
+            soundEffect = SoundFunctions.GetErrorSound();
 
             msgErrorTitle = $"No Message Selected";
             msgError = (MarkupString)$"Please select a message first before pressing the Delete button or if try to select one again if one had been selected.";
@@ -1268,34 +1275,36 @@ else {
         }
     }
 
-    private async Task DeleteMessage()
+    private async Task DeleteMainRecord()
     {
+        action = "DeleteMainRecord";
+
         string? deleteEndPoint;
 
-        Logger.LogInformation("Id = {Id}", selectedMessage?.MessageID);
+        Logger.LogInformation("Id = {Id}", selectedRecord?.MessageID);
 
         modalConfirm!.Close();
 
         try
         {
-            if (selectedMessage != null)
+            if (selectedRecord != null)
             {
                 MessageModel formResponse = new MessageModel();
 
-                if (selectedMessage?.MessageID > 0)
+                if (selectedRecord?.MessageID > 0)
                 {
-                    deleteEndPoint = $"{configuration["APIEndpoint"]}/Message/{selectedMessage?.MessageID}";
+                    deleteEndPoint = $"{configuration["APIEndpoint"]}/Message/{selectedRecord?.MessageID}";
                     formResponse = await Http.DeleteFromJsonAsync<MessageModel>(deleteEndPoint) ?? new MessageModel();
 
                     if (formResponse.MessageID > 0)
                     {
                         //Remove record from screen as well
-                        messages?.Remove(selectedMessage!);
+                        mainRecords?.Remove(selectedRecord!);
                     }
                     else
                     {
                         action = "Error";
-                        soundEffect = "sounds/error.mp3";
+                        soundEffect = SoundFunctions.GetErrorSound();
 
                         msgErrorTitle = $"Cannot Delete Message Record";
                         msgError = (MarkupString)$"Unfortunately the Message Record could not be deleted successfully due to an error.<br />Please check your network connection and attempt to save again.";
@@ -1307,7 +1316,7 @@ else {
                 else
                 {
                     action = "Error";
-                    soundEffect = "sounds/error.mp3";
+                    soundEffect = SoundFunctions.GetErrorSound();
 
                     msgErrorTitle = $"No Message Selected";
                     msgError = (MarkupString)$"Please select a message first before pressing the Delete button or if try to select one again if one had been selected.";
@@ -1319,7 +1328,7 @@ else {
             else
             {
                 action = "Error";
-                soundEffect = "sounds/error.mp3";
+                soundEffect = SoundFunctions.GetErrorSound();
 
                 msgErrorTitle = $"Cannot Save Message Record";
                 msgError = (MarkupString)$"Unfortunately the Message Record could not be saved successfully due to an error.<br />Please check your network connection and attempt to save again.";
@@ -1331,17 +1340,17 @@ else {
         }
         catch (HttpRequestException ex)
         {
-            HandleJsonException(ex, "Message", selectedMessage?.MessageID.ToString() ?? "0");
+            HandleJsonException(ex, "Message", selectedRecord?.MessageID.ToString() ?? "0");
         }
     }
 
-    private void CancelMessageConfirm()
+    private void CancelMainRecordConfirm()
     {
-        action = "CancelMessageConfirm";
-        soundEffect = "sounds/prompt.mp3";
+        action = "CancelMainRecordConfirm";
+        soundEffect = SoundFunctions.GetPromptSound();
 
-        string? numberOfChanges = $"{selectedMessageChanges?.Count} {(selectedMessageChanges?.Count == 1 ? "Change" : "Changes")}";
-        string? listOfChanges = selectedMessageChanges?.Select(x => $"<li>{x.Key}: {x.Value}</li>").Aggregate((x, y) => $"{x}{y}"); //Aggregation in case of duplication
+        string? numberOfChanges = $"{selectedRecordChanges?.Count} {(selectedRecordChanges?.Count == 1 ? "Change" : "Changes")}";
+        string? listOfChanges = selectedRecordChanges?.Select(x => $"<li>{x.Key}: {x.Value}</li>").Aggregate((x, y) => $"{x}{y}"); //Aggregation in case of duplication
 
         msgConfirmTitle = $"Confirm Cancel?";
         msgConfirm = (MarkupString)$@"
@@ -1359,44 +1368,44 @@ else {
         modalConfirm!.OpenOnTop1();
     }
 
-    private void CancelMessage()
+    private void CancelMainRecord()
     {
-        //selectedMessage = _selectedMessage;
+        //selectedRecord = selectedRecordCopy;
 
         //Set object back to original values
-        if (selectedMessage != null)
+        if (selectedRecord != null)
         {
-            //selectedMessage.Subject = _selectedMessage?.Subject;
+            //selectedRecord.Subject = selectedRecordCopy?.Subject;
         }
 
-        // if (selectedMessage != null && _selectedMessage != null)
-        //     _selectedMessage.CopyProperties(selectedMessage);
+        // if (selectedRecord != null && selectedRecordCopy != null)
+        //     selectedRecordCopy.CopyProperties(selectedRecord);
 
         //Better way?
-        // PropertyInfo[]? properties = _selectedMessage?.GetType().GetProperties();
+        // PropertyInfo[]? properties = selectedRecordCopy?.GetType().GetProperties();
         // if (properties != null)
         // {
         //     foreach (PropertyInfo property in properties)
         //     {
         //         // Get the name and value of each property
         //         string? propertyName = property.Name;
-        //         object? propertyValue = property.GetValue(selectedMessage);
+        //         object? propertyValue = property.GetValue(selectedRecord);
 
         //         //Console.WriteLine($"{propertyName}: {propertyValue}");
-        //         selectedMessage?.GetType().GetProperty(propertyName)?.SetValue(selectedMessage, propertyValue);
-        //         //selectedMessage?.GetType().GetProperty(propertyName)?.SetValue(_selectedMessage, _selectedMessage?.GetType().GetProperty(propertyName)?.GetValue(_selectedMessage));
+        //         selectedRecord?.GetType().GetProperty(propertyName)?.SetValue(selectedRecord, propertyValue);
+        //         //selectedRecord?.GetType().GetProperty(propertyName)?.SetValue(selectedRecordCopy, selectedRecordCopy?.GetType().GetProperty(propertyName)?.GetValue(selectedRecordCopy));
         //     }
         // }
 
-        CloseMessage();
+        CloseMainRecord();
     }
 
-    private void CloseMessage()
+    private void CloseMainRecord()
     {
         modalMessage!.Close();
         modalConfirm!.Close();
 
-        selectedMessageChanges?.Clear();
+        selectedRecordChanges?.Clear();
     }
 
     private void HandleJsonException(HttpRequestException ex, string objectName, string objectID)
@@ -1419,6 +1428,23 @@ else {
         else
         {
             loadDataErrorMsg = $"Error: {ex.Message}";
+        }
+    }
+
+    //Additional Functions
+    private MessageTemplateModel? GetMessageTemplate(int messageTemplateID)
+    {
+        return
+        messageTemplates?
+        .Where(t => t.MessageTemplateID == messageTemplateID)
+        .FirstOrDefault();
+    }
+
+    public async Task SendMessage(bool? CloseDialogAfterSave)
+    {
+        if (await SaveMainRecord(CloseDialogAfterSave) == true)
+        {
+            //Send email
         }
     }
 }

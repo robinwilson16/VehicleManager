@@ -19,6 +19,9 @@
 <audio src="@soundEffect" autoplay></audio>
 
 <Modal @ref="modalInfo">
+    <WindowControls>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @onclick="() => modalInfo!.Close()"></button>
+    </WindowControls>
     <Title><i class="fa-solid fa-circle-info"></i> @msgInfoTitle</Title>
     <Body>
         <p>
@@ -26,11 +29,14 @@
         </p>
     </Body>
     <Footer>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal" @onclick="() => modalError!.Close()">Close</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @onclick="() => modalInfo!.Close()">Close</button>
     </Footer>
 </Modal>
 
 <Modal @ref="modalError">
+    <WindowControls>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @onclick="() => modalError!.Close()"></button>
+    </WindowControls>
     <Title><i class="fa-solid fa-triangle-exclamation"></i> @msgErrorTitle</Title>
     <Body>
         <div class="alert alert-danger" role="alert">
@@ -43,11 +49,14 @@
         }
     </Body>
     <Footer>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal" @onclick="() => modalError!.Close()">Close</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @onclick="() => modalError!.Close()">Close</button>
     </Footer>
 </Modal>
 
 <Modal @ref="modalConfirm">
+    <WindowControls>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @onclick="() => modalConfirm!.Close()"></button>
+    </WindowControls>
     <Title><i class="fa-solid fa-circle-question"></i> @msgConfirmTitle</Title>
     <Body>
         <p>
@@ -56,7 +65,7 @@
     </Body>
     <Footer>
         <button type="button" class="btn btn-danger" @onclick="FormAction"><i class="fa-solid fa-trash"></i> Yes</button>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal" @onclick="() => modalConfirm!.Close()"><i class="fa-solid fa-right-from-bracket"></i> Cancel</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @onclick="() => modalConfirm!.Close()"><i class="fa-solid fa-right-from-bracket"></i> Cancel</button>
     </Footer>
 </Modal>
 
@@ -81,7 +90,8 @@
         </div>
     </div>
 }
-else if(messageTemplates == null) {
+else if (mainRecords == null)
+{
     <div class="container">
         <div class="row">
             <div class="col-md">
@@ -117,15 +127,15 @@ else {
                 </div>
                 <div class="TableContainer">
                     <div class="table-responsive">
-                        <QuickGrid Items="@FilteredMessageTemplates" Virtualize="true" Class="table table-striped table-hover table-bordered" TGridItem="MessageTemplateModel">
+                        <QuickGrid Items="@FilteredMainRecords" Virtualize="true" Class="table table-striped table-hover table-bordered" TGridItem="MessageTemplateModel">
 
                             <TemplateColumn Title="" Sortable="true" SortBy="GridSort<MessageTemplateModel>.ByDescending(x => x.MessageTemplateID)">
-                                <button type="button" class="btn btn-primary btn-sm" @onclick="()=>EditMessageTemplate(context.MessageTemplateID)"><i class="fa-solid fa-up-right-from-square"></i></button>
+                                <button type="button" class="btn btn-primary btn-sm" @onclick="()=>EditMainRecord(context.MessageTemplateID)"><i class="fa-solid fa-up-right-from-square"></i></button>
                             </TemplateColumn>
 
                             <TemplateColumn Title="ID" Sortable="true" SortBy="GridSort<MessageTemplateModel>.ByDescending(x => x.MessageTemplateID)">
                                 <ChildContent>
-                                    <div @onclick="()=>SelectMessageTemplate(context?.MessageTemplateID)" class="@TableCSS(context)">
+                                    <div @onclick="()=>SelectMainRecord(context?.MessageTemplateID)" class="@TableCSS(context)">
                                         <div class="col-justify-start">@context.MessageTemplateID</div>
                                     </div>
                                 </ChildContent>
@@ -138,7 +148,7 @@ else {
 
                             <TemplateColumn Title="Code" Sortable="true" SortBy="GridSort<MessageTemplateModel>.ByDescending(x => x.Code)">
                                 <ChildContent>
-                                    <div @onclick="()=>SelectMessageTemplate(context?.MessageTemplateID)" class="@TableCSS(context)">
+                                    <div @onclick="()=>SelectMainRecord(context?.MessageTemplateID)" class="@TableCSS(context)">
                                         <div class="col-justify-start">@context.Code</div>
                                     </div>
                                 </ChildContent>
@@ -151,7 +161,7 @@ else {
 
                             <TemplateColumn Title="Name" Sortable="true" SortBy="GridSort<MessageTemplateModel>.ByDescending(x => x.Name)">
                                 <ChildContent>
-                                    <div @onclick="()=>SelectMessageTemplate(context?.MessageTemplateID)" class="@TableCSS(context)">
+                                    <div @onclick="()=>SelectMainRecord(context?.MessageTemplateID)" class="@TableCSS(context)">
                                         <div class="col-justify-start">@context.Name</div>
                                     </div>
                                 </ChildContent>
@@ -164,7 +174,7 @@ else {
 
                             <TemplateColumn Title="Sequence" Sortable="true" SortBy="GridSort<MessageTemplateModel>.ByDescending(x => x.Sequence)">
                                 <ChildContent>
-                                    <div @onclick="()=>SelectMessageTemplate(context?.MessageTemplateID)" class="@TableCSS(context)">
+                                    <div @onclick="()=>SelectMainRecord(context?.MessageTemplateID)" class="@TableCSS(context)">
                                         <div class="col-justify-start text-center">@context.Sequence</div>
                                     </div>
                                 </ChildContent>
@@ -177,7 +187,7 @@ else {
 
                             <TemplateColumn Title="Is Enabled" Sortable="true" SortBy="GridSort<MessageTemplateModel>.ByDescending(x => x.IsEnabled)">
                                 <ChildContent>
-                                    <div @onclick="()=>SelectMessageTemplate(context?.MessageTemplateID)" class="@TableCSS(context)">
+                                    <div @onclick="()=>SelectMainRecord(context?.MessageTemplateID)" class="@TableCSS(context)">
                                         <div class="col-justify-start text-center">
                                             <i class="@CSSFunctions.BoolCSS(context.IsEnabled)"></i>
                                         </div>
@@ -192,7 +202,7 @@ else {
 
                             <TemplateColumn Title="Created By" Sortable="true" SortBy="GridSort<MessageTemplateModel>.ByDescending(x => x.CreatedBy)">
                                 <ChildContent>
-                                    <div @onclick="()=>SelectMessageTemplate(context?.MessageTemplateID)" class="@TableCSS(context)">
+                                    <div @onclick="()=>SelectMainRecord(context?.MessageTemplateID)" class="@TableCSS(context)">
                                         <div class="col-justify-start">@context.CreatedBy</div>
                                     </div>
                                 </ChildContent>
@@ -205,7 +215,7 @@ else {
 
                             <TemplateColumn Title="Created Date" Sortable="true" SortBy="GridSort<MessageTemplateModel>.ByDescending(x => x.CreatedDate)">
                                 <ChildContent>
-                                    <div @onclick="()=>SelectMessageTemplate(context?.MessageTemplateID)" class="@TableCSS(context)">
+                                    <div @onclick="()=>SelectMainRecord(context?.MessageTemplateID)" class="@TableCSS(context)">
                                         <div class="col-justify-start">@(context?.CreatedDate == null? "" : context?.CreatedDate.Value.ToString("dd/MM/yyyy"))</div>
                                     </div>
                                 </ChildContent>
@@ -218,7 +228,7 @@ else {
 
                             <TemplateColumn Title="Last Updated By" Sortable="true" SortBy="GridSort<MessageTemplateModel>.ByDescending(x => x.LastUpdatedBy)">
                                 <ChildContent>
-                                    <div @onclick="()=>SelectMessageTemplate(context?.MessageTemplateID)" class="@TableCSS(context)">
+                                    <div @onclick="()=>SelectMainRecord(context?.MessageTemplateID)" class="@TableCSS(context)">
                                         <div class="col-justify-start">@context.LastUpdatedBy</div>
                                     </div>
                                 </ChildContent>
@@ -231,7 +241,7 @@ else {
 
                             <TemplateColumn Title="Last Updated Date" Sortable="true" SortBy="GridSort<MessageTemplateModel>.ByDescending(x => x.LastUpdatedDate)">
                                 <ChildContent>
-                                    <div @onclick="()=>SelectMessageTemplate(context?.MessageTemplateID)" class="@TableCSS(context)">
+                                    <div @onclick="()=>SelectMainRecord(context?.MessageTemplateID)" class="@TableCSS(context)">
                                         <div class="col-justify-start">@(context?.CreatedDate == null ? "" : context?.CreatedDate.Value.ToString("dd/MM/yyyy"))</div>
                                     </div>
                                 </ChildContent>
@@ -249,9 +259,9 @@ else {
                     <div class="row">
                         <div class="col-md">
                             <div class="d-grid gap-2 d-md-block text-start">
-                                <button type="button" class="btn btn-primary me-md-3" @onclick="()=>EditMessageTemplate(null)"><i class="fa-solid fa-square-plus"></i> New...</button>
-                                <button type="button" class="btn btn-danger me-md-3" @onclick="DeleteMessageTemplateConfirm" disabled="@(selectedMessageTemplate?.MessageTemplateID == 0 ? true : false)"><i class="fa-solid fa-trash-can"></i> Delete...</button>
-                                @if (selectedMessageTemplate?.MessageTemplateID > 0) {
+                                <button type="button" class="btn btn-primary me-md-3" @onclick="()=>EditMainRecord(null)"><i class="fa-solid fa-square-plus"></i> New...</button>
+                                <button type="button" class="btn btn-danger me-md-3" @onclick="DeleteMainRecordConfirm" disabled="@(selectedRecord?.MessageTemplateID == 0 ? true : false)"><i class="fa-solid fa-trash-can"></i> Delete...</button>
+                                @if (selectedRecord?.MessageTemplateID > 0) {
                                     <span>1 Record Selected</span>
                                 }
                             </div>
@@ -261,12 +271,12 @@ else {
                             @if (FiltersMain.Count > 0)
                             {
                                 <div class="col-md text-end fw-bold text-primary">
-                                    @FilteredMessageTemplates?.Count() Records (Filtered)
+                                    @FilteredMainRecords?.Count() Records (Filtered)
                                 </div>
                             }
                             else {
                                 <div class="col-md text-end">
-                                    @FilteredMessageTemplates?.Count() Records
+                                    @FilteredMainRecords?.Count() Records
                                 </div>
                             }
 
@@ -278,22 +288,32 @@ else {
     </div>
 
     <Modal @ref="modalMessageTemplate">
-        <Title>
-            @if (@_selectedMessageTemplate?.MessageTemplateID > 0)
+        <WindowControls>
+            @if (selectedRecordChanges?.Count > 0)
             {
-                @:<i class="fa-solid fa-message"></i> Message Template @_selectedMessageTemplate?.MessageTemplateID
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @onclick="CancelMainRecordConfirm"></button>
+            }
+            else
+            {
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @onclick="() => modalMessageTemplate!.Close()"></button>
+            }
+        </WindowControls>
+        <Title>
+            @if (@selectedRecordCopy?.MessageTemplateID > 0)
+            {
+                @:<i class="fa-solid fa-message"></i> Message Template @selectedRecordCopy?.MessageTemplateID
             }
             else {
                 @:<i class="fa-solid fa-message"></i> New Message Template
             }
         </Title>
         <Body>
-            <EditForm EditContext="@EditContextMain" OnValidSubmit="() => SaveMessageTemplate(true)">
+            <EditForm EditContext="@EditContextMain" OnValidSubmit="() => SaveMainRecord(true)">
                 <FluentValidationValidator @ref="_fluentValidationValidator" />
                 <div class="bd-callout bd-callout-VM bd-callout-grey GreyBackground">
                     <div class="container">
 
-                        @if (_selectedMessageTemplate == null) {
+                        @if (selectedRecordCopy == null) {
                             <div class="row">
                                 <div class="col-md">
                                     <div class="alert alert-primary text-center" role="alert">
@@ -311,8 +331,8 @@ else {
                                     <label class="col-form-label"><i class="fa-solid fa-angles-right"></i> Code</label>
                                 </div>
                                 <div class="col-md-8">
-                                    <InputText @bind-Value="_selectedMessageTemplate!.Code" class="form-control" />
-                                    <ValidationMessage For="@(() => _selectedMessageTemplate!.Code)" />
+                                    <InputText @bind-Value="selectedRecordCopy!.Code" class="form-control" />
+                                    <ValidationMessage For="@(() => selectedRecordCopy!.Code)" />
                                 </div>
                             </div>
 
@@ -321,8 +341,8 @@ else {
                                     <label class="col-form-label"><i class="fa-solid fa-angles-right"></i> Name</label>
                                 </div>
                                 <div class="col-md-8">
-                                    <InputText @bind-Value="_selectedMessageTemplate!.Name" class="form-control" />
-                                    <ValidationMessage For="@(() => _selectedMessageTemplate!.Name)" />
+                                    <InputText @bind-Value="selectedRecordCopy!.Name" class="form-control" />
+                                    <ValidationMessage For="@(() => selectedRecordCopy!.Name)" />
                                 </div>
                             </div>
 
@@ -333,9 +353,9 @@ else {
                             </div>
                             <div class="row g-3 mb-3">
                                 <div class="col-md">
-                                    <Editor ScriptSrc="./lib/tinymce/tinymce.min.js" @bind-Value="_selectedMessageTemplate!.TemplateContent" Field="() => _selectedMessageTemplate!.TemplateContent" LicenseKey="gpl" />
-                                    @* <InputTextArea @bind-Value="_selectedMessageTemplate!.TemplateContent" class="form-control" /> *@
-                                    <ValidationMessage For="@(() => _selectedMessageTemplate!.TemplateContent)" />
+                                    <Editor ScriptSrc="./lib/tinymce/tinymce.min.js" @bind-Value="selectedRecordCopy!.TemplateContent" Field="() => selectedRecordCopy!.TemplateContent" LicenseKey="gpl" />
+                                    @* <InputTextArea @bind-Value="selectedRecordCopy!.TemplateContent" class="form-control" /> *@
+                                    <ValidationMessage For="@(() => selectedRecordCopy!.TemplateContent)" />
                                 </div>
                             </div>
 
@@ -344,8 +364,8 @@ else {
                                     <label class="col-form-label"><i class="fa-solid fa-angles-right"></i> Sequence</label>
                                 </div>
                                 <div class="col-md-8">
-                                    <InputNumber @bind-Value="_selectedMessageTemplate!.Sequence" class="form-control" />
-                                    <ValidationMessage For="@(() => _selectedMessageTemplate!.Sequence)" />
+                                    <InputNumber @bind-Value="selectedRecordCopy!.Sequence" class="form-control" />
+                                    <ValidationMessage For="@(() => selectedRecordCopy!.Sequence)" />
                                 </div>
                             </div>
 
@@ -355,9 +375,9 @@ else {
                                 </div>
                                 <div class="col-md-8">
                                     <div class="d-grid gap-2 d-md-block">
-                                        <button type="button" class="btn @(_selectedMessageTemplate!.IsEnabled == true? "btn-primary" : "btn-outline-primary") me-md-3" @onclick="(e) => ToggleMessageTemplateIsEnabled()"><i class="@(_selectedMessageTemplate!.IsEnabled == true? "fa-solid fa-square-check" : "fa-regular fa-square")"></i></button>
+                                        <button type="button" class="btn @(selectedRecordCopy!.IsEnabled == true? "btn-primary" : "btn-outline-primary") me-md-3" @onclick="(e) => ToggleMainRecordIsEnabled()"><i class="@(selectedRecordCopy!.IsEnabled == true? "fa-solid fa-square-check" : "fa-regular fa-square")"></i></button>
                                     </div>
-                                    <ValidationMessage For="@(() => _selectedMessageTemplate!.IsEnabled)" />
+                                    <ValidationMessage For="@(() => selectedRecordCopy!.IsEnabled)" />
                                 </div>
                             </div>
                         }
@@ -369,17 +389,17 @@ else {
             </EditForm>
         </Body>
         <Footer>
-            <button type="button" class="btn btn-secondary" data-dismiss="modal" @onclick="() => AdvanceToMessageTemplate(-1)"><i class="fa-solid fa-square-caret-left"></i></button>
-            <button type="button" class="btn btn-secondary" data-dismiss="modal" @onclick="() => AdvanceToMessageTemplate(1)"><i class="fa-solid fa-square-caret-right"></i></button>
-            @if (selectedMessageTemplateChanges?.Count > 0)
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @onclick="() => AdvanceToMainRecord(-1)"><i class="fa-solid fa-square-caret-left"></i></button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @onclick="() => AdvanceToMainRecord(1)"><i class="fa-solid fa-square-caret-right"></i></button>
+            @if (selectedRecordChanges?.Count > 0)
             {
-                <button type="button" class="btn btn-success" data-dismiss="modal" @onclick="() => SaveMessageTemplate(true)"><i class="fa-solid fa-floppy-disk"></i> Save and Close</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal" @onclick="() => SaveMessageTemplate(false)"><i class="fa-solid fa-floppy-disk"></i> Save</button>
-                <button type="button" class="btn btn-danger" data-dismiss="modal" @onclick="CancelMessageTemplateConfirm"><i class="fa-solid fa-rotate-left"></i> Cancel <strong>@(selectedMessageTemplateChanges?.Count ?? 1)</strong> Changes</button>
+                <button type="button" class="btn btn-success" data-bs-dismiss="modal" @onclick="() => SaveMainRecord(true)"><i class="fa-solid fa-floppy-disk"></i> Save and Close</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @onclick="() => SaveMainRecord(false)"><i class="fa-solid fa-floppy-disk"></i> Save</button>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal" @onclick="CancelMainRecordConfirm"><i class="fa-solid fa-rotate-left"></i> Cancel <strong>@(selectedRecordChanges?.Count ?? 1)</strong> Changes</button>
             }
             else 
             {
-                <button type="button" class="btn btn-secondary" data-dismiss="modal" @onclick="CloseMessageTemplate"><i class="fa-solid fa-rotate-left"></i> Close</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @onclick="CloseMainRecord"><i class="fa-solid fa-rotate-left"></i> Close</button>
             }
 
         </Footer>
@@ -411,15 +431,15 @@ else {
     [Parameter]
     public int? MessageTemplateID { get; set; }
 
-    private List<MessageTemplateModel>? messageTemplates { get; set; }
+    private List<MessageTemplateModel>? mainRecords { get; set; }
 
     [SupplyParameterFromForm]
-    public MessageTemplateModel? selectedMessageTemplate { get; set; } = new MessageTemplateModel();
-    private MessageTemplateModel? _selectedMessageTemplate { get; set; } = new MessageTemplateModel();
-    private IDictionary<string, string>? selectedMessageTemplateChanges = new Dictionary<string, string>();
+    public MessageTemplateModel? selectedRecord { get; set; } = new MessageTemplateModel();
+    private MessageTemplateModel? selectedRecordCopy { get; set; } = new MessageTemplateModel();
+    private IDictionary<string, string>? selectedRecordChanges = new Dictionary<string, string>();
 
-    private IQueryable<MessageTemplateModel>? FilteredMessageTemplates =>
-        (messageTemplates)?.AsQueryable()
+    private IQueryable<MessageTemplateModel>? FilteredMainRecords =>
+        (mainRecords)?.AsQueryable()
         .Where(
             t => 
             (FilterMainMessageTemplateID == null ? true : t.MessageTemplateID == (FilterMainMessageTemplateID ?? t.MessageTemplateID))
@@ -459,7 +479,7 @@ else {
 
         try
         {
-            messageTemplates = await Http.GetFromJsonAsync<List<MessageTemplateModel>>(messageTemplateEndPoint);
+            mainRecords = await Http.GetFromJsonAsync<List<MessageTemplateModel>>(messageTemplateEndPoint);
         }
         catch (HttpRequestException ex)
         {
@@ -475,19 +495,20 @@ else {
 
     public void SetEditorContextMain()
     {
-        if (_selectedMessageTemplate != null)
-            EditContextMain = new EditContext(_selectedMessageTemplate);
+        //When Edit Form is based on an Edit Context this must be called each time the context changes for validation to work
+        if (selectedRecordCopy != null)
+            EditContextMain = new EditContext(selectedRecordCopy);
 
         if (EditContextMain != null)
         {
-            EditContextMain.OnFieldChanged += ChangeMessageTemplate;
+            EditContextMain.OnFieldChanged += ChangeMainRecord;
         }
     }
 
     public string TableCSS(MessageTemplateModel? context)
     {
         string css = "";
-        if (context?.MessageTemplateID == selectedMessageTemplate?.MessageTemplateID)
+        if (context?.MessageTemplateID == selectedRecord?.MessageTemplateID)
         {
             css = "SelectedRow";
         }
@@ -587,18 +608,18 @@ else {
         {
             ClearForm();
         }
-        else if (action == "CancelMessageTemplateConfirm")
+        else if (action == "CancelMainRecordConfirm")
         {
-            CancelMessageTemplate();
+            CancelMainRecord();
         }
-        else if (action == "DeleteMessageTemplateConfirm")
+        else if (action == "DeleteMainRecordConfirm")
         {
-            await DeleteMessageTemplate();
+            await DeleteMainRecord();
         }  
         else
         {
             action = "Error";
-            soundEffect = "sounds/error.mp3";
+            soundEffect = SoundFunctions.GetErrorSound();
 
             msgErrorTitle = $"Invalid Action";
             msgError = (MarkupString)$"An invalid option was specified. Please try again.";
@@ -611,7 +632,7 @@ else {
     private void ClearFormConfirm()
     {
         action = "ClearFormConfirm";
-        soundEffect = "sounds/prompt.mp3";
+        soundEffect = SoundFunctions.GetPromptSound();
 
         msgConfirmTitle = $"Clear Form?";
         msgConfirm = (MarkupString)$"Are you sure you want to clear all information on this form?";
@@ -623,42 +644,43 @@ else {
     {
         action = "ClearForm";
 
-        selectedMessageTemplate = new MessageTemplateModel();
+        selectedRecord = new MessageTemplateModel();
 
         modalConfirm!.Close();
     }
 
-    private MessageTemplateModel? GetMessageTemplate(int messageTemplateID)
+    private MessageTemplateModel? GetMainRecord(int recordID)
     {
-        return messageTemplates?.Where(t => t.MessageTemplateID == messageTemplateID).FirstOrDefault();
+        return mainRecords?.Where(t => t.MessageTemplateID == recordID).FirstOrDefault();
     }
 
-    private void SelectMessageTemplate(int? messageTemplateID)
+    private void SelectMainRecord(int? recordID)
     {
-        if (messageTemplateID != null && messageTemplateID > 0)
+        if (recordID != null && recordID > 0)
         {
-            selectedMessageTemplate = GetMessageTemplate(messageTemplateID ?? 0);
+            selectedRecord = GetMainRecord(recordID ?? 0);
         }
         else
         {
-            selectedMessageTemplate = new MessageTemplateModel();
+            selectedRecord = new MessageTemplateModel();
         }
 
         //Keep a copy of this object to be used for edit form so original object can remain untouched until save operation (otherwise it changes on screen)
-        if (selectedMessageTemplate != null)
-            _selectedMessageTemplate = selectedMessageTemplate?.Clone();
+        if (selectedRecord != null)
+            selectedRecordCopy = selectedRecord?.Clone();
     }
 
-    public async Task AdvanceToMessageTemplate(int numRecords)
+    public async Task AdvanceToMainRecord(int numRecords)
     {
-        if (await SaveMessageTemplate(false) == true) {
-            int? currentRecordID = selectedMessageTemplate?.MessageTemplateID;
+        if (await SaveMainRecord(false) == true)
+        {
+            int? currentRecordID = selectedRecord?.MessageTemplateID;
             MessageTemplateModel? nextRecord = new MessageTemplateModel();
 
             if (numRecords > 0)
             {
                 nextRecord =
-                FilteredMessageTemplates?
+                FilteredMainRecords?
                 .SkipWhile(obj => obj.MessageTemplateID != currentRecordID)
                 .Skip(numRecords)
                 .FirstOrDefault();
@@ -667,7 +689,7 @@ else {
             {
                 int numRecordsBack = Math.Abs(numRecords);
                 nextRecord =
-                    FilteredMessageTemplates?
+                    FilteredMainRecords?
                     .Reverse()
                     .SkipWhile(obj => obj.MessageTemplateID != currentRecordID)
                     .Skip(numRecordsBack)
@@ -678,55 +700,55 @@ else {
             {
                 if (nextRecord?.MessageTemplateID != null)
                 {
-                    selectedMessageTemplate = nextRecord;
-                    _selectedMessageTemplate = nextRecord;
+                    selectedRecord = nextRecord;
+                    selectedRecordCopy = nextRecord;
                 }
             }
         }
     }
 
-    public void ToggleMessageTemplateIsEnabled()
+    public void ToggleMainRecordIsEnabled()
     {
-        if (_selectedMessageTemplate != null)
+        if (selectedRecordCopy != null)
         {
-            if (_selectedMessageTemplate.IsEnabled == true)
+            if (selectedRecordCopy.IsEnabled == true)
             {
-                _selectedMessageTemplate.IsEnabled = false;
+                selectedRecordCopy.IsEnabled = false;
             }
             else
             {
-                _selectedMessageTemplate.IsEnabled = true;
+                selectedRecordCopy.IsEnabled = true;
             }
         }
     }
 
-    protected void ChangeMessageTemplate(object? sender, FieldChangedEventArgs? e)
+    protected void ChangeMainRecord(object? sender, FieldChangedEventArgs? e)
     {
         string? fieldName = e?.FieldIdentifier.FieldName;
-        string? fieldValue = e?.FieldIdentifier.Model.GetType().GetProperty(fieldName ?? "")?.GetValue(_selectedMessageTemplate)?.ToString();
+        string? fieldValue = e?.FieldIdentifier.Model.GetType().GetProperty(fieldName ?? "")?.GetValue(selectedRecordCopy)?.ToString();
 
         fieldValue = StringFunctions.FormatFieldChangedValue(fieldValue);
 
-        if (selectedMessageTemplateChanges != null && fieldName != null)
+        if (selectedRecordChanges != null && fieldName != null)
         {
-            if (selectedMessageTemplateChanges.ContainsKey(fieldName))
+            if (selectedRecordChanges.ContainsKey(fieldName))
             {
-                selectedMessageTemplateChanges[fieldName] = fieldValue ?? "";
+                selectedRecordChanges[fieldName] = fieldValue ?? "";
             }
             else
             {
-                selectedMessageTemplateChanges.Add(fieldName, fieldValue ?? "");
+                selectedRecordChanges.Add(fieldName, fieldValue ?? "");
             }
         }
     }
 
-    private void EditMessageTemplate(int? messageTemplateID)
+    private void EditMainRecord(int? messageTemplateID)
     {
-        SelectMessageTemplate(messageTemplateID);
+        SelectMainRecord(messageTemplateID);
 
         SetEditorContextMain();
 
-        if (_selectedMessageTemplate != null)
+        if (selectedRecordCopy != null)
         {
             modalMessageTemplate!.MakeLarge();
             modalMessageTemplate!.Open();
@@ -734,7 +756,7 @@ else {
         else
         {
             action = "Error";
-            soundEffect = "sounds/error.mp3";
+            soundEffect = SoundFunctions.GetErrorSound();
 
             msgErrorTitle = $"Cannot Load Message Template {messageTemplateID}";
             msgError = (MarkupString)$"Unfortunately the message template could not be loaded due to an error.<br />Please try again.";
@@ -744,41 +766,41 @@ else {
         }
     }
 
-    private async Task<bool> SaveMessageTemplate(bool? CloseDialogAfterSave)
+    private async Task<bool> SaveMainRecord(bool? CloseDialogAfterSave)
     {
         string? saveEndPoint;
         bool returnValue = false;
 
         if (await _fluentValidationValidator!.ValidateAsync())
         {
-            Logger.LogInformation("Id = {Id}", selectedMessageTemplate?.MessageTemplateID);
+            Logger.LogInformation("Id = {Id}", selectedRecord?.MessageTemplateID);
 
             try
             {
-                if (selectedMessageTemplate != null && _selectedMessageTemplate != null)
+                if (selectedRecord != null && selectedRecordCopy != null)
                 {
                     //Update related entities (as only IDs are updated on the form so rest of object is not updated)
                     //None
 
                     HttpResponseMessage formResponse = new HttpResponseMessage();
 
-                    if (_selectedMessageTemplate?.MessageTemplateID > 0) {
+                    if (selectedRecordCopy?.MessageTemplateID > 0) {
                         //Update existing record
-                        saveEndPoint = $"{configuration["APIEndpoint"]}/MessageTemplate/{_selectedMessageTemplate?.MessageTemplateID}";
-                        formResponse = await Http.PutAsJsonAsync<MessageTemplateModel>(saveEndPoint, _selectedMessageTemplate!);
+                        saveEndPoint = $"{configuration["APIEndpoint"]}/MessageTemplate/{selectedRecordCopy?.MessageTemplateID}";
+                        formResponse = await Http.PutAsJsonAsync<MessageTemplateModel>(saveEndPoint, selectedRecordCopy!);
                     }
                     else 
                     {
                         //Insert new record
                         saveEndPoint = $"{configuration["APIEndpoint"]}/MessageTemplate";
-                        formResponse = await Http.PostAsJsonAsync<MessageTemplateModel>(saveEndPoint, _selectedMessageTemplate!);
+                        formResponse = await Http.PostAsJsonAsync<MessageTemplateModel>(saveEndPoint, selectedRecordCopy!);
                     }
 
                     if (formResponse.IsSuccessStatusCode != true)
                     {
                         string responseBody = await formResponse.Content.ReadAsStringAsync();
                         action = "Error";
-                        soundEffect = "sounds/error.mp3";
+                        soundEffect = SoundFunctions.GetErrorSound();
 
                         msgErrorTitle = $"Cannot Save Message Template Record";
                         msgError = (MarkupString)$"Unfortunately the Message Template Record could not be saved successfully due to an error.<br />Please check your network connection and attempt to save again.";
@@ -789,17 +811,19 @@ else {
                     else
                     {
                         //Copy properties back to tracked object being saved
-                        _selectedMessageTemplate.CopyProperties(selectedMessageTemplate);
+                        selectedRecordCopy.CopyProperties(selectedRecord);
 
-                        soundEffect = "sounds/confirm.mp3";
+                        selectedRecordChanges?.Clear();
+
+                        soundEffect = SoundFunctions.GetConfirmSound();
                         returnValue = true;
 
-                        if (_selectedMessageTemplate?.MessageTemplateID > 0)
+                        if (selectedRecordCopy?.MessageTemplateID > 0)
                         {
                             //Update existing record
                             if (CloseDialogAfterSave == true)
                             {
-                                CloseMessageTemplate();
+                                CloseMainRecord();
                             }
                         }
                         else 
@@ -811,17 +835,17 @@ else {
 
                             if (insertedMessageTemplate.MessageTemplateID > 0)
                             {
-                                messageTemplates?.Add(insertedMessageTemplate);
+                                mainRecords?.Add(insertedMessageTemplate);
 
                                 if (CloseDialogAfterSave == true)
                                 {
-                                    CloseMessageTemplate();
+                                    CloseMainRecord();
                                 }
                             }
                             else
                             {
                                 action = "Error";
-                                soundEffect = "sounds/error.mp3";
+                                soundEffect = SoundFunctions.GetErrorSound();
 
                                 msgErrorTitle = $"Cannot Save Message Template Record";
                                 msgError = (MarkupString)$"Unfortunately the Message Template Record could not be saved successfully due to an error.<br />Please check your network connection and attempt to save again.";
@@ -835,7 +859,7 @@ else {
                 else
                 {
                     action = "Error";
-                    soundEffect = "sounds/error.mp3";
+                    soundEffect = SoundFunctions.GetErrorSound();
 
                     msgErrorTitle = $"Cannot Save Message Template Record";
                     msgError = (MarkupString)$"Unfortunately the Message Template Record could not be saved successfully due to an error.<br />Please check your network connection and attempt to save again.";
@@ -847,29 +871,29 @@ else {
             }
             catch (HttpRequestException ex)
             {
-                HandleJsonException(ex, "MessageTemplate", _selectedMessageTemplate?.MessageTemplateID.ToString() ?? "0");
+                HandleJsonException(ex, "MessageTemplate", selectedRecordCopy?.MessageTemplateID.ToString() ?? "0");
             }
         }
 
         return returnValue;
     }
 
-    private void DeleteMessageTemplateConfirm()
+    private void DeleteMainRecordConfirm()
     {
-        if (selectedMessageTemplate?.MessageTemplateID > 0)
+        if (selectedRecord?.MessageTemplateID > 0)
         {
-            action = "DeleteMessageTemplateConfirm";
-            soundEffect = "sounds/prompt.mp3";
+            action = "DeleteMainRecordConfirm";
+            soundEffect = SoundFunctions.GetPromptSound();
 
             msgConfirmTitle = $"Confirm Delete?";
-            msgConfirm = (MarkupString)$"Are you sure you want to delete the message template named \"{selectedMessageTemplate.Name}\"?";
+            msgConfirm = (MarkupString)$"Are you sure you want to delete the message template named \"{selectedRecord.Name}\"?";
 
             modalConfirm!.OpenOnTop1();
         }
         else
         {
             action = "Error";
-            soundEffect = "sounds/error.mp3";
+            soundEffect = SoundFunctions.GetErrorSound();
 
             msgErrorTitle = $"No Message Template Selected";
             msgError = (MarkupString)$"Please select a message template first before pressing the Delete button or if try to select one again if one had been selected.";
@@ -879,34 +903,36 @@ else {
         }
     }
 
-    private async Task DeleteMessageTemplate()
+    private async Task DeleteMainRecord()
     {
+        action = "DeleteMainRecord";
+
         string? deleteEndPoint;
 
-        Logger.LogInformation("Id = {Id}", selectedMessageTemplate?.MessageTemplateID);
+        Logger.LogInformation("Id = {Id}", selectedRecord?.MessageTemplateID);
 
         modalConfirm!.Close();
 
         try
         {
-            if (selectedMessageTemplate != null)
+            if (selectedRecord != null)
             {
                 MessageTemplateModel formResponse = new MessageTemplateModel();
 
-                if (selectedMessageTemplate?.MessageTemplateID > 0)
+                if (selectedRecord?.MessageTemplateID > 0)
                 {
-                    deleteEndPoint = $"{configuration["APIEndpoint"]}/MessageTemplate/{selectedMessageTemplate?.MessageTemplateID}";
+                    deleteEndPoint = $"{configuration["APIEndpoint"]}/MessageTemplate/{selectedRecord?.MessageTemplateID}";
                     formResponse = await Http.DeleteFromJsonAsync<MessageTemplateModel>(deleteEndPoint) ?? new MessageTemplateModel();
 
                     if (formResponse.MessageTemplateID > 0)
                     {
                         //Remove record from screen as well
-                        messageTemplates?.Remove(selectedMessageTemplate!);
+                        mainRecords?.Remove(selectedRecord!);
                     }
                     else
                     {
                         action = "Error";
-                        soundEffect = "sounds/error.mp3";
+                        soundEffect = SoundFunctions.GetErrorSound();
 
                         msgErrorTitle = $"Cannot Delete Message Template Record";
                         msgError = (MarkupString)$"Unfortunately the Message Template Record could not be deleted successfully due to an error.<br />Please check your network connection and attempt to save again.";
@@ -918,7 +944,7 @@ else {
                 else
                 {
                     action = "Error";
-                    soundEffect = "sounds/error.mp3";
+                    soundEffect = SoundFunctions.GetErrorSound();
 
                     msgErrorTitle = $"No Message Template Selected";
                     msgError = (MarkupString)$"Please select a message template first before pressing the Delete button or if try to select one again if one had been selected.";
@@ -930,7 +956,7 @@ else {
             else
             {
                 action = "Error";
-                soundEffect = "sounds/error.mp3";
+                soundEffect = SoundFunctions.GetErrorSound();
 
                 msgErrorTitle = $"Cannot Save Message Template Record";
                 msgError = (MarkupString)$"Unfortunately the Message Template Record could not be saved successfully due to an error.<br />Please check your network connection and attempt to save again.";
@@ -942,17 +968,17 @@ else {
         }
         catch (HttpRequestException ex)
         {
-            HandleJsonException(ex, "MessageTemplate", selectedMessageTemplate?.MessageTemplateID.ToString() ?? "0");
+            HandleJsonException(ex, "MessageTemplate", selectedRecord?.MessageTemplateID.ToString() ?? "0");
         }
     }
 
-    private void CancelMessageTemplateConfirm()
+    private void CancelMainRecordConfirm()
     {
-        action = "CancelMessageTemplateConfirm";
-        soundEffect = "sounds/prompt.mp3";
+        action = "CancelMainRecordConfirm";
+        soundEffect = SoundFunctions.GetPromptSound();
 
-        string? numberOfChanges = $"{selectedMessageTemplateChanges?.Count} {(selectedMessageTemplateChanges?.Count == 1 ? "Change" : "Changes")}";
-        string? listOfChanges = selectedMessageTemplateChanges?.Select(x => $"<li>{x.Key}: {x.Value}</li>").Aggregate((x, y) => $"{x}{y}"); //Aggregation in case of duplication
+        string? numberOfChanges = $"{selectedRecordChanges?.Count} {(selectedRecordChanges?.Count == 1 ? "Change" : "Changes")}";
+        string? listOfChanges = selectedRecordChanges?.Select(x => $"<li>{x.Key}: {x.Value}</li>").Aggregate((x, y) => $"{x}{y}"); //Aggregation in case of duplication
 
         msgConfirmTitle = $"Confirm Cancel?";
         msgConfirm = (MarkupString)$@"
@@ -970,17 +996,17 @@ else {
         modalConfirm!.OpenOnTop1();
     }
 
-    private void CancelMessageTemplate()
+    private void CancelMainRecord()
     {
-        CloseMessageTemplate();
+        CloseMainRecord();
     }
 
-    private void CloseMessageTemplate()
+    private void CloseMainRecord()
     {
         modalMessageTemplate!.Close();
         modalConfirm!.Close();
 
-        selectedMessageTemplateChanges?.Clear();
+        selectedRecordChanges?.Clear();
     }
 
     private void HandleJsonException(HttpRequestException ex, string objectName, string objectID)
