@@ -20,6 +20,7 @@ namespace VehicleManager.Models
             get { return SubmissionDate == null ? null : DateTime.ParseExact(SubmissionDate ?? "", "yyyy-MM-dd HH:mm:ss", new CultureInfo("en-GB")); }
         }
         public int? SubmissionCount { get; set; }
+        public string? Name { get; set; }
         public string? Surname { get; set; }
         public string? Forename { get; set; }
         public string? Email { get; set; }

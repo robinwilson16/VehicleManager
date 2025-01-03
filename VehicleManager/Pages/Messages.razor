@@ -114,7 +114,8 @@ else {
                 <div class="alert alert-primary" role="alert">
                     @if (filterMainValues.Count > 0)
                     {
-                        <button type="button" class="btn btn-primary btn-sm me-3" @onclick="@RemoveFilters">Filters (Clear) <i class="fa-solid fa-filter-circle-xmark"></i></button>
+                        <button type="button" class="btn btn-primary btn-sm" @onclick="@RemoveFilters">Clear All Filters <i class="fa-solid fa-filter-circle-xmark"></i></button>
+                        <button type="button" class="btn btn-secondary btn-sm me-3" @onclick="@RemoveLastFilter">Clear Last Filter <i class="fa-solid fa-filter-circle-xmark"></i></button>
 
                         int filterNumber = 0;
                         @foreach (var filter in filterMainValues)
@@ -127,7 +128,7 @@ else {
                             @if (filterNumber > 1) {
                                 <span class="ps-1 pe-1">, </span>
                             }
-                            <kbd><i class="fa-solid fa-filter"></i> @filterName = @filterValue</kbd>
+                            <kbd><i class="fa-solid fa-filter"></i> @filterName.GetFieldNameWithSpaces(true) = @filterValue <button type="button" class="btn btn-primary" @onclick="() => RemoveFilter(filterName)" style="--bs-btn-padding-y: .1rem; --bs-btn-padding-x: .2rem; --bs-btn-font-size: .6rem;"><i class="fa-solid fa-filter-circle-xmark"></i></button></kbd>
                         }
                     }
                 </div>
@@ -155,7 +156,7 @@ else {
                                 </ColumnOptions>
                             </TemplateColumn>
 
-                            <TemplateColumn Title="Type" Sortable="true" SortBy="GridSort<MessageModel>.ByAscending(x => (x.MessageTypeID))">
+                            <TemplateColumn Title="Type" Sortable="true" SortBy="GridSort<MessageModel>.ByAscending(x => (x.MessageTypeID.GetEnumDisplayName()))">
                                 <ChildContent>
                                     <div @onclick="()=>SelectMainRecord(context?.MessageID)" class="@TableCSS(context)">
                                         <div class="col-justify-start">@context?.MessageTypeID?.GetEnumDisplayName()</div>
@@ -249,7 +250,10 @@ else {
                                 </ChildContent>
                                 <ColumnOptions>
                                     <div class="search-box">
-                                        <input type="number" class="form-control" autofocus @bind="FilterMainAmountOffered" @bind:event="oninput" @onkeyup="FilterMainRefresh" @onchange="FilterMainRefresh" />
+                                        <input type="number" class="form-control" placeholder="Enter Number..." autofocus
+                                            @bind-value:get="GetFilter(nameof(MessageModel.AmountOffered))"
+                                            @bind-value:set="(e) => ChangeFilterMain(nameof(MessageModel.AmountOffered), e)"
+                                            @oninput="(e) => ChangeFilterMain(nameof(MessageModel.AmountOffered), e.Value)" />
                                     </div>
                                 </ColumnOptions>
                             </TemplateColumn>
@@ -434,10 +438,6 @@ else {
                                 </ColumnOptions>
                             </TemplateColumn>
                         </QuickGrid>
-                        @{
-                            IList<string> ExcludeMainFields = new List<string> { "Message", "MessageIsHTML", "CC", "BCC" };
-                        }
-                        <Grid Items="@FilteredMainRecords" ExcludeFields="@ExcludeMainFields" SelectedItemID="selectedRecord?.MessageID" OnSelectItem="SelectMainRecord" OnEditItem="EditMainRecord" />
                     </div>
                 </div>
                 <div class="alert alert-secondary" role="alert">
@@ -470,6 +470,12 @@ else {
                 </div>
             </div>
         </div>
+
+        @{
+            IList<string> ExcludeMainFields = new List<string> { "Message", "MessageIsHTML", "CC", "BCC" };
+        }
+        <Grid Items="@FilteredMainRecords" ExcludeFields="@ExcludeMainFields" SelectedItemID="selectedRecord?.MessageID" OnSelectItem="SelectMainRecord" OnEditItem="EditMainRecord" />
+
     </div>
 
     <Modal @ref="modalMessage">
@@ -947,6 +953,28 @@ else {
 
         // Trigger UI update
         StateHasChanged();
+    }
+
+    private void RemoveLastFilter()
+    {
+        string? lastKey = filterMainValues.Keys.LastOrDefault();
+
+        if (lastKey != null)
+        {
+            filterMainValues.Remove(lastKey);
+        }
+
+        ApplyFilters();
+    }
+
+    private void RemoveFilter(string? fieldName)
+    {
+        if (fieldName != null)
+        {
+            filterMainValues.Remove(fieldName);
+        }
+
+        ApplyFilters();
     }
 
     // private IQueryable<MessageModel>? FilteredMainRecords =>

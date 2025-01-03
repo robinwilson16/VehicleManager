@@ -1,5 +1,5 @@
 self.assetsManifest = {
-  "version": "TNOaK5Ds",
+  "version": "021DmGWJ",
   "assets": [
     {
       "hash": "sha256-xBZ+mbV4oAxwQ4qYu1lHOgW4KrV38QzS7Ip/j7Yno6s=",
@@ -786,19 +786,19 @@ self.assetsManifest = {
       "url": "_framework/TinyMCE.Blazor.ll1a586db2.wasm"
     },
     {
-      "hash": "sha256-hK3xDIfGRRjxFbJKn2nl90yWJluh1laJZYnmkGYWD3s=",
-      "url": "_framework/VehicleManager.0vqiyyxrug.wasm"
+      "hash": "sha256-eoa+FVi9Y2FO/zMJ3Xkgf1bNkCztAJgXdxdgH27AtKc=",
+      "url": "_framework/VehicleManager.a8de0r0gxs.pdb"
     },
     {
-      "hash": "sha256-P7HshdFht0CYi0/+ZGTkhvusULadZULMiPpGcBq3iNA=",
-      "url": "_framework/VehicleManager.pyy3fbsx72.pdb"
+      "hash": "sha256-EqdEfEIvyi5E22gjbrPnVChu/OgEQ6kbL4Q6rAMVEK8=",
+      "url": "_framework/VehicleManager.etnyy250on.wasm"
     },
     {
       "hash": "sha256-0VmBdMjdc0nZGHDSfaGirT6y3mJTM0qx8eqCUC/rpiE=",
       "url": "_framework/WindowsBase.377bly7twj.wasm"
     },
     {
-      "hash": "sha256-oTOy5aGJV50+VesuxggKOJkrq7W4BXGhSVaUve9gVX8=",
+      "hash": "sha256-NO7RltofKB8kLT6KXW7pZhu+HRVhq1A63M7iAWSw5rc=",
       "url": "_framework/blazor.boot.json"
     },
     {
@@ -850,7 +850,7 @@ self.assetsManifest = {
       "url": "_framework/netstandard.hb3h2rr8mk.wasm"
     },
     {
-      "hash": "sha256-FNPUdqayDaYwu3claS7k0UVMBSbzKnSCmfA3J5OLgus=",
+      "hash": "sha256-AfiZLoOz7dnH0kFPSlBfkNdTu/6IfE1H7SNfZ+S44ks=",
       "url": "appsettings.Development.json"
     },
     {
