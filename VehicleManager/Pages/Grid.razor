@@ -1,0 +1,295 @@
+﻿@using VehicleManager.Models
+@using Microsoft.AspNetCore.Components.QuickGrid
+@using VehicleManager.Shared
+
+@typeparam TItem
+
+<QuickGrid Items="@Items" Virtualize="true" Class="table table-striped table-hover table-bordered" TGridItem="TItem">
+    @if (Items != null)
+    {
+
+        int tableRow = 0;
+        int? recordID = 0;
+        foreach (var prop in typeof(TItem).GetProperties())
+        {
+            if (ExcludeFields != null && ExcludeFields.Contains(prop.Name))
+            {
+                //Skip fields set to be excluded
+                continue;
+            }
+            tableRow++;
+
+            if (tableRow == 1) 
+            {
+                <TemplateColumn Title="" Sortable="true" SortBy="GridSort<TItem>.ByAscending(GridSortHelper.GetSortExpression<TItem>(prop.Name))">
+                    <ChildContent>
+                        @{
+                            recordID = (int?)(context?.GetType().GetProperty(prop.Name)?.GetValue(context) ?? 0);
+                        }
+                        <button type="button" class="btn btn-primary btn-sm" @onclick="() => EditItem((int?)(context?.GetType().GetProperty(prop.Name)?.GetValue(context)) ?? 0)"><i class="fa-solid fa-up-right-from-square"></i></button>
+                    </ChildContent>
+                    <ColumnOptions>
+                        <div class="search-box">
+                            @prop.Name.GetFieldNameWithSpaces(true):
+                            <input type="number" class="form-control" placeholder="Enter Number..." autofocus />
+                        </div>
+                    </ColumnOptions>
+                </TemplateColumn>
+            }
+
+            if (prop.PropertyType == typeof(DateTime) || prop.PropertyType == typeof(DateTime?))
+            {
+                <TemplateColumn Title="@ModelFunctions.GetDisplayName(prop)" Sortable="true" SortBy="GridSort<TItem>.ByAscending(GridSortHelper.GetSortExpression<TItem>(prop.Name))">
+                    <ChildContent>
+                        <div @onclick="() => SelectItem((int?)(context?.GetType().GetProperties().FirstOrDefault()?.GetValue(context)) ?? 0)" class="@TableCSS(recordID)">
+                            @string.Format("{0:dd/MM/yyyy}", context?.GetType().GetProperty(prop.Name)?.GetValue(context))
+                        </div>
+                    </ChildContent>
+                    <ColumnOptions>
+                        <div class="search-box">
+                            @prop.Name.GetFieldNameWithSpaces(true):
+                            <input type="date" class="form-control" placeholder="Enter Date..." autofocus />
+                        </div>
+                    </ColumnOptions>
+                </TemplateColumn>
+            }
+            else if (prop.PropertyType == typeof(bool) || prop.PropertyType == typeof(bool?))
+            {
+                <TemplateColumn Title="@ModelFunctions.GetDisplayName(prop)" Sortable="true" SortBy="GridSort<TItem>.ByAscending(GridSortHelper.GetSortExpression<TItem>(prop.Name))">
+                    <ChildContent>
+                        <div @onclick="() => SelectItem((int?)(context?.GetType().GetProperties().FirstOrDefault()?.GetValue(context)) ?? 0)" class="@TableCSS(recordID)">
+                            <div class="col-justify-start text-center">
+                                <i class="@CSSFunctions.BoolCSS((bool?)context?.GetType().GetProperty(prop.Name)?.GetValue(context))"></i>
+                            </div>
+                        </div>
+                    </ChildContent>
+                    <ColumnOptions>
+                        <div class="search-box">
+                            @prop.Name.GetFieldNameWithSpaces(true):
+                            <button type="button" class="btn "btn-primary"> 
+                                <i class="fa-regular fa-square-minus"></i>
+                            </button>
+                        </div>
+                    </ColumnOptions>
+                </TemplateColumn>
+            }
+            else if (prop.PropertyType == typeof(int) || prop.PropertyType == typeof(int?))
+            {
+                <TemplateColumn Title="@ModelFunctions.GetDisplayName(prop)" Sortable="true" SortBy="GridSort<TItem>.ByAscending(GridSortHelper.GetSortExpression<TItem>(prop.Name))">
+                    <ChildContent>
+                        <div @onclick="() => SelectItem((int?)(context?.GetType().GetProperties().FirstOrDefault()?.GetValue(context)) ?? 0)" class="@TableCSS(recordID)">
+                            @context?.GetType().GetProperty(prop.Name)?.GetValue(context)
+                        </div>
+                    </ChildContent>
+                    <ColumnOptions>
+                        <div class="search-box">
+                            @prop.Name.GetFieldNameWithSpaces(true):
+                            <input type="number" class="form-control" placeholder="Enter Number..." autofocus />
+                        </div>
+                    </ColumnOptions>
+                </TemplateColumn>
+            }
+            else if (prop.PropertyType == typeof(decimal) || prop.PropertyType == typeof(decimal?) && ModelFunctions.GetDisplayGroup(prop) != null)
+            {
+                //Formats amount offered in red or green depending on if it is accepted
+                <TemplateColumn Title="@ModelFunctions.GetDisplayName(prop)" Sortable="true" SortBy="GridSort<TItem>.ByAscending(GridSortHelper.GetSortExpression<TItem>(prop.Name))">
+                    <ChildContent>
+                        <div @onclick="() => SelectItem((int?)(context?.GetType().GetProperties().FirstOrDefault()?.GetValue(context)) ?? 0)" class="@TableCSS(recordID)">
+                            <div class="col-justify-start text-center">
+                                <h5 class="pt-1 pb-0 mb-0">
+                                    <span class="badge @(ModelFunctions.GetIsTrue(context, ModelFunctions.GetDisplayGroup(prop)) == true ? "text-bg-success" : "text-bg-danger")">
+                                        @string.Format("{0:C0}", context?.GetType().GetProperty(prop.Name)?.GetValue(context))
+                                    </span>
+                                </h5>
+                            </div>
+                        </div>
+                    </ChildContent>
+                    <ColumnOptions>
+                        <div class="search-box">
+                            @prop.Name.GetFieldNameWithSpaces(true):
+                            <input type="number" class="form-control" placeholder="Enter Number..." autofocus />
+                        </div>
+                    </ColumnOptions>
+                </TemplateColumn>
+            }
+            else if (prop.PropertyType == typeof(decimal) || prop.PropertyType == typeof(decimal?))
+            {
+                <TemplateColumn Title="@ModelFunctions.GetDisplayName(prop)" Sortable="true" SortBy="GridSort<TItem>.ByAscending(GridSortHelper.GetSortExpression<TItem>(prop.Name))">
+                    <ChildContent>
+                        <div @onclick="() => SelectItem((int?)(context?.GetType().GetProperties().FirstOrDefault()?.GetValue(context)) ?? 0)" class="@TableCSS(recordID)">
+                            @string.Format("{0:C0}", context?.GetType().GetProperty(prop.Name)?.GetValue(context))
+                        </div>
+                    </ChildContent>
+                    <ColumnOptions>
+                        <div class="search-box">
+                            @prop.Name.GetFieldNameWithSpaces(true):
+                            <input type="number" class="form-control" placeholder="Enter Number..." autofocus />
+                        </div>
+                    </ColumnOptions>
+                </TemplateColumn>
+            }
+            else if (prop.PropertyType.IsEnum || ModelFunctions.IsNullableEnum(prop.PropertyType))
+            {
+                <TemplateColumn Title="@ModelFunctions.GetDisplayName(prop)" Sortable="true" SortBy="GridSort<TItem>.ByAscending(GridSortHelper.GetSortExpression<TItem>(prop.Name))">
+                    <ChildContent>
+                        <div @onclick="() => SelectItem((int?)(context?.GetType().GetProperties().FirstOrDefault()?.GetValue(context)) ?? 0)" class="@TableCSS(recordID)">
+                            @(((Enum?)context?.GetType().GetProperty(prop.Name)?.GetValue(context)).GetEnumDisplayName())
+                        </div>
+                    </ChildContent>
+                    <ColumnOptions>
+                        <div class="search-box">
+                            @prop.Name.GetFieldNameWithSpaces(true):
+                            <select class="form-select" autofocus>
+                                <option value="">-- Please Select --</option>
+                                @{
+                                    var subType = Nullable.GetUnderlyingType(prop.PropertyType);
+
+                                    if (subType != null && subType.IsEnum)
+                                    {
+                                        var enums = Enum.GetValues(subType);
+
+                                        if (enums != null)
+                                        {
+                                            foreach (Enum enumItem in enums)
+                                            {
+                                                <option value="@enumItem">@enumItem.GetEnumDisplayName()</option>
+                                            }
+                                        }
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </ColumnOptions>
+                </TemplateColumn>
+            }
+            else if (prop.PropertyType == typeof(Guid) || prop.PropertyType == typeof(Guid?))
+            {
+                <TemplateColumn Title="@ModelFunctions.GetDisplayName(prop)" Sortable="true" SortBy="GridSort<TItem>.ByAscending(GridSortHelper.GetSortExpression<TItem>(prop.Name))">
+                    <ChildContent>
+                        <div @onclick="() => SelectItem((int?)(context?.GetType().GetProperties().FirstOrDefault()?.GetValue(context)) ?? 0)" class="@TableCSS(recordID)">
+                            @(context?.GetType().GetProperty(prop.Name)?.GetValue(context) ?? "")
+                        </div>
+                    </ChildContent>
+                    <ColumnOptions>
+                        <div class="search-box">
+                            @prop.Name.GetFieldNameWithSpaces(true):
+                            <input type="text" class="form-control" placeholder="Enter Number..." autofocus />
+                        </div>
+                    </ColumnOptions>
+                </TemplateColumn>
+            }
+            else if (prop.PropertyType.IsClass && prop.PropertyType != typeof(string))
+            {
+                // Handle complex types (other objects)
+                string? sortProperty = $"{prop.Name}.Name";
+                <TemplateColumn Title="@ModelFunctions.GetDisplayName(prop)" Sortable="true" SortBy="GridSort<TItem>.ByAscending(GridSortHelper.GetNestedSortExpression<TItem>(sortProperty))">
+                    <ChildContent>
+                        @{
+                            var complexTypeValue = context?.GetType().GetProperty(prop.Name)?.GetValue(context);
+                            var namePropertyValue = complexTypeValue?.GetType().GetProperty("Name")?.GetValue(complexTypeValue);
+
+                        }
+                        <div @onclick="() => SelectItem((int?)(context?.GetType().GetProperties().FirstOrDefault()?.GetValue(context)) ?? 0)" class="@TableCSS(recordID)">
+                            @namePropertyValue
+                        </div>
+                    </ChildContent>
+                    <ColumnOptions>
+                        <div class="search-box">
+                            @prop.Name.GetFieldNameWithSpaces(true):
+                            <select class="form-select" autofocus>
+                                <option value="">-- Please Select --</option>
+                                @{
+                                    var options = DropDownValues.Where(x => x?.GetType() == prop.PropertyType);
+                                }
+                                @if (options != null)
+                                {
+                                    foreach (var option in options)
+                                    {
+                                        <option value="@option?.GetType().GetProperties().FirstOrDefault()?.GetValue(option)">@option?.GetType().GetProperty("Name")?.GetValue(option)</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </ColumnOptions>
+                </TemplateColumn>
+            }
+            else {
+                <TemplateColumn Title="@ModelFunctions.GetDisplayName(prop)" Sortable="true" SortBy="GridSort<TItem>.ByAscending(GridSortHelper.GetSortExpression<TItem>(prop.Name))">
+                    <ChildContent>
+                        <div @onclick="() => SelectItem((int?)(context?.GetType().GetProperties().FirstOrDefault()?.GetValue(context)) ?? 0)" class="@TableCSS(recordID)">
+                            @context?.GetType().GetProperty(prop.Name)?.GetValue(context)
+                        </div>
+                    </ChildContent>
+                    <ColumnOptions>
+                        <div class="search-box">
+                            @prop.Name.GetFieldNameWithSpaces(true):
+                            <input type="text" class="form-control" placeholder="Enter Text..." autofocus />
+                        </div>
+                    </ColumnOptions>
+                </TemplateColumn>
+            }
+        }
+    }
+</QuickGrid>
+
+@code {
+    public string? SortField = "SubmissionID";
+
+    [Parameter]
+    public IQueryable<TItem>? Items { get; set; }
+
+    [Parameter]
+    public IList<string>? ExcludeFields { get; set; }
+
+    [Parameter]
+    public int? SelectedItemID { get; set; }
+
+    [Parameter]
+    public EventCallback<int?> OnSelectItem { get; set; }
+
+    [Parameter]
+    public EventCallback<int?> OnEditItem { get; set; }
+
+    public string TableCSS(int? recordID)
+    {
+        string css = "";
+        if (recordID == SelectedItemID)
+        {
+            css = "SelectedRow";
+        }
+        else if (false != true)
+        {
+            css = "ErrorRow";
+        }
+
+        return css;
+    }
+
+    private async Task SelectItem(int? itemID)
+    {
+        if (itemID != null)
+        {
+            await OnSelectItem.InvokeAsync(itemID);
+        }
+    }
+
+    private async Task EditItem(int? itemID)
+    {
+        if (itemID != null)
+        {
+            await OnEditItem.InvokeAsync(itemID);
+        }
+    }
+
+    private IList<object?> DropDownValues = new List<object?>
+        {
+            new MessageTemplateModel { MessageTemplateID = 1, Name = "First" },
+            new MessageTemplateModel { MessageTemplateID = 2, Name = "Second" },
+            new MessageTemplateModel { MessageTemplateID = 3, Name = "Third" },
+            new MessageModel { MessageID = 12, Subject = "Subject 2 Here" },
+            new MessageTemplateModel { MessageTemplateID = 7, Name = "Forth" },
+            new MessageTemplateModel { MessageTemplateID = 11, Name = "Fifth" },
+            new MessageModel { MessageID = 11, Subject = "Subject Here" },
+        };
+    }
+}

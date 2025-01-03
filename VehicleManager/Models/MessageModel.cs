@@ -12,12 +12,16 @@ namespace VehicleManager.Models
     public class MessageModel
     {
         [Key]
+        [DisplayName("ID")]
         public int MessageID { get; set; }
+
+        [DisplayName("Unique ID")]
         public Guid? MessageGUID { get; set; }
 
-        [DisplayName("Message Type")]
-        [Display(Name = "Testing")]
+        [DisplayName("Type")]
         public MessageType? MessageTypeID { get; set; }
+
+        [DisplayName("Template")]
         public virtual MessageTemplateModel? MessageTemplate { get; set; }
         public string? Subject { get; set; }
         public string? Message { get; set; }
@@ -27,7 +31,10 @@ namespace VehicleManager.Models
 
         [Column(TypeName = "decimal(19,4)")]
         [DataType(DataType.Currency)]
+        [Display(GroupName = "IsAccepted")]
         public decimal? AmountOffered { get; set; }
+
+        [DisplayName("Accepted?")]
         public bool? IsAccepted { get; set; }
         public string? From { get; set; }
         public string? FromName { get; set; }
@@ -35,8 +42,12 @@ namespace VehicleManager.Models
         public string? ToName { get; set; }
         public string? CC { get; set; }
         public string? BCC { get; set; }
+
+        [DisplayName("Sent?")]
         public bool? IsSent { get; set; }
         public DateTime? SentDate { get; set; }
+
+        [DisplayName("Status")]
         public MessageStatus? MessageStatusID { get; set; }
         public string? CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }

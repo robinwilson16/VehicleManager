@@ -9,6 +9,7 @@
 @using TinyMCE.Blazor
 @using System.Globalization
 @using System.Reflection
+@using System.Linq.Expressions
 
 @inject HttpClient Http
 @inject IConfiguration configuration
@@ -111,19 +112,22 @@ else {
         <div class="row">
             <div class="col-md TableArea pt-3 rounded">
                 <div class="alert alert-primary" role="alert">
-                    @if (FiltersMain.Count > 0)
+                    @if (filterMainValues.Count > 0)
                     {
-                        <button type="button" class="btn btn-primary btn-sm me-3" @onclick="@FilterMainClear">Filters (Clear) <i class="fa-solid fa-filter-circle-xmark"></i></button>
+                        <button type="button" class="btn btn-primary btn-sm me-3" @onclick="@RemoveFilters">Filters (Clear) <i class="fa-solid fa-filter-circle-xmark"></i></button>
 
                         int filterNumber = 0;
-                        @foreach (var filter in FiltersMain)
+                        @foreach (var filter in filterMainValues)
                         {
+                            string filterName = filter.Key;
+                            string filterValue = filter.Value?.ToString() ?? string.Empty;
+
                             filterNumber += 1;
 
                             @if (filterNumber > 1) {
-                                <span class="ps-3 pe-3">|</span>
+                                <span class="ps-1 pe-1">, </span>
                             }
-                            <span>@filter</span>
+                            <kbd><i class="fa-solid fa-filter"></i> @filterName = @filterValue</kbd>
                         }
                     }
                 </div>
@@ -131,11 +135,11 @@ else {
                     <div class="table-responsive">
                         <QuickGrid Items="@FilteredMainRecords" Virtualize="true" Class="table table-striped table-hover table-bordered" TGridItem="MessageModel">
 
-                            <TemplateColumn Title="" Sortable="true" SortBy="GridSort<MessageModel>.ByDescending(x => x.MessageID)">
+                            <TemplateColumn Title="" Sortable="true" SortBy="GridSort<MessageModel>.ByAscending(x => x.MessageID)">
                                 <button type="button" class="btn btn-primary btn-sm" @onclick="()=>EditMainRecord(context.MessageID)"><i class="fa-solid fa-up-right-from-square"></i></button>
                             </TemplateColumn>
 
-                            <TemplateColumn Title="ID" Sortable="true" SortBy="GridSort<MessageModel>.ByDescending(x => x.MessageID)">
+                            <TemplateColumn Title="ID" Sortable="true" SortBy="GridSort<MessageModel>.ByAscending(x => x.MessageID)">
                                 <ChildContent>
                                     <div @onclick="()=>SelectMainRecord(context?.MessageID)" class="@TableCSS(context)">
                                         <div class="col-justify-start">@context.MessageID</div>
@@ -143,25 +147,42 @@ else {
                                 </ChildContent>
                                 <ColumnOptions>
                                     <div class="search-box">
-                                        <input type="number" class="form-control" autofocus @bind="FilterMainMessageID" @bind:event="oninput" @onkeyup="FilterMainRefresh" @onchange="FilterMainRefresh" />
+                                        <input type="number" class="form-control" placeholder="Enter Number..." autofocus
+                                        @bind-value:get="GetFilter(nameof(MessageModel.MessageID))"
+                                        @bind-value:set="(e) => ChangeFilterMain(nameof(MessageModel.MessageID), e)"
+                                        @oninput="(e) => ChangeFilterMain(nameof(MessageModel.MessageID), e.Value)" />
                                     </div>
                                 </ColumnOptions>
                             </TemplateColumn>
 
-                            <TemplateColumn Title="Type" Sortable="true" SortBy="GridSort<MessageModel>.ByDescending(x => x.MessageID)">
+                            <TemplateColumn Title="Type" Sortable="true" SortBy="GridSort<MessageModel>.ByAscending(x => (x.MessageTypeID))">
                                 <ChildContent>
                                     <div @onclick="()=>SelectMainRecord(context?.MessageID)" class="@TableCSS(context)">
-                                        <div class="col-justify-start">@context?.MessageTypeID?.GetDisplayName()</div>
+                                        <div class="col-justify-start">@context?.MessageTypeID?.GetEnumDisplayName()</div>
                                     </div>
                                 </ChildContent>
                                 <ColumnOptions>
                                     <div class="search-box">
-                                        <input type="number" class="form-control" autofocus @bind="FilterMainMessageType" @bind:event="oninput" @onkeyup="FilterMainRefresh" @onchange="FilterMainRefresh" />
+                                        @{
+                                            IList<MessageType> MessageTypes = Enum.GetValues(typeof(MessageType)).Cast<MessageType>().ToList();
+                                        }
+                                        <select class="form-select" autofocus 
+                                        value="@GetFilter(nameof(MessageModel.MessageTypeID))"
+                                        @onchange="(e) => ChangeFilterMain(nameof(MessageModel.MessageTypeID), e.Value)">
+                                            <option value="">-- Please Select --</option>
+                                            @if (MessageTypes != null)
+                                            {
+                                                foreach (var type in MessageTypes)
+                                                {
+                                                    <option value="@type">@type.GetEnumDisplayName()</option>
+                                                }
+                                            }
+                                        </select>
                                     </div>
                                 </ColumnOptions>
                             </TemplateColumn>
 
-                            <TemplateColumn Title="Template" Sortable="true" SortBy="GridSort<MessageModel>.ByDescending(x => x.MessageTemplate)">
+                            <TemplateColumn Title="Template" Sortable="true" SortBy="GridSort<MessageModel>.ByAscending(x => (x.MessageTemplate != null ? x.MessageTemplate.Name : string.Empty))">
                                 <ChildContent>
                                     <div @onclick="()=>SelectMainRecord(context?.MessageID)" class="@TableCSS(context)">
                                         <div class="col-justify-start">@context.MessageTemplate?.Name</div>
@@ -169,12 +190,23 @@ else {
                                 </ChildContent>
                                 <ColumnOptions>
                                     <div class="search-box">
-                                        <input type="text" class="form-control" autofocus @bind="FilterMainSubject" @bind:event="oninput" @onkeyup="FilterMainRefresh" @onchange="FilterMainRefresh" />
+                                        <select class="form-select" autofocus 
+                                        value="@GetFilter(nameof(MessageModel.MessageTemplate) + '.' + nameof(MessageTemplateModel.MessageTemplateID))"
+                                        @onchange="(e) => ChangeFilterMain(nameof(MessageModel.MessageTemplate) + '.' + nameof(MessageTemplateModel.MessageTemplateID), e.Value)">
+                                            <option value="">-- Please Select --</option>
+                                            @if (messageTemplates != null)
+                                            {
+                                                foreach (var template in messageTemplates)
+                                                {
+                                                    <option value="@template.MessageTemplateID">@template.Name</option>
+                                                }
+                                            }
+                                        </select>
                                     </div>
                                 </ColumnOptions>
                             </TemplateColumn>
 
-                            <TemplateColumn Title="Subject" Sortable="true" SortBy="GridSort<MessageModel>.ByDescending(x => x.Subject)">
+                            <TemplateColumn Title="Subject" Sortable="true" SortBy="GridSort<MessageModel>.ByAscending(x => x.Subject)">
                                 <ChildContent>
                                     <div @onclick="()=>SelectMainRecord(context?.MessageID)" class="@TableCSS(context)">
                                         <div class="col-justify-start">@context.Subject</div>
@@ -182,12 +214,15 @@ else {
                                 </ChildContent>
                                 <ColumnOptions>
                                     <div class="search-box">
-                                        <input type="text" class="form-control" autofocus @bind="FilterMainSubject" @bind:event="oninput" @onkeyup="FilterMainRefresh" @onchange="FilterMainRefresh" />
+                                        <input type="text" class="form-control" placeholder="Enter Text..." autofocus
+                                        @bind-value:get="GetFilter(nameof(MessageModel.Subject))"
+                                        @bind-value:set="(e) => ChangeFilterMain(nameof(MessageModel.Subject), e)"
+                                        @oninput="(e) => ChangeFilterMain(nameof(MessageModel.Subject), e.Value)" />
                                     </div>
                                 </ColumnOptions>
                             </TemplateColumn>
 
-                            <TemplateColumn Title="Vehicle ID" Sortable="true" SortBy="GridSort<MessageModel>.ByDescending(x => x.VehicleID)">
+                            <TemplateColumn Title="Vehicle ID" Sortable="true" SortBy="GridSort<MessageModel>.ByAscending(x => x.VehicleID)">
                                 <ChildContent>
                                     <div @onclick="()=>SelectMainRecord(context?.MessageID)" class="@TableCSS(context)">
                                         <div class="col-justify-start">@context.VehicleID</div>
@@ -200,7 +235,7 @@ else {
                                 </ColumnOptions>
                             </TemplateColumn>
 
-                            <TemplateColumn Title="&pound; Offered" Sortable="true" SortBy="GridSort<MessageModel>.ByDescending(x => x.AmountOffered)">
+                            <TemplateColumn Title="&pound; Offered" Sortable="true" SortBy="GridSort<MessageModel>.ByAscending(x => x.AmountOffered)">
                                 <ChildContent>
                                     <div @onclick="()=>SelectMainRecord(context?.MessageID)" class="@TableCSS(context)">
                                         <div class="col-justify-start text-center">
@@ -219,7 +254,7 @@ else {
                                 </ColumnOptions>
                             </TemplateColumn>
 
-                            <TemplateColumn Title="Accepted?" Sortable="true" SortBy="GridSort<MessageModel>.ByDescending(x => x.IsAccepted)">
+                            <TemplateColumn Title="Accepted?" Sortable="true" SortBy="GridSort<MessageModel>.ByAscending(x => x.IsAccepted)">
                                 <ChildContent>
                                     <div @onclick="()=>SelectMainRecord(context?.MessageID)" class="@TableCSS(context)">
                                         <div class="col-justify-start text-center">
@@ -229,12 +264,16 @@ else {
                                 </ChildContent>
                                 <ColumnOptions>
                                     <div class="search-box">
-                                        <button type="button" class="btn @(FilterMainIsAccepted == true? "btn-primary" : "btn-outline-primary")" @onclick="ToggleFilterMainIsAccepted"><i class="@(FilterMainIsAccepted == null? "fa-regular fa-square-minus" : FilterMainIsAccepted == true? "fa-solid fa-square-check" : "fa-regular fa-square")"></i></button>
+                                        <button type="button" class="btn @(FilterMainIsAccepted == true? "btn-primary" : "btn-outline-primary")" 
+                                        value="@GetFilterBool(nameof(MessageModel.IsAccepted))"
+                                        @onclick="(e) => ChangeFilterMain(nameof(MessageModel.IsAccepted), true)">
+                                            <i class="@(GetFilterBool(nameof(MessageModel.IsAccepted)) == null? "fa-regular fa-square-minus" : GetFilterBool(nameof(MessageModel.IsAccepted)) == true? "fa-solid fa-square-check" : "fa-regular fa-square")"></i>
+                                        </button>
                                     </div>
                                 </ColumnOptions>
                             </TemplateColumn>
 
-                            <TemplateColumn Title="From" Sortable="true" SortBy="GridSort<MessageModel>.ByDescending(x => x.From)">
+                            <TemplateColumn Title="From" Sortable="true" SortBy="GridSort<MessageModel>.ByAscending(x => x.From)">
                                 <ChildContent>
                                     <div @onclick="()=>SelectMainRecord(context?.MessageID)" class="@TableCSS(context)">
                                         <div class="col-justify-start">@context.From</div>
@@ -247,7 +286,7 @@ else {
                                 </ColumnOptions>
                             </TemplateColumn>
 
-                            <TemplateColumn Title="From Name" Sortable="true" SortBy="GridSort<MessageModel>.ByDescending(x => x.FromName)">
+                            <TemplateColumn Title="From Name" Sortable="true" SortBy="GridSort<MessageModel>.ByAscending(x => x.FromName)">
                                 <ChildContent>
                                     <div @onclick="()=>SelectMainRecord(context?.MessageID)" class="@TableCSS(context)">
                                         <div class="col-justify-start">@context.FromName</div>
@@ -260,7 +299,7 @@ else {
                                 </ColumnOptions>
                             </TemplateColumn>
 
-                            <TemplateColumn Title="To" Sortable="true" SortBy="GridSort<MessageModel>.ByDescending(x => x.To)">
+                            <TemplateColumn Title="To" Sortable="true" SortBy="GridSort<MessageModel>.ByAscending(x => x.To)">
                                 <ChildContent>
                                     <div @onclick="()=>SelectMainRecord(context?.MessageID)" class="@TableCSS(context)">
                                         <div class="col-justify-start">@context.To</div>
@@ -273,7 +312,7 @@ else {
                                 </ColumnOptions>
                             </TemplateColumn>
 
-                            <TemplateColumn Title="To Name" Sortable="true" SortBy="GridSort<MessageModel>.ByDescending(x => x.ToName)">
+                            <TemplateColumn Title="To Name" Sortable="true" SortBy="GridSort<MessageModel>.ByAscending(x => x.ToName)">
                                 <ChildContent>
                                     <div @onclick="()=>SelectMainRecord(context?.MessageID)" class="@TableCSS(context)">
                                         <div class="col-justify-start">@context.ToName</div>
@@ -286,7 +325,7 @@ else {
                                 </ColumnOptions>
                             </TemplateColumn>
 
-                            <TemplateColumn Title="Sent?" Sortable="true" SortBy="GridSort<MessageModel>.ByDescending(x => x.IsSent)">
+                            <TemplateColumn Title="Sent?" Sortable="true" SortBy="GridSort<MessageModel>.ByAscending(x => x.IsSent)">
                                 <ChildContent>
                                     <div @onclick="()=>SelectMainRecord(context?.MessageID)" class="@TableCSS(context)">
                                         <div class="col-justify-start text-center">
@@ -301,7 +340,7 @@ else {
                                 </ColumnOptions>
                             </TemplateColumn>
 
-                            <TemplateColumn Title="Sent Date" Sortable="true" SortBy="GridSort<MessageModel>.ByDescending(x => x.SentDate)">
+                            <TemplateColumn Title="Sent Date" Sortable="true" SortBy="GridSort<MessageModel>.ByAscending(x => x.SentDate)">
                                 <ChildContent>
                                     <div @onclick="()=>SelectMainRecord(context?.MessageID)" class="@TableCSS(context)">
                                         <div class="col-justify-start">@(context?.SentDate == null ? "" : context?.SentDate.Value.ToString("dd/MM/yyyy"))</div>
@@ -309,15 +348,18 @@ else {
                                 </ChildContent>
                                 <ColumnOptions>
                                     <div class="search-box">
-                                        <input type="date" class="form-control" autofocus @bind="FilterMainSentDate" @bind:event="oninput" @onkeyup="FilterMainRefresh" @onchange="FilterMainRefresh" />
+                                        <input type="date" class="form-control" placeholder="Enter Number..." autofocus
+                                        @bind-value:get="GetFilterDate(nameof(MessageModel.SentDate))"
+                                        @bind-value:set="(e) => ChangeFilterMain(nameof(MessageModel.SentDate), e)"
+                                        @oninput="(e) => ChangeFilterMain(nameof(MessageModel.SentDate), e.Value)" />
                                     </div>
                                 </ColumnOptions>
                             </TemplateColumn>
 
-                            <TemplateColumn Title="Status" Sortable="true" SortBy="GridSort<MessageModel>.ByDescending(x => x.MessageStatusID)">
+                            <TemplateColumn Title="Status" Sortable="true" SortBy="GridSort<MessageModel>.ByAscending(x => x.MessageStatusID)">
                                 <ChildContent>
                                     <div @onclick="()=>SelectMainRecord(context?.MessageID)" class="@TableCSS(context)">
-                                        <div class="col-justify-start">@context?.MessageStatusID?.GetDisplayName()</div>
+                                        <div class="col-justify-start">@context?.MessageStatusID?.GetEnumDisplayName()</div>
                                     </div>
                                 </ChildContent>
                                 <ColumnOptions>
@@ -327,7 +369,7 @@ else {
                                 </ColumnOptions>
                             </TemplateColumn>
 
-                            <TemplateColumn Title="Unique Customer Reference" Sortable="true" SortBy="GridSort<MessageModel>.ByDescending(x => x.MessageID)">
+                            <TemplateColumn Title="Unique Customer Reference" Sortable="true" SortBy="GridSort<MessageModel>.ByAscending(x => x.MessageID)">
                                 <ChildContent>
                                     <div @onclick="()=>SelectMainRecord(context?.MessageID)" class="@TableCSS(context)">
                                         <div class="col-justify-start">@context.MessageGUID</div>
@@ -340,7 +382,7 @@ else {
                                 </ColumnOptions>
                             </TemplateColumn>
 
-                            <TemplateColumn Title="Created By" Sortable="true" SortBy="GridSort<MessageModel>.ByDescending(x => x.CreatedBy)">
+                            <TemplateColumn Title="Created By" Sortable="true" SortBy="GridSort<MessageModel>.ByAscending(x => x.CreatedBy)">
                                 <ChildContent>
                                     <div @onclick="()=>SelectMainRecord(context?.MessageID)" class="@TableCSS(context)">
                                         <div class="col-justify-start">@context.CreatedBy</div>
@@ -353,7 +395,7 @@ else {
                                 </ColumnOptions>
                             </TemplateColumn>
 
-                            <TemplateColumn Title="Created Date" Sortable="true" SortBy="GridSort<MessageModel>.ByDescending(x => x.CreatedDate)">
+                            <TemplateColumn Title="Created Date" Sortable="true" SortBy="GridSort<MessageModel>.ByAscending(x => x.CreatedDate)">
                                 <ChildContent>
                                     <div @onclick="()=>SelectMainRecord(context?.MessageID)" class="@TableCSS(context)">
                                         <div class="col-justify-start">@(context?.CreatedDate == null ? "" : context?.CreatedDate.Value.ToString("dd/MM/yyyy"))</div>
@@ -366,7 +408,7 @@ else {
                                 </ColumnOptions>
                             </TemplateColumn>
 
-                            <TemplateColumn Title="Last Updated By" Sortable="true" SortBy="GridSort<MessageModel>.ByDescending(x => x.LastUpdatedBy)">
+                            <TemplateColumn Title="Last Updated By" Sortable="true" SortBy="GridSort<MessageModel>.ByAscending(x => x.LastUpdatedBy)">
                                 <ChildContent>
                                     <div @onclick="()=>SelectMainRecord(context?.MessageID)" class="@TableCSS(context)">
                                         <div class="col-justify-start">@context.LastUpdatedBy</div>
@@ -379,7 +421,7 @@ else {
                                 </ColumnOptions>
                             </TemplateColumn>
 
-                            <TemplateColumn Title="Last Updated Date" Sortable="true" SortBy="GridSort<MessageModel>.ByDescending(x => x.LastUpdatedDate)">
+                            <TemplateColumn Title="Last Updated Date" Sortable="true" SortBy="GridSort<MessageModel>.ByAscending(x => x.LastUpdatedDate)">
                                 <ChildContent>
                                     <div @onclick="()=>SelectMainRecord(context?.MessageID)" class="@TableCSS(context)">
                                         <div class="col-justify-start">@(context?.CreatedDate == null ? "" : context?.CreatedDate.Value.ToString("dd/MM/yyyy"))</div>
@@ -392,6 +434,10 @@ else {
                                 </ColumnOptions>
                             </TemplateColumn>
                         </QuickGrid>
+                        @{
+                            IList<string> ExcludeMainFields = new List<string> { "Message", "MessageIsHTML", "CC", "BCC" };
+                        }
+                        <Grid Items="@FilteredMainRecords" ExcludeFields="@ExcludeMainFields" SelectedItemID="selectedRecord?.MessageID" OnSelectItem="SelectMainRecord" OnEditItem="EditMainRecord" />
                     </div>
                 </div>
                 <div class="alert alert-secondary" role="alert">
@@ -407,7 +453,7 @@ else {
                         </div>
                         <div class="col-md text-end">
 
-                            @if (FiltersMain.Count > 0)
+                            @if (filterMainValues.Count > 0)
                             {
                                 <div class="col-md text-end fw-bold text-primary">
                                     @FilteredMainRecords?.Count() Records (Filtered)
@@ -508,7 +554,7 @@ else {
                                 <div class="col-md-10">
                                     @if (selectedRecordCopy!.MessageTemplate != null)
                                     {
-                                        <InputSelect @bind-Value="selectedRecordCopy!.MessageTemplate!.MessageTemplateID" class="form-control">
+                                        <InputSelect @bind-Value="selectedRecordCopy!.MessageTemplate!.MessageTemplateID" class="form-select">
                                             <option value="">-- Please Select --</option>
                                             @if (messageTemplates != null)
                                             {
@@ -676,38 +722,267 @@ else {
     //Related datasets
     private List<MessageTemplateModel>? messageTemplates { get; set; }
 
+    private Dictionary<string, object?> filterMainValues = new Dictionary<string, object?>();
+
+    private IList<Func<MessageModel, bool>> filtersMain = new List<Func<MessageModel, bool>>();
+
     private IQueryable<MessageModel>? FilteredMainRecords =>
-        (mainRecords)?.AsQueryable()
-        .Where(
-            m => 
-            (FilterMainMessageID == null ? true : m.MessageID == (FilterMainMessageID ?? m.MessageID))
-            && (FilterMainMessageGUID == null ? true : (m.MessageGUID.ToString() ?? string.Empty).Contains(FilterMainMessageGUID, StringComparison.CurrentCultureIgnoreCase))
-            && (FilterMainMessageType == null ? true : (m.MessageTypeID.GetDisplayName() ?? string.Empty).Contains(FilterMainMessageType, StringComparison.CurrentCultureIgnoreCase))
-            && (FilterMainSubject == null ? true : (m.Subject ?? string.Empty).Contains(FilterMainSubject, StringComparison.CurrentCultureIgnoreCase))
-            && (FilterMainMessage == null ? true : (m.Message ?? string.Empty).Contains(FilterMainMessage, StringComparison.CurrentCultureIgnoreCase))
-            && (FilterMainMessageIsHTML == null ? true : m.MessageIsHTML == FilterMainMessageIsHTML)
-            && (FilterMainVehicleID == null ? true : m.VehicleID == FilterMainVehicleID)
-            && (FilterMainAmountOffered == null ? true : m.AmountOffered == FilterMainAmountOffered)
-            && (FilterMainIsAccepted == null ? true : m.IsAccepted == FilterMainIsAccepted)
-            && (FilterMainFrom == null ? true : (m.From ?? string.Empty).Contains(FilterMainFrom, StringComparison.CurrentCultureIgnoreCase))
-            && (FilterMainFromName == null ? true : (m.FromName ?? string.Empty).Contains(FilterMainFromName, StringComparison.CurrentCultureIgnoreCase))
-            && (FilterMainTo == null ? true : (m.To ?? string.Empty).Contains(FilterMainTo, StringComparison.CurrentCultureIgnoreCase))
-            && (FilterMainToName == null ? true : (m.ToName ?? string.Empty).Contains(FilterMainToName, StringComparison.CurrentCultureIgnoreCase))
-            && (FilterMainCC == null ? true : (m.CC ?? string.Empty).Contains(FilterMainCC, StringComparison.CurrentCultureIgnoreCase))
-            && (FilterMainBCC == null ? true : (m.BCC ?? string.Empty).Contains(FilterMainBCC, StringComparison.CurrentCultureIgnoreCase))
-            && (FilterMainIsSent == null ? true : m.IsSent == FilterMainIsSent)
-            && (FilterMainSentDate == null ? true : DateOnly.FromDateTime(m.SentDate ?? DateTime.MinValue) == DateOnly.FromDateTime((DateTime)(FilterMainSentDate ?? m.SentDate)!))
-            && (FilterMainMessageStatus == null ? true : (m.MessageStatusID.GetDisplayName() ?? string.Empty).Contains(FilterMainMessageStatus, StringComparison.CurrentCultureIgnoreCase))
-            && (FilterMainCreatedBy == null ? true : (m.CreatedBy ?? string.Empty).Contains(FilterMainCreatedBy, StringComparison.CurrentCultureIgnoreCase))
-            && (FilterMainCreatedDate == null ? true : DateOnly.FromDateTime(m.CreatedDate ?? DateTime.MinValue) == DateOnly.FromDateTime((DateTime)(FilterMainCreatedDate ?? m.CreatedDate)!))
-            && (FilterMainLastUpdatedBy == null ? true : (m.LastUpdatedBy ?? string.Empty).Contains(FilterMainLastUpdatedBy, StringComparison.CurrentCultureIgnoreCase))
-            && (FilterMainLastUpdatedDate == null ? true : DateOnly.FromDateTime(m.LastUpdatedDate ?? DateTime.MinValue) == DateOnly.FromDateTime((DateTime)(FilterMainLastUpdatedDate ?? m.LastUpdatedDate)!))
-        );
+        mainRecords?.AsQueryable().Where(m => filtersMain.All(filter => filter(m)));
+
+    public string? GetFilter(string? fieldName)
+    {
+        string? fieldValue = null;
+
+        if (fieldName != null)
+        {
+            if (!filterMainValues.ContainsKey(fieldName))
+                filterMainValues.Add(fieldName ?? "", null);
+            else
+                fieldValue = filterMainValues[fieldName ?? ""]?.ToString();
+        }
+
+        return fieldValue;
+    }
+
+    public bool? GetFilterBool(string? fieldName)
+    {
+        bool? fieldValue = null;
+        fieldValue = bool.Parse(GetFilter(fieldName) ?? bool.FalseString);
+
+        return fieldValue;
+    }
+
+    public DateTime? GetFilterDate(string? fieldName)
+    {
+        bool? IsDate = DateTime.TryParse(GetFilter(fieldName), out DateTime date);
+        
+        if (IsDate == true)
+            return date;
+        else
+            return null;
+    }
+
+    private void AddFilterMain(Func<MessageModel, bool> filter)
+    {
+        filtersMain.Add(filter);
+    }
+
+    private void RemoveFilterMain(Func<MessageModel, bool> filter)
+    {
+        filtersMain.Remove(filter);
+    }
+
+    private void ChangeFilterMain(string fieldName, object? value)
+    {
+        if (value == null || string.IsNullOrEmpty(value.ToString()))
+        {
+            filterMainValues.Remove(fieldName);
+        }
+        else
+        {
+            var property = typeof(MessageModel).GetProperty(fieldName.Split('.').First());
+            if (property != null)
+            {
+                var targetType = Nullable.GetUnderlyingType(property.PropertyType) ?? property.PropertyType;
+                object? convertedValue = null;
+                //Console.WriteLine($"Filter {fieldName} value {value} type {targetType}");
+
+                if (targetType.IsEnum)
+                {
+                    try
+                    {
+                        convertedValue = Enum.Parse(targetType, value.ToString()!);
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.LogError(ex, "Error converting value for field {FieldName}", fieldName);
+                    }
+                }
+                else if (fieldName == nameof(MessageModel.MessageTemplate) + "." + nameof(MessageTemplateModel.MessageTemplateID))
+                {
+                    try
+                    {
+                        //convertedValue = int.Parse(value.ToString()!);
+                        convertedValue = Convert.ChangeType(value, typeof(MessageTemplateModel).GetProperties().FirstOrDefault()?.PropertyType ?? typeof(int));
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.LogError(ex, "Error converting value for field {FieldName}", fieldName);
+                    }
+                }
+                else if (targetType == typeof(bool) || targetType == typeof(bool?))
+                {
+                    bool? oldValue = null;
+                    bool? newValue = null;
+                    
+                    //Get old and new value to toggle and discard value sent from UI
+                    if (filterMainValues.ContainsKey(fieldName))
+                        oldValue = bool.Parse(filterMainValues[fieldName ?? ""]?.ToString() ?? bool.FalseString);
+
+                    if (oldValue == true)
+                    {
+                        newValue = false;
+                    }
+                    else if (oldValue == false)
+                    {
+                        newValue = true;
+                    }
+                    else {
+                        newValue = null;
+                        
+                    }
+
+                    try
+                    {
+                        convertedValue = newValue;
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.LogError(ex, "Error converting value for field {FieldName}", fieldName);
+                    }
+                }
+                else
+                {
+                    try
+                    {
+                        convertedValue = Convert.ChangeType(value, targetType);
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.LogError(ex, "Error converting value for field {FieldName}", fieldName);
+                    }
+                }
+
+                if (convertedValue != null)
+                {
+                    filterMainValues[fieldName] = convertedValue;
+                    Console.WriteLine($"Filter {fieldName} set to {convertedValue}");
+                }
+            }
+        }
+
+        ApplyFilters();
+    }
+
+    private void ApplyFilters()
+    {
+        filtersMain.Clear();
+
+        foreach (var filter in filterMainValues)
+        {
+            var propertyName = filter.Key;
+            var propertyValue = filter.Value;
+            Console.WriteLine($"Filter {propertyName} value {propertyValue}");
+
+            var parameter = Expression.Parameter(typeof(MessageModel), "m");
+            Expression property = parameter;
+            Expression? parentProperty = null;
+
+            foreach (var member in propertyName.Split('.'))
+            {
+                parentProperty = property;
+                property = Expression.Property(property, member);
+            }
+
+            var constant = Expression.Constant(propertyValue);
+
+            Expression? comparison = null;
+
+            if (propertyValue is string)
+            {
+                var containsMethod = typeof(string).GetMethod("Contains", new[] { typeof(string), typeof(StringComparison) });
+                comparison = Expression.Call(property, containsMethod!, constant, Expression.Constant(StringComparison.CurrentCultureIgnoreCase));
+            }
+            else if (propertyValue is int || propertyValue is decimal || propertyValue is bool || propertyValue.GetType().IsEnum)
+            {
+                if (Nullable.GetUnderlyingType(property.Type) != null)
+                {
+                    var hasValue = Expression.Property(property, "HasValue");
+                    var value = Expression.Property(property, "Value");
+                    var equal = Expression.Equal(value, constant);
+                    comparison = Expression.AndAlso(hasValue, equal);
+                }
+                else
+                {
+                    comparison = Expression.Equal(property, constant);
+                }
+            }
+            else if (propertyValue is DateTime)
+            {
+                if (Nullable.GetUnderlyingType(property.Type) != null)
+                {
+                    var hasValue = Expression.Property(property, "HasValue");
+                    var value = Expression.Property(property, "Value");
+                    var equal = Expression.Equal(value, constant);
+                    comparison = Expression.AndAlso(hasValue, equal);
+                }
+                else
+                {
+                    comparison = Expression.Equal(property, constant);
+                }
+            }
+
+            if (parentProperty != null)
+            {
+                var parentNotNull = Expression.NotEqual(parentProperty, Expression.Constant(null));
+                comparison = Expression.AndAlso(parentNotNull, comparison);
+            }
+
+            if (comparison != null)
+            {
+                var lambda = Expression.Lambda<Func<MessageModel, bool>>(comparison, parameter);
+                Console.WriteLine(lambda);
+                filtersMain.Add(lambda.Compile());
+            }
+        }
+
+        // Trigger UI update
+        StateHasChanged();
+    }
+
+    private void RemoveFilters()
+    {
+        filterMainValues.Clear();
+        filtersMain.Clear();
+
+        // Trigger UI update
+        StateHasChanged();
+    }
+
+    // private IQueryable<MessageModel>? FilteredMainRecords =>
+    //     (mainRecords)?.AsQueryable()
+    //     .Where(
+    //         m => 
+    //         (FilterMainMessageID == null ? true : m.MessageID == (FilterMainMessageID ?? m.MessageID))
+    //         && (FilterMainMessageGUID == null ? true : (m.MessageGUID.ToString() ?? string.Empty).Contains(FilterMainMessageGUID, StringComparison.CurrentCultureIgnoreCase))
+    //         && (FilterMainMessageType == null ? true : m.MessageTypeID == (FilterMainMessageType ?? m.MessageTypeID))
+    //         && (FilterMainMessageTemplateID == null ? true : (m.MessageTemplate ?? new MessageTemplateModel()).MessageTemplateID == FilterMainMessageTemplateID)
+    //         && (FilterMainSubject == null ? true : (m.Subject ?? string.Empty).Contains(FilterMainSubject, StringComparison.CurrentCultureIgnoreCase))
+    //         && (FilterMainMessage == null ? true : (m.Message ?? string.Empty).Contains(FilterMainMessage, StringComparison.CurrentCultureIgnoreCase))
+    //         && (FilterMainMessageIsHTML == null ? true : m.MessageIsHTML == FilterMainMessageIsHTML)
+    //         && (FilterMainVehicleID == null ? true : m.VehicleID == FilterMainVehicleID)
+    //         && (FilterMainAmountOffered == null ? true : m.AmountOffered == FilterMainAmountOffered)
+    //         && (FilterMainIsAccepted == null ? true : m.IsAccepted == FilterMainIsAccepted)
+    //         && (FilterMainFrom == null ? true : (m.From ?? string.Empty).Contains(FilterMainFrom, StringComparison.CurrentCultureIgnoreCase))
+    //         && (FilterMainFromName == null ? true : (m.FromName ?? string.Empty).Contains(FilterMainFromName, StringComparison.CurrentCultureIgnoreCase))
+    //         && (FilterMainTo == null ? true : (m.To ?? string.Empty).Contains(FilterMainTo, StringComparison.CurrentCultureIgnoreCase))
+    //         && (FilterMainToName == null ? true : (m.ToName ?? string.Empty).Contains(FilterMainToName, StringComparison.CurrentCultureIgnoreCase))
+    //         && (FilterMainCC == null ? true : (m.CC ?? string.Empty).Contains(FilterMainCC, StringComparison.CurrentCultureIgnoreCase))
+    //         && (FilterMainBCC == null ? true : (m.BCC ?? string.Empty).Contains(FilterMainBCC, StringComparison.CurrentCultureIgnoreCase))
+    //         && (FilterMainIsSent == null ? true : m.IsSent == FilterMainIsSent)
+    //         && (FilterMainSentDate == null ? true : DateOnly.FromDateTime(m.SentDate ?? DateTime.MinValue) == DateOnly.FromDateTime((DateTime)(FilterMainSentDate ?? m.SentDate)!))
+    //         && (FilterMainMessageStatus == null ? true : (m.MessageStatusID.GetEnumDisplayName() ?? string.Empty).Contains(FilterMainMessageStatus, StringComparison.CurrentCultureIgnoreCase))
+    //         && (FilterMainCreatedBy == null ? true : (m.CreatedBy ?? string.Empty).Contains(FilterMainCreatedBy, StringComparison.CurrentCultureIgnoreCase))
+    //         && (FilterMainCreatedDate == null ? true : DateOnly.FromDateTime(m.CreatedDate ?? DateTime.MinValue) == DateOnly.FromDateTime((DateTime)(FilterMainCreatedDate ?? m.CreatedDate)!))
+    //         && (FilterMainLastUpdatedBy == null ? true : (m.LastUpdatedBy ?? string.Empty).Contains(FilterMainLastUpdatedBy, StringComparison.CurrentCultureIgnoreCase))
+    //         && (FilterMainLastUpdatedDate == null ? true : DateOnly.FromDateTime(m.LastUpdatedDate ?? DateTime.MinValue) == DateOnly.FromDateTime((DateTime)(FilterMainLastUpdatedDate ?? m.LastUpdatedDate)!))
+    //     );
 
     List<string> FiltersMain = new List<string>();
     int? FilterMainMessageID;
     string? FilterMainMessageGUID;
-    string? FilterMainMessageType;
+    MessageType? FilterMainMessageType;
+    int? FilterMainMessageTemplateID;
     string? FilterMainSubject;
     string? FilterMainMessage;
     bool? FilterMainMessageIsHTML;
@@ -809,6 +1084,10 @@ else {
         {
             FiltersMain.Add($"Type: '{FilterMainMessageType}'");
         }
+        if (FilterMainMessageTemplateID != null)
+        {
+            FiltersMain.Add($"Template: '{FilterMainMessageTemplateID}'");
+        }
         if (FilterMainSubject != null)
         {
             FiltersMain.Add($"Subject: '{FilterMainSubject}'");
@@ -892,6 +1171,7 @@ else {
         FilterMainMessageID = null;
         FilterMainMessageGUID = null;
         FilterMainMessageType = null;
+        FilterMainMessageTemplateID = null;
         FilterMainSubject = null;
         FilterMainMessage = null;
         FilterMainMessageIsHTML = null;
@@ -1035,6 +1315,8 @@ else {
         else
         {
             selectedRecord = new MessageModel();
+            MessageTemplateModel blankMessageTemplateModel = new MessageTemplateModel();
+            selectedRecord.MessageTemplate = blankMessageTemplateModel;
         }
 
         //Keep a copy of this object to be used for edit form so original object can remain untouched until save operation (otherwise it changes on screen)
@@ -1097,7 +1379,7 @@ else {
     protected void ChangeMainRecord(object? sender, FieldChangedEventArgs? e)
     {
         string? fieldName = e?.FieldIdentifier.FieldName;
-        string? fieldValue = e?.FieldIdentifier.Model.GetType().GetProperty(fieldName ?? "")?.GetValue(selectedRecordCopy)?.ToString();
+        string? fieldValue = e?.FieldIdentifier.Model.GetType().GetProperty(fieldName ?? "")?.GetValue(e?.FieldIdentifier.Model)?.ToString();
 
         fieldValue = StringFunctions.FormatFieldChangedValue(fieldValue);
 

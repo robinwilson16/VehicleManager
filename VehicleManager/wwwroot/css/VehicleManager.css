@@ -159,6 +159,11 @@ ul.nav-tabs > .nav-item > button.nav-link {
     font-size: 0.8em;
 }
 
+/*Ensure empty cells are clickable*/
+.quickgrid td .col-justify-start div {
+    min-height: 1.8em;
+}
+
 /*td:has(div[class='bg-info']) {
     background-color: #198754 !important;
 }*/

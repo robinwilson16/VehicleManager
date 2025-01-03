@@ -1,0 +1,41 @@
+﻿@page "/Cars"
+@using VehicleManager.Models
+
+@inject HttpClient Http
+@inject IConfiguration configuration
+
+<h3>Cars</h3>
+
+@{
+    IList<string> ExcludeMainFields = new List<string> { "Message", "MessageIsHTML", "CC", "BCC" };
+}
+<Grid Items="@FilteredMainRecords" ExcludeFields="@ExcludeMainFields" />
+
+@code {
+    private List<MessageModel>? mainRecords { get; set; }
+
+    private IQueryable<MessageModel>? FilteredMainRecords =>
+            (mainRecords)?.AsQueryable();
+
+    private string? messageEndPoint;
+    private string? messageTemplateEndPoint;
+
+    private Modal? modalMessage { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        bool? isError = false;
+        messageEndPoint = $"{configuration["APIEndpoint"]}/Message";
+
+        try
+        {
+            mainRecords = await Http.GetFromJsonAsync<List<MessageModel>>(messageEndPoint);
+        }
+        catch (HttpRequestException ex)
+        {
+            isError = true;
+
+        }
+    }
+}

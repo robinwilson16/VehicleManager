@@ -129,11 +129,11 @@ else {
                     <div class="table-responsive">
                         <QuickGrid Items="@FilteredMainRecords" Virtualize="true" Class="table table-striped table-hover table-bordered" TGridItem="MessageTemplateModel">
 
-                            <TemplateColumn Title="" Sortable="true" SortBy="GridSort<MessageTemplateModel>.ByDescending(x => x.MessageTemplateID)">
+                            <TemplateColumn Title="" Sortable="true" SortBy="GridSort<MessageTemplateModel>.ByAscending(x => x.MessageTemplateID)">
                                 <button type="button" class="btn btn-primary btn-sm" @onclick="()=>EditMainRecord(context.MessageTemplateID)"><i class="fa-solid fa-up-right-from-square"></i></button>
                             </TemplateColumn>
 
-                            <TemplateColumn Title="ID" Sortable="true" SortBy="GridSort<MessageTemplateModel>.ByDescending(x => x.MessageTemplateID)">
+                            <TemplateColumn Title="ID" Sortable="true" SortBy="GridSort<MessageTemplateModel>.ByAscending(x => x.MessageTemplateID)">
                                 <ChildContent>
                                     <div @onclick="()=>SelectMainRecord(context?.MessageTemplateID)" class="@TableCSS(context)">
                                         <div class="col-justify-start">@context.MessageTemplateID</div>
@@ -146,7 +146,7 @@ else {
                                 </ColumnOptions>
                             </TemplateColumn>
 
-                            <TemplateColumn Title="Code" Sortable="true" SortBy="GridSort<MessageTemplateModel>.ByDescending(x => x.Code)">
+                            <TemplateColumn Title="Code" Sortable="true" SortBy="GridSort<MessageTemplateModel>.ByAscending(x => x.Code)">
                                 <ChildContent>
                                     <div @onclick="()=>SelectMainRecord(context?.MessageTemplateID)" class="@TableCSS(context)">
                                         <div class="col-justify-start">@context.Code</div>
@@ -159,7 +159,7 @@ else {
                                 </ColumnOptions>
                             </TemplateColumn>
 
-                            <TemplateColumn Title="Name" Sortable="true" SortBy="GridSort<MessageTemplateModel>.ByDescending(x => x.Name)">
+                            <TemplateColumn Title="Name" Sortable="true" SortBy="GridSort<MessageTemplateModel>.ByAscending(x => x.Name)">
                                 <ChildContent>
                                     <div @onclick="()=>SelectMainRecord(context?.MessageTemplateID)" class="@TableCSS(context)">
                                         <div class="col-justify-start">@context.Name</div>
@@ -172,7 +172,7 @@ else {
                                 </ColumnOptions>
                             </TemplateColumn>
 
-                            <TemplateColumn Title="Sequence" Sortable="true" SortBy="GridSort<MessageTemplateModel>.ByDescending(x => x.Sequence)">
+                            <TemplateColumn Title="Sequence" Sortable="true" SortBy="GridSort<MessageTemplateModel>.ByAscending(x => x.Sequence)">
                                 <ChildContent>
                                     <div @onclick="()=>SelectMainRecord(context?.MessageTemplateID)" class="@TableCSS(context)">
                                         <div class="col-justify-start text-center">@context.Sequence</div>
@@ -185,7 +185,7 @@ else {
                                 </ColumnOptions>
                             </TemplateColumn>
 
-                            <TemplateColumn Title="Is Enabled" Sortable="true" SortBy="GridSort<MessageTemplateModel>.ByDescending(x => x.IsEnabled)">
+                            <TemplateColumn Title="Is Enabled" Sortable="true" SortBy="GridSort<MessageTemplateModel>.ByAscending(x => x.IsEnabled)">
                                 <ChildContent>
                                     <div @onclick="()=>SelectMainRecord(context?.MessageTemplateID)" class="@TableCSS(context)">
                                         <div class="col-justify-start text-center">
@@ -200,7 +200,7 @@ else {
                                 </ColumnOptions>
                             </TemplateColumn>
 
-                            <TemplateColumn Title="Created By" Sortable="true" SortBy="GridSort<MessageTemplateModel>.ByDescending(x => x.CreatedBy)">
+                            <TemplateColumn Title="Created By" Sortable="true" SortBy="GridSort<MessageTemplateModel>.ByAscending(x => x.CreatedBy)">
                                 <ChildContent>
                                     <div @onclick="()=>SelectMainRecord(context?.MessageTemplateID)" class="@TableCSS(context)">
                                         <div class="col-justify-start">@context.CreatedBy</div>
@@ -213,7 +213,7 @@ else {
                                 </ColumnOptions>
                             </TemplateColumn>
 
-                            <TemplateColumn Title="Created Date" Sortable="true" SortBy="GridSort<MessageTemplateModel>.ByDescending(x => x.CreatedDate)">
+                            <TemplateColumn Title="Created Date" Sortable="true" SortBy="GridSort<MessageTemplateModel>.ByAscending(x => x.CreatedDate)">
                                 <ChildContent>
                                     <div @onclick="()=>SelectMainRecord(context?.MessageTemplateID)" class="@TableCSS(context)">
                                         <div class="col-justify-start">@(context?.CreatedDate == null? "" : context?.CreatedDate.Value.ToString("dd/MM/yyyy"))</div>
@@ -226,7 +226,7 @@ else {
                                 </ColumnOptions>
                             </TemplateColumn>
 
-                            <TemplateColumn Title="Last Updated By" Sortable="true" SortBy="GridSort<MessageTemplateModel>.ByDescending(x => x.LastUpdatedBy)">
+                            <TemplateColumn Title="Last Updated By" Sortable="true" SortBy="GridSort<MessageTemplateModel>.ByAscending(x => x.LastUpdatedBy)">
                                 <ChildContent>
                                     <div @onclick="()=>SelectMainRecord(context?.MessageTemplateID)" class="@TableCSS(context)">
                                         <div class="col-justify-start">@context.LastUpdatedBy</div>
@@ -239,7 +239,7 @@ else {
                                 </ColumnOptions>
                             </TemplateColumn>
 
-                            <TemplateColumn Title="Last Updated Date" Sortable="true" SortBy="GridSort<MessageTemplateModel>.ByDescending(x => x.LastUpdatedDate)">
+                            <TemplateColumn Title="Last Updated Date" Sortable="true" SortBy="GridSort<MessageTemplateModel>.ByAscending(x => x.LastUpdatedDate)">
                                 <ChildContent>
                                     <div @onclick="()=>SelectMainRecord(context?.MessageTemplateID)" class="@TableCSS(context)">
                                         <div class="col-justify-start">@(context?.CreatedDate == null ? "" : context?.CreatedDate.Value.ToString("dd/MM/yyyy"))</div>
@@ -725,7 +725,7 @@ else {
     protected void ChangeMainRecord(object? sender, FieldChangedEventArgs? e)
     {
         string? fieldName = e?.FieldIdentifier.FieldName;
-        string? fieldValue = e?.FieldIdentifier.Model.GetType().GetProperty(fieldName ?? "")?.GetValue(selectedRecordCopy)?.ToString();
+        string? fieldValue = e?.FieldIdentifier.Model.GetType().GetProperty(fieldName ?? "")?.GetValue(e?.FieldIdentifier.Model)?.ToString();
 
         fieldValue = StringFunctions.FormatFieldChangedValue(fieldValue);
 
