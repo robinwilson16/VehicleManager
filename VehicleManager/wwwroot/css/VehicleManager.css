@@ -112,6 +112,10 @@ ul.nav-tabs > .nav-item > button.nav-link {
     background-color: #e8f5ed;
 }
 
+.table-responsive {
+    min-height: 200px;
+}
+
 .WhiteBackground {
     background-color: #FFFFFF;
 }
@@ -181,6 +185,10 @@ tr:has(td):has(div[class='DisabledRow']) td {
 
 tr:has(td):has(div[class='ErrorRow']) td {
     color: #b71c1c;
+}
+
+.TableContainer .search-box {
+    min-width: 200px;
 }
 
 .TableContainer .col-sort-asc .sort-indicator {

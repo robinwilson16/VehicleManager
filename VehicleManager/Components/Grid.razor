@@ -8,27 +8,24 @@
     <div class="col-md TableArea pt-3 rounded">
         <div class="alert alert-primary" role="alert">
             
-            @if (FilterFields != null)
+            @if (FilterFields != null && FilterFields.Count > 0)
             {
-                if (FilterFields.Count > 0)
+                <button type="button" class="btn btn-primary btn-sm" @onclick="@RemoveFilters">Clear All Filters <i class="fa-solid fa-filter-circle-xmark"></i></button>
+                <button type="button" class="btn btn-secondary btn-sm me-3" @onclick="@RemoveLastFilter">Clear Last Filter <i class="fa-solid fa-filter-circle-xmark"></i></button>
+
+                int filterNumber = 0;
+                foreach (var filter in FilterFields)
                 {
-                    <button type="button" class="btn btn-primary btn-sm" @onclick="@RemoveFilters">Clear All Filters <i class="fa-solid fa-filter-circle-xmark"></i></button>
-                    <button type="button" class="btn btn-secondary btn-sm me-3" @onclick="@RemoveLastFilter">Clear Last Filter <i class="fa-solid fa-filter-circle-xmark"></i></button>
+                    string filterName = filter.Key;
+                    string filterValue = filter.Value?.ToString() ?? "blank";
 
-                    int filterNumber = 0;
-                    foreach (var filter in FilterFields)
+                    filterNumber += 1;
+
+                    if (filterNumber > 1)
                     {
-                        string filterName = filter.Key;
-                        string filterValue = filter.Value?.ToString() ?? "blank";
-
-                        filterNumber += 1;
-
-                        if (filterNumber > 1)
-                        {
-                            <span class="ps-1 pe-1">, </span>
-                        }
-                        <kbd><i class="fa-solid fa-filter"></i> @filterName.GetFieldNameWithSpaces(true) = @filterValue <button type="button" class="btn btn-primary" @onclick="() => RemoveFilter(filterName)" style="--bs-btn-padding-y: .1rem; --bs-btn-padding-x: .2rem; --bs-btn-font-size: .6rem;"><i class="fa-solid fa-filter-circle-xmark"></i></button></kbd>
+                        <span class="ps-1 pe-1">, </span>
                     }
+                    <kbd><i class="fa-solid fa-filter"></i> @filterName.GetFieldNameWithSpaces(true) = @filterValue <button type="button" class="btn btn-primary" @onclick="() => RemoveFilter(filterName)" style="--bs-btn-padding-y: .1rem; --bs-btn-padding-x: .2rem; --bs-btn-font-size: .6rem;"><i class="fa-solid fa-filter-circle-xmark"></i></button></kbd>
                 }
             }
             else {
@@ -68,10 +65,13 @@
                                     <ColumnOptions>
                                         <div class="search-box">
                                             @prop.Name.GetFieldNameWithSpaces(true):
-                                            <input type="number" class="form-control" placeholder="Enter Number..." autofocus
-                                                   @bind-value:get="GetFilter(prop.Name)"
-                                                   @bind-value:set="(e) => ChangeFilter(prop.Name, e)"
-                                                   @oninput="(e) => ChangeFilter(prop.Name, e.Value)" />
+                                            <div class="input-group mb-3">
+                                                <span class="input-group-text"><i class="fa-solid fa-hashtag"></i></span>
+                                                <input type="number" class="form-control" placeholder="Enter Number..." autofocus
+                                                       @bind-value:get="GetFilter(prop.Name)"
+                                                       @bind-value:set="(e) => ChangeFilter(prop.Name, e)"
+                                                       @oninput="(e) => ChangeFilter(prop.Name, e.Value)" />
+                                            </div>
                                         </div>
                                     </ColumnOptions>
                                 </TemplateColumn>
@@ -93,10 +93,13 @@
                                     <ColumnOptions>
                                         <div class="search-box">
                                             @prop.Name.GetFieldNameWithSpaces(true):
-                                            <input type="number" class="form-control" placeholder="Enter Number..." autofocus
-                                                   @bind-value:get="GetFilter(prop.Name)"
-                                                   @bind-value:set="(e) => ChangeFilter(prop.Name, e)"
-                                                   @oninput="(e) => ChangeFilter(prop.Name, e.Value)" />
+                                            <div class="input-group mb-3">
+                                                <span class="input-group-text"><i class="fa-solid fa-hashtag"></i></span>
+                                                <input type="number" class="form-control" placeholder="Enter Number..." autofocus
+                                                       @bind-value:get="GetFilter(prop.Name)"
+                                                       @bind-value:set="(e) => ChangeFilter(prop.Name, e)"
+                                                       @oninput="(e) => ChangeFilter(prop.Name, e.Value)" />
+                                            </div>
                                         </div>
                                     </ColumnOptions>
                                 </TemplateColumn>
@@ -125,10 +128,13 @@
                                     <ColumnOptions>
                                         <div class="search-box">
                                             @prop.Name.GetFieldNameWithSpaces(true):
-                                            <input type="number" class="form-control" placeholder="Enter Number..." autofocus
-                                                   @bind-value:get="GetFilter(prop.Name)"
-                                                   @bind-value:set="(e) => ChangeFilter(prop.Name, e)"
-                                                   @oninput="(e) => ChangeFilter(prop.Name, e.Value)" />
+                                            <div class="input-group mb-3">
+                                                <span class="input-group-text"><i class="fa-solid fa-hashtag"></i></span>
+                                                <input type="number" class="form-control" placeholder="Enter Number..." autofocus
+                                                       @bind-value:get="GetFilter(prop.Name)"
+                                                       @bind-value:set="(e) => ChangeFilter(prop.Name, e)"
+                                                       @oninput="(e) => ChangeFilter(prop.Name, e.Value)" />
+                                            </div>
                                         </div>
                                     </ColumnOptions>
                                 </TemplateColumn>
@@ -150,10 +156,13 @@
                                     <ColumnOptions>
                                         <div class="search-box">
                                             @prop.Name.GetFieldNameWithSpaces(true):
-                                            <input type="number" class="form-control" placeholder="Enter Number..." autofocus
-                                                   @bind-value:get="GetFilter(prop.Name)"
-                                                   @bind-value:set="(e) => ChangeFilter(prop.Name, e)"
-                                                   @oninput="(e) => ChangeFilter(prop.Name, e.Value)" />
+                                            <div class="input-group mb-3">
+                                                <span class="input-group-text"><i class="fa-solid fa-hashtag"></i></span>
+                                                <input type="number" class="form-control" placeholder="Enter Number..." autofocus
+                                                       @bind-value:get="GetFilter(prop.Name)"
+                                                       @bind-value:set="(e) => ChangeFilter(prop.Name, e)"
+                                                       @oninput="(e) => ChangeFilter(prop.Name, e.Value)" />
+                                            </div>
                                         </div>
                                     </ColumnOptions>
                                 </TemplateColumn>
@@ -203,10 +212,13 @@
                                     <ColumnOptions>
                                         <div class="search-box">
                                             @prop.Name.GetFieldNameWithSpaces(true):
-                                            <input type="date" class="form-control" placeholder="Enter Date..." autofocus
-                                                   @bind-value:get="GetFilterDate(prop.Name)"
-                                                   @bind-value:set="(e) => ChangeFilter(prop.Name, e)"
-                                                   @oninput="(e) => ChangeFilter(prop.Name, e.Value)" />
+                                            <div class="input-group mb-3">
+                                                <span class="input-group-text"><i class="fa-solid fa-calendar-day"></i></span>
+                                                <input type="date" class="form-control" placeholder="Enter Date..." autofocus
+                                                       @bind-value:get="GetFilterDate(prop.Name)"
+                                                       @bind-value:set="(e) => ChangeFilter(prop.Name, e)"
+                                                       @oninput="(e) => ChangeFilter(prop.Name, e.Value)" />
+                                            </div>
                                         </div>
                                     </ColumnOptions>
                                 </TemplateColumn>
@@ -228,10 +240,13 @@
                                     <ColumnOptions>
                                         <div class="search-box">
                                             @prop.Name.GetFieldNameWithSpaces(true):
-                                            <input type="text" class="form-control" placeholder="Enter Ref..." autofocus
-                                                   @bind-value:get="GetFilter(prop.Name)"
-                                                   @bind-value:set="(e) => ChangeFilter(prop.Name, e)"
-                                                   @oninput="(e) => ChangeFilter(prop.Name, e.Value)" />
+                                            <div class="input-group mb-3">
+                                                <span class="input-group-text"><i class="fa-solid fa-code"></i></span>
+                                                <input type="text" class="form-control" placeholder="Enter Ref..." autofocus
+                                                       @bind-value:get="GetFilter(prop.Name)"
+                                                       @bind-value:set="(e) => ChangeFilter(prop.Name, e)"
+                                                       @oninput="(e) => ChangeFilter(prop.Name, e.Value)" />
+                                            </div>
                                         </div>
                                     </ColumnOptions>
                                 </TemplateColumn>
@@ -253,27 +268,30 @@
                                     <ColumnOptions>
                                         <div class="search-box">
                                             @prop.Name.GetFieldNameWithSpaces(true):
-                                            <select class="form-select" autofocus
-                                                    value="@GetFilter(prop.Name)"
-                                                    @onchange="(e) => ChangeFilter(prop.Name, e.Value)">
-                                                <option value="">-- Please Select --</option>
-                                                @{
-                                                    var subType = Nullable.GetUnderlyingType(prop.PropertyType);
+                                            <div class="input-group mb-3">
+                                                <span class="input-group-text"><i class="fa-solid fa-magnifying-glass-arrow-right"></i></span>
+                                                <select class="form-select" autofocus
+                                                        value="@GetFilter(prop.Name)"
+                                                        @onchange="(e) => ChangeFilter(prop.Name, e.Value)">
+                                                    <option value="">-- Please Select --</option>
+                                                    @{
+                                                        var subType = Nullable.GetUnderlyingType(prop.PropertyType);
 
-                                                    if (subType != null && subType.IsEnum)
-                                                    {
-                                                        var enums = Enum.GetValues(subType);
-
-                                                        if (enums != null)
+                                                        if (subType != null && subType.IsEnum)
                                                         {
-                                                            foreach (Enum enumItem in enums)
+                                                            var enums = Enum.GetValues(subType);
+
+                                                            if (enums != null)
                                                             {
-                                                                <option value="@enumItem">@enumItem.GetEnumDisplayName()</option>
+                                                                foreach (Enum enumItem in enums)
+                                                                {
+                                                                    <option value="@enumItem">@enumItem.GetEnumDisplayName()</option>
+                                                                }
                                                             }
                                                         }
                                                     }
-                                                }
-                                            </select>
+                                                </select>
+                                            </div>
                                         </div>
                                     </ColumnOptions>
                                 </TemplateColumn>
@@ -297,23 +315,25 @@
                                     </ChildContent>
                                     <ColumnOptions>
                                         <div class="search-box">
-                                            @ModelFunctions.GetBaseType(prop).GetProperties().FirstOrDefault()?.Name
                                             @prop.Name.GetFieldNameWithSpaces(true):
-                                            <select class="form-select" autofocus
-                                                    value="@GetFilter(prop.Name + '.' + ModelFunctions.GetBaseType(prop).GetProperties().FirstOrDefault()?.Name)"
-                                                    @onchange="(e) => ChangeFilter(prop.Name + '.' + ModelFunctions.GetBaseType(prop).GetProperties().FirstOrDefault()?.Name, e.Value)">
-                                                <option value="">-- Please Select --</option>
-                                                @{
-                                                    var options = DropDownValues?.Where(x => x?.GetType() == prop.PropertyType);
-                                                }
-                                                @if (options != null)
-                                                {
-                                                    foreach (var option in options)
-                                                    {
-                                                        <option value="@option?.GetType().GetProperties().FirstOrDefault()?.GetValue(option)">@option?.GetType().GetProperty("Name")?.GetValue(option)</option>
+                                            <div class="input-group mb-3">
+                                                <span class="input-group-text"><i class="fa-solid fa-magnifying-glass-arrow-right"></i></span>
+                                                <select class="form-select" autofocus
+                                                        value="@GetFilter(prop.Name + '.' + ModelFunctions.GetBaseType(prop).GetProperties().FirstOrDefault()?.Name)"
+                                                        @onchange="(e) => ChangeFilter(prop.Name + '.' + ModelFunctions.GetBaseType(prop).GetProperties().FirstOrDefault()?.Name, e.Value)">
+                                                    <option value="">-- Please Select --</option>
+                                                    @{
+                                                        var options = DropDownValues?.Where(x => x?.GetType() == prop.PropertyType);
                                                     }
-                                                }
-                                            </select>
+                                                    @if (options != null)
+                                                    {
+                                                        foreach (var option in options)
+                                                        {
+                                                            <option value="@option?.GetType().GetProperties().FirstOrDefault()?.GetValue(option)">@option?.GetType().GetProperty("Name")?.GetValue(option)</option>
+                                                        }
+                                                    }
+                                                </select>
+                                            </div>
                                         </div>
                                     </ColumnOptions>
                                 </TemplateColumn>
@@ -334,10 +354,13 @@
                                     <ColumnOptions>
                                         <div class="search-box">
                                             @prop.Name.GetFieldNameWithSpaces(true):
-                                            <input type="text" class="form-control" placeholder="Enter Text..." autofocus
-                                                   @bind-value:get="GetFilter(prop.Name)"
-                                                   @bind-value:set="(e) => ChangeFilter(prop.Name, e)"
-                                                   @oninput="(e) => ChangeFilter(prop.Name, e.Value)" />
+                                            <div class="input-group mb-3">
+                                                <span class="input-group-text"><i class="fa-solid fa-magnifying-glass"></i></span>
+                                                <input type="text" class="form-control" placeholder="Enter Text..." autofocus
+                                                       @bind-value:get="GetFilter(prop.Name)"
+                                                       @bind-value:set="(e) => ChangeFilter(prop.Name, e)"
+                                                       @oninput="(e) => ChangeFilter(prop.Name, e.Value)" />
+                                            </div>
                                         </div>
                                     </ColumnOptions>
                                 </TemplateColumn>

@@ -18,7 +18,7 @@ using System.Reflection;
     " to customers for them to accept or reject these offers to sell their vehicles i" +
     "f happy with the price")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.7")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+25a30b9fc0351b4c44d3cfde81fcad1ddbfc1cbe")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7b2a1b84a0d6e057c13d1111e5ef34e385f68d08")]
 [assembly: System.Reflection.AssemblyProductAttribute("VehicleManager")]
 [assembly: System.Reflection.AssemblyTitleAttribute("VehicleManager")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.7")]

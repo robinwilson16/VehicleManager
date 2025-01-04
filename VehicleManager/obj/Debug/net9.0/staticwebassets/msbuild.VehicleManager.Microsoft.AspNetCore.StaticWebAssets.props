@@ -12,8 +12,8 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName>WasmResource</AssetTraitName>
       <AssetTraitValue>settings</AssetTraitValue>
-      <Fingerprint>tr1jb8mf8r</Fingerprint>
-      <Integrity>ubphhMavlENKy34Z0Omv1Te9hk7wzi7xyM7SEr2dp0I=</Integrity>
+      <Fingerprint>6xv35jvky2</Fingerprint>
+      <Integrity>pvq4i9QDSdSXCg34+3u6Jzxv/9jGz2qCYPSuxD3/iGc=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\appsettings.json'))</OriginalItemSpec>
@@ -30,8 +30,8 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName>WasmResource</AssetTraitName>
       <AssetTraitValue>settings</AssetTraitValue>
-      <Fingerprint>fsoa0vp8m5</Fingerprint>
-      <Integrity>AfiZLoOz7dnH0kFPSlBfkNdTu/6IfE1H7SNfZ+S44ks=</Integrity>
+      <Fingerprint>6ss9v9sex1</Fingerprint>
+      <Integrity>CoOsruQWYYS4K1T/WXe4RL4tXuaKFWZDTGXkTpPF2HE=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\appsettings.Development.json'))</OriginalItemSpec>
@@ -84,8 +84,8 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>5uyjou5hgy</Fingerprint>
-      <Integrity>HReqkcvL34JMTdYNN0QdcmcO9ob9sV/zp7xi5Go6dpQ=</Integrity>
+      <Fingerprint>26aycbdtk3</Fingerprint>
+      <Integrity>+g9yjnvt9EZw2cUt1m4mvKFKDLtbBRVLzFmQtvPsmXI=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\css\VehicleManager.css'))</OriginalItemSpec>
