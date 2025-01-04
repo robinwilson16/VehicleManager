@@ -45,6 +45,8 @@ namespace VehicleManager.Models
 
         [DisplayName("Sent?")]
         public bool? IsSent { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime? SentDate { get; set; }
 
         [DisplayName("Status")]

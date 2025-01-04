@@ -4,6 +4,7 @@
 @using VehicleManager.Models
 @using VehicleManager.Services
 @using VehicleManager.Shared
+@using VehicleManager.Components
 @using System.Net
 @using Microsoft.AspNetCore.Components.QuickGrid
 @using TinyMCE.Blazor
@@ -14,7 +15,7 @@
 @inject HttpClient Http
 @inject IConfiguration configuration
 @inject NavigationManager NavManager
-@inject ILogger<MessageTemplateModel> Logger
+@inject ILogger<MessageModel> Logger
 @inject AppData appData
 
 <PageTitle>Messages @@ Broken Motor</PageTitle>
@@ -27,9 +28,7 @@
     </WindowControls>
     <Title><i class="fa-solid fa-circle-info"></i> @msgInfoTitle</Title>
     <Body>
-        <p>
-            @msgInfo
-        </p>
+        @msgInfo
     </Body>
     <Footer>
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @onclick="() => modalInfo!.Close()">Close</button>
@@ -109,376 +108,30 @@ else if (mainRecords == null)
 }
 else {
     <div class="container-fluid">
-        <div class="row">
-            <div class="col-md TableArea pt-3 rounded">
-                <div class="alert alert-primary" role="alert">
-                    @if (filterMainValues.Count > 0)
-                    {
-                        <button type="button" class="btn btn-primary btn-sm" @onclick="@RemoveFilters">Clear All Filters <i class="fa-solid fa-filter-circle-xmark"></i></button>
-                        <button type="button" class="btn btn-secondary btn-sm me-3" @onclick="@RemoveLastFilter">Clear Last Filter <i class="fa-solid fa-filter-circle-xmark"></i></button>
-
-                        int filterNumber = 0;
-                        @foreach (var filter in filterMainValues)
-                        {
-                            string filterName = filter.Key;
-                            string filterValue = filter.Value?.ToString() ?? string.Empty;
-
-                            filterNumber += 1;
-
-                            @if (filterNumber > 1) {
-                                <span class="ps-1 pe-1">, </span>
-                            }
-                            <kbd><i class="fa-solid fa-filter"></i> @filterName.GetFieldNameWithSpaces(true) = @filterValue <button type="button" class="btn btn-primary" @onclick="() => RemoveFilter(filterName)" style="--bs-btn-padding-y: .1rem; --bs-btn-padding-x: .2rem; --bs-btn-font-size: .6rem;"><i class="fa-solid fa-filter-circle-xmark"></i></button></kbd>
-                        }
-                    }
-                </div>
-                <div class="TableContainer">
-                    <div class="table-responsive">
-                        <QuickGrid Items="@FilteredMainRecords" Virtualize="true" Class="table table-striped table-hover table-bordered" TGridItem="MessageModel">
-
-                            <TemplateColumn Title="" Sortable="true" SortBy="GridSort<MessageModel>.ByAscending(x => x.MessageID)">
-                                <button type="button" class="btn btn-primary btn-sm" @onclick="()=>EditMainRecord(context.MessageID)"><i class="fa-solid fa-up-right-from-square"></i></button>
-                            </TemplateColumn>
-
-                            <TemplateColumn Title="ID" Sortable="true" SortBy="GridSort<MessageModel>.ByAscending(x => x.MessageID)">
-                                <ChildContent>
-                                    <div @onclick="()=>SelectMainRecord(context?.MessageID)" class="@TableCSS(context)">
-                                        <div class="col-justify-start">@context.MessageID</div>
-                                    </div>
-                                </ChildContent>
-                                <ColumnOptions>
-                                    <div class="search-box">
-                                        <input type="number" class="form-control" placeholder="Enter Number..." autofocus
-                                        @bind-value:get="GetFilter(nameof(MessageModel.MessageID))"
-                                        @bind-value:set="(e) => ChangeFilterMain(nameof(MessageModel.MessageID), e)"
-                                        @oninput="(e) => ChangeFilterMain(nameof(MessageModel.MessageID), e.Value)" />
-                                    </div>
-                                </ColumnOptions>
-                            </TemplateColumn>
-
-                            <TemplateColumn Title="Type" Sortable="true" SortBy="GridSort<MessageModel>.ByAscending(x => (x.MessageTypeID.GetEnumDisplayName()))">
-                                <ChildContent>
-                                    <div @onclick="()=>SelectMainRecord(context?.MessageID)" class="@TableCSS(context)">
-                                        <div class="col-justify-start">@context?.MessageTypeID?.GetEnumDisplayName()</div>
-                                    </div>
-                                </ChildContent>
-                                <ColumnOptions>
-                                    <div class="search-box">
-                                        @{
-                                            IList<MessageType> MessageTypes = Enum.GetValues(typeof(MessageType)).Cast<MessageType>().ToList();
-                                        }
-                                        <select class="form-select" autofocus 
-                                        value="@GetFilter(nameof(MessageModel.MessageTypeID))"
-                                        @onchange="(e) => ChangeFilterMain(nameof(MessageModel.MessageTypeID), e.Value)">
-                                            <option value="">-- Please Select --</option>
-                                            @if (MessageTypes != null)
-                                            {
-                                                foreach (var type in MessageTypes)
-                                                {
-                                                    <option value="@type">@type.GetEnumDisplayName()</option>
-                                                }
-                                            }
-                                        </select>
-                                    </div>
-                                </ColumnOptions>
-                            </TemplateColumn>
-
-                            <TemplateColumn Title="Template" Sortable="true" SortBy="GridSort<MessageModel>.ByAscending(x => (x.MessageTemplate != null ? x.MessageTemplate.Name : string.Empty))">
-                                <ChildContent>
-                                    <div @onclick="()=>SelectMainRecord(context?.MessageID)" class="@TableCSS(context)">
-                                        <div class="col-justify-start">@context.MessageTemplate?.Name</div>
-                                    </div>
-                                </ChildContent>
-                                <ColumnOptions>
-                                    <div class="search-box">
-                                        <select class="form-select" autofocus 
-                                        value="@GetFilter(nameof(MessageModel.MessageTemplate) + '.' + nameof(MessageTemplateModel.MessageTemplateID))"
-                                        @onchange="(e) => ChangeFilterMain(nameof(MessageModel.MessageTemplate) + '.' + nameof(MessageTemplateModel.MessageTemplateID), e.Value)">
-                                            <option value="">-- Please Select --</option>
-                                            @if (messageTemplates != null)
-                                            {
-                                                foreach (var template in messageTemplates)
-                                                {
-                                                    <option value="@template.MessageTemplateID">@template.Name</option>
-                                                }
-                                            }
-                                        </select>
-                                    </div>
-                                </ColumnOptions>
-                            </TemplateColumn>
-
-                            <TemplateColumn Title="Subject" Sortable="true" SortBy="GridSort<MessageModel>.ByAscending(x => x.Subject)">
-                                <ChildContent>
-                                    <div @onclick="()=>SelectMainRecord(context?.MessageID)" class="@TableCSS(context)">
-                                        <div class="col-justify-start">@context.Subject</div>
-                                    </div>
-                                </ChildContent>
-                                <ColumnOptions>
-                                    <div class="search-box">
-                                        <input type="text" class="form-control" placeholder="Enter Text..." autofocus
-                                        @bind-value:get="GetFilter(nameof(MessageModel.Subject))"
-                                        @bind-value:set="(e) => ChangeFilterMain(nameof(MessageModel.Subject), e)"
-                                        @oninput="(e) => ChangeFilterMain(nameof(MessageModel.Subject), e.Value)" />
-                                    </div>
-                                </ColumnOptions>
-                            </TemplateColumn>
-
-                            <TemplateColumn Title="Vehicle ID" Sortable="true" SortBy="GridSort<MessageModel>.ByAscending(x => x.VehicleID)">
-                                <ChildContent>
-                                    <div @onclick="()=>SelectMainRecord(context?.MessageID)" class="@TableCSS(context)">
-                                        <div class="col-justify-start">@context.VehicleID</div>
-                                    </div>
-                                </ChildContent>
-                                <ColumnOptions>
-                                    <div class="search-box">
-                                        <input type="number" class="form-control" autofocus @bind="FilterMainVehicleID" @bind:event="oninput" @onkeyup="FilterMainRefresh" @onchange="FilterMainRefresh" />
-                                    </div>
-                                </ColumnOptions>
-                            </TemplateColumn>
-
-                            <TemplateColumn Title="&pound; Offered" Sortable="true" SortBy="GridSort<MessageModel>.ByAscending(x => x.AmountOffered)">
-                                <ChildContent>
-                                    <div @onclick="()=>SelectMainRecord(context?.MessageID)" class="@TableCSS(context)">
-                                        <div class="col-justify-start text-center">
-                                            <h5 class="pt-1 pb-0 mb-0">
-                                                <span class="badge @(context!.IsAccepted == true? "text-bg-success" : "text-bg-danger")">
-                                                    @(context?.AmountOffered == null ? "" : context?.AmountOffered.Value.ToString("C0", new CultureInfo("en-GB")))
-                                                </span>
-                                            </h5>
-                                        </div>
-                                    </div>
-                                </ChildContent>
-                                <ColumnOptions>
-                                    <div class="search-box">
-                                        <input type="number" class="form-control" placeholder="Enter Number..." autofocus
-                                            @bind-value:get="GetFilter(nameof(MessageModel.AmountOffered))"
-                                            @bind-value:set="(e) => ChangeFilterMain(nameof(MessageModel.AmountOffered), e)"
-                                            @oninput="(e) => ChangeFilterMain(nameof(MessageModel.AmountOffered), e.Value)" />
-                                    </div>
-                                </ColumnOptions>
-                            </TemplateColumn>
-
-                            <TemplateColumn Title="Accepted?" Sortable="true" SortBy="GridSort<MessageModel>.ByAscending(x => x.IsAccepted)">
-                                <ChildContent>
-                                    <div @onclick="()=>SelectMainRecord(context?.MessageID)" class="@TableCSS(context)">
-                                        <div class="col-justify-start text-center">
-                                            <i class="@CSSFunctions.BoolCSS(context.IsAccepted)"></i>
-                                        </div>
-                                    </div>
-                                </ChildContent>
-                                <ColumnOptions>
-                                    <div class="search-box">
-                                        <button type="button" class="btn @(FilterMainIsAccepted == true? "btn-primary" : "btn-outline-primary")" 
-                                        value="@GetFilterBool(nameof(MessageModel.IsAccepted))"
-                                        @onclick="(e) => ChangeFilterMain(nameof(MessageModel.IsAccepted), true)">
-                                            <i class="@(GetFilterBool(nameof(MessageModel.IsAccepted)) == null? "fa-regular fa-square-minus" : GetFilterBool(nameof(MessageModel.IsAccepted)) == true? "fa-solid fa-square-check" : "fa-regular fa-square")"></i>
-                                        </button>
-                                    </div>
-                                </ColumnOptions>
-                            </TemplateColumn>
-
-                            <TemplateColumn Title="From" Sortable="true" SortBy="GridSort<MessageModel>.ByAscending(x => x.From)">
-                                <ChildContent>
-                                    <div @onclick="()=>SelectMainRecord(context?.MessageID)" class="@TableCSS(context)">
-                                        <div class="col-justify-start">@context.From</div>
-                                    </div>
-                                </ChildContent>
-                                <ColumnOptions>
-                                    <div class="search-box">
-                                        <input type="text" class="form-control" autofocus @bind="FilterMainFrom" @bind:event="oninput" @onkeyup="FilterMainRefresh" @onchange="FilterMainRefresh" />
-                                    </div>
-                                </ColumnOptions>
-                            </TemplateColumn>
-
-                            <TemplateColumn Title="From Name" Sortable="true" SortBy="GridSort<MessageModel>.ByAscending(x => x.FromName)">
-                                <ChildContent>
-                                    <div @onclick="()=>SelectMainRecord(context?.MessageID)" class="@TableCSS(context)">
-                                        <div class="col-justify-start">@context.FromName</div>
-                                    </div>
-                                </ChildContent>
-                                <ColumnOptions>
-                                    <div class="search-box">
-                                        <input type="text" class="form-control" autofocus @bind="FilterMainFromName" @bind:event="oninput" @onkeyup="FilterMainRefresh" @onchange="FilterMainRefresh" />
-                                    </div>
-                                </ColumnOptions>
-                            </TemplateColumn>
-
-                            <TemplateColumn Title="To" Sortable="true" SortBy="GridSort<MessageModel>.ByAscending(x => x.To)">
-                                <ChildContent>
-                                    <div @onclick="()=>SelectMainRecord(context?.MessageID)" class="@TableCSS(context)">
-                                        <div class="col-justify-start">@context.To</div>
-                                    </div>
-                                </ChildContent>
-                                <ColumnOptions>
-                                    <div class="search-box">
-                                        <input type="text" class="form-control" autofocus @bind="FilterMainTo" @bind:event="oninput" @onkeyup="FilterMainRefresh" @onchange="FilterMainRefresh" />
-                                    </div>
-                                </ColumnOptions>
-                            </TemplateColumn>
-
-                            <TemplateColumn Title="To Name" Sortable="true" SortBy="GridSort<MessageModel>.ByAscending(x => x.ToName)">
-                                <ChildContent>
-                                    <div @onclick="()=>SelectMainRecord(context?.MessageID)" class="@TableCSS(context)">
-                                        <div class="col-justify-start">@context.ToName</div>
-                                    </div>
-                                </ChildContent>
-                                <ColumnOptions>
-                                    <div class="search-box">
-                                        <input type="text" class="form-control" autofocus @bind="FilterMainToName" @bind:event="oninput" @onkeyup="FilterMainRefresh" @onchange="FilterMainRefresh" />
-                                    </div>
-                                </ColumnOptions>
-                            </TemplateColumn>
-
-                            <TemplateColumn Title="Sent?" Sortable="true" SortBy="GridSort<MessageModel>.ByAscending(x => x.IsSent)">
-                                <ChildContent>
-                                    <div @onclick="()=>SelectMainRecord(context?.MessageID)" class="@TableCSS(context)">
-                                        <div class="col-justify-start text-center">
-                                            <i class="@CSSFunctions.BoolCSS(context.IsSent)"></i>
-                                        </div>
-                                    </div>
-                                </ChildContent>
-                                <ColumnOptions>
-                                    <div class="search-box">
-                                        <button type="button" class="btn @(FilterMainIsSent == true? "btn-primary" : "btn-outline-primary")" @onclick="ToggleFilterMainIsSent"><i class="@(FilterMainIsSent == null? "fa-regular fa-square-minus" : FilterMainIsSent == true? "fa-solid fa-square-check" : "fa-regular fa-square")"></i></button>
-                                    </div>
-                                </ColumnOptions>
-                            </TemplateColumn>
-
-                            <TemplateColumn Title="Sent Date" Sortable="true" SortBy="GridSort<MessageModel>.ByAscending(x => x.SentDate)">
-                                <ChildContent>
-                                    <div @onclick="()=>SelectMainRecord(context?.MessageID)" class="@TableCSS(context)">
-                                        <div class="col-justify-start">@(context?.SentDate == null ? "" : context?.SentDate.Value.ToString("dd/MM/yyyy"))</div>
-                                    </div>
-                                </ChildContent>
-                                <ColumnOptions>
-                                    <div class="search-box">
-                                        <input type="date" class="form-control" placeholder="Enter Number..." autofocus
-                                        @bind-value:get="GetFilterDate(nameof(MessageModel.SentDate))"
-                                        @bind-value:set="(e) => ChangeFilterMain(nameof(MessageModel.SentDate), e)"
-                                        @oninput="(e) => ChangeFilterMain(nameof(MessageModel.SentDate), e.Value)" />
-                                    </div>
-                                </ColumnOptions>
-                            </TemplateColumn>
-
-                            <TemplateColumn Title="Status" Sortable="true" SortBy="GridSort<MessageModel>.ByAscending(x => x.MessageStatusID)">
-                                <ChildContent>
-                                    <div @onclick="()=>SelectMainRecord(context?.MessageID)" class="@TableCSS(context)">
-                                        <div class="col-justify-start">@context?.MessageStatusID?.GetEnumDisplayName()</div>
-                                    </div>
-                                </ChildContent>
-                                <ColumnOptions>
-                                    <div class="search-box">
-                                        <input type="text" class="form-control" autofocus @bind="FilterMainMessageStatus" @bind:event="oninput" @onkeyup="FilterMainRefresh" @onchange="FilterMainRefresh" />
-                                    </div>
-                                </ColumnOptions>
-                            </TemplateColumn>
-
-                            <TemplateColumn Title="Unique Customer Reference" Sortable="true" SortBy="GridSort<MessageModel>.ByAscending(x => x.MessageID)">
-                                <ChildContent>
-                                    <div @onclick="()=>SelectMainRecord(context?.MessageID)" class="@TableCSS(context)">
-                                        <div class="col-justify-start">@context.MessageGUID</div>
-                                    </div>
-                                </ChildContent>
-                                <ColumnOptions>
-                                    <div class="search-box">
-                                        <input type="text" class="form-control" autofocus @bind="FilterMainMessageGUID" @bind:event="oninput" @onkeyup="FilterMainRefresh" @onchange="FilterMainRefresh" />
-                                    </div>
-                                </ColumnOptions>
-                            </TemplateColumn>
-
-                            <TemplateColumn Title="Created By" Sortable="true" SortBy="GridSort<MessageModel>.ByAscending(x => x.CreatedBy)">
-                                <ChildContent>
-                                    <div @onclick="()=>SelectMainRecord(context?.MessageID)" class="@TableCSS(context)">
-                                        <div class="col-justify-start">@context.CreatedBy</div>
-                                    </div>
-                                </ChildContent>
-                                <ColumnOptions>
-                                    <div class="search-box">
-                                        <input type="search" class="form-control" autofocus @bind="FilterMainCreatedBy" @bind:event="oninput" placeholder="Created By..." @onkeyup="FilterMainRefresh" @onchange="FilterMainRefresh" />
-                                    </div>
-                                </ColumnOptions>
-                            </TemplateColumn>
-
-                            <TemplateColumn Title="Created Date" Sortable="true" SortBy="GridSort<MessageModel>.ByAscending(x => x.CreatedDate)">
-                                <ChildContent>
-                                    <div @onclick="()=>SelectMainRecord(context?.MessageID)" class="@TableCSS(context)">
-                                        <div class="col-justify-start">@(context?.CreatedDate == null ? "" : context?.CreatedDate.Value.ToString("dd/MM/yyyy"))</div>
-                                    </div>
-                                </ChildContent>
-                                <ColumnOptions>
-                                    <div class="search-box">
-                                        <input type="date" class="form-control" autofocus @bind="FilterMainCreatedDate" @bind:event="oninput" @onkeyup="FilterMainRefresh" @onchange="FilterMainRefresh" />
-                                    </div>
-                                </ColumnOptions>
-                            </TemplateColumn>
-
-                            <TemplateColumn Title="Last Updated By" Sortable="true" SortBy="GridSort<MessageModel>.ByAscending(x => x.LastUpdatedBy)">
-                                <ChildContent>
-                                    <div @onclick="()=>SelectMainRecord(context?.MessageID)" class="@TableCSS(context)">
-                                        <div class="col-justify-start">@context.LastUpdatedBy</div>
-                                    </div>
-                                </ChildContent>
-                                <ColumnOptions>
-                                    <div class="search-box">
-                                        <input type="search" class="form-control" autofocus @bind="FilterMainLastUpdatedBy" @bind:event="oninput" placeholder="Last Updated By..." @onkeyup="FilterMainRefresh" @onchange="FilterMainRefresh" />
-                                    </div>
-                                </ColumnOptions>
-                            </TemplateColumn>
-
-                            <TemplateColumn Title="Last Updated Date" Sortable="true" SortBy="GridSort<MessageModel>.ByAscending(x => x.LastUpdatedDate)">
-                                <ChildContent>
-                                    <div @onclick="()=>SelectMainRecord(context?.MessageID)" class="@TableCSS(context)">
-                                        <div class="col-justify-start">@(context?.CreatedDate == null ? "" : context?.CreatedDate.Value.ToString("dd/MM/yyyy"))</div>
-                                    </div>
-                                </ChildContent>
-                                <ColumnOptions>
-                                    <div class="search-box">
-                                        <input type="date" class="form-control" autofocus @bind="FilterMainLastUpdatedDate" @bind:event="oninput" @onkeyup="FilterMainRefresh" @onchange="FilterMainRefresh" />
-                                    </div>
-                                </ColumnOptions>
-                            </TemplateColumn>
-                        </QuickGrid>
-                    </div>
-                </div>
-                <div class="alert alert-secondary" role="alert">
-                    <div class="row">
-                        <div class="col-md">
-                            <div class="d-grid gap-2 d-md-block text-start">
-                                <button type="button" class="btn btn-primary me-md-3" @onclick="()=>EditMainRecord(null)"><i class="fa-solid fa-square-plus"></i> New...</button>
-                                <button type="button" class="btn btn-danger me-md-3" @onclick="DeleteMainRecordConfirm" disabled="@(selectedRecord?.MessageID == 0 ? true : false)"><i class="fa-solid fa-trash-can"></i> Delete...</button>
-                                @if (selectedRecord?.MessageID > 0) {
-                                    <span>1 Record Selected</span>
-                                }
-                            </div>
-                        </div>
-                        <div class="col-md text-end">
-
-                            @if (filterMainValues.Count > 0)
-                            {
-                                <div class="col-md text-end fw-bold text-primary">
-                                    @FilteredMainRecords?.Count() Records (Filtered)
-                                </div>
-                            }
-                            else {
-                                <div class="col-md text-end">
-                                    @FilteredMainRecords?.Count() Records
-                                </div>
-                            }
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         @{
             IList<string> ExcludeMainFields = new List<string> { "Message", "MessageIsHTML", "CC", "BCC" };
+            string? DisabledItemFieldName = null;
+            string? ErrorItemFieldName = "IsSent";
         }
-        <Grid Items="@FilteredMainRecords" ExcludeFields="@ExcludeMainFields" SelectedItemID="selectedRecord?.MessageID" OnSelectItem="SelectMainRecord" OnEditItem="EditMainRecord" />
+        <Grid Items="ItemsMain"
+        ExcludeFields="ExcludeMainFields"
+        FilterFields="FilterFieldsMain"
+        DisabledItemFieldName="@DisabledItemFieldName"
+        ErrorItemFieldName="@ErrorItemFieldName"
+        DropDownValues="DropDownValues"
+        SelectedItemID="selectedRecord?.MessageID" 
+        OnSelectItem="SelectMainRecord" 
+        OnEditItem="EditMainRecord" 
+        OnDeleteItem="DeleteMainRecordConfirm"
+        OnRemoveFilters="RemoveFiltersMain"
+        OnRemoveLastFilter="RemoveLastFilterMain"
+        OnRemoveFilter="RemoveFilterMain"
+        OnShowFilterHelp="ShowFilterHelpMain"
+        OnChangeFilter="ChangeFilterMainFromComponent"/>
 
     </div>
 
-    <Modal @ref="modalMessage">
+    <Modal @ref="modalMainRecord">
         <WindowControls>
             @if (selectedRecordChanges?.Count > 0)
             {
@@ -486,16 +139,16 @@ else {
             }
             else
             {
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @onclick="() => modalMessage!.Close()"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @onclick="() => modalMainRecord!.Close()"></button>
             }
         </WindowControls>
         <Title>
             @if (@selectedRecordCopy?.MessageID > 0)
             {
-                @:<i class="fa-solid fa-message"></i> Message @selectedRecordCopy?.MessageID
+                @:<i class="fa-solid fa-envelope-open"></i> Message @selectedRecordCopy?.MessageID
             }
             else {
-                @:<i class="fa-solid fa-message"></i> New Message
+                @:<i class="fa-solid fa-envelope-open"></i> New Message
             }
         </Title>
         <Body>
@@ -694,79 +347,19 @@ else {
 }
 
 @code {
-    public EditContext? EditContextMain { get; set; }
-    private FluentValidationValidator? _fluentValidationValidator;
-
-    public string? action { get; set; }
-    public string? soundEffect { get; set; }
-
-    private Modal? modalInfo { get; set; }
-    public string? msgInfoTitle = null;
-    public MarkupString? msgInfo = null;
-
-    private Modal? modalError { get; set; }
-    public string? msgErrorTitle = null;
-    public MarkupString? msgError = null;
-    public string? msgErrorStackTrace = null;
-
-    private Modal? modalConfirm { get; set; }
-    public string? msgConfirmTitle = null;
-    public MarkupString? msgConfirm = null;
-
-    public string? loadDataErrorMsg = null;
-
     [Parameter]
     public int? MessageID { get; set; }
 
-    private List<MessageModel>? mainRecords { get; set; }
+    public EditContext? EditContextMain { get; set; }
+    private FluentValidationValidator? _fluentValidationValidator;
 
-    [SupplyParameterFromForm]
-    public MessageModel? selectedRecord { get; set; } = new MessageModel();
-    private MessageModel? selectedRecordCopy { get; set; } = new MessageModel();
-    private IDictionary<string, string>? selectedRecordChanges = new Dictionary<string, string>();
-
-    //Related datasets
-    private List<MessageTemplateModel>? messageTemplates { get; set; }
-
-    private Dictionary<string, object?> filterMainValues = new Dictionary<string, object?>();
+    private string? messageEndPoint;
+    private string? messageTemplateEndPoint;
 
     private IList<Func<MessageModel, bool>> filtersMain = new List<Func<MessageModel, bool>>();
 
-    private IQueryable<MessageModel>? FilteredMainRecords =>
+    private IQueryable<MessageModel>? ItemsMain =>
         mainRecords?.AsQueryable().Where(m => filtersMain.All(filter => filter(m)));
-
-    public string? GetFilter(string? fieldName)
-    {
-        string? fieldValue = null;
-
-        if (fieldName != null)
-        {
-            if (!filterMainValues.ContainsKey(fieldName))
-                filterMainValues.Add(fieldName ?? "", null);
-            else
-                fieldValue = filterMainValues[fieldName ?? ""]?.ToString();
-        }
-
-        return fieldValue;
-    }
-
-    public bool? GetFilterBool(string? fieldName)
-    {
-        bool? fieldValue = null;
-        fieldValue = bool.Parse(GetFilter(fieldName) ?? bool.FalseString);
-
-        return fieldValue;
-    }
-
-    public DateTime? GetFilterDate(string? fieldName)
-    {
-        bool? IsDate = DateTime.TryParse(GetFilter(fieldName), out DateTime date);
-        
-        if (IsDate == true)
-            return date;
-        else
-            return null;
-    }
 
     private void AddFilterMain(Func<MessageModel, bool> filter)
     {
@@ -778,11 +371,163 @@ else {
         filtersMain.Remove(filter);
     }
 
+    private List<MessageModel>? mainRecords { get; set; }
+
+    [SupplyParameterFromForm]
+    public MessageModel? selectedRecord { get; set; } = new MessageModel();
+    private MessageModel? selectedRecordCopy { get; set; } = new MessageModel();
+
+    //Related datasets
+    private List<MessageTemplateModel>? messageTemplates { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        CheckAuthentication();
+
+        SetEditorContextMain();
+
+        bool? isError = false;
+        messageEndPoint = $"{configuration["APIEndpoint"]}/Message";
+        messageTemplateEndPoint = $"{configuration["APIEndpoint"]}/MessageTemplate";
+
+        try
+        {
+            mainRecords = await Http.GetFromJsonAsync<List<MessageModel>>(messageEndPoint);
+        }
+        catch (HttpRequestException ex)
+        {
+            isError = true;
+            HandleJsonException(ex, "Message", MessageID.ToString() ?? "");
+        }
+
+        if (isError != true)
+        {
+            //Load other objects
+
+            try
+            {
+                messageTemplates = await Http.GetFromJsonAsync<List<MessageTemplateModel>>(messageTemplateEndPoint);
+            }
+            catch (HttpRequestException ex)
+            {
+                isError = true;
+                HandleJsonException(ex, "MessageTemplate", MessageID.ToString() ?? "");
+            }
+        }
+
+        PopulateDropDownValuesMain();
+    }
+
+    private void CheckAuthentication()
+    {
+        if (appData?.CurrentUser == null)
+        {
+            NavManager.NavigateTo("/Login");
+        }
+    }
+
+    private MessageModel? GetMainRecord(int recordID)
+    {
+        return
+        mainRecords?
+        .Where(t => t.MessageID == recordID)
+        .FirstOrDefault();
+    }
+
+    private void SelectMainRecord(int? recordID)
+    {
+        if (recordID != null && recordID > 0)
+        {
+            selectedRecord = GetMainRecord(recordID ?? 0);
+        }
+        else
+        {
+            selectedRecord = new MessageModel();
+
+            //Related Datasets
+            MessageTemplateModel blankMessageTemplateModel = new MessageTemplateModel();
+            selectedRecord.MessageTemplate = blankMessageTemplateModel;
+        }
+
+        //Keep a copy of this object to be used for edit form so original object can remain untouched until save operation (otherwise it changes on screen)
+        if (selectedRecord != null)
+            selectedRecordCopy = selectedRecord?.Clone();
+    }
+
+    public async Task AdvanceToMainRecord(int numRecords)
+    {
+        if (await SaveMainRecord(false) == true)
+        {
+            int? currentRecordID = selectedRecord?.MessageID;
+            MessageModel? nextRecord = new MessageModel();
+
+            if (numRecords > 0)
+            {
+                nextRecord =
+                ItemsMain?
+                .SkipWhile(obj => obj.MessageID != currentRecordID)
+                .Skip(numRecords)
+                .FirstOrDefault();
+            }
+            else if (numRecords < 0)
+            {
+                int numRecordsBack = Math.Abs(numRecords);
+                nextRecord =
+                    ItemsMain?
+                    .Reverse()
+                    .SkipWhile(obj => obj.MessageID != currentRecordID)
+                    .Skip(numRecordsBack)
+                    .FirstOrDefault();
+            }
+
+            if (nextRecord != null)
+            {
+                if (nextRecord?.MessageID != null)
+                {
+                    selectedRecord = nextRecord;
+                    selectedRecordCopy = nextRecord;
+                }
+            }
+        }
+    }
+
+    public void PopulateDropDownValuesMain()
+    {
+        DropDownValues = new List<object?>();
+
+        if (messageTemplates != null)
+        {
+            foreach (var template in messageTemplates)
+            {
+                DropDownValues.Add(template);
+            }
+        }
+    }
+
+    //Toggles for nullable bools
+    public void ToggleMainRecordIsAccepted()
+    {
+        if (selectedRecordCopy != null)
+        {
+            if (selectedRecordCopy.IsAccepted == true)
+            {
+                selectedRecordCopy.IsAccepted = false;
+            }
+            else
+            {
+                selectedRecordCopy.IsAccepted = true;
+            }
+        }
+    }
+
     private void ChangeFilterMain(string fieldName, object? value)
     {
         if (value == null || string.IsNullOrEmpty(value.ToString()))
         {
-            filterMainValues.Remove(fieldName);
+            if (FilterFieldsMain != null)
+            {
+                FilterFieldsMain.Remove(fieldName);
+            }
         }
         else
         {
@@ -790,8 +535,9 @@ else {
             if (property != null)
             {
                 var targetType = Nullable.GetUnderlyingType(property.PropertyType) ?? property.PropertyType;
+
                 object? convertedValue = null;
-                //Console.WriteLine($"Filter {fieldName} value {value} type {targetType}");
+                Console.WriteLine($"Filter {fieldName} value {value} type {targetType}");
 
                 if (targetType.IsEnum)
                 {
@@ -804,12 +550,12 @@ else {
                         Logger.LogError(ex, "Error converting value for field {FieldName}", fieldName);
                     }
                 }
-                else if (fieldName == nameof(MessageModel.MessageTemplate) + "." + nameof(MessageTemplateModel.MessageTemplateID))
+                else if (targetType.IsClass && targetType != typeof(string))
                 {
                     try
                     {
                         //convertedValue = int.Parse(value.ToString()!);
-                        convertedValue = Convert.ChangeType(value, typeof(MessageTemplateModel).GetProperties().FirstOrDefault()?.PropertyType ?? typeof(int));
+                        convertedValue = Convert.ChangeType(value, targetType.GetProperties().FirstOrDefault()?.PropertyType ?? typeof(int));
                     }
                     catch (Exception ex)
                     {
@@ -820,22 +566,31 @@ else {
                 {
                     bool? oldValue = null;
                     bool? newValue = null;
-                    
-                    //Get old and new value to toggle and discard value sent from UI
-                    if (filterMainValues.ContainsKey(fieldName))
-                        oldValue = bool.Parse(filterMainValues[fieldName ?? ""]?.ToString() ?? bool.FalseString);
 
-                    if (oldValue == true)
+                    //Get old and new value to toggle and discard value sent from UI
+                    if (FilterFieldsMain == null)
+                        FilterFieldsMain = new Dictionary<string, object?>();
+
+                    if (FilterFieldsMain.ContainsKey(fieldName))
                     {
-                        newValue = false;
+                        if (bool.TryParse(FilterFieldsMain[fieldName]?.ToString(), out bool oldBool))
+                        {
+                            oldValue = oldBool;
+                        }
                     }
-                    else if (oldValue == false)
+
+                    if (oldValue == null)
                     {
                         newValue = true;
                     }
-                    else {
+                    else if (oldValue == true)
+                    {
+                        newValue = false;
+                    }
+                    else
+                    {
                         newValue = null;
-                        
+
                     }
 
                     try
@@ -859,10 +614,20 @@ else {
                     }
                 }
 
-                if (convertedValue != null)
+                if (fieldName != null)
                 {
-                    filterMainValues[fieldName] = convertedValue;
-                    Console.WriteLine($"Filter {fieldName} set to {convertedValue}");
+                    //Allow bools to be set as NULL
+                    if (convertedValue != null || !string.IsNullOrEmpty(convertedValue?.ToString()) || targetType == typeof(bool) || targetType == typeof(bool?))
+                    {
+                        if (FilterFieldsMain == null)
+                        {
+                            FilterFieldsMain = new Dictionary<string, object?>();
+                        }
+
+                        FilterFieldsMain[fieldName] = convertedValue;
+                        //Console.WriteLine($"Filter {fieldName} set to {convertedValue}");
+                    }
+
                 }
             }
         }
@@ -874,71 +639,78 @@ else {
     {
         filtersMain.Clear();
 
-        foreach (var filter in filterMainValues)
+        if (FilterFieldsMain != null)
         {
-            var propertyName = filter.Key;
-            var propertyValue = filter.Value;
-            Console.WriteLine($"Filter {propertyName} value {propertyValue}");
-
-            var parameter = Expression.Parameter(typeof(MessageModel), "m");
-            Expression property = parameter;
-            Expression? parentProperty = null;
-
-            foreach (var member in propertyName.Split('.'))
+            foreach (var filter in FilterFieldsMain)
             {
-                parentProperty = property;
-                property = Expression.Property(property, member);
-            }
+                var propertyName = filter.Key;
+                var propertyValue = filter.Value;
+                //Console.WriteLine($"Filter {propertyName} value {propertyValue}");
 
-            var constant = Expression.Constant(propertyValue);
+                var parameter = Expression.Parameter(typeof(MessageModel), "m");
+                Expression property = parameter;
+                Expression? parentProperty = null;
 
-            Expression? comparison = null;
-
-            if (propertyValue is string)
-            {
-                var containsMethod = typeof(string).GetMethod("Contains", new[] { typeof(string), typeof(StringComparison) });
-                comparison = Expression.Call(property, containsMethod!, constant, Expression.Constant(StringComparison.CurrentCultureIgnoreCase));
-            }
-            else if (propertyValue is int || propertyValue is decimal || propertyValue is bool || propertyValue.GetType().IsEnum)
-            {
-                if (Nullable.GetUnderlyingType(property.Type) != null)
+                foreach (var member in propertyName.Split('.'))
                 {
-                    var hasValue = Expression.Property(property, "HasValue");
-                    var value = Expression.Property(property, "Value");
-                    var equal = Expression.Equal(value, constant);
-                    comparison = Expression.AndAlso(hasValue, equal);
+                    parentProperty = property;
+                    property = Expression.Property(property, member);
                 }
-                else
-                {
-                    comparison = Expression.Equal(property, constant);
-                }
-            }
-            else if (propertyValue is DateTime)
-            {
-                if (Nullable.GetUnderlyingType(property.Type) != null)
-                {
-                    var hasValue = Expression.Property(property, "HasValue");
-                    var value = Expression.Property(property, "Value");
-                    var equal = Expression.Equal(value, constant);
-                    comparison = Expression.AndAlso(hasValue, equal);
-                }
-                else
-                {
-                    comparison = Expression.Equal(property, constant);
-                }
-            }
 
-            if (parentProperty != null)
-            {
-                var parentNotNull = Expression.NotEqual(parentProperty, Expression.Constant(null));
-                comparison = Expression.AndAlso(parentNotNull, comparison);
-            }
+                var constant = Expression.Constant(propertyValue);
 
-            if (comparison != null)
-            {
-                var lambda = Expression.Lambda<Func<MessageModel, bool>>(comparison, parameter);
-                Console.WriteLine(lambda);
-                filtersMain.Add(lambda.Compile());
+                Expression? comparison = null;
+
+                if (propertyValue is string)
+                {
+                    var containsMethod = typeof(string).GetMethod("Contains", new[] { typeof(string), typeof(StringComparison) });
+                    var isNotNull = Expression.NotEqual(property, Expression.Constant(null));
+
+                    comparison = Expression.Call(property, containsMethod!, constant, Expression.Constant(StringComparison.CurrentCultureIgnoreCase));
+                    comparison = Expression.AndAlso(isNotNull, comparison);
+                }
+                else if (propertyValue is int || propertyValue is decimal || propertyValue is bool || (propertyValue != null && propertyValue.GetType().IsEnum))
+                {
+                    if (Nullable.GetUnderlyingType(property.Type) != null)
+                    {
+                        var hasValue = Expression.Property(property, "HasValue");
+                        var value = Expression.Property(property, "Value");
+                        var equal = Expression.Equal(value, constant);
+                        comparison = Expression.AndAlso(hasValue, equal);
+                    }
+                    else
+                    {
+                        comparison = Expression.Equal(property, constant);
+                    }
+                }
+                else if (propertyValue is DateTime)
+                {
+                    if (Nullable.GetUnderlyingType(property.Type) != null)
+                    {
+                        var hasValue = Expression.Property(property, "HasValue");
+                        var value = Expression.Property(property, "Value");
+                        var equal = Expression.Equal(value, constant);
+                        comparison = Expression.AndAlso(hasValue, equal);
+                    }
+                    else
+                    {
+                        comparison = Expression.Equal(property, constant);
+                    }
+                }
+
+                if (parentProperty != null)
+                {
+                    var parentNotNull = Expression.NotEqual(parentProperty, Expression.Constant(null));
+                    if (comparison != null)
+                        comparison = Expression.AndAlso(parentNotNull, comparison);
+                }
+
+                if (comparison != null)
+                {
+                    var lambda = Expression.Lambda<Func<MessageModel, bool>>(comparison, parameter);
+                    Console.WriteLine(lambda);
+                    filtersMain.Add(lambda.Compile());
+                }
             }
         }
 
@@ -946,128 +718,6 @@ else {
         StateHasChanged();
     }
 
-    private void RemoveFilters()
-    {
-        filterMainValues.Clear();
-        filtersMain.Clear();
-
-        // Trigger UI update
-        StateHasChanged();
-    }
-
-    private void RemoveLastFilter()
-    {
-        string? lastKey = filterMainValues.Keys.LastOrDefault();
-
-        if (lastKey != null)
-        {
-            filterMainValues.Remove(lastKey);
-        }
-
-        ApplyFilters();
-    }
-
-    private void RemoveFilter(string? fieldName)
-    {
-        if (fieldName != null)
-        {
-            filterMainValues.Remove(fieldName);
-        }
-
-        ApplyFilters();
-    }
-
-    // private IQueryable<MessageModel>? FilteredMainRecords =>
-    //     (mainRecords)?.AsQueryable()
-    //     .Where(
-    //         m => 
-    //         (FilterMainMessageID == null ? true : m.MessageID == (FilterMainMessageID ?? m.MessageID))
-    //         && (FilterMainMessageGUID == null ? true : (m.MessageGUID.ToString() ?? string.Empty).Contains(FilterMainMessageGUID, StringComparison.CurrentCultureIgnoreCase))
-    //         && (FilterMainMessageType == null ? true : m.MessageTypeID == (FilterMainMessageType ?? m.MessageTypeID))
-    //         && (FilterMainMessageTemplateID == null ? true : (m.MessageTemplate ?? new MessageTemplateModel()).MessageTemplateID == FilterMainMessageTemplateID)
-    //         && (FilterMainSubject == null ? true : (m.Subject ?? string.Empty).Contains(FilterMainSubject, StringComparison.CurrentCultureIgnoreCase))
-    //         && (FilterMainMessage == null ? true : (m.Message ?? string.Empty).Contains(FilterMainMessage, StringComparison.CurrentCultureIgnoreCase))
-    //         && (FilterMainMessageIsHTML == null ? true : m.MessageIsHTML == FilterMainMessageIsHTML)
-    //         && (FilterMainVehicleID == null ? true : m.VehicleID == FilterMainVehicleID)
-    //         && (FilterMainAmountOffered == null ? true : m.AmountOffered == FilterMainAmountOffered)
-    //         && (FilterMainIsAccepted == null ? true : m.IsAccepted == FilterMainIsAccepted)
-    //         && (FilterMainFrom == null ? true : (m.From ?? string.Empty).Contains(FilterMainFrom, StringComparison.CurrentCultureIgnoreCase))
-    //         && (FilterMainFromName == null ? true : (m.FromName ?? string.Empty).Contains(FilterMainFromName, StringComparison.CurrentCultureIgnoreCase))
-    //         && (FilterMainTo == null ? true : (m.To ?? string.Empty).Contains(FilterMainTo, StringComparison.CurrentCultureIgnoreCase))
-    //         && (FilterMainToName == null ? true : (m.ToName ?? string.Empty).Contains(FilterMainToName, StringComparison.CurrentCultureIgnoreCase))
-    //         && (FilterMainCC == null ? true : (m.CC ?? string.Empty).Contains(FilterMainCC, StringComparison.CurrentCultureIgnoreCase))
-    //         && (FilterMainBCC == null ? true : (m.BCC ?? string.Empty).Contains(FilterMainBCC, StringComparison.CurrentCultureIgnoreCase))
-    //         && (FilterMainIsSent == null ? true : m.IsSent == FilterMainIsSent)
-    //         && (FilterMainSentDate == null ? true : DateOnly.FromDateTime(m.SentDate ?? DateTime.MinValue) == DateOnly.FromDateTime((DateTime)(FilterMainSentDate ?? m.SentDate)!))
-    //         && (FilterMainMessageStatus == null ? true : (m.MessageStatusID.GetEnumDisplayName() ?? string.Empty).Contains(FilterMainMessageStatus, StringComparison.CurrentCultureIgnoreCase))
-    //         && (FilterMainCreatedBy == null ? true : (m.CreatedBy ?? string.Empty).Contains(FilterMainCreatedBy, StringComparison.CurrentCultureIgnoreCase))
-    //         && (FilterMainCreatedDate == null ? true : DateOnly.FromDateTime(m.CreatedDate ?? DateTime.MinValue) == DateOnly.FromDateTime((DateTime)(FilterMainCreatedDate ?? m.CreatedDate)!))
-    //         && (FilterMainLastUpdatedBy == null ? true : (m.LastUpdatedBy ?? string.Empty).Contains(FilterMainLastUpdatedBy, StringComparison.CurrentCultureIgnoreCase))
-    //         && (FilterMainLastUpdatedDate == null ? true : DateOnly.FromDateTime(m.LastUpdatedDate ?? DateTime.MinValue) == DateOnly.FromDateTime((DateTime)(FilterMainLastUpdatedDate ?? m.LastUpdatedDate)!))
-    //     );
-
-    List<string> FiltersMain = new List<string>();
-    int? FilterMainMessageID;
-    string? FilterMainMessageGUID;
-    MessageType? FilterMainMessageType;
-    int? FilterMainMessageTemplateID;
-    string? FilterMainSubject;
-    string? FilterMainMessage;
-    bool? FilterMainMessageIsHTML;
-    int? FilterMainVehicleID;
-    decimal? FilterMainAmountOffered;
-    bool? FilterMainIsAccepted;
-    string? FilterMainFrom;
-    string? FilterMainFromName;
-    string? FilterMainTo;
-    string? FilterMainToName;
-    string? FilterMainCC;
-    string? FilterMainBCC;
-    bool? FilterMainIsSent;
-    DateTime? FilterMainSentDate;
-    string? FilterMainMessageStatus;
-    string? FilterMainCreatedBy;
-    DateTime? FilterMainCreatedDate;
-    string? FilterMainLastUpdatedBy;
-    DateTime? FilterMainLastUpdatedDate;
-
-    private string? messageEndPoint;
-    private string? messageTemplateEndPoint;
-
-    private Modal? modalMessage { get; set; }
-
-    protected override async Task OnInitializedAsync() 
-    {
-        SetEditorContextMain();
-
-        bool? isError = false;
-        messageEndPoint = $"{configuration["APIEndpoint"]}/Message";
-        messageTemplateEndPoint = $"{configuration["APIEndpoint"]}/MessageTemplate";
-
-        try
-        {
-            mainRecords = await Http.GetFromJsonAsync<List<MessageModel>>(messageEndPoint);
-        }
-        catch (HttpRequestException ex)
-        {
-            isError = true;
-            HandleJsonException(ex, "Message", MessageID.ToString() ?? "");
-        }
-
-        if (isError != true) {
-            //Load other objects
-
-            try
-            {
-                messageTemplates = await Http.GetFromJsonAsync<List<MessageTemplateModel>>(messageTemplateEndPoint);
-            }
-            catch (HttpRequestException ex)
-            {
-                isError = true;
-                HandleJsonException(ex, "MessageTemplate", MessageID.ToString() ?? "");
-            }
-        }
-    }
 
     public void SetEditorContextMain()
     {
@@ -1081,200 +731,94 @@ else {
         }
     }
 
-    public string TableCSS(MessageModel? context)
-    {
-        string css = "";
-        if (context?.MessageID == selectedRecord?.MessageID)
-        {
-            css = "SelectedRow";
-        }
-        else if (context?.IsSent != true)
-        {
-            css = "ErrorRow";
-        }
+    public string? action { get; set; }
+    public string? soundEffect { get; set; }
+    private Modal? modalMainRecord { get; set; }
 
-        return css;
+    private Modal? modalInfo { get; set; }
+    public string? msgInfoTitle = null;
+    public MarkupString? msgInfo = null;
+
+    private Modal? modalError { get; set; }
+    public string? msgErrorTitle = null;
+    public MarkupString? msgError = null;
+    public string? msgErrorStackTrace = null;
+
+    private Modal? modalConfirm { get; set; }
+    public string? msgConfirmTitle = null;
+    public MarkupString? msgConfirm = null;
+
+    public string? loadDataErrorMsg = null;
+
+    private IDictionary<string, string>? selectedRecordChanges = new Dictionary<string, string>();
+
+    public Dictionary<string, object?>? FilterFieldsMain { get; set; }
+
+
+
+    public IList<object?>? DropDownValues { get; set; }
+
+    private void ChangeFilterMainFromComponent((string fieldName, object? value) args)
+    {
+        ChangeFilterMain(args.fieldName, args.value);
+        //Console.WriteLine($"Filter {args.fieldName} value {args.value}");
     }
 
-    private void FilterMainRefresh()
+    private void RemoveFiltersMain()
     {
-        FiltersMain.Clear();
+        if (FilterFieldsMain != null)
+        {
+            FilterFieldsMain.Clear();
+        }
+        filtersMain.Clear();
 
-        if (FilterMainMessageID != null)
+        // Trigger UI update
+        StateHasChanged();
+    }
+
+    private void RemoveLastFilterMain()
+    {
+        if (FilterFieldsMain != null)
         {
-            FiltersMain.Add($"ID: '{FilterMainMessageID.ToString()}'");
-        }
-        if (FilterMainMessageGUID != null)
-        {
-            FiltersMain.Add($"GUID: '{FilterMainMessageGUID}'");
-        }
-        if (FilterMainMessageType != null)
-        {
-            FiltersMain.Add($"Type: '{FilterMainMessageType}'");
-        }
-        if (FilterMainMessageTemplateID != null)
-        {
-            FiltersMain.Add($"Template: '{FilterMainMessageTemplateID}'");
-        }
-        if (FilterMainSubject != null)
-        {
-            FiltersMain.Add($"Subject: '{FilterMainSubject}'");
-        }
-        if (FilterMainMessage != null)
-        {
-            FiltersMain.Add($"Message: '{FilterMainMessage}'");
-        }
-        if (FilterMainMessageIsHTML != null)
-        {
-            FiltersMain.Add($"Is HTML: '{((bool)(FilterMainMessageIsHTML = true) ? "Y" : "N")}'");
-        }
-        if (FilterMainVehicleID != null)
-        {
-            FiltersMain.Add($"Vehicle ID: '{FilterMainVehicleID.ToString()}'");
-        }
-        if (FilterMainAmountOffered != null)
-        {
-            FiltersMain.Add($"Amount Offered: '{FilterMainAmountOffered.ToString()}'");
-        }
-        if (FilterMainIsAccepted != null)
-        {
-            FiltersMain.Add($"Is Accepted: '{((bool)(FilterMainIsAccepted = true) ? "Y" : "N")}'");
-        }
-        if (FilterMainFrom != null)
-        {
-            FiltersMain.Add($"From (Email): '{FilterMainFrom}'");
-        }
-        if (FilterMainFromName != null)
-        {
-            FiltersMain.Add($"From (Name): '{FilterMainFromName}'");
-        }
-        if (FilterMainTo != null)
-        {
-            FiltersMain.Add($"To (Email): '{FilterMainTo}'");
-        }
-        if (FilterMainToName != null)
-        {
-            FiltersMain.Add($"To (Name): '{FilterMainToName}'");
-        }
-        if (FilterMainCC != null)
-        {
-            FiltersMain.Add($"To (CC): '{FilterMainCC}'");
-        }
-        if (FilterMainBCC != null)
-        {
-            FiltersMain.Add($"To (BCC): '{FilterMainBCC}'");
-        }
-        if (FilterMainIsSent != null)
-        {
-            FiltersMain.Add($"Is Sent: '{((bool)(FilterMainIsSent = true) ? "Y" : "N")}'");
-        }
-        if (FilterMainSentDate != null)
-        {
-            FiltersMain.Add($"Sent Date: '{FilterMainSentDate.Value.ToString("dd/MM/yyyy")}'");
-        }
-        if (FilterMainMessageStatus != null)
-        {
-            FiltersMain.Add($"Status: '{FilterMainMessageStatus}'");
-        }
-        if (FilterMainCreatedBy != null)
-        {
-            FiltersMain.Add($"Created By: '{FilterMainCreatedBy}'");
-        }
-        if (FilterMainCreatedDate != null)
-        {
-            FiltersMain.Add($"Created Date: '{FilterMainCreatedDate.Value.ToString("dd/MM/yyyy")}'");
-        }
-        if (FilterMainLastUpdatedBy != null)
-        {
-            FiltersMain.Add($"Last Updated By: '{FilterMainLastUpdatedBy}'");
-        }
-        if (FilterMainLastUpdatedDate != null)
-        {
-            FiltersMain.Add($"Last Updated Date: '{FilterMainLastUpdatedDate.Value.ToString("dd/MM/yyyy")}'");
+            string? lastKey = FilterFieldsMain.Keys.LastOrDefault();
+
+            if (lastKey != null)
+            {
+                FilterFieldsMain.Remove(lastKey);
+            }
+
+            ApplyFilters();
         }
     }
 
-    private void FilterMainClear()
+    private void RemoveFilterMain(string? fieldName)
     {
-        FilterMainMessageID = null;
-        FilterMainMessageGUID = null;
-        FilterMainMessageType = null;
-        FilterMainMessageTemplateID = null;
-        FilterMainSubject = null;
-        FilterMainMessage = null;
-        FilterMainMessageIsHTML = null;
-        FilterMainVehicleID = null;
-        FilterMainAmountOffered = null;
-        FilterMainIsAccepted = null;
-        FilterMainFrom = null;
-        FilterMainFromName = null;
-        FilterMainTo = null;
-        FilterMainToName = null;
-        FilterMainCC = null;
-        FilterMainBCC = null;
-        FilterMainIsSent = null;
-        FilterMainSentDate = null;
-        FilterMainMessageStatus = null;
-        FilterMainCreatedBy = null;
-        FilterMainCreatedDate = null;
-        FilterMainLastUpdatedBy = null;
-        FilterMainLastUpdatedDate = null;
+        if (fieldName != null)
+        {
+            if (FilterFieldsMain != null)
+                FilterFieldsMain.Remove(fieldName);
+        }
 
-        FiltersMain.Clear();
+        ApplyFilters();
     }
 
-    public void ToggleFilterMainMessageIsHTML()
+    private void ShowFilterHelpMain()
     {
-        if (FilterMainMessageIsHTML == null)
-        {
-            FilterMainMessageIsHTML = true;
-        }
-        else if (FilterMainMessageIsHTML == true)
-        {
-            FilterMainMessageIsHTML = false;
-        }
-        else if (FilterMainMessageIsHTML == false)
-        {
-            FilterMainMessageIsHTML = null;
-        }
+        action = "Info";
+        soundEffect = SoundFunctions.GetErrorSound();
 
-        FilterMainRefresh();
-    }
+        msgInfoTitle = $"Filtering and Sorting Information";
+        msgInfo = (MarkupString)$@"
+            <h3><i class=""fa-solid fa-filter""></i> Information on Filtering</h3>
+            <p>To filter on a field press the <button type=""button"" class=""btn btn-primary btn-sm""><i class=""fa-solid fa-bars""></i></button> button next to the field name in the header and then select or type in your search criteria (depending on the field type).</p>
+            <p>Text and numeric fields will show a search box <button type=""button"" class=""btn btn-primary btn-sm""><i class=""fa-solid fa-magnifying-glass""></i></button> whereas selection fields will show a drop-down <button type=""button"" class=""btn btn-primary btn-sm""><i class=""fa-solid fa-square-caret-down""></i></button> and yes/no fields will show a checkbox <button type=""button"" class=""btn btn-primary btn-sm""><i class=""fa-solid fa-square-check""></i></button>.</p>
+            <p>Once you have added filters you can clear all these by pressing on the <button type=""button"" class=""btn btn-primary btn-sm"">Clear Filers <i class=""fa-solid fa-filter-circle-xmark""></i></button> button or you can press on the <button type=""button"" class=""btn btn-primary btn-sm"">Clear Last Filter <i class=""fa-solid fa-filter-circle-xmark""></i></button> button to clear the last field you filtered by. These will become visible once you have added your first filter.</p>
+            <p>You can also clear individual filters by pressing the <button type=""button"" class=""btn btn-primary btn-sm""><i class=""fa-solid fa-filter-circle-xmark""></i></button> button next to each one.</p>
+            <h3><i class=""fa-solid fa-arrow-up-a-z""></i> Information on Sorting</h3>
+            <p>You can sort a field by clicking on its name in the header row where the first time you press it the column will sort in ascending order <button type=""button"" class=""btn btn-primary btn-sm""><i class=""fa-solid fa-arrow-up-a-z""></i></button> and the second time you press it, it will sort in descending order <button type=""button"" class=""btn btn-primary btn-sm""><i class=""fa-solid fa-arrow-down-z-a""></i></button>.</p>
+            <p>To sort by a different field just click the header of that column and it will replace the sort you had and sort by the new column instead.</p>";
 
-    public void ToggleFilterMainIsAccepted()
-    {
-        if (FilterMainIsAccepted == null)
-        {
-            FilterMainIsAccepted = true;
-        }
-        else if (FilterMainIsAccepted == true)
-        {
-            FilterMainIsAccepted = false;
-        }
-        else if (FilterMainIsAccepted == false)
-        {
-            FilterMainIsAccepted = null;
-        }
-
-        FilterMainRefresh();
-    }
-
-    public void ToggleFilterMainIsSent()
-    {
-        if (FilterMainIsSent == null)
-        {
-            FilterMainIsSent = true;
-        }
-        else if (FilterMainIsSent == true)
-        {
-            FilterMainIsSent = false;
-        }
-        else if (FilterMainIsSent == false)
-        {
-            FilterMainIsSent = null;
-        }
-
-        FilterMainRefresh();
+        modalInfo!.Open();
     }
 
     private async Task FormAction()
@@ -1321,87 +865,9 @@ else {
     {
         action = "ClearForm";
 
-        selectedRecord = new MessageModel();
+        selectedRecord = new();
 
         modalConfirm!.Close();
-    }
-
-    private MessageModel? GetMainRecord(int recordID)
-    {
-        return 
-        mainRecords?
-        .Where(t => t.MessageID == recordID)
-        .FirstOrDefault();
-    }
-
-    private void SelectMainRecord(int? recordID)
-    {
-        if (recordID != null && recordID > 0)
-        {
-            selectedRecord = GetMainRecord(recordID ?? 0);
-        }
-        else
-        {
-            selectedRecord = new MessageModel();
-            MessageTemplateModel blankMessageTemplateModel = new MessageTemplateModel();
-            selectedRecord.MessageTemplate = blankMessageTemplateModel;
-        }
-
-        //Keep a copy of this object to be used for edit form so original object can remain untouched until save operation (otherwise it changes on screen)
-        if (selectedRecord != null)
-            selectedRecordCopy = selectedRecord?.Clone();
-    }
-
-    public async Task AdvanceToMainRecord(int numRecords)
-    {
-        if (await SaveMainRecord(false) == true)
-        {
-            int? currentRecordID = selectedRecord?.MessageID;
-            MessageModel? nextRecord = new MessageModel();
-
-            if (numRecords > 0)
-            {
-                nextRecord =
-                FilteredMainRecords?
-                .SkipWhile(obj => obj.MessageID != currentRecordID)
-                .Skip(numRecords)
-                .FirstOrDefault();
-            }
-            else if (numRecords < 0)
-            {
-                int numRecordsBack = Math.Abs(numRecords);
-                nextRecord =
-                    FilteredMainRecords?
-                    .Reverse()
-                    .SkipWhile(obj => obj.MessageID != currentRecordID)
-                    .Skip(numRecordsBack)
-                    .FirstOrDefault();
-            }
-
-            if (nextRecord != null)
-            {
-                if (nextRecord?.MessageID != null)
-                {
-                    selectedRecord = nextRecord;
-                    selectedRecordCopy = nextRecord;
-                }
-            }
-        }
-    }
-
-    public void ToggleMainRecordIsAccepted()
-    {
-        if (selectedRecordCopy != null)
-        {
-            if (selectedRecordCopy.IsAccepted == true)
-            {
-                selectedRecordCopy.IsAccepted = false;
-            }
-            else
-            {
-                selectedRecordCopy.IsAccepted = true;
-            }
-        }
     }
 
     protected void ChangeMainRecord(object? sender, FieldChangedEventArgs? e)
@@ -1424,24 +890,24 @@ else {
         }
     }
 
-    private void EditMainRecord(int? messageID)
+    private void EditMainRecord(int? recordID)
     {
-        SelectMainRecord(messageID);
+        SelectMainRecord(recordID);
 
         SetEditorContextMain();
 
         if (selectedRecordCopy != null)
         {
-            modalMessage!.MakeLarge();
-            modalMessage!.Open();
+            modalMainRecord!.MakeLarge();
+            modalMainRecord!.Open();
         }
         else
         {
             action = "Error";
             soundEffect = SoundFunctions.GetErrorSound();
 
-            msgErrorTitle = $"Cannot Load Message {messageID}";
-            msgError = (MarkupString)$"Unfortunately the message could not be loaded due to an error.<br />Please try again.";
+            msgErrorTitle = $"Cannot Load Record {recordID}";
+            msgError = (MarkupString)$"Unfortunately the record could not be loaded due to an error.<br />Please try again.";
             msgErrorStackTrace = null;
 
             modalError!.Open();
@@ -1463,7 +929,7 @@ else {
                 {
                     //Update related entities (as only IDs are updated on the form so rest of object is not updated)
                     selectedRecordCopy.MessageTemplate = GetMessageTemplate(selectedRecordCopy.MessageTemplate?.MessageTemplateID ?? 0);
-                    
+
                     HttpResponseMessage formResponse = new HttpResponseMessage();
 
                     if (selectedRecordCopy?.MessageID > 0) {
@@ -1513,11 +979,11 @@ else {
                             //Insert new record
 
                             //Get ID of newly inserted record and add new item to model so shows on screen
-                            MessageModel insertedMessage = await formResponse.Content.ReadFromJsonAsync<MessageModel>() ?? new MessageModel();
+                            MessageModel insertedMainRecord = await formResponse.Content.ReadFromJsonAsync<MessageModel>() ?? new MessageModel();
 
-                            if (insertedMessage.MessageID > 0)
+                            if (insertedMainRecord.MessageID > 0)
                             {
-                                mainRecords?.Add(insertedMessage);
+                                mainRecords?.Add(insertedMainRecord);
 
                                 if (CloseDialogAfterSave == true)
                                 {
@@ -1654,6 +1120,24 @@ else {
         }
     }
 
+    //Additional Functions
+    private MessageTemplateModel? GetMessageTemplate(int messageTemplateID)
+    {
+        return
+        messageTemplates?
+        .Where(t => t.MessageTemplateID == messageTemplateID)
+        .FirstOrDefault();
+    }
+
+    public async Task SendMessage(bool? CloseDialogAfterSave)
+    {
+        if (await SaveMainRecord(CloseDialogAfterSave) == true)
+        {
+            //Send email
+        }
+    }
+
+    //Common Code
     private void CancelMainRecordConfirm()
     {
         action = "CancelMainRecordConfirm";
@@ -1661,12 +1145,13 @@ else {
 
         string? numberOfChanges = $"{selectedRecordChanges?.Count} {(selectedRecordChanges?.Count == 1 ? "Change" : "Changes")}";
         string? listOfChanges = selectedRecordChanges?.Select(x => $"<li>{x.Key}: {x.Value}</li>").Aggregate((x, y) => $"{x}{y}"); //Aggregation in case of duplication
+        string? tableName = selectedRecord?.GetType().Name.Replace("Model", "").GetFieldNameWithSpaces(true) ?? "Record";
 
         msgConfirmTitle = $"Confirm Cancel?";
         msgConfirm = (MarkupString)$@"
             <p>
                 You have made the following changes:<br />
-                - Message: {numberOfChanges}:
+                - {tableName}: {numberOfChanges}:
                 <ul>
                 {listOfChanges}
                 </ul>
@@ -1712,7 +1197,7 @@ else {
 
     private void CloseMainRecord()
     {
-        modalMessage!.Close();
+        modalMainRecord!.Close();
         modalConfirm!.Close();
 
         selectedRecordChanges?.Clear();
@@ -1738,23 +1223,6 @@ else {
         else
         {
             loadDataErrorMsg = $"Error: {ex.Message}";
-        }
-    }
-
-    //Additional Functions
-    private MessageTemplateModel? GetMessageTemplate(int messageTemplateID)
-    {
-        return
-        messageTemplates?
-        .Where(t => t.MessageTemplateID == messageTemplateID)
-        .FirstOrDefault();
-    }
-
-    public async Task SendMessage(bool? CloseDialogAfterSave)
-    {
-        if (await SaveMainRecord(CloseDialogAfterSave) == true)
-        {
-            //Send email
         }
     }
 }

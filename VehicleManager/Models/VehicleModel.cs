@@ -15,7 +15,7 @@ namespace VehicleManager.Models
         
         [JsonIgnore]
         [Display(Name = "Submission Date")]
-        public DateTime? submissionDate
+        public DateTime? SubmissionDateDate
         {
             get { return SubmissionDate == null ? null : DateTime.ParseExact(SubmissionDate ?? "", "yyyy-MM-dd HH:mm:ss", new CultureInfo("en-GB")); }
         }

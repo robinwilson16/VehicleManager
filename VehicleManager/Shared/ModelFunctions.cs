@@ -8,6 +8,19 @@ namespace VehicleManager.Shared
 {
     public static class ModelFunctions
     {
+        public static Type GetBaseType(PropertyInfo property)
+        {
+            if (property == null)
+            {
+                throw new ArgumentNullException(nameof(property));
+            }
+
+            var propertyType = property.PropertyType;
+            var underlyingType = Nullable.GetUnderlyingType(propertyType);
+
+            return underlyingType ?? propertyType;
+        }
+
         public static string? GetDisplayName(this PropertyInfo? property)
         {
             string? displayName = null;

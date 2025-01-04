@@ -8,6 +8,7 @@ namespace VehicleManager.Models
     {
         [Key]
         public string? CustomerEmail { get; set; }
+        public string? Name { get; set; }
         public virtual ICollection<VehicleModel>? Vehicles { get; set; }
 
         [ForeignKey("To")]

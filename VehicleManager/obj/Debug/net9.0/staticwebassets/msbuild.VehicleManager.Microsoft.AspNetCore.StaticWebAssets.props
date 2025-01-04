@@ -84,8 +84,8 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>gl5nm6cqqh</Fingerprint>
-      <Integrity>FGop07Nu0pcds2TFCqNfhJFKzrveTmv8pALhK4GYGWg=</Integrity>
+      <Fingerprint>5uyjou5hgy</Fingerprint>
+      <Integrity>HReqkcvL34JMTdYNN0QdcmcO9ob9sV/zp7xi5Go6dpQ=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\css\VehicleManager.css'))</OriginalItemSpec>
