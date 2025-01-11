@@ -17,6 +17,7 @@
 @inject NavigationManager NavManager
 @inject ILogger<MessageModel> Logger
 @inject AppData appData
+@inject IJSRuntime JSRuntime
 
 <PageTitle>Messages @@ Broken Motor</PageTitle>
 
@@ -71,287 +72,435 @@
     </Footer>
 </Modal>
 
-<h3><i class="fa-solid fa-envelopes-bulk"></i> Messages</h3>
-
-@if (loadDataErrorMsg != null) 
-{
-    <div class="container">
-        <div class="row">
-            <div class="col-md">
-                <div class="alert alert-danger hstack gap-3" role="alert">
-                    <div>
-                        <h1><i class="fa-solid fa-triangle-exclamation"></i></h1>
-                    </div>
-                    <div>
-                        <p>
-                            @loadDataErrorMsg
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-}
-else if (mainRecords == null)
-{
-    <div class="container">
-        <div class="row">
-            <div class="col-md">
-                <div class="alert alert-primary text-center" role="alert">
-                    <h1>
-                        <i class="fa-solid fa-spinner fa-spin"></i> Loading ...
-                    </h1>
-                </div>
-            </div>
-        </div>
-    </div>
-}
-else {
-    <div class="container-fluid">
-        @{
-            IList<string> ExcludeMainFields = new List<string> { "Message", "MessageIsHTML", "CC", "BCC" };
-            string? DisabledItemFieldName = null;
-            string? ErrorItemFieldName = "IsSent";
+<Modal @ref="modalMainRecord">
+    <WindowControls>
+        @if (selectedRecordChanges?.Count > 0)
+        {
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @onclick="CancelMainRecordConfirm"></button>
         }
-        <Grid Items="ItemsMain"
-        ExcludeFields="ExcludeMainFields"
-        FilterFields="FilterFieldsMain"
-        DisabledItemFieldName="@DisabledItemFieldName"
-        ErrorItemFieldName="@ErrorItemFieldName"
-        DropDownValues="DropDownValues"
-        SelectedItemID="selectedRecord?.MessageID" 
-        OnSelectItem="SelectMainRecord" 
-        OnEditItem="EditMainRecord" 
-        OnDeleteItem="DeleteMainRecordConfirm"
-        OnRemoveFilters="RemoveFiltersMain"
-        OnRemoveLastFilter="RemoveLastFilterMain"
-        OnRemoveFilter="RemoveFilterMain"
-        OnShowFilterHelp="ShowFilterHelpMain"
-        OnChangeFilter="ChangeFilterMainFromComponent"/>
+        else
+        {
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @onclick="() => modalMainRecord!.Close()"></button>
+        }
+    </WindowControls>
+    <Title>
+        @if (@selectedRecordCopy?.MessageID > 0)
+        {
+            @:<i class="fa-solid fa-envelope-open"></i> Message @selectedRecordCopy?.MessageID
+        }
+        else
+        {
+            @:<i class="fa-solid fa-envelope-open"></i> New Message
+        }
+    </Title>
+    <Body>
+        <EditForm EditContext="@EditContextMain" OnValidSubmit="() => SaveMainRecord(true)">
+            <FluentValidationValidator @ref="_fluentValidationValidator" />
+            <div class="bd-callout bd-callout-VM bd-callout-grey GreyBackground">
+                <div class="container">
 
-    </div>
+                    @if (selectedRecordCopy == null)
+                    {
+                        <div class="row">
+                            <div class="col-md">
+                                <div class="alert alert-primary text-center" role="alert">
+                                    <h1>
+                                        <i class="fa-solid fa-spinner fa-spin"></i> Loading ...
+                                    </h1>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
 
-    <Modal @ref="modalMainRecord">
-        <WindowControls>
-            @if (selectedRecordChanges?.Count > 0)
-            {
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @onclick="CancelMainRecordConfirm"></button>
-            }
-            else
-            {
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @onclick="() => modalMainRecord!.Close()"></button>
-            }
-        </WindowControls>
-        <Title>
-            @if (@selectedRecordCopy?.MessageID > 0)
-            {
-                @:<i class="fa-solid fa-envelope-open"></i> Message @selectedRecordCopy?.MessageID
-            }
-            else {
-                @:<i class="fa-solid fa-envelope-open"></i> New Message
-            }
-        </Title>
-        <Body>
-            <EditForm EditContext="@EditContextMain" OnValidSubmit="() => SaveMainRecord(true)">
-                <FluentValidationValidator @ref="_fluentValidationValidator" />
-                <div class="bd-callout bd-callout-VM bd-callout-grey GreyBackground">
-                    <div class="container">
-
-                        @if (selectedRecordCopy == null) {
-                            <div class="row">
-                                <div class="col-md">
-                                    <div class="alert alert-primary text-center" role="alert">
-                                        <h1>
-                                            <i class="fa-solid fa-spinner fa-spin"></i> Loading ...
-                                        </h1>
+                        <div class="row g-3 mb-3">
+                            <div class="col-md">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label class="col-form-label"><i class="fa-solid fa-angles-right"></i> From</label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <InputText @bind-Value="selectedRecordCopy!.FromName" class="form-control" placeholder="Name" />
+                                        <ValidationMessage For="@(() => selectedRecordCopy!.FromName)" />
                                     </div>
                                 </div>
                             </div>
-                        }
-                        else {
+                            <div class="col-md">
+                                <InputText @bind-Value="selectedRecordCopy!.From" class="form-control" placeholder="Email" />
+                                <ValidationMessage For="@(() => selectedRecordCopy!.From)" />
+                            </div>
+                        </div>
 
-                            <div class="row g-3 mb-3">
-                                <div class="col-md">
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <label class="col-form-label"><i class="fa-solid fa-angles-right"></i> From</label>
-                                        </div>
-                                        <div class="col-md-8">
-                                            <InputText @bind-Value="selectedRecordCopy!.FromName" class="form-control" placeholder="Name" />
-                                            <ValidationMessage For="@(() => selectedRecordCopy!.FromName)" />
-                                        </div>
+                        <div class="row g-3 mb-3">
+                            <div class="col-md">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label class="col-form-label"><i class="fa-solid fa-angles-right"></i> To</label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <InputText @bind-Value="selectedRecordCopy!.ToName" class="form-control" placeholder="Name" />
+                                        <ValidationMessage For="@(() => selectedRecordCopy!.ToName)" />
                                     </div>
                                 </div>
-                                <div class="col-md">
-                                    <InputText @bind-Value="selectedRecordCopy!.From" class="form-control" placeholder="Email" />
-                                    <ValidationMessage For="@(() => selectedRecordCopy!.From)" />
-                                </div>
                             </div>
-
-                            <div class="row g-3 mb-3">
-                                <div class="col-md">
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <label class="col-form-label"><i class="fa-solid fa-angles-right"></i> To</label>
-                                        </div>
-                                        <div class="col-md-8">
-                                            <InputText @bind-Value="selectedRecordCopy!.ToName" class="form-control"  placeholder="Name" />
-                                            <ValidationMessage For="@(() => selectedRecordCopy!.ToName)" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md">
-                                    <InputText @bind-Value="selectedRecordCopy!.To" class="form-control" placeholder="Email" />
-                                    <ValidationMessage For="@(() => selectedRecordCopy!.To)" />
-                                </div>
+                            <div class="col-md">
+                                <InputText @bind-Value="selectedRecordCopy!.To" class="form-control" placeholder="Email" />
+                                <ValidationMessage For="@(() => selectedRecordCopy!.To)" />
                             </div>
+                        </div>
 
-                            <div class="row g-3 mb-3">
-                                <div class="col-md-2">
-                                    <label class="col-form-label"><i class="fa-solid fa-angles-right"></i> Template</label>
-                                </div>
-                                <div class="col-md-10">
-                                    @if (selectedRecordCopy!.MessageTemplate != null)
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-2">
+                                <label class="col-form-label"><i class="fa-solid fa-angles-right"></i> Template</label>
+                            </div>
+                            <div class="col-md-10">
+                                @if (selectedRecordCopy!.MessageTemplate == null)
+                                {
+                                    selectedRecordCopy!.MessageTemplate = new MessageTemplateModel();
+                                }
+                                <InputSelect @bind-Value="selectedRecordCopy!.MessageTemplate!.MessageTemplateID" class="form-select" @bind-Value:after="() => LoadMessageTemplate(true)">
+                                    <option value="">-- Please Select --</option>
+                                    @if (messageTemplates != null)
                                     {
-                                        <InputSelect @bind-Value="selectedRecordCopy!.MessageTemplate!.MessageTemplateID" class="form-select">
+                                        foreach (var template in messageTemplates)
+                                        {
+                                            <option value="@template.MessageTemplateID">@template.Name</option>
+                                        }
+                                    }
+                                </InputSelect>
+                                <ValidationMessage For="@(() => selectedRecordCopy!.MessageTemplate.MessageTemplateID)" />
+
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-2">
+                                <label class="col-form-label"><i class="fa-solid fa-angles-right"></i> Vehicle</label>
+                            </div>
+                            <div class="col-md-10">
+                                <InputNumber @bind-Value="selectedRecordCopy!.VehicleID" class="form-control" />
+                                <ValidationMessage For="@(() => selectedRecordCopy!.VehicleID)" />
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mb-3">
+                            <div class="col-md">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label class="col-form-label"><i class="fa-solid fa-angles-right"></i> <i class="fa-solid fa-sterling-sign"></i> Offered</label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <InputNumber @bind-Value="selectedRecordCopy!.AmountOffered" class="form-control" />
+                                        <ValidationMessage For="@(() => selectedRecordCopy!.AmountOffered)" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label class="col-form-label"><i class="fa-solid fa-angles-right"></i> Accepted?</label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="d-grid gap-2 d-md-block">
+                                            <button type="button" class="btn @(selectedRecordCopy!.IsAccepted == true? "btn-primary" : "btn-outline-primary") me-md-3" @onclick="(e) => ToggleMainRecordIsAccepted()"><i class="@(selectedRecordCopy!.IsAccepted == true? "fa-solid fa-square-check" : "fa-regular fa-square")"></i></button>
+                                        </div>
+                                        <ValidationMessage For="@(() => selectedRecordCopy!.IsAccepted)" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mb-3">
+                            <div class="col-md">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label class="col-form-label"><i class="fa-solid fa-angles-right"></i> Sent Date</label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <InputDate @bind-Value="selectedRecordCopy!.SentDate" class="form-control" />
+                                        <ValidationMessage For="@(() => selectedRecordCopy!.SentDate)" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label class="col-form-label"><i class="fa-solid fa-angles-right"></i> <i class="fa-solid fa-sterling-sign"></i> Status</label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <InputSelect @bind-Value="selectedRecordCopy!.MessageStatusID" class="form-control">
                                             <option value="">-- Please Select --</option>
-                                            @if (messageTemplates != null)
+                                            @foreach (var value in Enum.GetValues<MessageStatus>())
                                             {
-                                                foreach (var template in messageTemplates)
-                                                {
-                                                    <option value="@template.MessageTemplateID">@template.Name</option>
-                                                }
+                                                <option value="@value">@value</option>
                                             }
                                         </InputSelect>
-                                        <ValidationMessage For="@(() => selectedRecordCopy!.MessageTemplate.MessageTemplateID)" />
-                                    }
-
-                                </div>
-                            </div>
-
-                            <div class="row g-3 mb-3">
-                                <div class="col-md-2">
-                                    <label class="col-form-label"><i class="fa-solid fa-angles-right"></i> Subject</label>
-                                </div>
-                                <div class="col-md-10">
-                                    <InputText @bind-Value="selectedRecordCopy!.Subject" class="form-control" />
-                                    <ValidationMessage For="@(() => selectedRecordCopy!.Subject)" />
-                                </div>
-                            </div>
-
-                            <div class="row g-3 mb-3">
-                                <div class="col-md">
-                                    Message
-                                </div>
-                            </div>
-                            <div class="row g-3 mb-3">
-                                <div class="col-md">
-                                    <Editor ScriptSrc="./lib/tinymce/tinymce.min.js" @bind-Value="selectedRecordCopy!.Message" Field="() => selectedRecordCopy!.Message" LicenseKey="gpl" />
-                                    @* <InputTextArea @bind-Value="selectedRecord!.Message" class="form-control" /> *@
-                                    <ValidationMessage For="@(() => selectedRecord!.Message)" />
-                                </div>
-                            </div>
-
-                            <div class="row g-3 mb-3">
-                                <div class="col-md-2">
-                                    <label class="col-form-label"><i class="fa-solid fa-angles-right"></i> Vehicle</label>
-                                </div>
-                                <div class="col-md-10">
-                                    <InputNumber @bind-Value="selectedRecordCopy!.VehicleID" class="form-control" />
-                                    <ValidationMessage For="@(() => selectedRecordCopy!.VehicleID)" />
-                                </div>
-                            </div>
-
-                            <div class="row g-3 mb-3">
-                                <div class="col-md">
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <label class="col-form-label"><i class="fa-solid fa-angles-right"></i> <i class="fa-solid fa-sterling-sign"></i> Offered</label>
-                                        </div>
-                                        <div class="col-md-8">
-                                            <InputNumber @bind-Value="selectedRecordCopy!.AmountOffered" class="form-control" />
-                                            <ValidationMessage For="@(() => selectedRecordCopy!.AmountOffered)" />
-                                        </div>
+                                        <ValidationMessage For="@(() => selectedRecordCopy!.MessageStatusID)" />
                                     </div>
                                 </div>
-                                <div class="col-md">
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <label class="col-form-label"><i class="fa-solid fa-angles-right"></i> Accepted?</label>
-                                        </div>
-                                        <div class="col-md-8">
-                                            <div class="d-grid gap-2 d-md-block">
-                                                <button type="button" class="btn @(selectedRecordCopy!.IsAccepted == true? "btn-primary" : "btn-outline-primary") me-md-3" @onclick="(e) => ToggleMainRecordIsAccepted()"><i class="@(selectedRecordCopy!.IsAccepted == true? "fa-solid fa-square-check" : "fa-regular fa-square")"></i></button>
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mb-3">
+                            <div class="col-md">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md">
+                                                <label class="col-form-label"><i class="fa-solid fa-angles-right"></i> Add Database Field</label>
                                             </div>
-                                            <ValidationMessage For="@(() => selectedRecordCopy!.IsAccepted)" />
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md">
+                                                <div class="input-group">
+                                                    <span class="input-group-text"><i class="fa-solid fa-database"></i></span>
+                                                    <InputSelect @bind-Value="selectedDatabaseField" class="form-select">
+                                                        <option value="">-- Please Select --</option>
+                                                        
+                                                        @if (messageFields != null)
+                                                        {
+                                                            foreach (var property in messageFields.GetType().GetProperties().OrderBy(p => p.Name))
+                                                            {
+                                                                string? optionValue = $"<data:Message.{property.Name}>";
+                                                                <option value="@optionValue">@optionValue</option>
+                                                            }
+                                                        }
+                                                        
+                                                    </InputSelect>
+                                                    <button class="btn btn-outline-primary" type="button" @onclick="InsertDatabaseField"><i class="fa-solid fa-square-plus"></i> Add Selected Field</button>
+                                                    <button class="btn btn-outline-primary" type="button" @onclick="InsertDatabaseFieldFromFormat"><i class="fa-solid fa-palette"></i> Add With Format...</button>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                        </div>
 
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-2">
+                                <label class="col-form-label"><i class="fa-solid fa-angles-right"></i> Subject</label>
+                            </div>
+                            <div class="col-md-10">
+                                <InputText id="subjectInput" @bind-Value="selectedRecordCopy!.Subject" class="form-control" onblur="@{
+                                () => @SetFocus("Subject")
+}" />
+                                <ValidationMessage For="@(() => selectedRecordCopy!.Subject)" />
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mb-3">
+                            <div class="col-md">
+                                Message
+                            </div>
+                        </div>
+                        <div class="row g-3 mb-3">
+                            <div class="col-md">
+                                <Editor ScriptSrc="./lib/tinymce/tinymce.min.js" @bind-Value="selectedRecordCopy!.Message" Field="() => selectedRecordCopy!.Message" LicenseKey="gpl" />
+                                @* <InputTextArea @bind-Value="selectedRecordCopy!.Message" class="form-control" /> *@
+                                <ValidationMessage For="@(() => selectedRecordCopy!.Message)" />
+                            </div>
+                        </div>
+
+                        if (messagePreview != null)
+                        {
                             <div class="row g-3 mb-3">
                                 <div class="col-md">
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <label class="col-form-label"><i class="fa-solid fa-angles-right"></i> Sent Date</label>
-                                        </div>
-                                        <div class="col-md-8">
-                                            <InputDate @bind-Value="selectedRecordCopy!.SentDate" class="form-control" />
-                                            <ValidationMessage For="@(() => selectedRecordCopy!.SentDate)" />
-                                        </div>
-                                    </div>
+                                    Message Preview
                                 </div>
+                            </div>
+                            <div class="row g-3 mb-3">
                                 <div class="col-md">
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <label class="col-form-label"><i class="fa-solid fa-angles-right"></i> <i class="fa-solid fa-sterling-sign"></i> Status</label>
-                                        </div>
-                                        <div class="col-md-8">
-                                            <InputSelect @bind-Value="selectedRecordCopy!.MessageStatusID" class="form-control">
-                                                <option value="">-- Please Select --</option>
-                                                @foreach (var value in Enum.GetValues<MessageStatus>())
-                                                {
-                                                    <option value="@value">@value</option>
-                                                }
-                                            </InputSelect>
-                                            <ValidationMessage For="@(() => selectedRecordCopy!.MessageStatusID)" />
-                                        </div>
+                                    <div class="Textarea">
+                                        @messagePreview
                                     </div>
                                 </div>
                             </div>
                         }
+                    }
+                </div>
+            </div>
+
+            <ValidationSummary />
+
+        </EditForm>
+    </Body>
+    <Footer>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @onclick="() => AdvanceToMainRecord(-1)"><i class="fa-solid fa-square-caret-left"></i></button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @onclick="() => AdvanceToMainRecord(1)"><i class="fa-solid fa-square-caret-right"></i></button>
+        <button type="button" class="btn btn-info" data-bs-dismiss="modal" @onclick="() => PreviewMessage()"><i class="fa-solid fa-magnifying-glass"></i> Preview</button>
+        <button type="button" class="btn btn-info" data-bs-dismiss="modal" @onclick="() => SendMessage(true)" disabled="@(selectedRecordCopy?.MessageProcessed == null ? true : false)"><i class="fa-solid fa-paper-plane"></i> Send</button>
+
+        @if (selectedRecordChanges?.Count > 0)
+        {
+            <button type="button" class="btn btn-success" data-bs-dismiss="modal" @onclick="() => SaveMainRecord(true)"><i class="fa-solid fa-floppy-disk"></i> Save and Close</button>
+            <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @onclick="() => SaveMainRecord(false)"><i class="fa-solid fa-floppy-disk"></i> Save</button>
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal" @onclick="CancelMainRecordConfirm"><i class="fa-solid fa-rotate-left"></i> Cancel <strong>@(selectedRecordChanges?.Count ?? 1)</strong> Changes</button>
+        }
+        else
+        {
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @onclick="CloseMainRecord"><i class="fa-solid fa-rotate-left"></i> Close</button>
+        }
+    </Footer>
+</Modal>
+
+<Modal @ref="modalFormat">
+    <WindowControls>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @onclick="() => modalFormat!.Close()"></button>
+    </WindowControls>
+    <Title><i class="fa-solid fa-palette"></i> Formatting Options for @selectedDatabaseField</Title>
+    <Body>
+        @{
+            Type? propertyType = ModelFunctions.GetPropertyTypeFromModelAndNameDataTag(selectedDatabaseField);
+        }
+        <div class="bd-callout bd-callout-primary bd-callout-grey GreyBackground">
+            <div class="container">
+                <div class="row g-3 mb-3">
+                    <div class="col-md">
+                        <div class="row">
+                            <div class="col-md">
+                                <label class="col-form-label"><i class="fa-solid fa-angles-right"></i> Add With Format</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md">
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fa-solid fa-palette"></i></span>
+                                    <InputSelect @bind-Value="selectedDatabaseFieldFormatted" class="form-select">
+                                        <option value="">-- Please Select --</option>
+                                        <option value="@selectedDatabaseField">No Format</option>
+
+                                        @if (propertyType == typeof(DateTime) || propertyType == typeof(DateTime?))
+                                        {
+                                            <option value="@selectedDatabaseField?.Replace(">",",Format:dd/MM/yyyy>")">Short Date (dd/MM/yyyy)</option>
+                                            <option value="@selectedDatabaseField?.Replace(">",",Format:dd/MM/yyyy HH:mm>")">Short Date and Time (dd/MM/yyyy HH:mm)</option>
+                                            <option value="@selectedDatabaseField?.Replace(">",",Format:dd/MM/yyyy HH:mm:ss>")">Short Date and Time with Seconds (dd/MM/yyyy HH:mm:ss)</option>
+                                            <option value="@selectedDatabaseField?.Replace(">",",Format:dd MMMM yyyy>")">Long Date (dd MMMM yyyy)</option>
+                                            <option value="@selectedDatabaseField?.Replace(">",",Format:dd MMMM yyyy HH:mm>")">Long Date and Time (dd MMMM yyyy HH:mm)</option>
+                                            <option value="@selectedDatabaseField?.Replace(">",",Format:dd MMMM yyyy HH:mm:ss>")">Long Date and Time with Seconds (dd MMMM yyyy HH:mm:ss)</option>
+                                            <option value="@selectedDatabaseField?.Replace(">",",Format:HH:mm>")">Time (HH:mm)</option>
+                                            <option value="@selectedDatabaseField?.Replace(">",",Format:HH:mm:ss>")">Time with Seconds (HH:mm:ss)</option>
+                                            <option value="@selectedDatabaseField?.Replace(">",",Format:d>")">Day of Month (d)</option>
+                                            <option value="@selectedDatabaseField?.Replace(">",",Format:dddd>")">Day of Week (dddd)</option>
+                                            <option value="@selectedDatabaseField?.Replace(">",",Format:ddd>")">Day of Week Short (ddd)</option>
+                                            <option value="@selectedDatabaseField?.Replace(">",",Format:MMMM>")">Month of Year (MMMM)</option>
+                                            <option value="@selectedDatabaseField?.Replace(">",",Format:yyyy>")">Year (yyyy)</option>
+                                            <option value="@selectedDatabaseField?.Replace(">",",Format:yyyy-MM-dd>")">Year, Month, Day (yyyy-MM-dd)</option>
+                                        }
+                                        else if (propertyType == typeof(int) || propertyType == typeof(int?))
+                                        {
+                                            <option value="@selectedDatabaseField?.Replace(">",",Format:N0>")">1,000</option>
+                                            <option value="@selectedDatabaseField?.Replace(">",",Format:C0>")">&pound;0</option>
+                                            <option value="@selectedDatabaseField?.Replace(">",",Format:P0>")">0.%</option>
+                                        }
+                                        else if (propertyType == typeof(decimal) || propertyType == typeof(decimal?))
+                                        {
+                                            <option value="@selectedDatabaseField?.Replace(">",",Format:N0>")">1,000</option>
+                                            <option value="@selectedDatabaseField?.Replace(">",",Format:N1>")">1,000.0</option>
+                                            <option value="@selectedDatabaseField?.Replace(">",",Format:N2>")">1,000.00</option>
+                                            <option value="@selectedDatabaseField?.Replace(">",",Format:C0>")">&pound;0</option>
+                                            <option value="@selectedDatabaseField?.Replace(">",",Format:C2>")">&pound;0.00</option>
+                                            <option value="@selectedDatabaseField?.Replace(">",",Format:P0>")">0.%</option>
+                                            <option value="@selectedDatabaseField?.Replace(">",",Format:P1>")">0.0%</option>
+                                            <option value="@selectedDatabaseField?.Replace(">",",Format:P2>")">0.00%</option>
+                                        }
+                                        else if (propertyType == typeof(bool) || propertyType == typeof(bool?))
+                                        {
+                                            <option value="@selectedDatabaseField?.Replace(">",",Format:True/False>")">True/False</option>
+                                            <option value="@selectedDatabaseField?.Replace(">",",Format:Y/N>")">Y/N</option>
+                                            <option value="@selectedDatabaseField?.Replace(">",",Format:Yes/No>")">Yes/No</option>
+                                            <option value="@selectedDatabaseField?.Replace(">",",Format:1/0>")">1/0</option>
+                                        }
+                                        
+                                    </InputSelect>
+                                    <button class="btn btn-outline-primary" type="button" @onclick="InsertDatabaseFieldWithFormat"><i class="fa-solid fa-square-plus"></i> Add Selected Field</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </Body>
+    <Footer>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @onclick="() => modalFormat!.Close()">Close</button>
+    </Footer>
+</Modal>
 
-                <ValidationSummary />
+@if (HideContent != true)
+{
+    <h3><i class="fa-solid fa-envelopes-bulk"></i> Messages</h3>
 
-            </EditForm>
-        </Body>
-        <Footer>
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @onclick="() => AdvanceToMainRecord(-1)"><i class="fa-solid fa-square-caret-left"></i></button>
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @onclick="() => AdvanceToMainRecord(1)"><i class="fa-solid fa-square-caret-right"></i></button>
-            <button type="button" class="btn btn-info" data-bs-dismiss="modal" @onclick="() => SendMessage(true)"><i class="fa-solid fa-paper-plane"></i> Send</button>
-
-            @if (selectedRecordChanges?.Count > 0)
-            {
-                <button type="button" class="btn btn-success" data-bs-dismiss="modal" @onclick="() => SaveMainRecord(true)"><i class="fa-solid fa-floppy-disk"></i> Save and Close</button>
-                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @onclick="() => SaveMainRecord(false)"><i class="fa-solid fa-floppy-disk"></i> Save</button>
-                <button type="button" class="btn btn-danger" data-bs-dismiss="modal" @onclick="CancelMainRecordConfirm"><i class="fa-solid fa-rotate-left"></i> Cancel <strong>@(selectedRecordChanges?.Count ?? 1)</strong> Changes</button>
+    @if (loadDataErrorMsg != null) 
+    {
+        <div class="container">
+            <div class="row">
+                <div class="col-md">
+                    <div class="alert alert-danger hstack gap-3" role="alert">
+                        <div>
+                            <h1><i class="fa-solid fa-triangle-exclamation"></i></h1>
+                        </div>
+                        <div>
+                            <p>
+                                @loadDataErrorMsg
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else if (mainRecords == null)
+    {
+        <div class="container">
+            <div class="row">
+                <div class="col-md">
+                    <div class="alert alert-primary text-center" role="alert">
+                        <h1>
+                            <i class="fa-solid fa-spinner fa-spin"></i> Loading ...
+                        </h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else {
+        <div class="container-fluid">
+            @{
+                IList<string> ExcludeMainFields = new List<string> { "Message", "MessageProcessed", "MessageIsHTML", "CC", "BCC" };
+                string? DisabledItemFieldName = null;
+                string? ErrorItemFieldName = "IsSent";
             }
-            else
-            {
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @onclick="CloseMainRecord"><i class="fa-solid fa-rotate-left"></i> Close</button>
-            }
-        </Footer>
-    </Modal>
+            <Grid Items="ItemsMain"
+            ExcludeFields="ExcludeMainFields"
+            FilterFields="FilterFieldsMain"
+            DisabledItemFieldName="@DisabledItemFieldName"
+            ErrorItemFieldName="@ErrorItemFieldName"
+            DropDownValues="DropDownValues"
+            SelectedItemID="selectedRecord?.MessageID" 
+            OnSelectItem="SelectMainRecord" 
+            OnEditItem="EditMainRecord" 
+            OnDeleteItem="DeleteMainRecordConfirm"
+            OnRemoveFilters="RemoveFiltersMain"
+            OnRemoveLastFilter="RemoveLastFilterMain"
+            OnRemoveFilter="RemoveFilterMain"
+            OnShowFilterHelp="ShowFilterHelpMain"
+            OnChangeFilter="ChangeFilterMainFromComponent"/>
+
+        </div>
+    }
 }
 
 @code {
     [Parameter]
     public int? MessageID { get; set; }
 
+    [Parameter]
+    public bool? HideContent { get; set; }
+
     public EditContext? EditContextMain { get; set; }
-    private FluentValidationValidator? _fluentValidationValidator;
+    public FluentValidationValidator? _fluentValidationValidator;
 
     private string? messageEndPoint;
     private string? messageTemplateEndPoint;
@@ -371,11 +520,21 @@ else {
         filtersMain.Remove(filter);
     }
 
-    private List<MessageModel>? mainRecords { get; set; }
+    [Parameter]
+    public List<MessageModel>? mainRecords { get; set; }
 
-    [SupplyParameterFromForm]
+    [Parameter]
     public MessageModel? selectedRecord { get; set; } = new MessageModel();
-    private MessageModel? selectedRecordCopy { get; set; } = new MessageModel();
+    [Parameter]
+    public MessageModel? selectedRecordCopy { get; set; } = new MessageModel();
+
+    private CustomerModel? customerFields = new CustomerModel();
+    private MessageModel? messageFields = new MessageModel();
+    private VehicleModel? vehicleFields = new VehicleModel();
+
+    private string? selectedDatabaseField { get; set; }
+    private string? selectedDatabaseFieldFormatted { get; set; }
+    private MarkupString? messagePreview { get; set; }
 
     //Related datasets
     private List<MessageTemplateModel>? messageTemplates { get; set; }
@@ -418,9 +577,27 @@ else {
         PopulateDropDownValuesMain();
     }
 
+    public void SetMainRecords(List<MessageModel> updatedMessages)
+    {
+        mainRecords = updatedMessages;
+        StateHasChanged();
+    }
+
+    public void SetMessageModel(MessageModel updatedMessage)
+    {
+        selectedRecord = updatedMessage;
+        StateHasChanged();
+    }
+
+    public void SetMessageCopyModel(MessageModel updatedMessage)
+    {
+        selectedRecordCopy = updatedMessage;
+        StateHasChanged();
+    }
+
     private void CheckAuthentication()
     {
-        if (appData?.CurrentUser == null)
+        if (appData?.CurrentUser?.Email == null)
         {
             NavManager.NavigateTo("/Login");
         }
@@ -442,7 +619,11 @@ else {
         }
         else
         {
-            selectedRecord = new MessageModel();
+            selectedRecord = new MessageModel()
+            {
+                From = configuration.GetSection("Settings")["EmailAddress"],
+                FromName = configuration.GetSection("Settings")["EmailName"]
+            };
 
             //Related Datasets
             MessageTemplateModel blankMessageTemplateModel = new MessageTemplateModel();
@@ -501,6 +682,14 @@ else {
             {
                 DropDownValues.Add(template);
             }
+        }
+    }
+
+    public void AddDatabaseFieldToTextArea()
+    {
+        if (selectedRecordCopy != null)
+        {
+            selectedRecordCopy.Message = "Changed";
         }
     }
 
@@ -653,7 +842,10 @@ else {
 
                 foreach (var member in propertyName.Split('.'))
                 {
-                    parentProperty = property;
+                    //Do not need a not null check on the object itself
+                    if (!property.ToString().Equals("m"))
+                        parentProperty = property;
+
                     property = Expression.Property(property, member);
                 }
 
@@ -733,7 +925,7 @@ else {
 
     public string? action { get; set; }
     public string? soundEffect { get; set; }
-    private Modal? modalMainRecord { get; set; }
+    public Modal? modalMainRecord { get; set; }
 
     private Modal? modalInfo { get; set; }
     public string? msgInfoTitle = null;
@@ -747,6 +939,8 @@ else {
     private Modal? modalConfirm { get; set; }
     public string? msgConfirmTitle = null;
     public MarkupString? msgConfirm = null;
+
+    private Modal? modalFormat { get; set; }
 
     public string? loadDataErrorMsg = null;
 
@@ -888,11 +1082,14 @@ else {
                 selectedRecordChanges.Add(fieldName, fieldValue ?? "");
             }
         }
+
+        focusElement = null;
     }
 
-    private void EditMainRecord(int? recordID)
+    public void EditMainRecord(int? recordID)
     {
-        SelectMainRecord(recordID);
+        if (recordID != null)
+            SelectMainRecord(recordID);
 
         SetEditorContextMain();
 
@@ -914,7 +1111,7 @@ else {
         }
     }
 
-    private async Task<bool> SaveMainRecord(bool? CloseDialogAfterSave)
+    public async Task<bool> SaveMainRecord(bool? CloseDialogAfterSave)
     {
         string? saveEndPoint;
         bool returnValue = false;
@@ -1121,6 +1318,24 @@ else {
     }
 
     //Additional Functions
+    public async Task LoadMessageTemplate(bool? refreshEditor)
+    {
+        MessageTemplateModel? selectedTemplate = messageTemplates?
+            .Where(t => t.MessageTemplateID == selectedRecordCopy?.MessageTemplate?.MessageTemplateID)
+            .FirstOrDefault() ?? new();
+        Console.WriteLine($"Selected Template {selectedTemplate.MessageTemplateID}");
+        if (selectedTemplate != null && selectedRecordCopy != null)
+        {
+            selectedRecordCopy.Subject = selectedTemplate.TemplateSubject;
+            selectedRecordCopy.Message = selectedTemplate.TemplateContent;
+            
+            if (refreshEditor == true)
+            {
+                await ReplaceEditorContent(selectedRecordCopy.Message);
+            }
+        }
+    }
+
     private MessageTemplateModel? GetMessageTemplate(int messageTemplateID)
     {
         return
@@ -1131,10 +1346,92 @@ else {
 
     public async Task SendMessage(bool? CloseDialogAfterSave)
     {
-        if (await SaveMainRecord(CloseDialogAfterSave) == true)
+        // if (await SaveMainRecord(CloseDialogAfterSave) == true)
+        // {
+        //Send email
+        if (selectedRecordCopy != null)
         {
-            //Send email
+            SystemEmailModel emailMessage = new SystemEmailModel
+                    {
+                        SystemEmailID = 1,
+                        EmailFrom = selectedRecordCopy.From,
+                        EmailFromName = selectedRecordCopy.FromName,
+                        EmailTo = selectedRecordCopy.To,
+                        EmailToName = selectedRecordCopy.ToName,
+                        EmailCC = "robin.wilson@robindigital.co.uk",
+                        EmailBCC = null,
+                        EmailSubject = selectedRecordCopy.Subject,
+                        EmailMessage = selectedRecordCopy.MessageProcessed,
+                        IsEmailMessageHTML = true,
+                        EmailKey = configuration.GetSection("Settings")["EmailKey"]
+                };
+
+            HttpResponseMessage formResponse = new HttpResponseMessage();
+            Console.WriteLine($"Email Subject {emailMessage.EmailSubject}");
+            if (emailMessage != null)
+            {
+                Logger.LogInformation("Id = {Id}", emailMessage?.SystemEmailID);
+
+                //Send the Message
+                string? sendEmailEndPoint = $"{configuration["APIEndpoint"]}/SystemEmail";
+                formResponse = await Http.PostAsJsonAsync<SystemEmailModel>(sendEmailEndPoint, emailMessage!);
+
+                if (formResponse.IsSuccessStatusCode != true)
+                {
+                    string responseBody = await formResponse.Content.ReadAsStringAsync();
+                    action = "Error";
+                    soundEffect = SoundFunctions.GetErrorSound();
+
+                    msgErrorTitle = $"Cannot Send Message";
+                    msgError = (MarkupString)$"Unfortunately the Message could not be sent successfully due to an error.<br />Please check your network connection and attempt to save again.";
+                    msgErrorStackTrace = responseBody;
+
+                    modalError!.Open();
+                }
+                else
+                {
+
+                    //Insert new record
+
+                    //Get ID of newly inserted record and add new item to model so shows on screen
+                    SystemEmailModel emailMessageResponse = await formResponse.Content.ReadFromJsonAsync<SystemEmailModel>() ?? new SystemEmailModel();
+
+                    if (emailMessageResponse.IsSent != null)
+                    {
+                        selectedRecordCopy.IsSent = emailMessageResponse.IsSent;
+
+                        if (emailMessageResponse.IsSent == false)
+                        {
+                            action = "Error";
+                            soundEffect = SoundFunctions.GetErrorSound();
+
+                            msgErrorTitle = $"Cannot Sent Message";
+                            msgError = (MarkupString)$"Unfortunately the Message could not be sent successfully due to an error.<br />Please check your network connection and attempt to save again.";
+                            msgErrorStackTrace = null;
+
+                            modalError!.Open();
+                        }
+                        else {
+                            selectedRecordCopy.SentDate = DateTime.Now;
+                        }
+                    }
+                    else
+                    {
+                        action = "Error";
+                        soundEffect = SoundFunctions.GetErrorSound();
+
+                        msgErrorTitle = $"Cannot Sent Message";
+                        msgError = (MarkupString)$"Unfortunately the Message could not be sent successfully due to an error.<br />Please check your network connection and attempt to save again.";
+                        msgErrorStackTrace = null;
+
+                        modalError!.Open();
+                    }
+                }
+
+                await SaveMainRecord(true);
+            }
         }
+        // }
     }
 
     //Common Code
@@ -1153,7 +1450,7 @@ else {
                 You have made the following changes:<br />
                 - {tableName}: {numberOfChanges}:
                 <ul>
-                {listOfChanges}
+    {listOfChanges}
                 </ul>
             </p>
             <p>
@@ -1201,6 +1498,158 @@ else {
         modalConfirm!.Close();
 
         selectedRecordChanges?.Clear();
+        messagePreview = null;
+    }
+
+    private async Task GetCursorPosition()
+    {
+        var cursorPosition = await JSRuntime.InvokeAsync<int>("tinymceInterop.getCursorPosition");
+        Logger.LogInformation("Cursor Position: {CursorPosition}", cursorPosition);
+    }
+
+    private async Task InsertTextIntoSubject(string? text)
+    {
+        string? textToInsert = text;
+
+        Console.WriteLine($"Selected Database Field To Insert into Subject: {textToInsert}");
+        await JSRuntime.InvokeVoidAsync("inputInterop.insertTextAtCursor", "subjectInput", textToInsert);
+    }
+
+    private async Task AddEditorContent(string? text)
+    {
+        string? textToInsert = text?.Replace("<", "&lt;").Replace(">", "&gt;");
+        Console.WriteLine($"Selected Database Field To Insert into Textarea: {textToInsert}");
+        await JSRuntime.InvokeVoidAsync("tinymceInterop.focusEditor");
+        await JSRuntime.InvokeVoidAsync("tinymceInterop.insertTextAtCursor", textToInsert);
+    }
+
+    private async Task ReplaceEditorContent(string? text)
+    {
+        string? textToInsert = text;
+
+        await JSRuntime.InvokeVoidAsync("tinymceInterop.replaceEditorContent", textToInsert);
+        await JSRuntime.InvokeVoidAsync("tinymceInterop.focusEditor");
+    }
+
+    private string? focusElement;
+    private void SetFocus(string? field)
+    {
+        focusElement = field;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        // if (firstRender)
+        // {
+        //await JSRuntime.InvokeVoidAsync("tinymceInterop.initializeEditor", DotNetObjectReference.Create(this));
+        // }
+    }
+
+    [JSInvokable]
+    public void OnEditorBlur()
+    {
+        focusElement = "Message";
+        //Logger.LogInformation("TinyMCE editor lost focus");
+    }
+
+    private async Task InsertDatabaseField()
+    {
+        if (selectedDatabaseField != null)
+        {
+            if (focusElement == "Subject")
+            {
+                await InsertTextIntoSubject(selectedDatabaseField);
+            }
+            else if (focusElement == "Message")
+            {
+                await AddEditorContent(selectedDatabaseField);
+            }
+            else
+            {
+                // Add as default for now
+                await AddEditorContent(selectedDatabaseField);
+            }
+        }
+        else
+        {
+            action = "Error";
+            soundEffect = SoundFunctions.GetErrorSound();
+
+            msgErrorTitle = $"Please select a field first using the field selector on the left before pressing the Add Selected Field option";
+            msgError = (MarkupString)$"Unfortunately the Message Record could not be saved successfully due to an error.<br />Please check your network connection and attempt to save again.";
+            msgErrorStackTrace = null;
+
+            modalError!.Open();
+        }
+    }
+
+    private async Task InsertDatabaseFieldWithFormat()
+    {
+        if (selectedDatabaseField != null)
+        {
+            if (focusElement == "Subject")
+            {
+                await InsertTextIntoSubject(selectedDatabaseFieldFormatted);
+            }
+            else if (focusElement == "Message")
+            {
+                await AddEditorContent(selectedDatabaseFieldFormatted);
+            }
+            else
+            {
+                // Add as default for now
+                await AddEditorContent(selectedDatabaseFieldFormatted);
+            }
+            modalFormat!.Close();
+        }
+        else
+        {
+            action = "Error";
+            soundEffect = SoundFunctions.GetErrorSound();
+
+            msgErrorTitle = $"Please select a field first using the field selector on the left before pressing the Add Selected Field option";
+            msgError = (MarkupString)$"Unfortunately the Message Record could not be saved successfully due to an error.<br />Please check your network connection and attempt to save again.";
+            msgErrorStackTrace = null;
+
+            modalError!.Open();
+        }
+    }
+
+    private void InsertDatabaseFieldFromFormat()
+    {
+
+        modalFormat!.OpenOnTop1();
+    }
+
+    public void PreviewMessage()
+    {
+        string? processedSubject = selectedRecordCopy?.Subject;
+        string? processedMessage = selectedRecordCopy?.Message;
+        MarkupString? preview;
+
+        if (selectedRecordCopy != null)
+        {
+            processedSubject = ModelFunctions.DoAllDatabaseReplacements(processedSubject, selectedRecordCopy);
+            processedMessage = ModelFunctions.DoAllDatabaseReplacements(processedMessage, selectedRecordCopy);
+        }
+
+        if (selectedRecordCopy != null)
+        {
+            selectedRecordCopy.SubjectProcessed = processedSubject;
+            selectedRecordCopy.MessageProcessed = processedMessage;
+        }
+
+        preview = (MarkupString?)$@"
+            From {selectedRecordCopy?.FromName} &lt;{selectedRecordCopy?.From}&gt;
+            <hr />
+            To {selectedRecordCopy?.ToName} &lt;{selectedRecordCopy?.To}&gt;
+            <hr />
+            Subject {selectedRecordCopy?.SubjectProcessed}
+            <hr />
+        {selectedRecordCopy?.MessageProcessed ?? ""}
+            ";
+
+        messagePreview = preview;
     }
 
     private void HandleJsonException(HttpRequestException ex, string objectName, string objectID)

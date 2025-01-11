@@ -17,6 +17,7 @@
 @inject NavigationManager NavManager
 @inject ILogger<MessageTemplateModel> Logger
 @inject AppData appData
+@inject IJSRuntime JSRuntime
 
 <PageTitle>Message Templates @@ Broken Motor</PageTitle>
 
@@ -192,6 +193,47 @@ else {
 
                             <div class="row g-3 mb-3">
                                 <div class="col-md">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <label class="col-form-label"><i class="fa-solid fa-angles-right"></i> Add Database Field</label>
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <div class="input-group">
+                                                        <span class="input-group-text"><i class="fa-solid fa-database"></i></span>
+                                                        <InputSelect @bind-Value="selectedDatabaseField" class="form-select">
+                                                            <option value="">-- Please Select --</option>
+                                                            @if (messageFields != null)
+                                                            {
+                                                                foreach (var property in messageFields.GetType().GetProperties().OrderBy(p => p.Name))
+                                                                {
+                                                                    string? optionValue = $"<data:{property.Name}>";
+                                                                    <option value="@optionValue">@optionValue</option>
+                                                                }
+                                                            }
+                                                        </InputSelect>
+                                                        <button class="btn btn-outline-primary" type="button" @onclick="InsertDatabaseField"><i class="fa-solid fa-square-plus"></i> Add Selected Field</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row g-3 mb-3">
+                                <div class="col-md-4">
+                                    <label class="col-form-label"><i class="fa-solid fa-angles-right"></i> Template Subject</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <InputText id="subjectInput" @bind-Value="selectedRecordCopy!.TemplateSubject" class="form-control" onblur="@{() => @SetFocus("Subject")}" />
+                                    <ValidationMessage For="@(() => selectedRecordCopy!.TemplateSubject)" />
+                                </div>
+                            </div>
+
+                            <div class="row g-3 mb-3">
+                                <div class="col-md">
                                     Template Text
                                 </div>
                             </div>
@@ -279,6 +321,10 @@ else {
     [SupplyParameterFromForm]
     public MessageTemplateModel? selectedRecord { get; set; } = new MessageTemplateModel();
     private MessageTemplateModel? selectedRecordCopy { get; set; } = new MessageTemplateModel();
+    private MessageModel? messageFields = new MessageModel();
+    private string? selectedDatabaseField { get; set; }
+
+    //Related datasets
 
     protected override async Task OnInitializedAsync()
     {
@@ -534,7 +580,10 @@ else {
 
                 foreach (var member in propertyName.Split('.'))
                 {
-                    parentProperty = property;
+                    //Do not need a not null check on the object itself
+                    if (!property.ToString().Equals("m"))
+                        parentProperty = property;
+
                     property = Expression.Property(property, member);
                 }
 
@@ -768,6 +817,8 @@ else {
                 selectedRecordChanges.Add(fieldName, fieldValue ?? "");
             }
         }
+
+        focusElement = null;
     }
 
     private void EditMainRecord(int? recordID)
@@ -808,7 +859,7 @@ else {
                 if (selectedRecord != null && selectedRecordCopy != null)
                 {
                     //Update related entities (as only IDs are updated on the form so rest of object is not updated)
-                    
+
 
                     HttpResponseMessage formResponse = new HttpResponseMessage();
 
@@ -1022,7 +1073,7 @@ else {
                 You have made the following changes:<br />
                 - {tableName}: {numberOfChanges}:
                 <ul>
-                {listOfChanges}
+    {listOfChanges}
                 </ul>
             </p>
             <p>
@@ -1070,6 +1121,88 @@ else {
         modalConfirm!.Close();
 
         selectedRecordChanges?.Clear();
+    }
+
+    private async Task GetCursorPosition()
+    {
+        var cursorPosition = await JSRuntime.InvokeAsync<int>("tinymceInterop.getCursorPosition");
+        Logger.LogInformation("Cursor Position: {CursorPosition}", cursorPosition);
+    }
+
+    private async Task InsertTextIntoSubject(string? text)
+    {
+        string? textToInsert = text;
+
+        Console.WriteLine($"Selected Database Field To Insert into Subject: {textToInsert}");
+        await JSRuntime.InvokeVoidAsync("inputInterop.insertTextAtCursor", "subjectInput", textToInsert);
+    }
+
+    private async Task AddEditorContent(string? text)
+    {
+        string? textToInsert = text?.Replace("<", "&lt;").Replace(">", "&gt;");
+        Console.WriteLine($"Selected Database Field To Insert into Textarea: {textToInsert}");
+        await JSRuntime.InvokeVoidAsync("tinymceInterop.focusEditor");
+        await JSRuntime.InvokeVoidAsync("tinymceInterop.insertTextAtCursor", textToInsert);
+    }
+
+    private async Task ReplaceEditorContent(string? text)
+    {
+        string? textToInsert = text;
+
+        await JSRuntime.InvokeVoidAsync("tinymceInterop.replaceEditorContent", textToInsert);
+        await JSRuntime.InvokeVoidAsync("tinymceInterop.focusEditor");
+    }
+
+    private string? focusElement;
+    private void SetFocus(string? field)
+    {
+        focusElement = field;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        // if (firstRender)
+        // {
+            // await JSRuntime.InvokeVoidAsync("tinymceInterop.initializeEditor", DotNetObjectReference.Create(this));
+        // }
+    }
+
+    [JSInvokable]
+    public void OnEditorBlur()
+    {
+        focusElement = "Message";
+        //Logger.LogInformation("TinyMCE editor lost focus");
+    }
+
+    private async Task InsertDatabaseField()
+    {
+        if (selectedDatabaseField != null)
+        {
+            if (focusElement == "Subject")
+            {
+                await InsertTextIntoSubject(selectedDatabaseField);
+            }
+            else if (focusElement == "Message")
+            {
+                await AddEditorContent(selectedDatabaseField);
+            }
+            else
+            {
+                // Add as default for now
+                await AddEditorContent(selectedDatabaseField);
+            }
+        }
+        else
+        {
+            action = "Error";
+            soundEffect = SoundFunctions.GetErrorSound();
+
+            msgErrorTitle = $"Please select a field first using the field selector on the left before pressing the Add Selected Field option";
+            msgError = (MarkupString)$"Unfortunately the Message Record could not be saved successfully due to an error.<br />Please check your network connection and attempt to save again.";
+            msgErrorStackTrace = null;
+
+            modalError!.Open();
+        }
     }
 
     private void HandleJsonException(HttpRequestException ex, string objectName, string objectID)

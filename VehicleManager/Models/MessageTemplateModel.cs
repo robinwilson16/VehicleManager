@@ -13,6 +13,7 @@ namespace VehicleManager.Models
         public int MessageTemplateID { get; set; }
         public string? Code { get; set; }
         public string? Name { get; set; }
+        public string? TemplateSubject { get; set; }
         public string? TemplateContent { get; set; }
         public int? Sequence { get; set; }
         public bool? IsEnabled { get; set; }

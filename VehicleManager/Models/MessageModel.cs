@@ -6,6 +6,7 @@ using System.Text.Json.Serialization;
 using System.ComponentModel;
 using System;
 using System.Runtime;
+using VehicleManager.Pages;
 
 namespace VehicleManager.Models
 {
@@ -24,12 +25,31 @@ namespace VehicleManager.Models
         [DisplayName("Template")]
         public virtual MessageTemplateModel? MessageTemplate { get; set; }
         public string? Subject { get; set; }
+        public string? SubjectProcessed { get; set; }
         public string? Message { get; set; }
+        //public string? Message { 
+        //    get
+        //    {
+        //        return _Message;
+        //    }
+        //    set
+        //    {
+        //        _Message = value;
+        //        if (value != null)
+        //        {
+        //            string? processedMessage = Messages.DatabaseReplacements(value)
+        //            MessageProcessed = (MarkupString?)value;
+        //        }
+        //    } 
+        //}
+
+        public string? MessageProcessed { get; set; }
         public bool? MessageIsHTML { get; set; }
         public int? VehicleID { get; set; }
         public virtual VehicleModel? Vehicle { get; set; }
 
         [Column(TypeName = "decimal(19,4)")]
+        [DisplayFormat(DataFormatString = "{0:C}", ApplyFormatInEditMode = true)]
         [DataType(DataType.Currency)]
         [Display(GroupName = "IsAccepted")]
         public decimal? AmountOffered { get; set; }

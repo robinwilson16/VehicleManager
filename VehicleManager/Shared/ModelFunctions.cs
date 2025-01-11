@@ -8,7 +8,7 @@ namespace VehicleManager.Shared
 {
     public static class ModelFunctions
     {
-        public static Type GetBaseType(PropertyInfo property)
+        public static Type GetBaseType(this PropertyInfo property)
         {
             if (property == null)
             {
@@ -19,6 +19,26 @@ namespace VehicleManager.Shared
             var underlyingType = Nullable.GetUnderlyingType(propertyType);
 
             return underlyingType ?? propertyType;
+        }
+
+        public static Type? GetPropertyType(string modelTypeName, string propertyName)
+        {
+            // Get the type of the model
+            var modelType = Type.GetType(modelTypeName);
+            if (modelType == null)
+            {
+                throw new ArgumentException($"Model type '{modelTypeName}' not found.");
+            }
+
+            // Get the property info
+            var propertyInfo = modelType.GetProperty(propertyName);
+            if (propertyInfo == null)
+            {
+                throw new ArgumentException($"Property '{propertyName}' not found in model type '{modelTypeName}'.");
+            }
+
+            // Return the property type
+            return propertyInfo.PropertyType;
         }
 
         public static string? GetDisplayName(this PropertyInfo? property)
@@ -117,6 +137,149 @@ namespace VehicleManager.Shared
                     property.SetValue(target, value);
                 }
             }
+        }
+
+        public static string? DoDatabaseReplacements(string? messageText, object objectModel, string? format)
+        {
+            string? replacedText = messageText;
+
+            if(messageText != null && objectModel != null)
+            {
+                foreach (var property in objectModel.GetType().GetProperties().OrderBy(p => p.Name))
+                {
+                    string? replaceFrom1;
+                    string? replaceFrom2;
+                    string? replaceTo;
+
+                    //Console.WriteLine($"Type of {property.Name} is {property.PropertyType}");
+
+                    if (format != null)
+                    {
+                        replaceFrom1 = $"<data:{objectModel.GetType().Name.Replace("Model", "")}.{property.Name},Format:{format}>";
+                        replaceFrom2 = $"&lt;data:{objectModel.GetType().Name.Replace("Model", "")}.{property.Name},Format:{format}&gt;";
+
+                        if (property.PropertyType == typeof(string))
+                        {
+                            replaceTo = objectModel.GetType().GetProperty(property.Name)?.GetValue(objectModel)?.ToString();
+                        }
+                        else if (property.PropertyType == typeof(DateTime) || property.PropertyType == typeof(DateTime?) && format.Any(x => !char.IsNumber(x)))
+                        {
+                            replaceTo = objectModel.GetType().GetProperty(property.Name)?.GetValue(objectModel)?.Format(format);
+                        }
+                        else if (property.PropertyType == typeof(int) || property.PropertyType == typeof(int?) && format.Any(x => char.IsNumber(x) && format.Any(x => char.IsLetter(x))))
+                        {
+                            replaceTo = objectModel.GetType().GetProperty(property.Name)?.GetValue(objectModel)?.Format(format);
+                        }
+                        else if (property.PropertyType == typeof(decimal) || property.PropertyType == typeof(decimal?) && format.Any(x => char.IsNumber(x) && format.Any(x => char.IsLetter(x))))
+                        {
+                            replaceTo = objectModel.GetType().GetProperty(property.Name)?.GetValue(objectModel)?.Format(format);
+                        }
+                        else if (property.PropertyType == typeof(bool) || property.PropertyType == typeof(bool?) && format.Contains("/"))
+                        {
+                            string[]? formatArray = format.Split("/");
+                            replaceTo = (bool)(objectModel.GetType().GetProperty(property.Name)?.GetValue(objectModel) ?? false)? formatArray[0] : formatArray[1];
+                        }
+                        else
+                        {
+                            replaceTo = objectModel.GetType().GetProperty(property.Name)?.GetValue(objectModel)?.ToString();
+                        }
+
+                    }
+                    else
+                    {
+                        replaceFrom1 = $"<data:{objectModel.GetType().Name.Replace("Model", "")}.{property.Name}>";
+                        replaceFrom2 = $"&lt;data:{objectModel.GetType().Name.Replace("Model", "")}.{property.Name}&gt;";
+                        replaceTo = objectModel.GetType().GetProperty(property.Name)?.GetValue(objectModel)?.ToString();
+                    }
+
+                    replacedText = replacedText?.Replace(replaceFrom1, replaceTo);
+                    replacedText = replacedText?.Replace(replaceFrom2, replaceTo);
+
+                }
+            }
+
+            return replacedText;
+        }
+
+        public static string? DoAllDatabaseReplacements(string? messageText, object objectModel)
+        {
+            string? replacedText = messageText;
+            //Dates and Times
+            replacedText = DoDatabaseReplacements(replacedText, objectModel, null);
+            replacedText = DoDatabaseReplacements(replacedText, objectModel, "dd/MM/yyyy");
+            replacedText = DoDatabaseReplacements(replacedText, objectModel, "dd/MM/yyyy HH:mm");
+            replacedText = DoDatabaseReplacements(replacedText, objectModel, "dd/MM/yyyy HH:mm:ss");
+            replacedText = DoDatabaseReplacements(replacedText, objectModel, "dd MMMM yyyy");
+            replacedText = DoDatabaseReplacements(replacedText, objectModel, "dd MMMM yyyy HH:mm");
+            replacedText = DoDatabaseReplacements(replacedText, objectModel, "dd MMMM yyyy HH:mm:ss");
+            replacedText = DoDatabaseReplacements(replacedText, objectModel, "HH:mm");
+            replacedText = DoDatabaseReplacements(replacedText, objectModel, "HH:mm:ss");
+            replacedText = DoDatabaseReplacements(replacedText, objectModel, "d");
+            replacedText = DoDatabaseReplacements(replacedText, objectModel, "dddd");
+            replacedText = DoDatabaseReplacements(replacedText, objectModel, "ddd");
+            replacedText = DoDatabaseReplacements(replacedText, objectModel, "MMMM");
+            replacedText = DoDatabaseReplacements(replacedText, objectModel, "yyyy");
+            replacedText = DoDatabaseReplacements(replacedText, objectModel, "yyyy-MM-dd");
+
+            //Numbers
+            replacedText = DoDatabaseReplacements(replacedText, objectModel, "N0");
+            replacedText = DoDatabaseReplacements(replacedText, objectModel, "N1");
+            replacedText = DoDatabaseReplacements(replacedText, objectModel, "N2");
+            replacedText = DoDatabaseReplacements(replacedText, objectModel, "C0");
+            replacedText = DoDatabaseReplacements(replacedText, objectModel, "C2");
+            replacedText = DoDatabaseReplacements(replacedText, objectModel, "P0");
+            replacedText = DoDatabaseReplacements(replacedText, objectModel, "P1");
+            replacedText = DoDatabaseReplacements(replacedText, objectModel, "P2");
+
+            //Bools
+            replacedText = DoDatabaseReplacements(replacedText, objectModel, "True/False");
+            replacedText = DoDatabaseReplacements(replacedText, objectModel, "Y/N");
+            replacedText = DoDatabaseReplacements(replacedText, objectModel, "Yes/No");
+            replacedText = DoDatabaseReplacements(replacedText, objectModel, "1/0");
+
+            return replacedText;
+        }
+
+        public static Type? GetPropertyTypeFromModelAndNameDataTag(string? modelAndProperty)
+        {
+            string[]? modelAndPropertyArray = modelAndProperty?.Replace("<data:", "").Replace(">", "").Split(".");
+            string? propertyToFormatModel = modelAndPropertyArray?[0];
+            string? propertyToFormat = modelAndPropertyArray?[1];
+            string? modelTypeName = $"VehicleManager.Models.{propertyToFormatModel}Model";
+            string? propertyName = propertyToFormat;
+            
+            Console.WriteLine($"The type of the property '{propertyName}' in model '{modelTypeName}' is...");
+
+            try
+            {
+                Type? propertyType = GetPropertyType(modelTypeName, propertyName ?? "");
+                Console.WriteLine($"'{propertyType}'");
+                return propertyType;
+            }
+            catch
+            {
+                return null;
+            }
+
+            //Console.WriteLine($"The type of the property '{propertyName}' in model '{modelTypeName}' is {propertyType}");
+        }
+
+        public static string Format(this object value, string format, IFormatProvider formatProvider = null)
+        {
+            if (value == null)
+            {
+                return string.Empty;
+            }
+
+            IFormattable formattable = value as IFormattable;
+
+            if (formattable != null)
+            {
+                return formattable.ToString(format, formatProvider);
+            }
+
+            //throw new ArgumentException("value");
+            return string.Empty;
         }
     }
 }

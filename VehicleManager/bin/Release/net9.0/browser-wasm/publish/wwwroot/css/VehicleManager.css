@@ -114,7 +114,14 @@ ul.nav-tabs > .nav-item > button.nav-link {
 
 .table-responsive {
     min-height: 200px;
+    max-height: 60vh;
 }
+
+    .table-responsive th {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+    }
 
 .WhiteBackground {
     background-color: #FFFFFF;
@@ -161,6 +168,11 @@ ul.nav-tabs > .nav-item > button.nav-link {
     /*color: #CCCCCC;*/ 
     color: #555555;
     font-size: 0.8em;
+}
+
+/*Remove right gap*/
+.quickgrid th .col-header-content {
+    padding-right: 0px !important;
 }
 
 /*Ensure empty cells are clickable*/

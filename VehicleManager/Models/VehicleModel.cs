@@ -8,13 +8,14 @@ namespace VehicleManager.Models
     public class VehicleModel
     {
         [Key]
+        [Display(Name = "ID")]
         public int SubmissionID { get; set; }
 
         [JsonPropertyName("submissionDate")]
         public string? SubmissionDate { get; set; }
         
         [JsonIgnore]
-        [Display(Name = "Submission Date")]
+        [Display(Name = "Date")]
         public DateTime? SubmissionDateDate
         {
             get { return SubmissionDate == null ? null : DateTime.ParseExact(SubmissionDate ?? "", "yyyy-MM-dd HH:mm:ss", new CultureInfo("en-GB")); }

@@ -57,6 +57,14 @@
       "PackagePath": "staticwebassets\\index.html"
     },
     {
+      "Id": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\wwwroot\\js\\inputInterop.js",
+      "PackagePath": "staticwebassets\\js\\inputInterop.js"
+    },
+    {
+      "Id": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\wwwroot\\js\\tinymceInterop.js",
+      "PackagePath": "staticwebassets\\js\\tinymceInterop.js"
+    },
+    {
       "Id": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\wwwroot\\lib\\bootstrap\\css\\bootstrap-grid.css",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\css\\bootstrap-grid.css"
     },

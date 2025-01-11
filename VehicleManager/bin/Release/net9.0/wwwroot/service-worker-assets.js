@@ -1,5 +1,5 @@
 self.assetsManifest = {
-  "version": "5nIxhq7F",
+  "version": "aD4KN15V",
   "assets": [
     {
       "hash": "sha256-xBZ+mbV4oAxwQ4qYu1lHOgW4KrV38QzS7Ip/j7Yno6s=",
@@ -786,19 +786,19 @@ self.assetsManifest = {
       "url": "_framework/TinyMCE.Blazor.ll1a586db2.wasm"
     },
     {
-      "hash": "sha256-t3yD9Q8DZIXfOCRysmpIC1tMoXBQrWQGrlBky+Pzejs=",
-      "url": "_framework/VehicleManager.hq9gu8rd7x.pdb"
+      "hash": "sha256-1CpEwPqBjFFIMqGC51NQk3tCgqD5X+ZsuFesxrP97wg=",
+      "url": "_framework/VehicleManager.4o3l1dnbm9.pdb"
     },
     {
-      "hash": "sha256-iqwk/MbHtQMrcXot76caoG4Hq9xBg0q7mOAGgqWl7OI=",
-      "url": "_framework/VehicleManager.m542zye6kv.wasm"
+      "hash": "sha256-1WVsq1jo32lHzYN5HXtSazXmFfDquk5oKb67IVh0+m8=",
+      "url": "_framework/VehicleManager.pvq7mnpbxa.wasm"
     },
     {
       "hash": "sha256-0VmBdMjdc0nZGHDSfaGirT6y3mJTM0qx8eqCUC/rpiE=",
       "url": "_framework/WindowsBase.377bly7twj.wasm"
     },
     {
-      "hash": "sha256-UuRi0fiauAETiwtM3uOSURsqw+3PPLro7QO+9VKOqSA=",
+      "hash": "sha256-qv/C5oGQl9L372sMaaeCkfcb3clzB5DhhMoZzorNbYM=",
       "url": "_framework/blazor.boot.json"
     },
     {
@@ -854,11 +854,11 @@ self.assetsManifest = {
       "url": "appsettings.Development.json"
     },
     {
-      "hash": "sha256-pvq4i9QDSdSXCg34+3u6Jzxv/9jGz2qCYPSuxD3/iGc=",
+      "hash": "sha256-859/TjEp6h3fSfFtsrtVtE6oA7gdNJAqgOadxvvzyMo=",
       "url": "appsettings.json"
     },
     {
-      "hash": "sha256-+g9yjnvt9EZw2cUt1m4mvKFKDLtbBRVLzFmQtvPsmXI=",
+      "hash": "sha256-TW4dSC6Omfh29NxJEnRFclimmlWh0JB0wit2dGZwbVk=",
       "url": "css/VehicleManager.css"
     },
     {
@@ -894,8 +894,16 @@ self.assetsManifest = {
       "url": "images/LinesCircuit.jpg"
     },
     {
-      "hash": "sha256-hsUajP8yOVohDVa34L5LZE0PPrKcuirq64zy0mj6N1c=",
+      "hash": "sha256-Cn1GzPQ8mFXqgdT2V2q+Z4kNABZw2xrT6DJfA5afTPI=",
       "url": "index.html"
+    },
+    {
+      "hash": "sha256-VULUvSurFCv3eiXeICl2DdrJoJ7RsdYf3u5mPDjPHbs=",
+      "url": "js/inputInterop.js"
+    },
+    {
+      "hash": "sha256-QId1w6EYHezKC+vKz9u2JzjUqV4J+vOeEVCcRyd5/+U=",
+      "url": "js/tinymceInterop.js"
     },
     {
       "hash": "sha256-Yy5/hBqRmmU2MJ1TKwP2aXoTO6+OjzrLmJIsC2Wy4H8=",
