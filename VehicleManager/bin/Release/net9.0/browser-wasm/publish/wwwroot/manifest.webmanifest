@@ -4,19 +4,39 @@
   "id": "./",
   "start_url": "./",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#03173d",
+  "background_color": "#65ad7f",
+  "theme_color": "#2e6b43",
   "prefer_related_applications": false,
   "icons": [
     {
-      "src": "icon-512.png",
+      "src": "images/BrokenMotorScreenshot512.png",
       "type": "image/png",
       "sizes": "512x512"
     },
     {
-      "src": "icon-192.png",
+      "src": "images/BrokenMotorScreenshot320.png",
+      "type": "image/png",
+      "sizes": "320x320"
+    },
+    {
+      "src": "images/BrokenMotorScreenshot192.png",
       "type": "image/png",
       "sizes": "192x192"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "images/BrokenMotorScreenshot512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Broken Motor Logo"
+    },
+    {
+      "src": "images/BrokenMotorScreenshot512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "label": "Broken Motor Logo"
     }
   ]
 }

@@ -7,9 +7,28 @@
     background-color: rgba(0,0,0,0.4);
 }
 
+/*Added for colapsible Sidebar*/
+.bottom-row[b-dcotnrtmvq] {
+    position: absolute;
+    bottom: 0;
+    padding-bottom: 10px;
+    text-align: left;
+    width: 100%;
+    padding-right: 28px;
+}
+
+/*Added for colapsible Sidebar*/
+.icon-menu-arrow[b-dcotnrtmvq] {
+    text-align: right;
+}
+
 .navbar-brand[b-dcotnrtmvq] {
     font-size: 1.1rem;
 }
+
+    .navbar-brand i.WithDescription[b-dcotnrtmvq] {
+        margin-right: 10px; /*Added for space after Font Awesome icon*/
+    }
 
 .bi[b-dcotnrtmvq] {
     display: inline-block;
@@ -55,7 +74,7 @@
         line-height: 1rem; /*Changed to fit better*/
     }
 
-    .nav-item i[b-dcotnrtmvq] {
+    .nav-item i.WithDescription[b-dcotnrtmvq] {
         margin-right: 10px; /*Added for space after Font Awesome icon*/
     }
 
@@ -83,5 +102,12 @@
         /* Allow sidebar to scroll for tall menus */
         height: calc(100vh - 3.5rem);
         overflow-y: auto;
+    }
+}
+
+/*Added for colapsible Sidebar*/
+@media (max-width: 640px) {
+    .bottom-row[b-dcotnrtmvq] {
+        display: block;
     }
 }

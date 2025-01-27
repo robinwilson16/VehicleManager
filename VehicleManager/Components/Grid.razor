@@ -1,13 +1,14 @@
 ﻿@using VehicleManager.Models
 @using Microsoft.AspNetCore.Components.QuickGrid
 @using VehicleManager.Shared
+@using System.Reflection
 
 @typeparam TItem
 
 <div class="row">
     <div class="col-md TableArea mb-3 pt-3 rounded">
         <div class="alert alert-primary" role="alert">
-            
+
             @if (FilterFields != null && FilterFields.Count > 0)
             {
                 <button type="button" class="btn btn-primary btn-sm" @onclick="@RemoveFilters">Clear All Filters <i class="fa-solid fa-filter-circle-xmark"></i></button>
@@ -41,7 +42,26 @@
 
                         int tableRow = 0;
                         int? recordID = 0;
-                        foreach (var prop in typeof(TItem).GetProperties())
+                        IOrderedEnumerable<PropertyInfo?>? properties;
+
+                        if (PropertyOrder.Orders.ContainsKey(typeof(TItem).Name))
+                        {
+                            properties = typeof(TItem).GetProperties()
+                            .OrderBy(p =>
+                            {
+                                var order = Array.IndexOf(PropertyOrder.Orders.GetValueOrDefault(typeof(TItem).Name, new string[0]), p.Name);
+                                return order == -1 ? int.MaxValue : order;
+                            })
+                            .ThenBy(p => p.Name);
+                        }
+                        else 
+                        {
+                            properties = typeof(TItem).GetProperties()
+                            .OrderBy(p => p.Name);
+                        }
+                            
+
+                        foreach (var prop in properties)
                         {
                             if (ExcludeFields != null && ExcludeFields.Contains(prop.Name))
                             {
@@ -56,11 +76,11 @@
                                 <TemplateColumn Title="" Sortable="true" SortBy="GridSort<TItem>.ByAscending(GridSortHelper.GetSortExpression<TItem>(prop.Name))">
                                     <ChildContent>
                                         @{
-                                            recordID = (int?)(context?.GetType().GetProperty(prop.Name)?.GetValue(context) ?? 0);
+                                            recordID = (int?)(context?.GetType().GetProperties().FirstOrDefault()?.GetValue(context) ?? 0);
                                             bool? isEnabled = context?.GetType().GetProperty(DisabledItemFieldName ?? "")?.Name != null? (bool?)context?.GetType().GetProperty(DisabledItemFieldName ?? "")?.GetValue(context) : true;
                                             bool? isOK = context?.GetType().GetProperty(ErrorItemFieldName ?? "")?.Name != null ? (bool?)context?.GetType().GetProperty(ErrorItemFieldName ?? "")?.GetValue(context) : true;
                                         }
-                                        <button type="button" class="btn btn-primary btn-sm" @onclick="() => EditItem((int?)(context?.GetType().GetProperty(prop.Name)?.GetValue(context)) ?? 0)"><i class="fa-solid fa-up-right-from-square"></i></button>
+                                        <button type="button" class="btn btn-primary btn-sm" @onclick="() => EditItem((int?)(context?.GetType().GetProperties().FirstOrDefault()?.GetValue(context)) ?? 0)"><i class="fa-solid fa-up-right-from-square"></i></button>
                                     </ChildContent>
                                     <ColumnOptions>
                                         <div class="search-box">
@@ -86,7 +106,7 @@
                                             bool? isEnabled = context?.GetType().GetProperty(DisabledItemFieldName ?? "")?.Name != null ? (bool?)context?.GetType().GetProperty(DisabledItemFieldName ?? "")?.GetValue(context) : true;
                                             bool? isOK = context?.GetType().GetProperty(ErrorItemFieldName ?? "")?.Name != null ? (bool?)context?.GetType().GetProperty(ErrorItemFieldName ?? "")?.GetValue(context) : true;
                                         }
-                                        <div @onclick="() => SelectItem((int?)(context?.GetType().GetProperties().FirstOrDefault()?.GetValue(context)) ?? 0)" class="@TableCSS(recordID, isEnabled, isOK)">
+                                        <div @onclick="() => SelectItem((int?)(context?.GetType().GetProperties().FirstOrDefault()?.GetValue(context)) ?? 0)" @ondblclick="() => EditItem((int?)(context?.GetType().GetProperties().FirstOrDefault()?.GetValue(context)) ?? 0)" class="@TableCSS(recordID, isEnabled, isOK)">
                                             @context?.GetType().GetProperty(prop.Name)?.GetValue(context)
                                         </div>
                                     </ChildContent>
@@ -115,7 +135,7 @@
                                             bool? isEnabled = context?.GetType().GetProperty(DisabledItemFieldName ?? "")?.Name != null ? (bool?)context?.GetType().GetProperty(DisabledItemFieldName ?? "")?.GetValue(context) : true;
                                             bool? isOK = context?.GetType().GetProperty(ErrorItemFieldName ?? "")?.Name != null ? (bool?)context?.GetType().GetProperty(ErrorItemFieldName ?? "")?.GetValue(context) : true;
                                         }
-                                        <div @onclick="() => SelectItem((int?)(context?.GetType().GetProperties().FirstOrDefault()?.GetValue(context)) ?? 0)" class="@TableCSS(recordID, isEnabled, isOK)">
+                                        <div @onclick="() => SelectItem((int?)(context?.GetType().GetProperties().FirstOrDefault()?.GetValue(context)) ?? 0)" @ondblclick="() => EditItem((int?)(context?.GetType().GetProperties().FirstOrDefault()?.GetValue(context)) ?? 0)" class="@TableCSS(recordID, isEnabled, isOK)">
                                             <div class="col-justify-start text-center">
                                                 <h5 class="pt-1 pb-0 mb-0">
                                                     <span class="badge @(ModelFunctions.GetIsTrue(context, ModelFunctions.GetDisplayGroup(prop)) == true ? "text-bg-success" : "text-bg-danger")">
@@ -149,7 +169,7 @@
                                             bool? isEnabled = context?.GetType().GetProperty(DisabledItemFieldName ?? "")?.Name != null ? (bool?)context?.GetType().GetProperty(DisabledItemFieldName ?? "")?.GetValue(context) : true;
                                             bool? isOK = context?.GetType().GetProperty(ErrorItemFieldName ?? "")?.Name != null ? (bool?)context?.GetType().GetProperty(ErrorItemFieldName ?? "")?.GetValue(context) : true;
                                         }
-                                        <div @onclick="() => SelectItem((int?)(context?.GetType().GetProperties().FirstOrDefault()?.GetValue(context)) ?? 0)" class="@TableCSS(recordID, isEnabled, isOK)">
+                                        <div @onclick="() => SelectItem((int?)(context?.GetType().GetProperties().FirstOrDefault()?.GetValue(context)) ?? 0)" @ondblclick="() => EditItem((int?)(context?.GetType().GetProperties().FirstOrDefault()?.GetValue(context)) ?? 0)" class="@TableCSS(recordID, isEnabled, isOK)">
                                             @string.Format("{0:C0}", context?.GetType().GetProperty(prop.Name)?.GetValue(context))
                                         </div>
                                     </ChildContent>
@@ -177,7 +197,7 @@
                                             bool? isEnabled = context?.GetType().GetProperty(DisabledItemFieldName ?? "")?.Name != null ? (bool?)context?.GetType().GetProperty(DisabledItemFieldName ?? "")?.GetValue(context) : true;
                                             bool? isOK = context?.GetType().GetProperty(ErrorItemFieldName ?? "")?.Name != null ? (bool?)context?.GetType().GetProperty(ErrorItemFieldName ?? "")?.GetValue(context) : true;
                                         }
-                                        <div @onclick="() => SelectItem((int?)(context?.GetType().GetProperties().FirstOrDefault()?.GetValue(context)) ?? 0)" class="@TableCSS(recordID, isEnabled, isOK)">
+                                        <div @onclick="() => SelectItem((int?)(context?.GetType().GetProperties().FirstOrDefault()?.GetValue(context)) ?? 0)" @ondblclick="() => EditItem((int?)(context?.GetType().GetProperties().FirstOrDefault()?.GetValue(context)) ?? 0)" class="@TableCSS(recordID, isEnabled, isOK)">
                                             <div class="col-justify-start text-center">
                                                 <i class="@CSSFunctions.BoolCSS((bool?)context?.GetType().GetProperty(prop.Name)?.GetValue(context))"></i>
                                             </div>
@@ -205,7 +225,7 @@
                                             bool? isEnabled = context?.GetType().GetProperty(DisabledItemFieldName ?? "")?.Name != null ? (bool?)context?.GetType().GetProperty(DisabledItemFieldName ?? "")?.GetValue(context) : true;
                                             bool? isOK = context?.GetType().GetProperty(ErrorItemFieldName ?? "")?.Name != null ? (bool?)context?.GetType().GetProperty(ErrorItemFieldName ?? "")?.GetValue(context) : true;
                                         }
-                                        <div @onclick="() => SelectItem((int?)(context?.GetType().GetProperties().FirstOrDefault()?.GetValue(context)) ?? 0)" class="@TableCSS(recordID, isEnabled, isOK)">
+                                        <div @onclick="() => SelectItem((int?)(context?.GetType().GetProperties().FirstOrDefault()?.GetValue(context)) ?? 0)" @ondblclick="() => EditItem((int?)(context?.GetType().GetProperties().FirstOrDefault()?.GetValue(context)) ?? 0)" class="@TableCSS(recordID, isEnabled, isOK)">
                                             @string.Format("{0:dd/MM/yyyy}", context?.GetType().GetProperty(prop.Name)?.GetValue(context))
                                         </div>
                                     </ChildContent>
@@ -233,7 +253,7 @@
                                             bool? isEnabled = context?.GetType().GetProperty(DisabledItemFieldName ?? "")?.Name != null ? (bool?)context?.GetType().GetProperty(DisabledItemFieldName ?? "")?.GetValue(context) : true;
                                             bool? isOK = context?.GetType().GetProperty(ErrorItemFieldName ?? "")?.Name != null ? (bool?)context?.GetType().GetProperty(ErrorItemFieldName ?? "")?.GetValue(context) : true;
                                         }
-                                        <div @onclick="() => SelectItem((int?)(context?.GetType().GetProperties().FirstOrDefault()?.GetValue(context)) ?? 0)" class="@TableCSS(recordID, isEnabled, isOK)">
+                                        <div @onclick="() => SelectItem((int?)(context?.GetType().GetProperties().FirstOrDefault()?.GetValue(context)) ?? 0)" @ondblclick="() => EditItem((int?)(context?.GetType().GetProperties().FirstOrDefault()?.GetValue(context)) ?? 0)" class="@TableCSS(recordID, isEnabled, isOK)">
                                             @(context?.GetType().GetProperty(prop.Name)?.GetValue(context) ?? "")
                                         </div>
                                     </ChildContent>
@@ -261,7 +281,7 @@
                                             bool? isEnabled = context?.GetType().GetProperty(DisabledItemFieldName ?? "")?.Name != null ? (bool?)context?.GetType().GetProperty(DisabledItemFieldName ?? "")?.GetValue(context) : true;
                                             bool? isOK = context?.GetType().GetProperty(ErrorItemFieldName ?? "")?.Name != null ? (bool?)context?.GetType().GetProperty(ErrorItemFieldName ?? "")?.GetValue(context) : true;
                                         }
-                                        <div @onclick="() => SelectItem((int?)(context?.GetType().GetProperties().FirstOrDefault()?.GetValue(context)) ?? 0)" class="@TableCSS(recordID, isEnabled, isOK)">
+                                        <div @onclick="() => SelectItem((int?)(context?.GetType().GetProperties().FirstOrDefault()?.GetValue(context)) ?? 0)" @ondblclick="() => EditItem((int?)(context?.GetType().GetProperties().FirstOrDefault()?.GetValue(context)) ?? 0)" class="@TableCSS(recordID, isEnabled, isOK)">
                                             @(((Enum?)context?.GetType().GetProperty(prop.Name)?.GetValue(context)).GetEnumDisplayName())
                                         </div>
                                     </ChildContent>
@@ -309,7 +329,7 @@
                                             bool? isEnabled = context?.GetType().GetProperty(DisabledItemFieldName ?? "")?.Name != null ? (bool?)context?.GetType().GetProperty(DisabledItemFieldName ?? "")?.GetValue(context) : true;
                                             bool? isOK = context?.GetType().GetProperty(ErrorItemFieldName ?? "")?.Name != null ? (bool?)context?.GetType().GetProperty(ErrorItemFieldName ?? "")?.GetValue(context) : true;
                                         }
-                                        <div @onclick="() => SelectItem((int?)(context?.GetType().GetProperties().FirstOrDefault()?.GetValue(context)) ?? 0)" class="@TableCSS(recordID, isEnabled, isOK)">
+                                        <div @onclick="() => SelectItem((int?)(context?.GetType().GetProperties().FirstOrDefault()?.GetValue(context)) ?? 0)" @ondblclick="() => EditItem((int?)(context?.GetType().GetProperties().FirstOrDefault()?.GetValue(context)) ?? 0)" class="@TableCSS(recordID, isEnabled, isOK)">
                                             @namePropertyValue
                                         </div>
                                     </ChildContent>
@@ -347,7 +367,7 @@
                                             bool? isEnabled = context?.GetType().GetProperty(DisabledItemFieldName ?? "")?.Name != null ? (bool?)context?.GetType().GetProperty(DisabledItemFieldName ?? "")?.GetValue(context) : true;
                                             bool? isOK = context?.GetType().GetProperty(ErrorItemFieldName ?? "")?.Name != null ? (bool?)context?.GetType().GetProperty(ErrorItemFieldName ?? "")?.GetValue(context) : true;
                                         }
-                                        <div @onclick="() => SelectItem((int?)(context?.GetType().GetProperties().FirstOrDefault()?.GetValue(context)) ?? 0)" class="@TableCSS(recordID, isEnabled, isOK)">
+                                        <div @onclick="() => SelectItem((int?)(context?.GetType().GetProperties().FirstOrDefault()?.GetValue(context)) ?? 0)" @ondblclick="() => EditItem((int?)(context?.GetType().GetProperties().FirstOrDefault()?.GetValue(context)) ?? 0)" class="@TableCSS(recordID, isEnabled, isOK)">
                                             @context?.GetType().GetProperty(prop.Name)?.GetValue(context)
                                         </div>
                                     </ChildContent>
@@ -374,7 +394,7 @@
             <div class="row">
                 <div class="col-md">
                     <div class="d-grid gap-2 d-md-block text-start">
-                        <button type="button" class="btn btn-primary me-md-3" @onclick="()=>EditItem(null)"><i class="fa-solid fa-square-plus"></i> New...</button>
+                        <button type="button" class="btn btn-primary me-md-3" @onclick="()=>EditItem(0)"><i class="fa-solid fa-square-plus"></i> New...</button>
                         <button type="button" class="btn btn-danger me-md-3" @onclick="DeleteItem" disabled="@(SelectedItemID > 0 ? false : true)"><i class="fa-solid fa-trash-can"></i> Delete...</button>
                         @if (SelectedItemID > 0)
                         {

@@ -36,12 +36,24 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xNb2RhbC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/robin.wilson/source/repos/VehicleManager/VehicleManager/Components/Toast.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xUb2FzdC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/robin.wilson/source/repos/VehicleManager/VehicleManager/Pages/Counter.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ291bnRlci5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/robin.wilson/source/repos/VehicleManager/VehicleManager/Pages/EmailResponse.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRW1haWxSZXNwb25zZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/robin.wilson/source/repos/VehicleManager/VehicleManager/Pages/Home.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSG9tZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/robin.wilson/source/repos/VehicleManager/VehicleManager/Pages/LoadPage.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTG9hZFBhZ2UucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/robin.wilson/source/repos/VehicleManager/VehicleManager/Pages/Login.razor]
@@ -56,20 +68,12 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTWVzc2FnZXMucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/robin.wilson/source/repos/VehicleManager/VehicleManager/Pages/Messages2.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTWVzc2FnZXMyLnJhem9y
-build_metadata.AdditionalFiles.CssScope = 
-
 [C:/Users/robin.wilson/source/repos/VehicleManager/VehicleManager/Pages/MessageTemplates.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTWVzc2FnZVRlbXBsYXRlcy5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/robin.wilson/source/repos/VehicleManager/VehicleManager/Pages/Vehicles.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVmVoaWNsZXMucmF6b3I=
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/robin.wilson/source/repos/VehicleManager/VehicleManager/Pages/VehiclesOld.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVmVoaWNsZXNPbGQucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/robin.wilson/source/repos/VehicleManager/VehicleManager/Pages/Weather.razor]

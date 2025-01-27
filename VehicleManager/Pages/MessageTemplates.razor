@@ -110,7 +110,7 @@ else if (mainRecords == null)
 else {
     <div class="container-fluid">
         @{
-            IList<string> ExcludeMainFields = new List<string> { "TemplateContent", "Messages" };
+            IList<string> ExcludeMainFields = new List<string> { "TemplateSubjectProcessed", "TemplateContent", "TemplateContentProcessed", "Messages" };
             string? DisabledItemFieldName = "IsEnabled";
             string? ErrorItemFieldName = "";
         }
@@ -146,10 +146,10 @@ else {
         <Title>
             @if (@selectedRecordCopy?.MessageTemplateID > 0)
             {
-                @:<i class="fa-solid fa-message"></i> Message @selectedRecordCopy?.MessageTemplateID
+                <i class="fa-solid fa-message"></i> <span>@selectedRecordCopy?.TemplateSubject</span>
             }
             else {
-                @:<i class="fa-solid fa-message"></i> New Message
+                <i class="fa-solid fa-message"></i> <span>New Message Template</span>
             }
         </Title>
         <Body>
@@ -192,37 +192,6 @@ else {
                             </div>
 
                             <div class="row g-3 mb-3">
-                                <div class="col-md">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="row">
-                                                <div class="col-md-4">
-                                                    <label class="col-form-label"><i class="fa-solid fa-angles-right"></i> Add Database Field</label>
-                                                </div>
-                                                <div class="col-md-8">
-                                                    <div class="input-group">
-                                                        <span class="input-group-text"><i class="fa-solid fa-database"></i></span>
-                                                        <InputSelect @bind-Value="selectedDatabaseField" class="form-select">
-                                                            <option value="">-- Please Select --</option>
-                                                            @if (messageFields != null)
-                                                            {
-                                                                foreach (var property in messageFields.GetType().GetProperties().OrderBy(p => p.Name))
-                                                                {
-                                                                    string? optionValue = $"<data:{property.Name}>";
-                                                                    <option value="@optionValue">@optionValue</option>
-                                                                }
-                                                            }
-                                                        </InputSelect>
-                                                        <button class="btn btn-outline-primary" type="button" @onclick="InsertDatabaseField"><i class="fa-solid fa-square-plus"></i> Add Selected Field</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row g-3 mb-3">
                                 <div class="col-md-4">
                                     <label class="col-form-label"><i class="fa-solid fa-angles-right"></i> Template Subject</label>
                                 </div>
@@ -234,14 +203,86 @@ else {
 
                             <div class="row g-3 mb-3">
                                 <div class="col-md">
+                                    <div class="accordion" id="AddDatabaseField">
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header">
+                                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                                    Add Database Field
+                                                </button>
+                                            </h2>
+                                            <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                                                <div class="accordion-body">
+                                                    <div class="input-group">
+                                                        <span class="input-group-text"><i class="fa-solid fa-database"></i></span>
+                                                        <InputSelect @bind-Value="selectedDatabaseField" class="form-select">
+                                                            <option value="">-- Please Select --</option>
+
+                                                            @if (messageFields != null)
+                                                            {
+                                                                foreach (var property in messageFields.GetType().GetProperties().OrderBy(p => p.Name))
+                                                                {
+                                                                    string? optionValue = $"<data:Message.{property.Name}>";
+                                                                    <option value="@optionValue">@optionValue</option>
+                                                                }
+                                                            }
+                                                            @if (vehicleFields != null)
+                                                            {
+                                                                foreach (var property in vehicleFields.GetType().GetProperties().OrderBy(p => p.Name))
+                                                                {
+                                                                    string? optionValue = $"<data:Vehicle.{property.Name}>";
+                                                                    <option value="@optionValue">@optionValue</option>
+                                                                }
+                                                            }
+
+                                                        </InputSelect>
+                                                        <button class="btn btn-outline-primary" type="button" @onclick="InsertDatabaseField"><i class="fa-solid fa-square-plus"></i> Add Selected Field</button>
+                                                        <button class="btn btn-outline-primary" type="button" @onclick="InsertDatabaseFieldFromFormat"><i class="fa-solid fa-palette"></i> Add With Format...</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row g-3 mb-3">
+                                <div class="col-md">
                                     Template Text
                                 </div>
                             </div>
                             <div class="row g-3 mb-3">
                                 <div class="col-md">
-                                    <Editor ScriptSrc="./lib/tinymce/tinymce.min.js" @bind-Value="selectedRecordCopy!.TemplateContent" Field="() => selectedRecordCopy!.TemplateContent" LicenseKey="gpl" />
+                                    <Editor @bind-Value="selectedRecordCopy!.TemplateContent" Field="() => selectedRecordCopy!.TemplateContent" LicenseKey="gpl" />
                                     @* <InputTextArea @bind-Value="selectedRecordCopy!.TemplateContent" class="form-control" /> *@
                                     <ValidationMessage For="@(() => selectedRecordCopy!.TemplateContent)" />
+                                </div>
+                            </div>
+
+                            if (messagePreview != null)
+                            {
+                                <div class="row g-3 mb-3">
+                                    <div class="col-md">
+                                        Template Preview
+                                    </div>
+                                </div>
+                                <div class="row g-3 mb-3">
+                                    <div class="col-md">
+                                        <div class="Textarea">
+                                            @messagePreview
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
+                            <div class="row g-3 mb-3">
+                                <div class="col-md-4">
+                                    <label class="col-form-label"><i class="fa-solid fa-angles-right"></i> Include Accept/Reject Links</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="d-grid gap-2 d-md-block">
+                                        <button type="button" class="btn @(selectedRecordCopy!.IncludeAcceptRejectLinks == true? "btn-primary" : "btn-outline-primary") me-md-3" @onclick="(e) => ToggleMainRecordIncludeAcceptRejectLinks()"><i class="@(selectedRecordCopy!.IncludeAcceptRejectLinks == true? "fa-solid fa-square-check" : "fa-regular fa-square")"></i></button>
+                                    </div>
+                                    <ValidationMessage For="@(() => selectedRecordCopy!.IncludeAcceptRejectLinks)" />
                                 </div>
                             </div>
 
@@ -266,6 +307,23 @@ else {
                                     <ValidationMessage For="@(() => selectedRecordCopy!.IsEnabled)" />
                                 </div>
                             </div>
+
+                            @if (selectedRecordCopy?.CreatedDate != null)
+                            {
+                                <div class="row g-3 mb-3 CreatedBy">
+                                    <div class="col-md text-secondary">
+                                        Created by @selectedRecordCopy?.CreatedBy on @selectedRecordCopy?.CreatedDate
+                                    </div>
+
+                                    @if (selectedRecordCopy?.LastModifiedDate != null)
+                                    {
+                                        <div class="col-md text-secondary text-end">
+                                            Last modified by @selectedRecordCopy?.LastModifiedBy on @selectedRecordCopy?.LastModifiedDate
+                                        </div>
+                                    }
+
+                                </div>
+                            }
                         }
                     </div>
                 </div>
@@ -277,6 +335,7 @@ else {
         <Footer>
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @onclick="() => AdvanceToMainRecord(-1)"><i class="fa-solid fa-square-caret-left"></i></button>
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @onclick="() => AdvanceToMainRecord(1)"><i class="fa-solid fa-square-caret-right"></i></button>
+            <button type="button" class="btn btn-info" data-bs-dismiss="modal" @onclick="() => PreviewMessage()"><i class="fa-solid fa-magnifying-glass"></i> Preview</button>
 
             @if (selectedRecordChanges?.Count > 0)
             {
@@ -288,6 +347,89 @@ else {
             {
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @onclick="CloseMainRecord"><i class="fa-solid fa-rotate-left"></i> Close</button>
             }
+        </Footer>
+    </Modal>
+
+    <Modal @ref="modalFormat">
+        <WindowControls>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @onclick="() => modalFormat!.Close()"></button>
+        </WindowControls>
+        <Title><i class="fa-solid fa-palette"></i> Formatting Options for @selectedDatabaseField</Title>
+        <Body>
+            @{
+                Type? propertyType = ModelFunctions.GetPropertyTypeFromModelAndNameDataTag(selectedDatabaseField);
+            }
+            <div class="bd-callout bd-callout-primary bd-callout-grey GreyBackground">
+                <div class="container">
+                    <div class="row g-3 mb-3">
+                        <div class="col-md">
+                            <div class="row">
+                                <div class="col-md">
+                                    <label class="col-form-label"><i class="fa-solid fa-angles-right"></i> Add With Format</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md">
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="fa-solid fa-palette"></i></span>
+                                        <InputSelect @bind-Value="selectedDatabaseFieldFormatted" class="form-select">
+                                            <option value="">-- Please Select --</option>
+                                            <option value="@selectedDatabaseField">No Format</option>
+
+                                            @if (propertyType == typeof(DateTime) || propertyType == typeof(DateTime?))
+                                            {
+                                                <option value="@selectedDatabaseField?.Replace(">",",Format:dd/MM/yyyy>")">Short Date (dd/MM/yyyy)</option>
+                                                <option value="@selectedDatabaseField?.Replace(">",",Format:dd/MM/yyyy HH:mm>")">Short Date and Time (dd/MM/yyyy HH:mm)</option>
+                                                <option value="@selectedDatabaseField?.Replace(">",",Format:dd/MM/yyyy HH:mm:ss>")">Short Date and Time with Seconds (dd/MM/yyyy HH:mm:ss)</option>
+                                                <option value="@selectedDatabaseField?.Replace(">",",Format:dd MMMM yyyy>")">Long Date (dd MMMM yyyy)</option>
+                                                <option value="@selectedDatabaseField?.Replace(">",",Format:dd MMMM yyyy HH:mm>")">Long Date and Time (dd MMMM yyyy HH:mm)</option>
+                                                <option value="@selectedDatabaseField?.Replace(">",",Format:dd MMMM yyyy HH:mm:ss>")">Long Date and Time with Seconds (dd MMMM yyyy HH:mm:ss)</option>
+                                                <option value="@selectedDatabaseField?.Replace(">",",Format:HH:mm>")">Time (HH:mm)</option>
+                                                <option value="@selectedDatabaseField?.Replace(">",",Format:HH:mm:ss>")">Time with Seconds (HH:mm:ss)</option>
+                                                <option value="@selectedDatabaseField?.Replace(">",",Format:d>")">Day of Month (d)</option>
+                                                <option value="@selectedDatabaseField?.Replace(">",",Format:dddd>")">Day of Week (dddd)</option>
+                                                <option value="@selectedDatabaseField?.Replace(">",",Format:ddd>")">Day of Week Short (ddd)</option>
+                                                <option value="@selectedDatabaseField?.Replace(">",",Format:MMMM>")">Month of Year (MMMM)</option>
+                                                <option value="@selectedDatabaseField?.Replace(">",",Format:yyyy>")">Year (yyyy)</option>
+                                                <option value="@selectedDatabaseField?.Replace(">",",Format:yyyy-MM-dd>")">Year, Month, Day (yyyy-MM-dd)</option>
+                                            }
+                                            else if (propertyType == typeof(int) || propertyType == typeof(int?))
+                                            {
+                                                <option value="@selectedDatabaseField?.Replace(">",",Format:N0>")">1,000</option>
+                                                <option value="@selectedDatabaseField?.Replace(">",",Format:C0>")">&pound;0</option>
+                                                <option value="@selectedDatabaseField?.Replace(">",",Format:P0>")">0.%</option>
+                                            }
+                                            else if (propertyType == typeof(decimal) || propertyType == typeof(decimal?))
+                                            {
+                                                <option value="@selectedDatabaseField?.Replace(">",",Format:N0>")">1,000</option>
+                                                <option value="@selectedDatabaseField?.Replace(">",",Format:N1>")">1,000.0</option>
+                                                <option value="@selectedDatabaseField?.Replace(">",",Format:N2>")">1,000.00</option>
+                                                <option value="@selectedDatabaseField?.Replace(">",",Format:C0>")">&pound;0</option>
+                                                <option value="@selectedDatabaseField?.Replace(">",",Format:C2>")">&pound;0.00</option>
+                                                <option value="@selectedDatabaseField?.Replace(">",",Format:P0>")">0.%</option>
+                                                <option value="@selectedDatabaseField?.Replace(">",",Format:P1>")">0.0%</option>
+                                                <option value="@selectedDatabaseField?.Replace(">",",Format:P2>")">0.00%</option>
+                                            }
+                                            else if (propertyType == typeof(bool) || propertyType == typeof(bool?))
+                                            {
+                                                <option value="@selectedDatabaseField?.Replace(">",",Format:True/False>")">True/False</option>
+                                                <option value="@selectedDatabaseField?.Replace(">",",Format:Y/N>")">Y/N</option>
+                                                <option value="@selectedDatabaseField?.Replace(">",",Format:Yes/No>")">Yes/No</option>
+                                                <option value="@selectedDatabaseField?.Replace(">",",Format:1/0>")">1/0</option>
+                                            }
+
+                                        </InputSelect>
+                                        <button class="btn btn-outline-primary" type="button" @onclick="InsertDatabaseFieldWithFormat"><i class="fa-solid fa-square-plus"></i> Add Selected Field</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </Body>
+        <Footer>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @onclick="() => modalFormat!.Close()">Close</button>
         </Footer>
     </Modal>
 }
@@ -322,7 +464,11 @@ else {
     public MessageTemplateModel? selectedRecord { get; set; } = new MessageTemplateModel();
     private MessageTemplateModel? selectedRecordCopy { get; set; } = new MessageTemplateModel();
     private MessageModel? messageFields = new MessageModel();
+    private VehicleModel? vehicleFields = new VehicleModel();
+
     private string? selectedDatabaseField { get; set; }
+    private string? selectedDatabaseFieldFormatted { get; set; }
+    private MarkupString? messagePreview { get; set; }
 
     //Related datasets
 
@@ -378,10 +524,15 @@ else {
         }
         else
         {
-            selectedRecord = new MessageTemplateModel();
+            selectedRecord = new MessageTemplateModel()
+            {
+                IsEnabled = true,
+                Sequence = mainRecords?.Count + 1
+            };
 
+            //Set Defaults
+            
             //Related Datasets
-
         }
 
         //Keep a copy of this object to be used for edit form so original object can remain untouched until save operation (otherwise it changes on screen)
@@ -433,6 +584,21 @@ else {
     }
 
     //Toggles for nullable bools
+    public void ToggleMainRecordIncludeAcceptRejectLinks()
+    {
+        if (selectedRecordCopy != null)
+        {
+            if (selectedRecordCopy.IncludeAcceptRejectLinks == true)
+            {
+                selectedRecordCopy.IncludeAcceptRejectLinks = false;
+            }
+            else
+            {
+                selectedRecordCopy.IncludeAcceptRejectLinks = true;
+            }
+        }
+    }
+
     public void ToggleMainRecordIsEnabled()
     {
         if (selectedRecordCopy != null)
@@ -677,6 +843,8 @@ else {
     public string? msgConfirmTitle = null;
     public MarkupString? msgConfirm = null;
 
+    private Modal? modalFormat { get; set; }
+
     public string? loadDataErrorMsg = null;
 
     private IDictionary<string, string>? selectedRecordChanges = new Dictionary<string, string>();
@@ -734,7 +902,7 @@ else {
     private void ShowFilterHelpMain()
     {
         action = "Info";
-        soundEffect = SoundFunctions.GetErrorSound();
+        soundEffect = SoundFunctions.GetPromptSound();
 
         msgInfoTitle = $"Filtering and Sorting Information";
         msgInfo = (MarkupString)$@"
@@ -860,17 +1028,30 @@ else {
                 {
                     //Update related entities (as only IDs are updated on the form so rest of object is not updated)
 
-
                     HttpResponseMessage formResponse = new HttpResponseMessage();
 
                     if (selectedRecordCopy?.MessageTemplateID > 0)
                     {
+                        //Set other fields
+                        if (selectedRecordCopy != null)
+                        {
+                            selectedRecordCopy.LastModifiedBy = appData.CurrentUser?.Email;
+                            selectedRecordCopy.LastModifiedDate = DateTime.Now;
+                        }
+
                         //Update existing record
                         saveEndPoint = $"{configuration["APIEndpoint"]}/MessageTemplate/{selectedRecord?.MessageTemplateID}";
                         formResponse = await Http.PutAsJsonAsync<MessageTemplateModel>(saveEndPoint, selectedRecordCopy!);
                     }
                     else 
                     {
+                        //Set other fields
+                        if (selectedRecordCopy != null)
+                        {
+                            selectedRecordCopy.CreatedBy = appData.CurrentUser?.Email;
+                            selectedRecordCopy.CreatedDate = DateTime.Now;
+                        }
+                        
                         //Insert new record
                         saveEndPoint = $"{configuration["APIEndpoint"]}/MessageTemplate";
                         formResponse = await Http.PostAsJsonAsync<MessageTemplateModel>(saveEndPoint, selectedRecordCopy!);
@@ -1121,6 +1302,8 @@ else {
         modalConfirm!.Close();
 
         selectedRecordChanges?.Clear();
+
+        messagePreview = null;
     }
 
     private async Task GetCursorPosition()
@@ -1203,6 +1386,71 @@ else {
 
             modalError!.Open();
         }
+    }
+
+    private async Task InsertDatabaseFieldWithFormat()
+    {
+        if (selectedDatabaseField != null)
+        {
+            if (focusElement == "Subject")
+            {
+                await InsertTextIntoSubject(selectedDatabaseFieldFormatted);
+            }
+            else if (focusElement == "Message")
+            {
+                await AddEditorContent(selectedDatabaseFieldFormatted);
+            }
+            else
+            {
+                // Add as default for now
+                await AddEditorContent(selectedDatabaseFieldFormatted);
+            }
+            modalFormat!.Close();
+        }
+        else
+        {
+            action = "Error";
+            soundEffect = SoundFunctions.GetErrorSound();
+
+            msgErrorTitle = $"Please select a field first using the field selector on the left before pressing the Add Selected Field option";
+            msgError = (MarkupString)$"Unfortunately the Message Record could not be saved successfully due to an error.<br />Please check your network connection and attempt to save again.";
+            msgErrorStackTrace = null;
+
+            modalError!.Open();
+        }
+    }
+
+    private void InsertDatabaseFieldFromFormat()
+    {
+
+        modalFormat!.OpenOnTop1();
+    }
+
+    public void PreviewMessage()
+    {
+        string? processedSubject = selectedRecordCopy?.TemplateSubject;
+        string? processedMessage = selectedRecordCopy?.TemplateContent;
+        MarkupString? preview;
+
+        if (selectedRecordCopy != null)
+        {
+            processedSubject = ModelFunctions.DoAllDatabaseReplacements(processedSubject, selectedRecordCopy);
+            processedMessage = ModelFunctions.DoAllDatabaseReplacements(processedMessage, selectedRecordCopy);
+        }
+
+        if (selectedRecordCopy != null)
+        {
+            selectedRecordCopy.TemplateSubjectProcessed = processedSubject;
+            selectedRecordCopy.TemplateContentProcessed = processedMessage;
+        }
+
+        preview = (MarkupString?)$@"
+            Subject {selectedRecordCopy?.TemplateSubjectProcessed}
+            <hr />
+            {selectedRecordCopy?.TemplateContentProcessed ?? ""}
+            ";
+
+        messagePreview = preview;
     }
 
     private void HandleJsonException(HttpRequestException ex, string objectName, string objectID)

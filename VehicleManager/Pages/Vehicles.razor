@@ -193,7 +193,7 @@ else if (mainRecords == null)
 else {
     <div class="container-fluid">
         @{
-            IList<string> ExcludeMainFields = new List<string> { "SubmissionDate", "SubmissionCount", "Name", "Message", "Customer" };
+            IList<string> ExcludeMainFields = new List<string> { "SubmissionDate", "SubmissionCount", "Surname", "Forename", "Message", "Customer", "BodyStyle", "FuelType", "TransmissionType", "EngineSizeCC", "Category", "DoorCount", "GearCount", "DriveAxle", "EngineCode", "EngineCylinderCount", "EngineSizeLitre", "WheelbaseMM" };
             string? DisabledItemFieldName = null;
             string? ErrorItemFieldName = null;
         }
@@ -371,8 +371,8 @@ else {
                                             <div class="col-md-4">
                                                 Has Accepted Offer
                                             </div>
-                                            <div class="col-md-8 Text TextYes">
-                                                <strong>Yes</strong>
+                                            <div class="col-md-8 Text @(HasAcceptedOffer == true? "TextYes" : "TextNo")">
+                                                <strong>@(HasAcceptedOffer == true ? "Yes" : "No")</strong>
                                             </div>
                                         </div>
                                     </div>
@@ -382,7 +382,7 @@ else {
                                                 Last Offer Amount
                                             </div>
                                             <div class="col-md-8 Text">
-                                                <strong>&pound; 500.00</strong>
+                                                <strong>@(LastOfferAmount?.Format("C0") ?? "£0")</strong>
                                             </div>
                                         </div>
                                     </div>
@@ -395,7 +395,7 @@ else {
                                                 Last Contacted
                                             </div>
                                             <div class="col-md-8 Text">
-                                                13/12/2024
+                                                @(LastContacted?.Format("dd/MM/yyyy") ?? "Never")
                                             </div>
                                         </div>
                                     </div>
@@ -405,7 +405,7 @@ else {
                                                 Messages Sent
                                             </div>
                                             <div class="col-md-8 Text">
-                                                3
+                                                @MessagesSent
                                             </div>
                                         </div>
                                     </div>
@@ -649,7 +649,7 @@ else {
                 </div>
                 <div class="tab-pane fade" id="messages-tab-pane" role="tabpanel" aria-labelledby="messages-tab" tabindex="0">
                     @{
-                        IList<string> ExcludeMessageFields = new List<string> { "Message", "MessageProcessed", "MessageIsHTML", "CC", "BCC" };
+                        IList<string> ExcludeMessageFields = new List<string> { "MessageGUID", "SubjectProcessed", "Message", "MessageProcessed", "MessageIsHTML", "CC", "BCC" };
                         string? DisabledMessageFieldName = null;
                         string? ErrorMessageFieldName = "IsSent";
                     }
@@ -692,7 +692,27 @@ else {
         <WindowControls>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @onclick="() => modalMessageRecord!.Close()"></button>
         </WindowControls>
-        <Title><i class="fa-solid fa-envelope-open-text"></i> New Message to @selectedRecord?.Forename @selectedRecord?.Surname about @selectedRecord?.Colour @selectedRecord?.Make (@selectedRecord?.RegistrationNumber)</Title>
+        <Title>
+
+            @if (selectedMessageRecordCopy?.MessageID > 0)
+            {
+                @if (messages?.Count > 0) 
+                {
+                    <i class="fa-solid fa-reply"></i>
+                }
+                else 
+                {
+                    <i class="fa-solid fa-envelope-open"></i>
+                } 
+                <span>&nbsp;@selectedMessageRecordCopy!.Subject</span>
+            }
+            else 
+            {
+                <i class="fa-solid fa-envelope-open-text"></i>
+                <span>New Message to @selectedRecordCopy?.Forename @selectedRecordCopy?.Surname about @selectedRecordCopy?.Colour @selectedRecordCopy?.Make (@selectedRecordCopy?.RegistrationNumber)</span>
+            }
+
+        </Title>
         <Body>
             <EditForm EditContext="@Messages?.EditContextMain" OnValidSubmit="() => SaveMessageRecord(true)">
                 <FluentValidationValidator @ref="Messages._fluentValidationValidator" />
@@ -700,24 +720,6 @@ else {
                     <div class="container">
                         <div class="row">
                             <div class="col-md">
-
-                                <div class="row g-3 mb-3">
-                                    <div class="col-md">
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <label class="col-form-label"><i class="fa-solid fa-angles-right"></i> From</label>
-                                            </div>
-                                            <div class="col-md-8">
-                                                <InputText @bind-Value="selectedMessageRecordCopy!.FromName" class="form-control" placeholder="Name" />
-                                                <ValidationMessage For="@(() => selectedMessageRecordCopy!.FromName)" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md">
-                                        <InputText @bind-Value="selectedMessageRecordCopy!.From" class="form-control" placeholder="Email" />
-                                        <ValidationMessage For="@(() => selectedMessageRecordCopy!.From)" />
-                                    </div>
-                                </div>
 
                                 <div class="row g-3 mb-3">
                                     <div class="col-md">
@@ -734,41 +736,6 @@ else {
                                     <div class="col-md">
                                         <InputText @bind-Value="selectedMessageRecordCopy!.To" class="form-control" placeholder="Email" />
                                         <ValidationMessage For="@(() => selectedMessageRecordCopy!.To)" />
-                                    </div>
-                                </div>
-
-                                <div class="row g-3 mb-3">
-                                    <div class="col-md-2">
-                                        <label class="col-form-label"><i class="fa-solid fa-angles-right"></i> Template</label>
-                                    </div>
-                                    <div class="col-md-10">
-                                        @if (selectedMessageRecordCopy!.MessageTemplate == null)
-                                        {
-                                            selectedMessageRecordCopy!.MessageTemplate = new MessageTemplateModel();
-                                        }
-
-                                        <InputSelect @bind-Value="selectedMessageRecordCopy!.MessageTemplate!.MessageTemplateID" class="form-select" @bind-Value:after="() => LoadMessageTemplate(true)">
-                                            <option value="">-- Please Select --</option>
-                                            @if (messageTemplates != null)
-                                            {
-                                                foreach (var template in messageTemplates)
-                                                {
-                                                    <option value="@template.MessageTemplateID">@template.Name</option>
-                                                }
-                                            }
-                                        </InputSelect>
-                                        <ValidationMessage For="@(() => selectedMessageRecordCopy!.MessageTemplate.MessageTemplateID)" />
-
-                                    </div>
-                                </div>
-
-                                <div class="row g-3 mb-3">
-                                    <div class="col-md-2">
-                                        <label class="col-form-label"><i class="fa-solid fa-angles-right"></i> Vehicle</label>
-                                    </div>
-                                    <div class="col-md-10">
-                                        <InputNumber @bind-Value="selectedMessageRecordCopy!.VehicleID" class="form-control" />
-                                        <ValidationMessage For="@(() => selectedMessageRecordCopy!.VehicleID)" />
                                     </div>
                                 </div>
 
@@ -800,47 +767,51 @@ else {
                                 </div>
 
                                 <div class="row g-3 mb-3">
-                                    <div class="col-md">
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <label class="col-form-label"><i class="fa-solid fa-angles-right"></i> Sent Date</label>
-                                            </div>
-                                            <div class="col-md-8">
-                                                <InputDate @bind-Value="selectedMessageRecordCopy!.SentDate" class="form-control" />
-                                                <ValidationMessage For="@(() => selectedMessageRecordCopy!.SentDate)" />
-                                            </div>
-                                        </div>
+                                    <div class="col-md-2">
+                                        <label class="col-form-label"><i class="fa-solid fa-angles-right"></i> Template</label>
                                     </div>
-                                    <div class="col-md">
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <label class="col-form-label"><i class="fa-solid fa-angles-right"></i> <i class="fa-solid fa-sterling-sign"></i> Status</label>
-                                            </div>
-                                            <div class="col-md-8">
-                                                <InputSelect @bind-Value="selectedMessageRecordCopy!.MessageStatusID" class="form-control">
-                                                    <option value="">-- Please Select --</option>
-                                                    @foreach (var value in Enum.GetValues<MessageStatus>())
-                                                    {
-                                                        <option value="@value">@value</option>
-                                                    }
-                                                </InputSelect>
-                                                <ValidationMessage For="@(() => selectedMessageRecordCopy!.MessageStatusID)" />
-                                            </div>
-                                        </div>
+                                    <div class="col-md-10">
+                                        @if (selectedMessageRecordCopy!.MessageTemplate == null)
+                                        {
+                                            selectedMessageRecordCopy!.MessageTemplate = new MessageTemplateModel();
+                                        }
+
+                                        <InputSelect @bind-Value="selectedMessageRecordCopy!.MessageTemplate!.MessageTemplateID" class="form-select" @bind-Value:after="() => LoadMessageTemplate(true)">
+                                            <option value="">-- Please Select --</option>
+                                            @if (messageTemplates != null)
+                                            {
+                                                foreach (var template in messageTemplates)
+                                                {
+                                                    <option value="@template.MessageTemplateID">@template.Name</option>
+                                                }
+                                            }
+                                        </InputSelect>
+                                        <ValidationMessage For="@(() => selectedMessageRecordCopy!.MessageTemplate.MessageTemplateID)" />
+
+                                    </div>
+                                </div>
+
+                                <div class="row g-3 mb-3">
+                                    <div class="col-md-2">
+                                        <label class="col-form-label"><i class="fa-solid fa-angles-right"></i> Subject</label>
+                                    </div>
+                                    <div class="col-md-10">
+                                        <InputText id="subjectInput" @bind-Value="selectedMessageRecordCopy!.Subject" class="form-control" onblur="@{() => @SetFocus("Subject")}" />
+                                        <ValidationMessage For="@(() => selectedMessageRecordCopy!.Subject)" />
                                     </div>
                                 </div>
 
                                 <div class="row g-3 mb-3">
                                     <div class="col-md">
-                                        <div class="card">
-                                            <div class="card-body">
-                                                <div class="row">
-                                                    <div class="col-md">
-                                                        <label class="col-form-label"><i class="fa-solid fa-angles-right"></i> Add Database Field</label>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-md">
+                                        <div class="accordion" id="AddDatabaseField">
+                                            <div class="accordion-item">
+                                                <h2 class="accordion-header">
+                                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                                        Add Database Field
+                                                    </button>
+                                                </h2>
+                                                <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                                                    <div class="accordion-body">
                                                         <div class="input-group">
                                                             <span class="input-group-text"><i class="fa-solid fa-database"></i></span>
                                                             <InputSelect @bind-Value="selectedDatabaseField" class="form-select">
@@ -875,23 +846,13 @@ else {
                                 </div>
 
                                 <div class="row g-3 mb-3">
-                                    <div class="col-md-2">
-                                        <label class="col-form-label"><i class="fa-solid fa-angles-right"></i> Subject</label>
-                                    </div>
-                                    <div class="col-md-10">
-                                        <InputText id="subjectInput" @bind-Value="selectedMessageRecordCopy!.Subject" class="form-control" onblur="@{() => @SetFocus("Subject")}" />
-                                        <ValidationMessage For="@(() => selectedMessageRecordCopy!.Subject)" />
-                                    </div>
-                                </div>
-
-                                <div class="row g-3 mb-3">
                                     <div class="col-md">
                                         Message
                                     </div>
                                 </div>
                                 <div class="row g-3 mb-3">
                                     <div class="col-md">
-                                        <Editor ScriptSrc="./lib/tinymce/tinymce.min.js" @bind-Value="selectedMessageRecordCopy!.Message" Field="() => selectedMessageRecordCopy!.Message" LicenseKey="gpl" />
+                                        <Editor @bind-Value="selectedMessageRecordCopy!.Message" Field="() => selectedMessageRecordCopy!.Message" LicenseKey="gpl" />
                                         @* <InputTextArea @bind-Value="selectedMessageRecordCopy!.Message" class="form-control" /> *@
                                         <ValidationMessage For="@(() => selectedMessageRecordCopy!.Message)" />
                                     </div>
@@ -911,6 +872,23 @@ else {
                                             </div>
                                         </div>
                                     </div>
+                                }
+
+                                @if (selectedMessageRecordCopy?.CreatedDate != null)
+                                {
+                                <div class="row g-3 mb-3 CreatedBy">
+                                    <div class="col-md text-secondary">
+                                        Created by @selectedMessageRecordCopy?.CreatedBy on @selectedMessageRecordCopy?.CreatedDate
+                                    </div>
+
+                                    @if (selectedMessageRecordCopy?.LastModifiedDate != null)
+                                    {
+                                        <div class="col-md text-secondary text-end">
+                                            Last modified by @selectedMessageRecordCopy?.LastModifiedBy on @selectedMessageRecordCopy?.LastModifiedDate
+                                        </div>
+                                    }
+
+                                </div>
                                 }
 
                             </div>
@@ -993,10 +971,15 @@ else {
     private IList<Func<MessageModel, bool>> filtersMessage = new List<Func<MessageModel, bool>>();
 
     private IQueryable<MessageModel>? ItemsMessages =>
-        messages?.AsQueryable().Where(m => filtersMessage.All(filter => filter(m)));
+        messages?.AsQueryable().Where(m => selectedRecord == null? 1 == 1 : m.VehicleID == selectedRecord.SubmissionID && filtersMessage.All(filter => filter(m)));
 
     public MessageModel? selectedMessageRecord { get; set; } = new MessageModel();
     private MessageModel? selectedMessageRecordCopy { get; set; } = new MessageModel();
+
+    public bool? HasAcceptedOffer { get; set; }
+    public decimal? LastOfferAmount { get; set; }
+    public DateTime? LastContacted { get; set; }
+    public int? MessagesSent { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -1107,8 +1090,15 @@ else {
         {
             selectedMessageRecord = new MessageModel()
             {
+                MessageGUID = Guid.NewGuid(),
+                MessageTypeID = MessageType.ToCustomer,
+                MessageIsHTML = true,
+                VehicleID = selectedRecordCopy?.SubmissionID,
                 From = configuration.GetSection("Settings")["EmailAddress"],
-                FromName = configuration.GetSection("Settings")["EmailName"]
+                FromName = configuration.GetSection("Settings")["EmailName"],
+                To = selectedRecordCopy?.Email,
+                ToName = selectedRecordCopy?.Forename + " " + selectedRecordCopy?.Surname ?? selectedRecordCopy?.Email,
+                MessageStatusID = MessageStatus.Pending
             };
 
             //Related Datasets
@@ -1779,7 +1769,7 @@ else {
     private void ShowFilterHelpMain()
     {
         action = "Info";
-        soundEffect = SoundFunctions.GetErrorSound();
+        soundEffect = SoundFunctions.GetPromptSound();
 
         msgInfoTitle = $"Filtering and Sorting Information";
         msgInfo = (MarkupString)$@"
@@ -1923,7 +1913,14 @@ else {
     {
         SelectMainRecord(recordID);
 
+        HasAcceptedOffer = messages?.Where(m => m.VehicleID == selectedRecordCopy?.SubmissionID && m.MessageTypeID == MessageType.ToCustomer && m.IsAccepted == true).Any();
+        LastOfferAmount = messages?.Where(m => m.VehicleID == selectedRecordCopy?.SubmissionID && m.MessageTypeID == MessageType.ToCustomer).MaxBy(m => m.AmountOffered)?.AmountOffered;
+        LastContacted = messages?.Where(m => m.VehicleID == selectedRecordCopy?.SubmissionID && m.MessageTypeID == MessageType.ToCustomer).MaxBy(m => m.SentDate)?.SentDate;
+        MessagesSent = messages?.Where(m => m.VehicleID == selectedRecordCopy?.SubmissionID && m.MessageTypeID == MessageType.ToCustomer).Count();
+
         SetEditorContextMain();
+
+        ChangeFilterMessage("VehicleID", selectedRecord?.SubmissionID);
 
         if (selectedRecordCopy != null)
         {
@@ -2031,7 +2028,11 @@ else {
         Messages.SetMessageCopyModel(selectedMessageRecordCopy);
         bool returnValue = await Messages?.SaveMainRecord(CloseDialogAfterSave);
 
-        modalMessageRecord!.Close();
+        if (CloseDialogAfterSave == true)
+        {
+            modalMessageRecord!.Close();
+        }
+        
         return returnValue;
     }
 
@@ -2234,6 +2235,7 @@ else {
         {
             selectedMessageRecordCopy.Subject = selectedTemplate.TemplateSubject;
             selectedMessageRecordCopy.Message = selectedTemplate.TemplateContent;
+            selectedMessageRecordCopy.IncludeAcceptRejectLinks = selectedTemplate.IncludeAcceptRejectLinks;
 
             if (refreshEditor == true)
             {
@@ -2258,8 +2260,8 @@ else {
                         EmailToName = selectedMessageRecordCopy.ToName,
                         EmailCC = "robin.wilson@robindigital.co.uk",
                         EmailBCC = null,
-                        EmailSubject = selectedMessageRecordCopy.Subject,
-                        EmailMessage = selectedMessageRecordCopy.MessageProcessed,
+                        EmailSubject = selectedMessageRecordCopy.SubjectProcessed ?? selectedMessageRecordCopy.Subject,
+                        EmailMessage = selectedMessageRecordCopy.MessageProcessed ?? selectedMessageRecordCopy.Message,
                         IsEmailMessageHTML = true,
                         EmailKey = configuration.GetSection("Settings")["EmailKey"]
                 };
@@ -2269,6 +2271,12 @@ else {
                 if (emailMessage != null)
                 {
                     Logger.LogInformation("Id = {Id}", emailMessage?.SystemEmailID);
+
+                    //Add Accept and Reject Links
+                    if (selectedMessageRecordCopy.IncludeAcceptRejectLinks == true && emailMessage != null)
+                    {
+                        emailMessage.EmailMessage += AcceptRejectButtons();
+                    }
 
                     //Send the Message
                     string? sendEmailEndPoint = $"{configuration["APIEndpoint"]}/SystemEmail";
@@ -2600,6 +2608,32 @@ else {
             ";
 
         messagePreview = preview;
+    }
+
+    public MarkupString AcceptRejectButtons()
+    {
+        string? websiteHost = $"{configuration["WebsiteAddress"]}";
+        string? url = Path.Combine(websiteHost, "EmailResponse", selectedMessageRecordCopy?.MessageGUID?.ToString() ?? "");
+        
+        return
+            (MarkupString)$@"<a rel='noopener' target='_blank' href='{url}/True' style='background-color: #198754; font-size: 18px; font-family: Helvetica, Arial, sans-serif; font-weight: bold; text-decoration: none; padding: 14px 20px; color: #ffffff; border-radius: 5px; display: inline-block; mso-padding-alt: 0;'>
+                <!--[if mso]>
+                <i style='letter-spacing: 25px; mso-font-width: -100%; mso-text-raise: 30pt;'>&nbsp;</i>
+                <![endif]-->
+                <span style='mso-text-raise: 15pt;'>&#10003; Accept Offer</span>
+                <!--[if mso]>
+                <i style='letter-spacing: 25px; mso-font-width: -100%;'>&nbsp;</i>
+                <![endif]-->
+            </a>&nbsp;&nbsp;&nbsp;&nbsp;
+            <a rel='noopener' target='_blank' href='{url}/False' style='background-color: #dc3545; font-size: 18px; font-family: Helvetica, Arial, sans-serif; font-weight: bold; text-decoration: none; padding: 14px 20px; color: #ffffff; border-radius: 5px; display: inline-block; mso-padding-alt: 0;'>
+                <!--[if mso]>
+                <i style='letter-spacing: 25px; mso-font-width: -100%; mso-text-raise: 30pt;'>&nbsp;</i>
+                <![endif]-->
+                <span style='mso-text-raise: 15pt;'>&#10007; Reject Offer</span>
+                <!--[if mso]>
+                <i style='letter-spacing: 25px; mso-font-width: -100%;'>&nbsp;</i>
+                <![endif]-->
+            </a>";
     }
 
     private void HandleJsonException(HttpRequestException ex, string objectName, string objectID)

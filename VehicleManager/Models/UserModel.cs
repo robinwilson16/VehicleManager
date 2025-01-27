@@ -43,8 +43,15 @@ namespace VehicleManager.Models
     {
         public LoginValidator()
         {
-            RuleFor(l => l.Email).EmailAddress().NotEmpty().WithMessage("Please enter your email address");
-            RuleFor(l => l.Password).NotEmpty().WithMessage("Please enter your password");
+            When(l => l.Token == null, () =>
+            {
+                RuleFor(l => l.Email).EmailAddress().NotEmpty().WithMessage("Please enter your email address");
+                RuleFor(l => l.Password).NotEmpty().WithMessage("Please enter your password");
+            }).Otherwise(() =>
+            {
+                RuleFor(l => l.Token).NotEmpty().WithMessage("A token or email and password are required");
+            });
+
         }
     }
 }

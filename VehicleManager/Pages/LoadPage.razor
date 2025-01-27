@@ -1,0 +1,14 @@
+﻿@page "/LoadPage/{*url}"
+@inject NavigationManager _navigationManager
+
+<h3>Loading...</h3>
+
+@code {
+    [Parameter]
+    public string? url { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        _navigationManager.NavigateTo(url ?? "", false, true);
+    }
+}

@@ -3,6 +3,7 @@
     background-position: bottom;
     background-size: 100% auto;
     background-repeat: no-repeat;
+    min-height: 80vh;
 }
 
 /*Stop model growing past end of the page*/
@@ -110,11 +111,13 @@ ul.nav-tabs > .nav-item > button.nav-link {
 
 .TableArea {
     background-color: #e8f5ed;
+    /*z-index: -1;*/ /*Fix for elements showing in front of toast*/ 
 }
 
 .table-responsive {
     min-height: 200px;
-    max-height: 60vh;
+    max-height: 46vh;
+    min-width: 100%;
 }
 
     .table-responsive th {
@@ -164,10 +167,24 @@ ul.nav-tabs > .nav-item > button.nav-link {
     max-height: 300px;
 }
 
+.ErrorDetails {
+    max-height: 240px;
+    background-color: #CCCCCC;
+}
+
+.YesNoButton {
+    min-width: 100px;
+}
+
 .VersionText {
     /*color: #CCCCCC;*/ 
     color: #555555;
     font-size: 0.8em;
+}
+
+.Outdated {
+    /*color: #CCCCCC;*/
+    color: #dc3545;
 }
 
 /*Remove right gap*/
@@ -215,4 +232,20 @@ tr:has(td):has(div[class='ErrorRow']) td {
 
 .TableContainer .col-sort-asc[b-vznuo5fmpv] .sort-indicator {
     transform: none;
+}
+
+.CreatedBy {
+    font-size: 0.8em;
+}
+
+.MessageArea {
+    background-color: #F5F5F5;
+    border: 2px solid #2e6b43;
+    border-radius: 1em;
+    padding: 10px;
+}
+
+.BestOffer {
+    font-style: italic;
+    background-color: #f44336;
 }

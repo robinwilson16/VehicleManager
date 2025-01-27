@@ -6,25 +6,117 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vehicle Manager</title>
     <!--<base href="/" />--> <!--Change for testing to /-->
-    <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="lib/font-awesome/css/all.min.css" />
-    <link rel="stylesheet" href="css/app.css" />
-    <link rel="icon" type="image/png" href="favicon.png" />
-    <link href="VehicleManager.styles.css" rel="stylesheet" />
-    <link rel="stylesheet" href="css/callout.css" />
-    <link rel="stylesheet" href="css/VehicleManager.css" />
-    <script src="lib/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <link href="manifest.webmanifest" rel="manifest" />
-    <link rel="apple-touch-icon" sizes="512x512" href="icon-512.png" />
-    <link rel="apple-touch-icon" sizes="192x192" href="icon-192.png" />
+    <!--<link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css" />-->
+    <!--<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css" />-->
+    <!--<link rel="stylesheet" href="/css/app.css" />-->
+    <!--<link rel="icon" type="image/png" href="/favicon.png" />-->
+    <!--<link href="/VehicleManager.styles.css" rel="stylesheet" />-->
+    <!--<link rel="stylesheet" href="/css/callout.css" />-->
+    <!--<link rel="stylesheet" href="/css/VehicleManager.css" />-->
+    <!--<script src="/lib/bootstrap/js/bootstrap.bundle.min.js"></script>-->
+    <!--<link href="/manifest.webmanifest" rel="manifest" />-->
+    <!--<link rel="apple-touch-icon" sizes="512x512" href="/icon-512.png" />-->
+    <!--<link rel="apple-touch-icon" sizes="192x192" href="/icon-192.png" />-->
 
     <script type="text/javascript">
-        var appBase = document.createElement('base');
-        appBase.href = "/admin/";
-        if (window.location.href.indexOf("localhost") > -1) {
-            appBase.href = "/";
-        }
-        document.head.appendChild(appBase);
+        document.addEventListener("DOMContentLoaded", function (event) {
+
+            //Set Base
+            var appBase = document.createElement('base');
+            appBase.href = "/admin/";
+            if (window.location.href.indexOf("localhost") > -1) {
+                appBase.href = "/";
+            }
+            document.head.appendChild(appBase);
+
+            let icon1 = document.createElement('link');
+            icon1.rel = `icon`;
+            icon1.type = `image/png`
+            icon1.href = `${appBase.href}favicon.png`;
+            document.head.appendChild(icon1);
+
+            let icon2 = document.createElement('link');
+            icon2.rel = `apple-touch-icon`;
+            icon2.sizes = `512x512`
+            icon2.href = `${appBase.href}icon-512.png`;
+            document.head.appendChild(icon2);
+
+            let icon3 = document.createElement('link');
+            icon3.rel = `apple-touch-icon`;
+            icon3.sizes = `192x192`
+            icon3.href = `${appBase.href}icon-192.png`;
+            document.head.appendChild(icon3);
+
+            //Load CSS Files
+            let css1 = document.createElement('link');
+            css1.rel = `stylesheet`
+            css1.href = `${appBase.href}lib/bootstrap/css/bootstrap.min.css`;
+            document.head.appendChild(css1);
+
+            let css2 = document.createElement('link');
+            css2.rel = `stylesheet`
+            css2.href = `${appBase.href}lib/font-awesome/css/all.min.css`;
+            document.head.appendChild(css2);
+
+            let css3 = document.createElement('link');
+            css3.rel = `stylesheet`
+            css3.href = `${appBase.href}css/app.css`;
+            document.head.appendChild(css3);
+
+            let css4 = document.createElement('link');
+            css4.rel = `stylesheet`
+            css4.href = `${appBase.href}VehicleManager.styles.css`;
+            document.head.appendChild(css4);
+
+            let css5 = document.createElement('link');
+            css5.rel = `stylesheet`
+            css5.href = `${appBase.href}css/callout.css`;
+            document.head.appendChild(css5);
+
+            let css6 = document.createElement('link');
+            css6.rel = `stylesheet`
+            css6.href = `${appBase.href}css/VehicleManager.css`;
+            document.head.appendChild(css6);
+
+            //Load JavaScript Files
+            let headScript1 = document.createElement('script');
+            headScript1.src = `${appBase.href}lib/bootstrap/js/bootstrap.bundle.min.js`;
+            document.head.appendChild(headScript1);
+
+            let bodyScript1 = document.createElement('script');
+            bodyScript1.src = `${appBase.href}lib/tinymce/tinymce.min.js`;
+            document.body.appendChild(bodyScript1);
+
+            let bodyScript2 = document.createElement('script');
+            bodyScript2.src = `${appBase.href}js/tinymceInterop.js`;
+            document.body.appendChild(bodyScript2);
+
+            let bodyScript3 = document.createElement('script');
+            bodyScript3.src = `${appBase.href}js/inputInterop.js`;
+            document.body.appendChild(bodyScript3);
+
+            let bodyScript4 = document.createElement('script');
+            bodyScript4.src = `${appBase.href}js/localStorageInterop.js`;
+            document.body.appendChild(bodyScript4);
+
+            let bodyScript5 = document.createElement('script');
+            bodyScript5.src = `${appBase.href}js/serviceWorkerInterop.js`;
+            document.body.appendChild(bodyScript5);
+
+            let bodyScript6 = document.createElement('script');
+            bodyScript6.src = `${appBase.href}js/toastInterop.js`;
+            document.body.appendChild(bodyScript6);
+
+            let bodyScript7 = document.createElement('script');
+            bodyScript7.src = `${appBase.href}_framework/blazor.webassembly.js`;
+            document.body.appendChild(bodyScript7);
+
+            //Manifest
+            let manifest = document.createElement('link');
+            manifest.rel = `manifest`;
+            manifest.href = `${appBase.href}manifest.webmanifest`;
+            document.head.appendChild(manifest);
+        });
     </script>
 </head>
 
@@ -42,12 +134,67 @@
         <a href="." class="reload">Reload</a>
         <span class="dismiss">🗙</span>
     </div>
-    <script src="_content/TinyMCE.Blazor/tinymce-blazor.js"></script>
-    <!--<script src="lib/tinymce/tinymce.min.js"></script>-->
-    <script src="js/tinymceInterop.js"></script>
-    <script src="js/inputInterop.js"></script>
-    <script src="_framework/blazor.webassembly.js?Version=1.0.11"></script>
-    <script>navigator.serviceWorker.register('service-worker.js');</script>
+
+    <!--<script src="/_content/TinyMCE.Blazor/tinymce-blazor.js"></script>-->
+    <!--<script src="/lib/tinymce/tinymce.min.js"></script>--> <!--Not needed-->
+    <!--<script src="/js/tinymceInterop.js"></script>-->
+    <!--<script src="/js/inputInterop.js"></script>-->
+    <!--<script src="/_framework/blazor.webassembly.js?Version=1.1.0"></script>-->
+    <script>
+        var appBaseURL = "/admin/";
+        if (window.location.href.indexOf("localhost") > -1) {
+            appBaseURL = "/";
+        }
+
+        //navigator.serviceWorker.register('service-worker.js');
+
+        // make the whole serviceworker process into a promise so later on we can
+        // listen to it and in case new content is available a toast will be shown
+        window.isUpdateAvailable = new Promise(function (resolve, reject) {
+            // lazy way of disabling service workers while developing
+            //if ('serviceWorker' in navigator && ['localhost', '127'].indexOf(location.hostname) === -1) {
+            // register service worker file
+            navigator.serviceWorker.register(`${appBaseURL}service-worker.js`)
+                .then(reg => {
+                    reg.onupdatefound = () => {
+                        const installingWorker = reg.installing;
+                        installingWorker.onstatechange = () => {
+                            switch (installingWorker.state) {
+                                case 'installed':
+                                    if (navigator.serviceWorker.controller) {
+                                        // new update available
+                                        resolve(true);
+                                    } else {
+                                        // no update available
+                                        resolve(false);
+                                    }
+                                    break;
+                            }
+                        };
+                    };
+                })
+                .catch(err => console.error('[SW ERROR]', err));
+            //}
+        });
+
+        // Update:
+        // this also can be incorporated right into e.g. your run() function in angular,
+        // to avoid using the global namespace for such a thing.
+        // because the registering of a service worker doesn't need to be executed on the first load of the page.
+
+        window['isUpdateAvailable']
+            .then(isAvailable => {
+                if (isAvailable) {
+                    let toastID = "toastNewVersionAvailable"
+                    var toast = document.getElementById(toastID);
+                    if (toast) {
+                        const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toast)
+                        toastBootstrap.show();
+                    }
+                    console.log("New version of app available - refresh to update");
+                }
+            });
+    </script>
 </body>
 
 </html>

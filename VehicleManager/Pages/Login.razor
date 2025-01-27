@@ -2,6 +2,7 @@
 @page "/Login/{ReturnToPage}"
 @using VehicleManager.Models
 @using VehicleManager.Services
+@using VehicleManager.Shared
 @using System.Net
 @using System.Text.Json;
 
@@ -10,6 +11,7 @@
 @inject NavigationManager NavManager
 @inject ILogger<Login> Logger
 @inject AppData appData
+@inject IJSRuntime JSRuntime
 
 @if (loadDataErrorMsg != null) 
 {
@@ -246,6 +248,9 @@ else {
                                     </div>
                                 </div>
                             </div>
+                            <InputText type="hidden" @bind-Value="login!.Token" class="form-control" />
+                            <ValidationMessage For="@(() => login!.Token)" />
+                            <ValidationSummary />
                         </EditForm>
                     </div>
                 </div>
@@ -269,13 +274,38 @@ else {
     //Once user is logged in then create second instance
     public UserModel? loggedInUser { get; set; }
 
+    //In case user credentials are saved in local storage then do not neeed to require user to log in again
+    public UserModel? alreadyLoggedInUser { get; set; }
+
     private FluentValidationValidator? _fluentValidationValidator;
 
     private string? loginEndPoint;
+    public string? Token { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
         login ??= new();
+        //Token = await LocalStorageFunctions.GetItem<string>(JSRuntime, Logger, "Token");
+        alreadyLoggedInUser = await LocalStorageFunctions.GetItem<UserModel>(JSRuntime, Logger, "CurrentUser");
+
+        if (alreadyLoggedInUser != null)
+        {
+            //Validate user based on the token stored in local storage (PHP API does this if Token is not null)
+            login.Token = alreadyLoggedInUser.Token;
+
+            await LogUserIn();
+
+            if (loggedInUser != null)
+            {
+                Console.WriteLine($"Logged in user {loggedInUser?.Email}");
+                GoToLoggedInArea();
+            }
+            else 
+            {
+                loadDataErrorMsg = $"You could not be logged in with your saved details. Please try again or attempt to log out and back in again.";
+            }
+            
+        }
     }
 
     private async Task LogUserIn()
@@ -297,6 +327,12 @@ else {
                     loginValid = true;
 
                     appData.CurrentUser = loggedInUser;
+
+                    if (loggedInUser != null)
+                    {
+                        //await LocalStorageFunctions.SetItem(JSRuntime, "Token", loggedInUser?.Token ?? "");
+                        await LocalStorageFunctions.SetItem(JSRuntime, Logger, "CurrentUser", loggedInUser ?? new UserModel());
+                    } 
                 }
                 else {
                     loginValid = false;

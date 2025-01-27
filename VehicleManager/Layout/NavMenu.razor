@@ -1,49 +1,187 @@
-﻿@using System.Reflection;
+﻿@using VehicleManager.Components
+@using VehicleManager.Shared
+@using System.Reflection;
+
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JSRuntime
+
 <div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href=""><i class="fa-solid fa-car-side"></i> Vehicle Manager</a>
-        <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
+        <a class="navbar-brand" href="">
+            <i class="fa-solid fa-car-side @(IconMenuActive == true? "" : "WithDescription")"></i>
+            @if (!@IconMenuActive)
+            {
+                <label>Vehicle Manager</label>
+            }
+        </a>
+        <button title="Navigation menu" class="navbar-toggler" @onclick="() => ToggleNavMenu(navSubmenu)">
             <span class="navbar-toggler-icon"></span>
         </button>
     </div>
 </div>
 
-<div class="@NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
+<div class="@NavMenuCssClass nav-scrollable">
     <nav class="nav flex-column">
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <i class="fa-solid fa-warehouse"></i> Home
+            <NavLink class="nav-link" href="" @onclick="() => ToggleNavMenu(NavSubmenu.None)" Match="NavLinkMatch.All">
+                <i class="fa-solid fa-warehouse @(IconMenuActive == true? "" : "WithDescription")"></i>
+                @if (!@IconMenuActive)
+                {
+                    <label> Home</label>
+                }
             </NavLink>
         </div>
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="Vehicles">
-                <i class="fa-solid fa-car-burst"></i> Vehicles
+            <NavLink class="nav-link" href="Vehicles" @onclick="() => ToggleNavMenu(NavSubmenu.None)">
+                <i class="fa-solid fa-car-burst @(IconMenuActive == true? "" : "WithDescription")"></i>
+                @if (!@IconMenuActive)
+                {
+                    <label> Vehicles</label>
+                }
             </NavLink>
         </div>
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="MessageTemplates">
-                <i class="fa-solid fa-message"></i> Message Templates
+            <NavLink class="nav-link" @onclick="() => TogleSubmenu(NavSubmenu.Maintenance)">
+                <i class="fa-solid fa-gear @(IconMenuActive == true? "" : "WithDescription")"></i>
+                @if (!@IconMenuActive)
+                {
+                    <label> Maintenance</label>
+                }
             </NavLink>
         </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="Messages">
-                <i class="fa-solid fa-envelopes-bulk"></i> Messages
-            </NavLink>
-        </div>
+
+        @if (navSubmenu == NavSubmenu.Maintenance)
+        {
+            <div class="nav-item @(IconMenuActive == true? "px-3" : "ps-5 pe-3")">
+                <NavLink class="nav-link" @onclick="() => ToggleNavMenu()" href="Messages">
+                    <i class="fa-solid fa-envelopes-bulk @(IconMenuActive == true? "" : "WithDescription")"></i>
+                    @if (!@IconMenuActive)
+                    {
+                        <label> Messages</label>
+                    }
+                </NavLink>
+            </div>
+            <div class="nav-item @(IconMenuActive == true? "px-3" : "ps-5 pe-3")">
+                <NavLink class="nav-link" @onclick="() => ToggleNavMenu()" href="MessageTemplates">
+                    <i class="fa-solid fa-message @(IconMenuActive == true? "" : "WithDescription")"></i>
+                    @if (!@IconMenuActive)
+                    {
+                        <label> Message Templates</label>
+                    }
+                </NavLink>
+            </div>
+            <div class="nav-item @(IconMenuActive == true? "px-3" : "ps-5 pe-3")">
+                <NavLink class="nav-link" @onclick="() => ToggleNavMenu()" href="LoadPage/EmailResponse/066e54c7-5d40-4cbd-838c-6bd278a21c6e/True">
+                    <i class="fa-solid fa-clipboard-check @(IconMenuActive == true? "" : "WithDescription")"></i>
+                    @if (!@IconMenuActive)
+                    {
+                        <label> Customer Web Form - Accept</label>
+                    }
+                </NavLink>
+            </div>
+            <div class="nav-item @(IconMenuActive == true? "px-3" : "ps-5 pe-3")">
+                <NavLink class="nav-link" @onclick="() => ToggleNavMenu()" href="LoadPage/EmailResponse/066e54c7-5d40-4cbd-838c-6bd278a21c6e/False">
+                    <i class="fa-solid fa-sack-xmark @(IconMenuActive == true? "" : "WithDescription")"></i>
+                    @if (!@IconMenuActive)
+                    {
+                        <label> Customer Web Form - Decline</label>
+                    }
+                </NavLink>
+            </div>
+        }
     </nav>
-    <div class="fixed-bottom VersionText m-3">Version @ProductVersion</div>
+
+    @* <div class="fixed-bottom">
+        @if (ActiveVersion != ProductVersion)
+        {
+            <div class="VersionText Outdated m-3">Version @ActiveVersion <button type="button" class="btn btn-sm btn-danger" @onclick="UpdateServiceWorker"><i class="fa-solid fa-download"></i></button></div>
+        }
+        else
+        {
+            <div class="VersionText m-3">Version @ActiveVersion</div>
+        }
+    </div> *@
+
+
+</div>
+<div class="bottom-row">
+    @if ((ActiveVersion ?? ProductVersion) != ProductVersion)
+    {
+        <div class="VersionText Outdated m-3">Version @ActiveVersion <button type="button" class="btn btn-sm btn-danger" @onclick="() => ServiceWorkerFunctions.UpdateServiceWorker(JSRuntime, NavigationManager)"><i class="fa-solid fa-download"></i></button></div>
+    }
+    else
+    {
+        <div class="VersionText m-3">Version @ActiveVersion</div>
+    }
+    <div class="icon-menu-arrow">
+        @if (!@IconMenuActive)
+        {
+            <button type="button" class="btn btn-primary" @onclick="ToggleIconMenu"><i class="fa-solid fa-arrow-left"></i></button>
+        }
+        else
+        {
+            <button type="button" class="btn btn-primary" @onclick="ToggleIconMenu"><i class="fa-solid fa-arrow-right"></i></button>
+        }
+    </div>
 </div>
 
 
 @code {
     private bool collapseNavMenu = true;
-
     private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+    private MainLayout? mainLayout { get; set; }
 
-    private void ToggleNavMenu()
+    //bool to send to MainLayout for shrinking sidebar and showing/hide menu text
+    private bool IconMenuActive { get; set; } = false;
+
+    //EventCallback for sending bool to MainLayout
+    [Parameter]
+    public EventCallback<bool> ShowIconMenu { get; set; }
+
+    private Toast? toastNewVersionAvailable { get; set; }
+    public string? toastNewVersionAvailableTitle = null;
+    public string? toastNewVersionAvailableSubtitle = null;
+    public MarkupString? toastNewVersionAvailableText = null;
+
+    //Sub Menu Support
+    private enum NavSubmenu
     {
-        collapseNavMenu = !collapseNavMenu;
+        None,
+        Maintenance
     }
 
+    private NavSubmenu navSubmenu = NavSubmenu.None;
+
+    private void ToggleNavMenu(NavSubmenu? submenu = null)
+    {
+        collapseNavMenu = !collapseNavMenu;
+        navSubmenu = submenu ?? navSubmenu;
+    }
+
+    private void TogleSubmenu(NavSubmenu submenu)
+    {
+        if (navSubmenu == submenu)
+            navSubmenu = NavSubmenu.None;
+        else
+            navSubmenu = submenu;
+    }
+
+    //Method to toggle IconMenuActive bool and send bool via EventCallback
+    private async Task ToggleIconMenu()
+    {
+        IconMenuActive = !IconMenuActive;
+        await ShowIconMenu.InvokeAsync(IconMenuActive);
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        //await Task.Delay(1000);
+        //await JSRuntime.InvokeVoidAsync("toastInterop.showToast", "liveToast");
+
+        //await SetVersionNumber();
+        ActiveVersion = await ServiceWorkerFunctions.GetCurrentVersionNumber(JSRuntime) ?? ProductVersion;
+    }
+
+    private string? ActiveVersion { get; set; }
     private string? ProductVersion = Assembly.GetExecutingAssembly().GetName().Version?.ToString();
 }

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using VehicleManager.Shared;
+using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -21,14 +22,79 @@ namespace VehicleManager.Models
             get { return SubmissionDate == null ? null : DateTime.ParseExact(SubmissionDate ?? "", "yyyy-MM-dd HH:mm:ss", new CultureInfo("en-GB")); }
         }
         public int? SubmissionCount { get; set; }
-        public string? Name { get; set; }
         public string? Surname { get; set; }
         public string? Forename { get; set; }
+
+        //[JsonIgnore]
+        //private string? _Name;
+
+        public string? Name
+        {
+            get { return Forename + " " + Surname; }
+            //set
+            //{
+            //    _Name = Forename + " " + Surname;
+            //}
+        }
+
         public string? Email { get; set; }
         public string? Tel { get; set; }
-        public string? PostCode { get; set; }
+        private string? _PostCode { get; set; }
+
+        public string? PostCode
+        {
+            get
+            {
+                return _PostCode;
+            }
+            set
+            {
+                if (value != null)
+                {
+                    if (value.Length == 6 && !value.Contains(" "))
+                    {
+                        _PostCode = value?.SubstringOrDefault(0, 3)?.ToUpper() + " " + value?.SubstringOrDefault(3, 3)?.ToUpper();
+                    }
+                    else if (value.Length == 7 && !value.Contains(" "))
+                    {
+                        _PostCode = value?.SubstringOrDefault(0, 4)?.ToUpper() + " " + value?.SubstringOrDefault(4, 3)?.ToUpper();
+                    }
+                    else
+                    {
+                        _PostCode = value?.ToUpper();
+                    }
+                }
+            }
+        }
+
+        //public string? PostCode { get; set; }
         public string? Message { get; set; }
-        public string? RegistrationNumber { get; set; }
+        private string? _RegistrationNumber { get; set; }
+
+        [Display(Name = "Reg Num")]
+        public string? RegistrationNumber
+        {
+            get
+            {
+                return _RegistrationNumber;
+            }
+            set
+            {
+                if (value != null)
+                {
+                    if (value.Length == 7 && !value.Contains(" "))
+                    {
+                        _RegistrationNumber = value?.SubstringOrDefault(0, 4)?.ToUpper() + " " + value?.SubstringOrDefault(4, 3)?.ToUpper();
+                    }
+                    else
+                    {
+                        _RegistrationNumber = value?.ToUpper();
+                    }
+                }
+            }
+        }
+
+        [Display(Name = "Year")]
         public string? YearOfManufacture { get; set; }
         public string? Make { get; set; }
         public string? Model { get; set; }

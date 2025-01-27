@@ -1,0 +1,852 @@
+﻿@page "/EmailResponse"
+@page "/EmailResponse/{EmailGUID:Guid?}"
+@page "/EmailResponse/{EmailGUID:Guid?}/{AcceptOffer:bool?}"
+
+@using VehicleManager.Components
+@using VehicleManager.Models
+@using VehicleManager.Pages
+@using VehicleManager.Shared
+@using TinyMCE.Blazor
+@using System.Net
+@inject HttpClient Http
+@inject IConfiguration configuration
+@inject NavigationManager NavManager
+@inject ILogger<MessageModel> Logger
+
+<PageTitle>Email Response Form</PageTitle>
+
+<audio src="@soundEffect" autoplay></audio>
+
+<Modal @ref="modalInfo">
+    <WindowControls>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @onclick="() => modalInfo!.Close()"></button>
+    </WindowControls>
+    <Title><i class="fa-solid fa-circle-info"></i> @msgInfoTitle</Title>
+    <Body>
+        <p>
+            @msgInfo
+        </p>
+    </Body>
+    <Footer>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @onclick="() => modalError!.Close()"><i class="fa-solid fa-rectangle-xmark"></i> Close</button>
+    </Footer>
+</Modal>
+
+<Modal @ref="modalError">
+    <WindowControls>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @onclick="() => modalInfo!.Close()"></button>
+    </WindowControls>
+    <Title><i class="fa-solid fa-triangle-exclamation"></i> @msgErrorTitle</Title>
+    <Body>
+        <div class="alert alert-danger" role="alert">
+            @msgError
+        </div>
+        @if (msgErrorStackTrace != null) 
+        {
+            <p><i class="fa-solid fa-bug"></i> Stack Trace:</p>
+            <pre class="pre-scrollable ErrorDetails">@msgErrorStackTrace</pre>
+        }
+    </Body>
+    <Footer>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @onclick="() => modalError!.Close()"><i class="fa-solid fa-rectangle-xmark"></i> Close</button>
+    </Footer>
+</Modal>
+
+<Modal @ref="modalConfirm">
+    <WindowControls>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @onclick="() => modalInfo!.Close()"></button>
+    </WindowControls>
+    <Title><i class="fa-solid fa-circle-question"></i> @msgConfirmTitle</Title>
+    <Body>
+        <p>
+            @msgConfirm
+        </p>
+    </Body>
+    <Footer>
+        <button type="button" class="btn btn-danger" @onclick="FormAction"><i class="fa-solid fa-trash"></i> Yes</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @onclick="() => modalConfirm!.Close()"><i class="fa-solid fa-right-from-bracket"></i> Cancel</button>
+    </Footer>
+</Modal>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md text-center">
+            <img class="img-fluid CollegeLogo" src="images/BrokenMotorLogo.png" title="Broken Motor Logo" />
+        </div>
+    </div>
+</div>
+
+<div class="bd-callout bd-callout-SHCG-blue bd-callout-grey GreyBackground">
+
+    @if (loadDataErrorMsg != null) 
+    {
+        <div class="container">
+            <div class="row">
+                <div class="col-md">
+                    <div class="alert alert-danger hstack gap-3" role="alert">
+                        <div>
+                            <h1><i class="fa-solid fa-triangle-exclamation"></i></h1>
+                        </div>
+                        <div>
+                            <p>
+                                @loadDataErrorMsg
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else if (formSubmitted == true)
+    {
+        <div class="container">
+            <div class="row">
+                <div class="col-md">
+
+                    @if (message?.IsAccepted == true)
+                    {
+                        soundEffect = SoundFunctions.GetConfirmSound();
+
+                        <div class="alert alert-success hstack gap-3" role="alert">
+                            <div class="ms-auto me-3">
+                                <h1><i class="fa-solid fa-clipboard-check"></i></h1>
+                            </div>
+                            <div class="me-auto">
+                                <h4 class="alert-heading">Response Successfully Recorded</h4>
+                                <hr>
+                                <p>
+                                    Thank you for confirming you are happy with our offer price of @message?.AmountOffered?.Format("C0").
+                                </p>
+                                <p>
+                                    We will be in touch with you soon to discuss the next steps.
+                                </p>
+                            </div>
+                        </div>
+                    }
+                    else 
+                    {
+                        soundEffect = SoundFunctions.GetConfirmSound();
+
+                        <div class="alert alert-warning hstack gap-3" role="alert">
+                            <div class="ms-auto me-3">
+                                <h1><i class="fa-solid fa-sack-xmark"></i></h1>
+                            </div>
+                            <div class="me-auto">
+                                <h4 class="alert-heading">Response Successfully Recorded</h4>
+                                <hr>
+                                <p>
+                                    Thank you for letting us know. We are sorry you were not able to accept our offer price of @message?.AmountOffered?.Format("C0"). 
+                                </p>
+                                <p>
+                                    If you have left us a note to explain why you feel your vehicle is worth more than what we have offered, we will review this to see if we can provide a revised offer.
+                                </p>
+                            </div>
+                        </div>
+                    }
+                    
+                    <div class="alert alert-secondary" role="alert">
+                        <div class="row">
+                            <div class="col-md">
+                                <button type="button" class="btn btn-success" @onclick="GoToBrokenMotorHomepage"><i class="fa-solid fa-arrow-up-right-from-square"></i> Go To The Broken-Motor Homepage</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else if(message == null) {
+        <div class="container">
+            <div class="row">
+                <div class="col-md">
+                    <div class="alert alert-primary text-center" role="alert">
+                        <h1>
+                            <i class="fa-solid fa-spinner fa-spin"></i> Loading ...
+                        </h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else {
+        <div class="bd-callout bd-callout-SHCG-yellow bd-callout-grey WhiteBackground">
+            <div class="container">
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <i class="fa-solid fa-user"></i> From
+                    </div>
+                    <div class="col-md-8">
+                        @message.From
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <i class="fa-solid fa-circle-info"></i> Subject
+                    </div>
+                    <div class="col-md-8">
+                        <strong>@message.SubjectProcessed</strong>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <i class="fa-solid fa-envelope-open"></i> Message
+                    </div>
+                    <div class="col-md-8 MessageArea">
+                        @if (message.MessageProcessed != null)
+                        {
+                            @((MarkupString?)message.MessageProcessed);
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <EditForm FormName="ReplyForm" Model="replyToCompany" OnSubmit="SendMessage">
+            <FluentValidationValidator @ref="_fluentValidationValidator" />
+
+            @if (replyToCompany != null)
+            {
+
+                <div class="bd-callout bd-callout-SHCG-teal bd-callout-grey WhiteBackground">
+                    <div class="container">
+                        <div class="row mb-3 align-items-center">
+                            <div class="col-md text-center">
+                                <h4>@vehicle?.Forename, we are prepared to offer you <kbd class="BestOffer">@message.AmountOffered?.Format("C0")</kbd> for your @vehicle?.Make @vehicle?.Model</h4>
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-4">
+                                <label class="col-form-label">
+                                    <i class="fa-solid fa-angles-right"></i> Do you accept this offer?
+                                </label>
+                            </div>
+                            <div class="col-md-8">
+                                <CustomBoolInputSelect @bind-Value="message!.IsAccepted" class="form-select d-none">
+                                    <option value="">-- Please Select --</option>
+                                    <option value="true">Yes</option>
+                                    <option value="false">No</option>
+                                </CustomBoolInputSelect>
+                                <div class="d-grid gap-2 d-md-block">
+                                    <button type="button" class="btn @(message!.IsAccepted == true? "btn-success" : "btn-outline-success") YesNoButton me-md-3" @onclick="() => IsAcceptedToggle(true)"><i class="fa-solid fa-square-check"></i> Yes</button>
+                                    <button type="button" class="btn @(message!.IsAccepted == false? "btn-danger" : "btn-outline-danger") YesNoButton" @onclick="() => IsAcceptedToggle(false)"><i class="fa-solid fa-square-xmark"></i> No</button>
+                                </div>
+                                <ValidationMessage For="@(() => message!.IsAccepted)" />
+                            </div>
+                        </div>
+
+                        @if (message.IsAccepted == false)
+                        {
+                            <div class="alert alert-warning hstack gap-3" role="alert">
+                                <div>
+                                    <h1><i class="fa-solid fa-circle-info"></i></h1>
+                                </div>
+                                <div>
+                                    <p>
+                                        Please explain why you are declining our offer and if there are perhaps reasons your vehicle may be worth more that we need to take into account.
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md">
+
+                                    <div class="row g-3 mb-3">
+                                        <div class="col-md-4">
+                                            <i class="fa-solid fa-message"></i> <label class="col-form-label">Your Message</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <Editor ScriptSrc="./lib/tinymce/tinymce.min.js" @bind-Value="replyToCompany!.Message" Field="() => replyToCompany!.Message" LicenseKey="gpl" />
+                                            @* <InputTextArea @bind-Value="replyToCompany!.Message" class="form-control" /> *@
+                                            <ValidationMessage For="@(() => replyToCompany!.Message)" />
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        }
+
+                    </div>
+                </div>
+
+
+            }
+
+            <ValidationSummary />
+
+            <div class="alert alert-secondary" role="alert">
+                <div class="row">
+                    <div class="col-md">
+                        <div class="d-grid gap-2 d-md-block text-center">
+                            <button type="submit" class="btn btn-success me-md-3" @onclick="SubmitForm"><i class="fa-solid fa-paper-plane"></i> Submit</button>
+                            <button type="button" class="btn btn-warning" @onclick="ClearFormConfirm"><i class="fa-solid fa-eraser"></i> Clear</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </EditForm>        
+    }
+</div>
+
+@code {
+    [Parameter]
+    public string? EmailGUID { get; set; }
+    [Parameter]
+    public bool? AcceptOffer { get; set; }
+
+    bool formSubmitted = false;
+
+    //Hide navbar in layout component
+    [CascadingParameter]
+    public MainLayout? Layout { get; set; }
+
+    public int? messageID { get; set; }
+    public string? action { get; set; }
+    public string? soundEffect { get; set; }
+
+    private Modal? modalInfo { get; set; }
+    public string? msgInfoTitle = null;
+    public MarkupString? msgInfo = null;
+
+    private Modal? modalError { get; set; }
+    public string? msgErrorTitle = null;
+    public MarkupString? msgError = null;
+    public string? msgErrorStackTrace = null;
+
+    private Modal? modalConfirm { get; set; }
+    public string? msgConfirmTitle = null;
+    public MarkupString? msgConfirm = null;
+
+    [SupplyParameterFromForm]
+    public MessageModel? message { get; set; }
+
+    [SupplyParameterFromForm]
+    public MessageModel? replyToCompany { get; set; }
+    public MessageModel? replyToCustomer { get; set; }
+
+    private FluentValidationValidator? _fluentValidationValidator;
+
+    public string? loadDataErrorMsg = null;
+
+    private VehicleModel? vehicle;
+    private string? messageEndPoint;
+    private string? messageTemplateEndPoint;
+
+    private string? saveMessageEndPoint;
+    private string? saveReplyEndPoint;
+
+    private Messages? Messages = new Messages();
+
+    //Related datasets
+    private List<MessageTemplateModel>? messageTemplates { get; set; }
+    private MessageTemplateModel? messageTemplate { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        bool isError = false;
+
+        if (Layout != null) {
+            Layout.HideNav();
+        }
+
+        if (EmailGUID == null) {
+            isError = true;
+            soundEffect = SoundFunctions.GetErrorSound();
+
+            loadDataErrorMsg = $"The form could not be loaded. Please ensure you are using the link from the email to accept or reject your offer";
+        }
+        else {
+            messageEndPoint = $"{configuration["APIEndpoint"]}/Message/GUID/{EmailGUID}";
+            Console.WriteLine($"Load data from {messageEndPoint}");
+
+            try
+            {
+                message = await Http.GetFromJsonAsync<MessageModel>(messageEndPoint);
+
+                //Create objects to hold form entries
+                CreateNewObjects();
+
+                SetIsAccepted();
+            }
+            catch (HttpRequestException ex)
+            {
+                isError = true;
+                HandleJsonException(ex, "Message", EmailGUID ?? "");
+            }
+
+            if (isError != true && message != null)
+            {
+                string vehicleEndPoint = $"{configuration["VehicleEndpoint"]}/FormEntries/{message?.VehicleID}";
+                Console.WriteLine($"Load data from {vehicleEndPoint}");
+                string token = "9e282da6-b40a-11ef-b4a3-00155d0b0d00";
+
+                try
+                {
+                    Http.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+                    vehicle = await Http.GetFromJsonAsync<VehicleModel>(vehicleEndPoint);
+                }
+                catch (HttpRequestException ex)
+                {
+                    isError = true;
+                    soundEffect = SoundFunctions.GetErrorSound();
+                    HandleJsonException(ex, "Vehicle", message?.VehicleID.ToString() ?? "");
+                }
+            }
+
+            if (isError != true)
+            {
+                //Load other objects
+                messageTemplateEndPoint = $"{configuration["APIEndpoint"]}/MessageTemplate";
+
+                try
+                {
+                    messageTemplates = await Http.GetFromJsonAsync<List<MessageTemplateModel>>(messageTemplateEndPoint);
+                }
+                catch (HttpRequestException ex)
+                {
+                    isError = true;
+                    soundEffect = SoundFunctions.GetErrorSound();
+                    HandleJsonException(ex, "MessageTemplate", message?.VehicleID.ToString() ?? "");
+                }
+            }
+        }
+    }
+
+    public void CreateNewObjects()
+    {
+        //Main Model
+        replyToCompany = CreateNewMessage();
+    }
+
+    public void SetIsAccepted()
+    {
+        if (message != null)
+        {
+            if (AcceptOffer == true)
+                message.IsAccepted = true;
+            else if (AcceptOffer == false)
+                message.IsAccepted = false;
+        }
+    }
+
+    private MessageModel CreateNewMessage()
+    {
+        MessageModel newMessage = new MessageModel() 
+        {
+                MessageGUID = Guid.NewGuid(),
+                MessageTypeID = MessageType.ToCompany,
+                MessageIsHTML = true,
+                VehicleID = message?.VehicleID,
+                From = message?.To,
+                FromName = message?.ToName,
+                To = message?.From,
+                ToName = message?.FromName,
+                MessageStatusID = MessageStatus.Pending
+        };
+
+        return newMessage;
+    }
+
+    private void ResetForm()
+    {
+        //Reset form
+        ClearForm();
+        formSubmitted = false;
+    }
+
+    private async Task<bool?> SubmitForm()
+    {
+        bool isError = false;
+
+        //Set other fields
+        if (message != null && replyToCompany != null)
+        {
+            message.LastModifiedBy = vehicle?.Email;
+            message.LastModifiedDate = DateTime.Now;
+
+            if (AcceptOffer == true)
+            {
+                replyToCompany.Subject = "Offer Accepted";
+                replyToCompany.SubjectProcessed = "Offer Accepted";
+                replyToCompany.CreatedBy = message.To;
+                replyToCompany.CreatedDate = DateTime.Now;
+
+                messageTemplate = messageTemplates?.Where(t => t.MessageTemplateID == 7).FirstOrDefault();
+
+                replyToCustomer = new MessageModel()
+                {
+                        MessageGUID = Guid.NewGuid(),
+                        MessageTypeID = MessageType.ToCustomer,
+                        MessageTemplate = messageTemplate,
+                        Subject = messageTemplate?.TemplateSubject,
+                        SubjectProcessed = messageTemplate?.TemplateSubjectProcessed,
+                        Message = messageTemplate?.TemplateContent,
+                        MessageProcessed = messageTemplate?.TemplateContentProcessed,
+                        MessageIsHTML = true,
+                        VehicleID = message?.VehicleID,
+                        AmountOffered = message?.AmountOffered,
+                        IsAccepted = true,
+                        From = message?.From,
+                        FromName = message?.FromName,
+                        To = message?.To,
+                        ToName = message?.ToName,
+                        CC = message?.From,
+                        MessageStatusID = MessageStatus.Pending,
+
+                };
+
+                PreviewMessage();
+
+            }
+            else
+            {
+                replyToCompany.Subject = "Offer Rejected";
+                replyToCompany.SubjectProcessed = "Offer Rejected";
+                replyToCompany.CreatedBy = message.To;
+                replyToCompany.CreatedDate = DateTime.Now;
+
+                messageTemplate = messageTemplates?.Where(t => t.MessageTemplateID == 8).FirstOrDefault();
+
+                replyToCustomer = new MessageModel()
+                {
+                    MessageGUID = Guid.NewGuid(),
+                    MessageTypeID = MessageType.ToCustomer,
+                    MessageTemplate = messageTemplate,
+                    Subject = messageTemplate?.TemplateSubject,
+                    SubjectProcessed = messageTemplate?.TemplateSubjectProcessed,
+                    Message = messageTemplate?.TemplateContent,
+                    MessageProcessed = messageTemplate?.TemplateContentProcessed,
+                    MessageIsHTML = true,
+                    VehicleID = message?.VehicleID,
+                    AmountOffered = message?.AmountOffered,
+                    IsAccepted = false,
+                    From = message?.From,
+                    FromName = message?.FromName,
+                    To = message?.To,
+                    ToName = message?.ToName,
+                    CC = message?.From,
+                    MessageStatusID = MessageStatus.Pending,
+
+                };
+
+                PreviewMessage();
+            }
+        }
+
+        if (await _fluentValidationValidator!.ValidateAsync())
+        {
+            //Not using this now as submitting many at once (below)
+
+            formSubmitted = true;
+            Logger.LogInformation("Id = {Id}", message?.MessageID);
+
+            saveMessageEndPoint = $"{configuration["APIEndpoint"]}/Message/{message?.MessageID}";
+            saveReplyEndPoint = $"{configuration["APIEndpoint"]}/Message";
+
+            try
+            {
+                if (message != null)
+                {
+                    HttpResponseMessage formResponse = await Http.PutAsJsonAsync<MessageModel>(saveMessageEndPoint, message);
+
+                    if (formResponse.IsSuccessStatusCode != true)
+                    {
+                        string responseBody = await formResponse.Content.ReadAsStringAsync();
+                        action = "Error";
+                        soundEffect = SoundFunctions.GetErrorSound();
+
+                        msgErrorTitle = $"Cannot Submit Form (Confirm Offer)";
+                        msgError = (MarkupString)$"Unfortunately the form could not be submitted successfully due to an error.<br />Please check your network connection and attempt to submit again.";
+                        msgErrorStackTrace = responseBody;
+
+                        modalError!.Open();
+                    }
+                }
+                else
+                {
+                    isError = true;
+                    action = "Error";
+                    soundEffect = SoundFunctions.GetErrorSound();
+
+                    msgErrorTitle = $"Cannot Submit Form (Confirm Offer)";
+                    msgError = (MarkupString)$"Unfortunately the form could not be submitted successfully due to an error.<br />Please try again.";
+                    msgErrorStackTrace = null;
+
+                    modalError!.Open();
+                }
+
+            }
+            catch (HttpRequestException ex)
+            {
+                isError = true;
+                action = "Error";
+                soundEffect = SoundFunctions.GetErrorSound();
+
+                HandleJsonException(ex, "Message", EmailGUID ?? "");
+            }
+
+            //Send response to company
+            if (!isError == true) 
+            {
+                try
+                {
+                    if (replyToCompany != null)
+                    {
+                        HttpResponseMessage formResponseReply = await Http.PostAsJsonAsync<MessageModel>(saveReplyEndPoint, replyToCompany);
+
+                        if (formResponseReply.IsSuccessStatusCode != true)
+                        {
+                            string responseBodyReply = await formResponseReply.Content.ReadAsStringAsync();
+                            action = "Error";
+                            soundEffect = SoundFunctions.GetErrorSound();
+
+                            msgErrorTitle = $"Cannot Submit Form (Send Response to Company)";
+                            msgError = (MarkupString)$"Unfortunately the form could not be submitted successfully due to an error.<br />Please check your network connection and attempt to submit again.";
+                            msgErrorStackTrace = responseBodyReply;
+
+                            modalError!.Open();
+                        }
+                    }
+                    else
+                    {
+                        isError = true;
+                        soundEffect = SoundFunctions.GetErrorSound();
+
+                        msgErrorTitle = $"Cannot Submit Form (Send Response to Company)";
+                        msgError = (MarkupString)$"Unfortunately the form could not be submitted successfully due to an error.<br />Please try again.";
+                        msgErrorStackTrace = null;
+
+                        modalError!.Open();
+                    }
+
+                }
+                catch (HttpRequestException ex)
+                {
+                    isError = true;
+                    HandleJsonException(ex, "Message", EmailGUID ?? "");
+                }
+            }
+
+            //Send response to customer
+            if (!isError == true)
+            {
+                try
+                {
+                    if (replyToCustomer != null)
+                    {
+                        HttpResponseMessage formResponseReply = await Http.PostAsJsonAsync<MessageModel>(saveReplyEndPoint, replyToCustomer);
+
+                        if (formResponseReply.IsSuccessStatusCode != true)
+                        {
+                            string responseBodyReply = await formResponseReply.Content.ReadAsStringAsync();
+                            action = "Error";
+                            soundEffect = SoundFunctions.GetErrorSound();
+
+                            msgErrorTitle = $"Cannot Submit Form (Send Response to Customer)";
+                            msgError = (MarkupString)$"Unfortunately the form could not be submitted successfully due to an error.<br />Please check your network connection and attempt to submit again.";
+                            msgErrorStackTrace = responseBodyReply;
+
+                            modalError!.Open();
+                        }
+                    }
+                    else
+                    {
+                        isError = true;
+                        action = "Error";
+                        soundEffect = SoundFunctions.GetErrorSound();
+
+                        msgErrorTitle = $"Cannot Submit Form (Send Response to Customer)";
+                        msgError = (MarkupString)$"Unfortunately the form could not be submitted successfully due to an error.<br />Please try again.";
+                        msgErrorStackTrace = null;
+
+                        modalError!.Open();
+                    }
+
+                }
+                catch (HttpRequestException ex)
+                {
+                    isError = true;
+                    action = "Error";
+                    soundEffect = SoundFunctions.GetErrorSound();
+
+                    HandleJsonException(ex, "Message", EmailGUID ?? "");
+                }
+            }
+        }
+
+        return isError == true? false : true;
+    }
+
+    public async Task SendMessage()
+    {
+        //Send email
+        if (replyToCustomer != null)
+        {
+            SystemEmailModel emailMessage = new SystemEmailModel
+                {
+                    SystemEmailID = 1,
+                    EmailFrom = replyToCustomer.From,
+                    EmailFromName = replyToCustomer.FromName,
+                    EmailTo = replyToCustomer.To,
+                    EmailToName = replyToCustomer.ToName,
+                    EmailCC = replyToCustomer.From,
+                    EmailSubject = replyToCustomer.SubjectProcessed ?? replyToCustomer.Subject,
+                    EmailMessage = replyToCustomer.MessageProcessed ?? replyToCustomer.Message,
+                    IsEmailMessageHTML = true,
+                    EmailKey = configuration.GetSection("Settings")["EmailKey"]
+                };
+
+            HttpResponseMessage formResponse = new HttpResponseMessage();
+            Console.WriteLine($"Email Subject {emailMessage.EmailSubject}");
+            if (emailMessage != null)
+            {
+                Logger.LogInformation("Id = {Id}", emailMessage?.SystemEmailID);
+
+                //Send the Message
+                string? sendEmailEndPoint = $"{configuration["APIEndpoint"]}/SystemEmail";
+                formResponse = await Http.PostAsJsonAsync<SystemEmailModel>(sendEmailEndPoint, emailMessage!);
+
+                if (formResponse.IsSuccessStatusCode != true)
+                {
+                    string responseBody = await formResponse.Content.ReadAsStringAsync();
+                    action = "Error";
+                    soundEffect = SoundFunctions.GetErrorSound();
+
+                    msgErrorTitle = $"Cannot Send Message";
+                    msgError = (MarkupString)$"Unfortunately the Message could not be sent successfully due to an error.<br />Please check your network connection and attempt to save again.";
+                    msgErrorStackTrace = responseBody;
+
+                    modalError!.Open();
+                }
+                else
+                {
+
+                    //Insert new record
+
+                    //Get ID of newly inserted record and add new item to model so shows on screen
+                    SystemEmailModel emailMessageResponse = await formResponse.Content.ReadFromJsonAsync<SystemEmailModel>() ?? new SystemEmailModel();
+
+                    if (emailMessageResponse.IsSent != null)
+                    {
+                        replyToCustomer.IsSent = emailMessageResponse.IsSent;
+
+                        if (emailMessageResponse.IsSent == false)
+                        {
+                            action = "Error";
+                            soundEffect = SoundFunctions.GetErrorSound();
+
+                            msgErrorTitle = $"Cannot Sent Message";
+                            msgError = (MarkupString)$"Unfortunately the Message could not be sent successfully due to an error.<br />Please check your network connection and attempt to save again.";
+                            msgErrorStackTrace = null;
+
+                            modalError!.Open();
+                        }
+                        else
+                        {
+                            replyToCustomer.SentDate = DateTime.Now;
+                        }
+                    }
+                    else
+                    {
+                        action = "Error";
+                        soundEffect = SoundFunctions.GetErrorSound();
+
+                        msgErrorTitle = $"Cannot Sent Message";
+                        msgError = (MarkupString)$"Unfortunately the Message could not be sent successfully due to an error.<br />Please check your network connection and attempt to save again.";
+                        msgErrorStackTrace = null;
+
+                        modalError!.Open();
+                    }
+                }
+
+                await SubmitForm();
+            }
+        }
+    }
+
+    private void GoToBrokenMotorHomepage()
+    {
+        NavManager.NavigateTo("https://www.broken-motor.co.uk");
+    }
+
+    public void IsAcceptedToggle(bool? trueOrFalse) => message!.IsAccepted = trueOrFalse;
+
+    private void FormAction() {
+        //Determine what clear form button should do on dialog box
+
+        if (action == "ClearFormConfirm") {
+            ClearForm();
+        }
+        else {
+            action = "Error";
+
+            msgErrorTitle = $"Invalid Action";
+            msgError = (MarkupString)$"An invalid option was specified. Please try again.";
+            msgErrorStackTrace = null;
+
+            modalError!.Open();
+        }
+    }
+
+    private void ClearFormConfirm() {
+        action = "ClearFormConfirm";
+
+        msgConfirmTitle = $"Clear Form?";
+        msgConfirm = (MarkupString)$"Are you sure you want to clear the form?";
+
+        modalConfirm!.Open();
+    }
+
+    private void ClearForm() {
+        action = "ClearForm";
+
+        CreateNewObjects();
+
+        modalConfirm!.Close();
+    }
+
+    public void PreviewMessage()
+    {
+        string? processedSubject = replyToCustomer?.Subject;
+        string? processedMessage = replyToCustomer?.Message;
+
+        if (replyToCustomer != null)
+        {
+            processedSubject = ModelFunctions.DoAllDatabaseReplacements(processedSubject, replyToCustomer);
+            processedMessage = ModelFunctions.DoAllDatabaseReplacements(processedMessage, replyToCustomer);
+        }
+        if (vehicle != null)
+        {
+            processedSubject = ModelFunctions.DoAllDatabaseReplacements(processedSubject, vehicle);
+            processedMessage = ModelFunctions.DoAllDatabaseReplacements(processedMessage, vehicle);
+        }
+
+        if (replyToCustomer != null)
+        {
+            replyToCustomer.SubjectProcessed = processedSubject;
+            replyToCustomer.MessageProcessed = processedMessage;
+        }
+    }
+
+    private void HandleJsonException(HttpRequestException ex, string objectName, string objectID)
+    {
+        if (ex.Message.Contains(HttpStatusCode.Unauthorized.ToString()))
+        {
+            loadDataErrorMsg = $"You are not authorised to view this page";
+
+            //Redirect to login screen
+            //NavManager.NavigateTo($"Login/Vehicles");
+        }
+        else if (ex.Message.Contains("404 (Not Found)"))
+        {
+            loadDataErrorMsg = $"The {objectName} \"{objectID}\" is not found";
+        }
+        else if (ex.Message.Contains("400 (Bad Request)"))
+        {
+            loadDataErrorMsg = $"The {objectName} \"{objectID}\" resulted in an invalid request";
+        }
+        else
+        {
+            loadDataErrorMsg = $"Error: {ex.Message}";
+        }
+    }
+}
