@@ -36,14 +36,20 @@ namespace VehicleManager.Shared
             {
                 nameof(VehicleModel), new[]
                 {
-                    "Email",
-                    "Name",
+                    "SubmissionDateDate",
+                    "SubmissionStatus",
+                    "HasAcceptedOffer",
+                    "LastOfferAmount",
+                    "LastContacted",
+                    "NumberOfMessagesSent",
+                    "YearOfManufacture",
                     "PostCode",
+                    "Email",
                     "Tel",
                     "Make",
                     "Model",
                     "RegistrationNumber",
-                    "SubmissionDateDate"
+                    "SubmissionID"
                 }
             }
         };

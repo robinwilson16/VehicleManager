@@ -1,8 +1,8 @@
 self.assetsManifest = {
-  "version": "LmUee/RO",
+  "version": "A8VT88Dd",
   "assets": [
     {
-      "hash": "sha256-HlSL+0OFB4lVeu07u7Hy946P0SptALjdN4JQHCB59iM=",
+      "hash": "sha256-Igcjns4qw9ne59HtCUeioPFMTXGinl/zdnAcAJ8WVj8=",
       "url": "VehicleManager.styles.css"
     },
     {
@@ -214,11 +214,11 @@ self.assetsManifest = {
       "url": "_framework/TinyMCE.Blazor.ll1a586db2.wasm"
     },
     {
-      "hash": "sha256-RMXTRR9f/wsfABlpFW20hGP+v5O8Ox/n/+uDyZSDuTU=",
-      "url": "_framework/VehicleManager.8noy01vm8j.wasm"
+      "hash": "sha256-c+4UcHt2x2vzeRLx3NWYNnpVfsd9VpBOdJfPxj8KFCE=",
+      "url": "_framework/VehicleManager.do6ngomj7w.wasm"
     },
     {
-      "hash": "sha256-A0rDSg2XgM5nvL9ObXeBT0mA7/4y9uMFT1LWEQR/tXM=",
+      "hash": "sha256-mdNSWN1TmjKAjGRQkkkiK87sIJre8sm+e+SuJfYYb4c=",
       "url": "_framework/blazor.boot.json"
     },
     {
@@ -254,7 +254,7 @@ self.assetsManifest = {
       "url": "_framework/icudt_no_CJK.lfu7j35m59.dat"
     },
     {
-      "hash": "sha256-u2sFMSjMYNQug9PXdW+GK6YnEXWFD/947RJUGlUZfls=",
+      "hash": "sha256-Auh9S/a0LumfNZ4OpLgzoY8IxQO7XKdkt+KO/yLP4DM=",
       "url": "appsettings.Development.json"
     },
     {
@@ -262,7 +262,7 @@ self.assetsManifest = {
       "url": "appsettings.json"
     },
     {
-      "hash": "sha256-7eishSMKo+a+Jga4hUDSUhBS9IU4qL65k5T/ldBrALo=",
+      "hash": "sha256-lYcgv3XXdGQ5w4DozuH4gBJiLupqgmNILrX1/VyJocs=",
       "url": "css/VehicleManager.css"
     },
     {

@@ -89,6 +89,16 @@
                 </NavLink>
             </div>
         }
+
+        <div class="nav-item px-3 d-block d-sm-none">
+            <NavLink class="nav-link" href="Logout" @onclick="() => ToggleNavMenu(NavSubmenu.None)">
+                <i class="fa-solid fa-person-walking-dashed-line-arrow-right @(IconMenuActive == true? "" : "WithDescription")"></i>
+                @if (!@IconMenuActive)
+                {
+                    <label> Log Out</label>
+                }
+            </NavLink>
+        </div>
     </nav>
 
     @* <div class="fixed-bottom">

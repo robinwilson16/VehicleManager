@@ -116,7 +116,8 @@ ul.nav-tabs > .nav-item > button.nav-link {
 
 .table-responsive {
     min-height: 200px;
-    max-height: 46vh;
+    height: calc(100vh - 320px);
+    max-height: calc(100vh - 320px);
     min-width: 100%;
 }
 
@@ -124,6 +125,10 @@ ul.nav-tabs > .nav-item > button.nav-link {
         position: sticky;
         top: 0;
         z-index: 10;
+    }
+
+    .table-responsive td {
+        height: 34px; /*Need fixed height to prevent scrolling issues*/
     }
 
 .WhiteBackground {

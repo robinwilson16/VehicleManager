@@ -19,29 +19,45 @@
         <main>
             <div class="top-row px-4">
                 <div class="row h-100">
-                    <div class="col-md align-content-center">
-
-                    </div>
-                    <div class="col-md align-content-center text-md-center">
-                        <img class="img-fluid rounded LogoHeader ms-auto me-auto" src="images/BrokenMotorLogo.png" title="Broken Motor Logo" />
-                    </div>
-                    <div class="col-md align-content-center text-md-end">
-                        @if (appData?.CurrentUser?.Email != null)
-                        {
-                            <span class="me-3">Logged In As</span> <span class="btn btn-outline-primary"><i class="fa-solid fa-user"></i> @appData.CurrentUser.Forename @appData.CurrentUser.Surname</span>
-                            <NavLink class="btn btn-primary" href="Logout">
-                                <i class="fa-solid fa-person-walking-dashed-line-arrow-right"></i> Log Out
-                            </NavLink>
-                        }
-                        else
-                        {
-                            if (ShowNavMenu != false)
+                    <div class="d-flex justify-content-center align-items-center">
+                        <div class="col align-content-center d-none d-xl-inline">
+                        </div>
+                        <div class="col-auto text-left text-xl-center">
+                            <img class="img-fluid rounded LogoHeader ms-auto me-auto" src="images/BrokenMotorLogo.png" title="Broken Motor Logo" />
+                        </div>
+                        <div class="col align-content-center text-sm-end d-none d-sm-block">
+                            @if (appData?.CurrentUser?.Email != null)
                             {
-                                <NavLink class="btn btn-primary" href="Login">
-                                    <i class="fa-solid fa-lock"></i> Login
+                                <span class="me-lg-2 d-none d-lg-inline">Logged In As</span> <span class="btn btn-outline-primary me-lg-3"><i class="fa-solid fa-user"></i> @appData.CurrentUser.Forename @appData.CurrentUser.Surname</span>
+                                <NavLink class="btn btn-primary" href="Logout">
+                                    <i class="fa-solid fa-person-walking-dashed-line-arrow-right"></i> Log Out
                                 </NavLink>
                             }
-                        }
+                            else
+                            {
+                                if (ShowNavMenu != false)
+                                {
+                                    <NavLink class="btn btn-primary" href="Login">
+                                        <i class="fa-solid fa-lock"></i> Login
+                                    </NavLink>
+                                }
+                            }
+                        </div>
+                        <div class="col align-content-center text-end d-block d-sm-none">
+                            @if (appData?.CurrentUser?.Email != null)
+                            {
+                                <span class="btn btn-sml btn-outline-primary"><i class="fa-solid fa-user"></i> @appData.CurrentUser.Forename <span class="d-none d-sm-inline">@appData.CurrentUser.Surname</span></span>
+                            }
+                            else
+                            {
+                                if (ShowNavMenu != false)
+                                {
+                                    <NavLink class="btn btn-primary" href="Login">
+                                        <i class="fa-solid fa-lock"></i> Login
+                                    </NavLink>
+                                }
+                            }
+                        </div>
                     </div>
                 </div>
             </div>

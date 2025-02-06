@@ -28,7 +28,7 @@ namespace VehicleManager.Shared
         public async static Task UpdateServiceWorker(IJSRuntime jsRuntime, NavigationManager navigationManager)
         {
             await jsRuntime.InvokeVoidAsync("serviceWorkerInterop.updateServiceWorker");
-            //navigationManager.NavigateTo(navigationManager.Uri, forceLoad: true);
+            navigationManager.NavigateTo(navigationManager.Uri, forceLoad: true);
         }
     }
 }

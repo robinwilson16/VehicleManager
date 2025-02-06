@@ -193,9 +193,9 @@ else if (mainRecords == null)
 else {
     <div class="container-fluid">
         @{
-            IList<string> ExcludeMainFields = new List<string> { "SubmissionDate", "SubmissionCount", "Surname", "Forename", "Message", "Customer", "BodyStyle", "FuelType", "TransmissionType", "EngineSizeCC", "Category", "DoorCount", "GearCount", "DriveAxle", "EngineCode", "EngineCylinderCount", "EngineSizeLitre", "WheelbaseMM" };
+            IList<string> ExcludeMainFields = new List<string> { "SubmissionDate", "SubmissionCount", "Surname", "Forename", "Name", "Message", "Customer", "BodyStyle", "FuelType", "TransmissionType", "EngineSizeCC", "Category", "DoorCount", "GearCount", "DriveAxle", "EngineCode", "EngineCylinderCount", "EngineSizeLitre", "WheelbaseMM", "LastOfferAmount", "LastContacted", "NumberOfMessagesSent" };
             string? DisabledItemFieldName = null;
-            string? ErrorItemFieldName = null;
+            string? ErrorItemFieldName = "HasAcceptedOffer";
         }
         <Grid Items="ItemsMain"
         ExcludeFields="ExcludeMainFields"
@@ -347,12 +347,15 @@ else {
                             <h4 class="alert-heading">Send Message</h4>
                             <div class="row">
                                 <div class="col-md">
-                                    <button type="button" class="btn btn-secondary btn-sm" @onclick="() => EditMessageRecordFavourite(1)"><i class="fa-solid fa-road"></i> Initial Email</button>
-                                    <button type="button" class="btn btn-warning btn-sm" @onclick="() => EditMessageRecordFavourite(2)"><i class="fa-solid fa-person-running"></i> Follow Up</button>
-                                    <button type="button" class="btn btn-success btn-sm" @onclick="() => EditMessageRecordFavourite(3)"><i class="fa-solid fa-hand-holding-dollar"></i> First Accept</button>
-                                    <button type="button" class="btn btn-dark btn-sm" @onclick="() => EditMessageRecordFavourite(4)"><i class="fa-solid fa-piggy-bank"></i> Second Offer</button>
-                                    <button type="button" class="btn btn-success btn-sm" @onclick="() => EditMessageRecordFavourite(5)"><i class="fa-solid fa-check-double"></i> Second Accept</button>
-                                    <button type="button" class="btn btn-info btn-sm" @onclick="() => EditMessageRecordFavourite(6)"><i class="fa-solid fa-comment-dots"></i> Add Review</button>
+                                    <div class="d-grid gap-2 d-md-block">
+                                        <button type="button" class="btn btn-secondary btn-sm mb-1" @onclick="() => EditMessageRecordFavourite(1)"><i class="fa-solid fa-road"></i> Initial Email</button>
+                                        <button type="button" class="btn btn-warning btn-sm mb-1" @onclick="() => EditMessageRecordFavourite(2)"><i class="fa-solid fa-person-running"></i> Follow Up</button>
+                                        <button type="button" class="btn btn-success btn-sm mb-1" @onclick="() => EditMessageRecordFavourite(3)"><i class="fa-solid fa-hand-holding-dollar"></i> First Accept</button>
+                                        <button type="button" class="btn btn-dark btn-sm mb-1" @onclick="() => EditMessageRecordFavourite(4)"><i class="fa-solid fa-piggy-bank"></i> Second Offer</button>
+                                        <button type="button" class="btn btn-success btn-sm mb-1" @onclick="() => EditMessageRecordFavourite(5)"><i class="fa-solid fa-check-double"></i> Second Accept</button>
+                                        <button type="button" class="btn btn-info btn-sm mb-1" @onclick="() => EditMessageRecordFavourite(6)"><i class="fa-solid fa-comment-dots"></i> Add Review</button>
+                                        <button type="button" class="btn btn-danger btn-sm mb-1" @onclick="() => EditMessageRecordFavourite(9)"><i class="fa-solid fa-box-archive"></i> Archive</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -369,20 +372,20 @@ else {
                                     <div class="col-md-6">
                                         <div class="row mb-3 align-items-center">
                                             <div class="col-md-4">
-                                                Has Accepted Offer
+                                                Status
                                             </div>
-                                            <div class="col-md-8 Text @(HasAcceptedOffer == true? "TextYes" : "TextNo")">
-                                                <strong>@(HasAcceptedOffer == true ? "Yes" : "No")</strong>
+                                            <div class="col-md-8 Text">
+                                                <strong>@selectedRecord?.SubmissionStatus.GetEnumDisplayName()</strong>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="row mb-3 align-items-center">
                                             <div class="col-md-4">
-                                                Last Offer Amount
+                                                Accepted?
                                             </div>
-                                            <div class="col-md-8 Text">
-                                                <strong>@(LastOfferAmount?.Format("C0") ?? "£0")</strong>
+                                            <div class="col-md-8 Text @(selectedRecord?.HasAcceptedOffer == true? "TextYes" : "TextNo")">
+                                                <strong>@(selectedRecord?.HasAcceptedOffer == true ? "Yes" : "No")</strong>
                                             </div>
                                         </div>
                                     </div>
@@ -392,20 +395,34 @@ else {
                                     <div class="col-md-6">
                                         <div class="row mb-3 align-items-center">
                                             <div class="col-md-4">
-                                                Last Contacted
+                                                Offered
                                             </div>
                                             <div class="col-md-8 Text">
-                                                @(LastContacted?.Format("dd/MM/yyyy") ?? "Never")
+                                                <strong>@(selectedRecord?.LastOfferAmount?.Format("C0") ?? "£0")</strong>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+
+                                <div class="row align-items-center">
+                                    <div class="col-md-6">
+                                        <div class="row mb-3 align-items-center">
+                                            <div class="col-md-4">
+                                                Last Contact
+                                            </div>
+                                            <div class="col-md-8 Text">
+                                                @(selectedRecord?.LastContacted?.Format("dd/MM/yyyy") ?? "Never")
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="row mb-3 align-items-center">
                                             <div class="col-md-4">
-                                                Messages Sent
+                                                Messages
                                             </div>
                                             <div class="col-md-8 Text">
-                                                @MessagesSent
+                                                @selectedRecord?.NumberOfMessagesSent
                                             </div>
                                         </div>
                                     </div>
@@ -876,19 +893,19 @@ else {
 
                                 @if (selectedMessageRecordCopy?.CreatedDate != null)
                                 {
-                                <div class="row g-3 mb-3 CreatedBy">
-                                    <div class="col-md text-secondary">
-                                        Created by @selectedMessageRecordCopy?.CreatedBy on @selectedMessageRecordCopy?.CreatedDate
-                                    </div>
-
-                                    @if (selectedMessageRecordCopy?.LastModifiedDate != null)
-                                    {
-                                        <div class="col-md text-secondary text-end">
-                                            Last modified by @selectedMessageRecordCopy?.LastModifiedBy on @selectedMessageRecordCopy?.LastModifiedDate
+                                    <div class="row g-3 mb-3 CreatedBy">
+                                        <div class="col-md text-secondary">
+                                            Created by @selectedMessageRecordCopy?.CreatedBy on @selectedMessageRecordCopy?.CreatedDate
                                         </div>
-                                    }
 
-                                </div>
+                                        @if (selectedMessageRecordCopy?.LastModifiedDate != null)
+                                        {
+                                            <div class="col-md text-secondary text-end">
+                                                Last modified by @selectedMessageRecordCopy?.LastModifiedBy on @selectedMessageRecordCopy?.LastModifiedDate
+                                            </div>
+                                        }
+
+                                    </div>
                                 }
 
                             </div>
@@ -976,11 +993,6 @@ else {
     public MessageModel? selectedMessageRecord { get; set; } = new MessageModel();
     private MessageModel? selectedMessageRecordCopy { get; set; } = new MessageModel();
 
-    public bool? HasAcceptedOffer { get; set; }
-    public decimal? LastOfferAmount { get; set; }
-    public DateTime? LastContacted { get; set; }
-    public int? MessagesSent { get; set; }
-
     protected override async Task OnInitializedAsync()
     {
         //CheckAuthentication();
@@ -1035,6 +1047,7 @@ else {
 
         PopulateDropDownValuesMain();
         PopulateDropDownValuesMessage();
+        PopulateVehicleFieldsFromMessages();
     }
 
     private void CheckAuthentication()
@@ -1201,6 +1214,30 @@ else {
             foreach (var template in messageTemplates)
             {
                 DropDownValues.Add(template);
+            }
+        }
+    }
+
+    public void PopulateVehicleFieldsFromMessages() 
+    {
+        if (mainRecords != null)
+        {
+            foreach (var vehicle in mainRecords)
+            {
+                MessageModel? LatestMessage = messages?.Where(m => m.VehicleID == vehicle?.SubmissionID && m.MessageTypeID == MessageType.ToCustomer && m.IsSent == true).MaxBy(m => m.SentDate);
+
+                vehicle.SubmissionStatus = 
+                LatestMessage?.MessageTemplate?.MessageTemplateID == 9 ? SubmissionStatus.Archived :
+                LatestMessage?.MessageTemplate?.MessageTemplateID == 6 ? SubmissionStatus.Completed :
+                    LatestMessage?.IsAccepted == true ? SubmissionStatus.OfferAccepted :
+                    LatestMessage?.IsAccepted == false ? SubmissionStatus.OfferRejected :
+                    LatestMessage?.MessageTemplate?.MessageTemplateID == 5 ? SubmissionStatus.SecondOfferMade :
+                    LatestMessage?.MessageTemplate?.MessageTemplateID == 5 ? SubmissionStatus.OfferMade :
+                    SubmissionStatus.AwaitingContact;
+                vehicle.HasAcceptedOffer = messages?.Where(m => m.VehicleID == vehicle?.SubmissionID && m.MessageTypeID == MessageType.ToCustomer && m.IsSent == true && m.IsAccepted == true).Any();
+                vehicle.LastOfferAmount = messages?.Where(m => m.VehicleID == vehicle?.SubmissionID && m.MessageTypeID == MessageType.ToCustomer && m.IsSent == true).MaxBy(m => m.AmountOffered)?.AmountOffered;
+                vehicle.LastContacted = messages?.Where(m => m.VehicleID == vehicle?.SubmissionID && m.MessageTypeID == MessageType.ToCustomer && m.IsSent == true).MaxBy(m => m.SentDate)?.SentDate;
+                vehicle.NumberOfMessagesSent = messages?.Where(m => m.VehicleID == vehicle?.SubmissionID && m.MessageTypeID == MessageType.ToCustomer && m.IsSent == true).Count();
             }
         }
     }
@@ -1913,11 +1950,6 @@ else {
     {
         SelectMainRecord(recordID);
 
-        HasAcceptedOffer = messages?.Where(m => m.VehicleID == selectedRecordCopy?.SubmissionID && m.MessageTypeID == MessageType.ToCustomer && m.IsAccepted == true).Any();
-        LastOfferAmount = messages?.Where(m => m.VehicleID == selectedRecordCopy?.SubmissionID && m.MessageTypeID == MessageType.ToCustomer).MaxBy(m => m.AmountOffered)?.AmountOffered;
-        LastContacted = messages?.Where(m => m.VehicleID == selectedRecordCopy?.SubmissionID && m.MessageTypeID == MessageType.ToCustomer).MaxBy(m => m.SentDate)?.SentDate;
-        MessagesSent = messages?.Where(m => m.VehicleID == selectedRecordCopy?.SubmissionID && m.MessageTypeID == MessageType.ToCustomer).Count();
-
         SetEditorContextMain();
 
         ChangeFilterMessage("VehicleID", selectedRecord?.SubmissionID);
@@ -1987,6 +2019,8 @@ else {
             selectedMessageRecordCopy.MessageTemplate.MessageTemplateID = 5;
         else if (favouriteID == 6)
             selectedMessageRecordCopy.MessageTemplate.MessageTemplateID = 6;
+        else if (favouriteID == 9)
+            selectedMessageRecordCopy.MessageTemplate.MessageTemplateID = 9;
 
         if (selectedMessageRecordCopy != null)
         {

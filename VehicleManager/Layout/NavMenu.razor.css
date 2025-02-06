@@ -88,7 +88,7 @@
     color: white;
 }
 
-@media (min-width: 641px) {
+@media (min-width: 1000px) { /*Was 641*/
     .navbar-toggler {
         display: none;
     }
@@ -106,7 +106,7 @@
 }
 
 /*Added for colapsible Sidebar*/
-@media (max-width: 640px) {
+@media (max-width: 999px) { /*Was 640*/
     .bottom-row {
         display: block;
     }

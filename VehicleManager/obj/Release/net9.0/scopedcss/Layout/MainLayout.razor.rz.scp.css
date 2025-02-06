@@ -24,7 +24,7 @@ main[b-zjt9343po9] {
 
     .top-row[b-zjt9343po9]  a, .top-row[b-zjt9343po9]  .btn-link {
         white-space: nowrap;
-        margin-left: 1.5rem;
+        /*margin-left: 1.5rem;*/ /*Removed spacing*/
         text-decoration: none;
     }
 
@@ -37,7 +37,7 @@ main[b-zjt9343po9] {
         text-overflow: ellipsis;
     }
 
-@media (max-width: 640.98px) {
+@media (max-width: 999.98px) { /*Was 640.98*/
     .top-row[b-zjt9343po9] {
         justify-content: space-between;
     }
@@ -47,7 +47,7 @@ main[b-zjt9343po9] {
     }
 }
 
-@media (min-width: 641px) {
+@media (min-width: 1000px) { /*Was 641*/
     .page[b-zjt9343po9] {
         flex-direction: row;
     }

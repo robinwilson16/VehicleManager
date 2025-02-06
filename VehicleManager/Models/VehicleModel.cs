@@ -3,6 +3,8 @@ using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Xml.Linq;
 
 namespace VehicleManager.Models
 {
@@ -114,7 +116,49 @@ namespace VehicleManager.Models
         public string? EngineSizeLitre { get; set; }
         public string? WheelbaseMM { get; set; }
 
+        //Extra Fields
+        [Display(Name = "Status")]
+        public SubmissionStatus? SubmissionStatus { get; set; }
+
+        [Display(Name = "?")]
+        public bool? HasAcceptedOffer { get; set; }
+
+        [Column(TypeName = "decimal(19,4)")]
+        [DisplayFormat(DataFormatString = "{0:C}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.Currency)]
+
+        [Display(Name = "Last Offer")]
+        public decimal? LastOfferAmount { get; set; }
+        public DateTime? LastContacted { get; set; }
+
+        [Display(Name = "Num Msgs Sent")]
+        public int? NumberOfMessagesSent { get; set; }
+
         [JsonIgnore]
         public virtual CustomerModel? Customer { get; set; }
+    }
+
+    public enum SubmissionStatus
+    {
+        [Display(Name = "Awaiting Contact")]
+        AwaitingContact = 1,
+
+        [Display(Name = "Offer Made")]
+        OfferMade = 2,
+
+        [Display(Name = "Offer Accepted")]
+        OfferAccepted = 3,
+
+        [Display(Name = "Offer Rejected")]
+        OfferRejected = 4,
+
+        [Display(Name = "Second Offer Made")]
+        SecondOfferMade = 5,
+
+        [Display(Name = "Completed")]
+        Completed = 6,
+
+        [Display(Name = "Archived")]
+        Archived = 7
     }
 }
