@@ -402,7 +402,7 @@ else {
                                             </div>
                                         </div>
                                     </div>
-                                    
+
                                 </div>
 
                                 <div class="row align-items-center">
@@ -1258,408 +1258,6 @@ else {
         }
     }
 
-    private void ChangeFilterMain(string fieldName, object? value)
-    {
-        if (value == null || string.IsNullOrEmpty(value.ToString()))
-        {
-            if (FilterFieldsMain != null)
-            {
-                FilterFieldsMain.Remove(fieldName);
-            }
-        }
-        else
-        {
-            var property = typeof(VehicleModel).GetProperty(fieldName.Split('.').First());
-            if (property != null)
-            {
-                var targetType = Nullable.GetUnderlyingType(property.PropertyType) ?? property.PropertyType;
-
-                object? convertedValue = null;
-                Console.WriteLine($"Filter {fieldName} value {value} type {targetType}");
-
-                if (targetType.IsEnum)
-                {
-                    try
-                    {
-                        convertedValue = Enum.Parse(targetType, value.ToString()!);
-                    }
-                    catch (Exception ex)
-                    {
-                        Logger.LogError(ex, "Error converting value for field {FieldName}", fieldName);
-                    }
-                }
-                else if (targetType.IsClass && targetType != typeof(string))
-                {
-                    try
-                    {
-                        //convertedValue = int.Parse(value.ToString()!);
-                        convertedValue = Convert.ChangeType(value, targetType.GetProperties().FirstOrDefault()?.PropertyType ?? typeof(int));
-                    }
-                    catch (Exception ex)
-                    {
-                        Logger.LogError(ex, "Error converting value for field {FieldName}", fieldName);
-                    }
-                }
-                else if (targetType == typeof(bool) || targetType == typeof(bool?))
-                {
-                    bool? oldValue = null;
-                    bool? newValue = null;
-
-                    //Get old and new value to toggle and discard value sent from UI
-                    if (FilterFieldsMain == null)
-                        FilterFieldsMain = new Dictionary<string, object?>();
-
-                    if (FilterFieldsMain.ContainsKey(fieldName))
-                    {
-                        if (bool.TryParse(FilterFieldsMain[fieldName]?.ToString(), out bool oldBool))
-                        {
-                            oldValue = oldBool;
-                        }
-                    }
-
-                    if (oldValue == null)
-                    {
-                        newValue = true;
-                    }
-                    else if (oldValue == true)
-                    {
-                        newValue = false;
-                    }
-                    else
-                    {
-                        newValue = null;
-
-                    }
-
-                    try
-                    {
-                        convertedValue = newValue;
-                    }
-                    catch (Exception ex)
-                    {
-                        Logger.LogError(ex, "Error converting value for field {FieldName}", fieldName);
-                    }
-                }
-                else
-                {
-                    try
-                    {
-                        convertedValue = Convert.ChangeType(value, targetType);
-                    }
-                    catch (Exception ex)
-                    {
-                        Logger.LogError(ex, "Error converting value for field {FieldName}", fieldName);
-                    }
-                }
-
-                if (fieldName != null)
-                {
-                    //Allow bools to be set as NULL
-                    if (convertedValue != null || !string.IsNullOrEmpty(convertedValue?.ToString()) || targetType == typeof(bool) || targetType == typeof(bool?))
-                    {
-                        if (FilterFieldsMain == null)
-                        {
-                            FilterFieldsMain = new Dictionary<string, object?>();
-                        }
-
-                        FilterFieldsMain[fieldName] = convertedValue;
-                        //Console.WriteLine($"Filter {fieldName} set to {convertedValue}");
-                    }
-
-                }
-            }
-        }
-
-        ApplyFilters();
-    }
-
-    private void ChangeFilterMessage(string fieldName, object? value)
-    {
-        if (value == null || string.IsNullOrEmpty(value.ToString()))
-        {
-            if (FilterFieldsMessage != null)
-            {
-                FilterFieldsMessage.Remove(fieldName);
-            }
-        }
-        else
-        {
-            var property = typeof(MessageModel).GetProperty(fieldName.Split('.').First());
-            if (property != null)
-            {
-                var targetType = Nullable.GetUnderlyingType(property.PropertyType) ?? property.PropertyType;
-
-                object? convertedValue = null;
-                Console.WriteLine($"Filter {fieldName} value {value} type {targetType}");
-
-                if (targetType.IsEnum)
-                {
-                    try
-                    {
-                        convertedValue = Enum.Parse(targetType, value.ToString()!);
-                    }
-                    catch (Exception ex)
-                    {
-                        Logger.LogError(ex, "Error converting value for field {FieldName}", fieldName);
-                    }
-                }
-                else if (targetType.IsClass && targetType != typeof(string))
-                {
-                    try
-                    {
-                        //convertedValue = int.Parse(value.ToString()!);
-                        convertedValue = Convert.ChangeType(value, targetType.GetProperties().FirstOrDefault()?.PropertyType ?? typeof(int));
-                    }
-                    catch (Exception ex)
-                    {
-                        Logger.LogError(ex, "Error converting value for field {FieldName}", fieldName);
-                    }
-                }
-                else if (targetType == typeof(bool) || targetType == typeof(bool?))
-                {
-                    bool? oldValue = null;
-                    bool? newValue = null;
-
-                    //Get old and new value to toggle and discard value sent from UI
-                    if (FilterFieldsMessage == null)
-                        FilterFieldsMessage = new Dictionary<string, object?>();
-
-                    if (FilterFieldsMessage.ContainsKey(fieldName))
-                    {
-                        if (bool.TryParse(FilterFieldsMessage[fieldName]?.ToString(), out bool oldBool))
-                        {
-                            oldValue = oldBool;
-                        }
-                    }
-
-                    if (oldValue == null)
-                    {
-                        newValue = true;
-                    }
-                    else if (oldValue == true)
-                    {
-                        newValue = false;
-                    }
-                    else
-                    {
-                        newValue = null;
-
-                    }
-
-                    try
-                    {
-                        convertedValue = newValue;
-                    }
-                    catch (Exception ex)
-                    {
-                        Logger.LogError(ex, "Error converting value for field {FieldName}", fieldName);
-                    }
-                }
-                else
-                {
-                    try
-                    {
-                        convertedValue = Convert.ChangeType(value, targetType);
-                    }
-                    catch (Exception ex)
-                    {
-                        Logger.LogError(ex, "Error converting value for field {FieldName}", fieldName);
-                    }
-                }
-
-                if (fieldName != null)
-                {
-                    //Allow bools to be set as NULL
-                    if (convertedValue != null || !string.IsNullOrEmpty(convertedValue?.ToString()) || targetType == typeof(bool) || targetType == typeof(bool?))
-                    {
-                        if (FilterFieldsMessage == null)
-                        {
-                            FilterFieldsMessage = new Dictionary<string, object?>();
-                        }
-
-                        FilterFieldsMessage[fieldName] = convertedValue;
-                        //Console.WriteLine($"Filter {fieldName} set to {convertedValue}");
-                    }
-
-                }
-            }
-        }
-
-        ApplyFiltersMessage();
-    }
-
-    private void ApplyFilters()
-    {
-        filtersMain.Clear();
-
-        if (FilterFieldsMain != null)
-        {
-            foreach (var filter in FilterFieldsMain)
-            {
-                var propertyName = filter.Key;
-                var propertyValue = filter.Value;
-                //Console.WriteLine($"Filter {propertyName} value {propertyValue}");
-
-                var parameter = Expression.Parameter(typeof(VehicleModel), "v");
-                Expression property = parameter;
-                Expression? parentProperty = null;
-
-                foreach (var member in propertyName.Split('.'))
-                {
-                    //Do not need a not null check on the object itself
-                    if (!property.ToString().Equals("v"))
-                        parentProperty = property;
-
-                    property = Expression.Property(property, member);
-                }
-
-                var constant = Expression.Constant(propertyValue);
-
-                Expression? comparison = null;
-
-                if (propertyValue is string)
-                {
-                    var containsMethod = typeof(string).GetMethod("Contains", new[] { typeof(string), typeof(StringComparison) });
-                    var isNotNull = Expression.NotEqual(property, Expression.Constant(null));
-
-                    comparison = Expression.Call(property, containsMethod!, constant, Expression.Constant(StringComparison.CurrentCultureIgnoreCase));
-                    comparison = Expression.AndAlso(isNotNull, comparison);
-                }
-                else if (propertyValue is int || propertyValue is decimal || propertyValue is bool || (propertyValue != null && propertyValue.GetType().IsEnum))
-                {
-                    if (Nullable.GetUnderlyingType(property.Type) != null)
-                    {
-                        var hasValue = Expression.Property(property, "HasValue");
-                        var value = Expression.Property(property, "Value");
-                        var equal = Expression.Equal(value, constant);
-                        comparison = Expression.AndAlso(hasValue, equal);
-                    }
-                    else
-                    {
-                        comparison = Expression.Equal(property, constant);
-                    }
-                }
-                else if (propertyValue is DateTime)
-                {
-                    if (Nullable.GetUnderlyingType(property.Type) != null)
-                    {
-                        var hasValue = Expression.Property(property, "HasValue");
-                        var value = Expression.Property(property, "Value");
-                        var equal = Expression.Equal(value, constant);
-                        comparison = Expression.AndAlso(hasValue, equal);
-                    }
-                    else
-                    {
-                        comparison = Expression.Equal(property, constant);
-                    }
-                }
-
-                if (parentProperty != null)
-                {
-                    var parentNotNull = Expression.NotEqual(parentProperty, Expression.Constant(null));
-                    if (comparison != null)
-                        comparison = Expression.AndAlso(parentNotNull, comparison);
-                }
-
-                if (comparison != null)
-                {
-                    var lambda = Expression.Lambda<Func<VehicleModel, bool>>(comparison, parameter);
-                    Console.WriteLine(lambda);
-                    filtersMain.Add(lambda.Compile());
-                }
-            }
-        }
-
-        // Trigger UI update
-        StateHasChanged();
-    }
-
-    private void ApplyFiltersMessage()
-    {
-        filtersMessage.Clear();
-
-        if (FilterFieldsMessage != null)
-        {
-            foreach (var filter in FilterFieldsMessage)
-            {
-                var propertyName = filter.Key;
-                var propertyValue = filter.Value;
-                //Console.WriteLine($"Filter {propertyName} value {propertyValue}");
-
-                var parameter = Expression.Parameter(typeof(MessageModel), "m");
-                Expression property = parameter;
-                Expression? parentProperty = null;
-
-                foreach (var member in propertyName.Split('.'))
-                {
-                    //Do not need a not null check on the object itself
-                    if (!property.ToString().Equals("m"))
-                        parentProperty = property;
-
-                    property = Expression.Property(property, member);
-                }
-
-                var constant = Expression.Constant(propertyValue);
-
-                Expression? comparison = null;
-
-                if (propertyValue is string)
-                {
-                    var containsMethod = typeof(string).GetMethod("Contains", new[] { typeof(string), typeof(StringComparison) });
-                    var isNotNull = Expression.NotEqual(property, Expression.Constant(null));
-
-                    comparison = Expression.Call(property, containsMethod!, constant, Expression.Constant(StringComparison.CurrentCultureIgnoreCase));
-                    comparison = Expression.AndAlso(isNotNull, comparison);
-                }
-                else if (propertyValue is int || propertyValue is decimal || propertyValue is bool || (propertyValue != null && propertyValue.GetType().IsEnum))
-                {
-                    if (Nullable.GetUnderlyingType(property.Type) != null)
-                    {
-                        var hasValue = Expression.Property(property, "HasValue");
-                        var value = Expression.Property(property, "Value");
-                        var equal = Expression.Equal(value, constant);
-                        comparison = Expression.AndAlso(hasValue, equal);
-                    }
-                    else
-                    {
-                        comparison = Expression.Equal(property, constant);
-                    }
-                }
-                else if (propertyValue is DateTime)
-                {
-                    if (Nullable.GetUnderlyingType(property.Type) != null)
-                    {
-                        var hasValue = Expression.Property(property, "HasValue");
-                        var value = Expression.Property(property, "Value");
-                        var equal = Expression.Equal(value, constant);
-                        comparison = Expression.AndAlso(hasValue, equal);
-                    }
-                    else
-                    {
-                        comparison = Expression.Equal(property, constant);
-                    }
-                }
-
-                if (parentProperty != null)
-                {
-                    var parentNotNull = Expression.NotEqual(parentProperty, Expression.Constant(null));
-                    if (comparison != null)
-                        comparison = Expression.AndAlso(parentNotNull, comparison);
-                }
-
-                if (comparison != null)
-                {
-                    var lambda = Expression.Lambda<Func<MessageModel, bool>>(comparison, parameter);
-                    Console.WriteLine(lambda);
-                    filtersMessage.Add(lambda.Compile());
-                }
-            }
-        }
-
-        // Trigger UI update
-        StateHasChanged();
-    }
-
     public void SetEditorContextMain()
     {
         //When Edit Form is based on an Edit Context this must be called each time the context changes for validation to work
@@ -1709,21 +1307,21 @@ else {
     private IDictionary<string, string>? selectedRecordChanges = new Dictionary<string, string>();
     private IDictionary<string, string>? selectedMessageRecordChanges = new Dictionary<string, string>();
 
-    public Dictionary<string, object?>? FilterFieldsMain { get; set; }
+    public Dictionary<string, (object? value, ComparisonOperator? comparisonOperator)>? FilterFieldsMain { get; set; }
 
-    public Dictionary<string, object?>? FilterFieldsMessage { get; set; }
+    public Dictionary<string, (object? value, ComparisonOperator? comparisonOperator)>? FilterFieldsMessage { get; set; }
 
     public IList<object?>? DropDownValues { get; set; }
 
-    private void ChangeFilterMainFromComponent((string fieldName, object? value) args)
+    private void ChangeFilterMainFromComponent((string fieldName, object? value, ComparisonOperator? comparisonOperator) args)
     {
-        ChangeFilterMain(args.fieldName, args.value);
+        FilterFieldsMain = GridFilterAndSort.ChangeFilter<VehicleModel>(args.fieldName, (args.value, args.comparisonOperator), FilterFieldsMain, filtersMain);
         //Console.WriteLine($"Filter {args.fieldName} value {args.value}");
     }
 
-    private void ChangeFilterMessageFromComponent((string fieldName, object? value) args)
+    private void ChangeFilterMessageFromComponent((string fieldName, object? value, ComparisonOperator? comparisonOperator) args)
     {
-        ChangeFilterMessage(args.fieldName, args.value);
+        FilterFieldsMessage = GridFilterAndSort.ChangeFilter<MessageModel>(args.fieldName, (args.value, args.comparisonOperator), FilterFieldsMessage, filtersMessage);
         //Console.WriteLine($"Filter {args.fieldName} value {args.value}");
     }
 
@@ -1762,7 +1360,7 @@ else {
                 FilterFieldsMain.Remove(lastKey);
             }
 
-            ApplyFilters();
+            GridFilterAndSort.ApplyFilters<VehicleModel>(FilterFieldsMain, filtersMain);
         }
     }
 
@@ -1777,7 +1375,7 @@ else {
                 FilterFieldsMessage.Remove(lastKey);
             }
 
-            ApplyFilters();
+            GridFilterAndSort.ApplyFilters<MessageModel>(FilterFieldsMessage, filtersMessage);
         }
     }
 
@@ -1789,7 +1387,7 @@ else {
                 FilterFieldsMain.Remove(fieldName);
         }
 
-        ApplyFilters();
+        GridFilterAndSort.ApplyFilters<VehicleModel>(FilterFieldsMain, filtersMain);
     }
 
     private void RemoveFilterMessage(string? fieldName)
@@ -1800,7 +1398,7 @@ else {
                 FilterFieldsMessage.Remove(fieldName);
         }
 
-        ApplyFilters();
+        GridFilterAndSort.ApplyFilters<MessageModel>(FilterFieldsMessage, filtersMessage);
     }
 
     private void ShowFilterHelpMain()
@@ -1952,8 +1550,7 @@ else {
 
         SetEditorContextMain();
 
-        ChangeFilterMessage("VehicleID", selectedRecord?.SubmissionID);
-
+        GridFilterAndSort.ChangeFilter<MessageModel>("VehicleID", (selectedRecord?.SubmissionID, ComparisonOperator.Equals), FilterFieldsMessage, filtersMessage);
         if (selectedRecordCopy != null)
         {
             modalMainRecord!.MakeLarge();

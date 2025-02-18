@@ -73,7 +73,7 @@ namespace VehicleManager.Shared
                 .GetMember(enumValue.ToString())
                 .FirstOrDefault()?
                 .GetCustomAttribute<DisplayAttribute>()?
-                .Name;
+                .Name ?? enumValue?.ToString(); //Default option
         }
 
         public static string? GetEnumDescription(this Enum? enumValue)
