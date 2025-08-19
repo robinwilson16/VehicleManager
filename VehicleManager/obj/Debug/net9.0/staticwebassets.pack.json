@@ -29,6 +29,10 @@
       "PackagePath": "staticwebassets\\css\\callout.css"
     },
     {
+      "Id": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\wwwroot\\favicon.old",
+      "PackagePath": "staticwebassets\\favicon.old"
+    },
+    {
       "Id": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\wwwroot\\favicon.png",
       "PackagePath": "staticwebassets\\favicon.png"
     },
@@ -49,6 +53,22 @@
       "PackagePath": "staticwebassets\\images\\BrokenMotorLogo.png"
     },
     {
+      "Id": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\wwwroot\\images\\BrokenMotorScreenshot192.png",
+      "PackagePath": "staticwebassets\\images\\BrokenMotorScreenshot192.png"
+    },
+    {
+      "Id": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\wwwroot\\images\\BrokenMotorScreenshot320.png",
+      "PackagePath": "staticwebassets\\images\\BrokenMotorScreenshot320.png"
+    },
+    {
+      "Id": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\wwwroot\\images\\BrokenMotorScreenshot512.png",
+      "PackagePath": "staticwebassets\\images\\BrokenMotorScreenshot512.png"
+    },
+    {
+      "Id": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\wwwroot\\images\\BrokenMotorSquare.png",
+      "PackagePath": "staticwebassets\\images\\BrokenMotorSquare.png"
+    },
+    {
       "Id": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\wwwroot\\images\\LinesCircuit.jpg",
       "PackagePath": "staticwebassets\\images\\LinesCircuit.jpg"
     },
@@ -61,8 +81,20 @@
       "PackagePath": "staticwebassets\\js\\inputInterop.js"
     },
     {
+      "Id": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\wwwroot\\js\\localStorageInterop.js",
+      "PackagePath": "staticwebassets\\js\\localStorageInterop.js"
+    },
+    {
+      "Id": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\wwwroot\\js\\serviceWorkerInterop.js",
+      "PackagePath": "staticwebassets\\js\\serviceWorkerInterop.js"
+    },
+    {
       "Id": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\wwwroot\\js\\tinymceInterop.js",
       "PackagePath": "staticwebassets\\js\\tinymceInterop.js"
+    },
+    {
+      "Id": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\wwwroot\\js\\toastInterop.js",
+      "PackagePath": "staticwebassets\\js\\toastInterop.js"
     },
     {
       "Id": "C:\\Users\\robin.wilson\\source\\repos\\VehicleManager\\VehicleManager\\wwwroot\\lib\\bootstrap\\css\\bootstrap-grid.css",

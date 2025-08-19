@@ -45,7 +45,6 @@ namespace VehicleManager.Models
 
         public string? MessageProcessed { get; set; }
         public bool? MessageIsHTML { get; set; }
-        public bool? IncludeAcceptRejectLinks { get; set; }
         public int? VehicleID { get; set; }
         public virtual VehicleModel? Vehicle { get; set; }
 

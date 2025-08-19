@@ -23,7 +23,7 @@
 
             //Set Base
             var appBase = document.createElement('base');
-            appBase.href = "/admin/";
+            appBase.href = "/";
             if (window.location.href.indexOf("localhost") > -1) {
                 appBase.href = "/";
             }
@@ -141,7 +141,7 @@
     <!--<script src="/js/inputInterop.js"></script>-->
     <!--<script src="/_framework/blazor.webassembly.js?Version=1.1.0"></script>-->
     <script>
-        var appBaseURL = "/admin/";
+        var appBaseURL = "/";
         if (window.location.href.indexOf("localhost") > -1) {
             appBaseURL = "/";
         }

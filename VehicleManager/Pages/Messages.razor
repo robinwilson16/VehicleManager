@@ -211,6 +211,11 @@
                                                     <span class="input-group-text"><i class="fa-solid fa-database"></i></span>
                                                     <InputSelect @bind-Value="selectedDatabaseField" class="form-select">
                                                         <option value="">-- Please Select --</option>
+                                                        @{
+                                                            //Additional HTML Snippets
+                                                            string? buttonOption = $"<code:Buttons.Accept/Reject>";
+                                                        }
+                                                        <option value="@buttonOption">@buttonOption</option>
 
                                                         @if (messageFields != null)
                                                         {
@@ -1120,7 +1125,6 @@
         {
             selectedRecordCopy.Subject = selectedTemplate.TemplateSubject;
             selectedRecordCopy.Message = selectedTemplate.TemplateContent;
-            selectedRecordCopy.IncludeAcceptRejectLinks = selectedTemplate.IncludeAcceptRejectLinks;
 
             if (refreshEditor == true)
             {
@@ -1144,6 +1148,11 @@
         //Send email
         if (selectedRecordCopy != null)
         {
+            string? websiteHost = $"{configuration?["WebsiteAddress"]}";
+            string? url = Path.Combine(websiteHost, "EmailResponse", selectedRecordCopy?.MessageGUID?.ToString() ?? "");
+            selectedRecordCopy!.MessageProcessed = selectedRecordCopy.MessageProcessed?.Replace("<code:Buttons.Accept/Reject>", HTMLReplacements.AcceptRejectButtons(url).ToString());
+            selectedRecordCopy!.MessageProcessed = selectedRecordCopy.MessageProcessed?.Replace("&lt;code:Buttons.Accept/Reject&gt;", HTMLReplacements.AcceptRejectButtons(url).ToString());
+            
             SystemEmailModel emailMessage = new SystemEmailModel
                     {
                         SystemEmailID = 1,
@@ -1155,7 +1164,7 @@
                         EmailSubject = selectedRecordCopy.Subject,
                         EmailMessage = selectedRecordCopy.MessageProcessed,
                         IsEmailMessageHTML = true,
-                        EmailKey = configuration.GetSection("Settings")["EmailKey"]
+                        EmailKey = configuration?.GetSection("Settings")["EmailKey"]
                 };
 
             HttpResponseMessage formResponse = new HttpResponseMessage();
@@ -1164,14 +1173,8 @@
             {
                 Logger.LogInformation("Id = {Id}", emailMessage?.SystemEmailID);
 
-                //Add Accept and Reject Links
-                if (selectedRecordCopy.IncludeAcceptRejectLinks == true && emailMessage != null)
-                {
-                    emailMessage.EmailMessage += AcceptRejectButtons();
-                }
-
                 //Send the Message
-                string? sendEmailEndPoint = $"{configuration["APIEndpoint"]}/SystemEmail";
+                string? sendEmailEndPoint = $"{configuration?["APIEndpoint"]}/SystemEmail";
                 formResponse = await Http.PostAsJsonAsync<SystemEmailModel>(sendEmailEndPoint, emailMessage!);
 
                 if (formResponse.IsSuccessStatusCode != true)
@@ -1431,6 +1434,11 @@
             processedMessage = ModelFunctions.DoAllDatabaseReplacements(processedMessage, selectedRecordCopy);
         }
 
+        string? websiteHost = $"{configuration?["WebsiteAddress"]}";
+        string? url = Path.Combine(websiteHost, "EmailResponse", selectedRecordCopy?.MessageGUID?.ToString() ?? "");
+        processedMessage = processedMessage?.Replace("<code:Buttons.Accept/Reject>", HTMLReplacements.AcceptRejectButtons(url).ToString());
+        processedMessage = processedMessage?.Replace("&lt;code:Buttons.Accept/Reject&gt;", HTMLReplacements.AcceptRejectButtons(url).ToString());
+
         if (selectedRecordCopy != null)
         {
             selectedRecordCopy.SubjectProcessed = processedSubject;
@@ -1444,36 +1452,10 @@
             <hr />
             Subject {selectedRecordCopy?.SubjectProcessed}
             <hr />
-    {selectedRecordCopy?.MessageProcessed ?? ""}
+            {selectedRecordCopy?.MessageProcessed ?? ""}
             ";
 
         messagePreview = preview;
-    }
-
-    public MarkupString AcceptRejectButtons()
-    {
-        string? websiteHost = $"{configuration["WebsiteAddress"]}";
-        string? url = Path.Combine(websiteHost, "EmailResponse", selectedRecordCopy?.MessageGUID?.ToString() ?? "");
-
-        return
-            (MarkupString)$@"<a rel='noopener' target='_blank' href='{url}/True' style='background-color: #198754; font-size: 18px; font-family: Helvetica, Arial, sans-serif; font-weight: bold; text-decoration: none; padding: 14px 20px; color: #ffffff; border-radius: 5px; display: inline-block; mso-padding-alt: 0;'>
-                <!--[if mso]>
-                <i style='letter-spacing: 25px; mso-font-width: -100%; mso-text-raise: 30pt;'>&nbsp;</i>
-                <![endif]-->
-                <span style='mso-text-raise: 15pt;'>&check; Accept Offer</span>
-                <!--[if mso]>
-                <i style='letter-spacing: 25px; mso-font-width: -100%;'>&nbsp;</i>
-                <![endif]-->
-            </a>&nbsp;&nbsp;&nbsp;&nbsp;
-            <a rel='noopener' target='_blank' href='{url}/False' style='background-color: #dc3545; font-size: 18px; font-family: Helvetica, Arial, sans-serif; font-weight: bold; text-decoration: none; padding: 14px 20px; color: #ffffff; border-radius: 5px; display: inline-block; mso-padding-alt: 0;'>
-                <!--[if mso]>
-                <i style='letter-spacing: 25px; mso-font-width: -100%; mso-text-raise: 30pt;'>&nbsp;</i>
-                <![endif]-->
-                <span style='mso-text-raise: 15pt;'>&cross; Reject Offer</span>
-                <!--[if mso]>
-                <i style='letter-spacing: 25px; mso-font-width: -100%;'>&nbsp;</i>
-                <![endif]-->
-            </a>";
     }
 
     private void HandleJsonException(HttpRequestException ex, string objectName, string objectID)

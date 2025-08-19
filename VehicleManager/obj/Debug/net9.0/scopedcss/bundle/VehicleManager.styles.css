@@ -27,7 +27,7 @@ main[b-zjt9343po9] {
 
     .top-row[b-zjt9343po9]  a, .top-row[b-zjt9343po9]  .btn-link {
         white-space: nowrap;
-        margin-left: 1.5rem;
+        /*margin-left: 1.5rem;*/ /*Removed spacing*/
         text-decoration: none;
     }
 
@@ -40,7 +40,7 @@ main[b-zjt9343po9] {
         text-overflow: ellipsis;
     }
 
-@media (max-width: 640.98px) {
+@media (max-width: 999.98px) { /*Was 640.98*/
     .top-row[b-zjt9343po9] {
         justify-content: space-between;
     }
@@ -50,7 +50,7 @@ main[b-zjt9343po9] {
     }
 }
 
-@media (min-width: 641px) {
+@media (min-width: 1000px) { /*Was 641*/
     .page[b-zjt9343po9] {
         flex-direction: row;
     }
@@ -89,9 +89,28 @@ main[b-zjt9343po9] {
     background-color: rgba(0,0,0,0.4);
 }
 
+/*Added for colapsible Sidebar*/
+.bottom-row[b-dcotnrtmvq] {
+    position: absolute;
+    bottom: 0;
+    padding-bottom: 10px;
+    text-align: left;
+    width: 100%;
+    padding-right: 28px;
+}
+
+/*Added for colapsible Sidebar*/
+.icon-menu-arrow[b-dcotnrtmvq] {
+    text-align: right;
+}
+
 .navbar-brand[b-dcotnrtmvq] {
     font-size: 1.1rem;
 }
+
+    .navbar-brand i.WithDescription[b-dcotnrtmvq] {
+        margin-right: 10px; /*Added for space after Font Awesome icon*/
+    }
 
 .bi[b-dcotnrtmvq] {
     display: inline-block;
@@ -137,7 +156,7 @@ main[b-zjt9343po9] {
         line-height: 1rem; /*Changed to fit better*/
     }
 
-    .nav-item i[b-dcotnrtmvq] {
+    .nav-item i.WithDescription[b-dcotnrtmvq] {
         margin-right: 10px; /*Added for space after Font Awesome icon*/
     }
 
@@ -151,7 +170,7 @@ main[b-zjt9343po9] {
     color: white;
 }
 
-@media (min-width: 641px) {
+@media (min-width: 1000px) { /*Was 641*/
     .navbar-toggler[b-dcotnrtmvq] {
         display: none;
     }
@@ -165,5 +184,12 @@ main[b-zjt9343po9] {
         /* Allow sidebar to scroll for tall menus */
         height: calc(100vh - 3.5rem);
         overflow-y: auto;
+    }
+}
+
+/*Added for colapsible Sidebar*/
+@media (max-width: 999px) { /*Was 640*/
+    .bottom-row[b-dcotnrtmvq] {
+        display: block;
     }
 }

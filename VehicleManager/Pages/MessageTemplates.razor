@@ -216,6 +216,11 @@ else {
                                                         <span class="input-group-text"><i class="fa-solid fa-database"></i></span>
                                                         <InputSelect @bind-Value="selectedDatabaseField" class="form-select">
                                                             <option value="">-- Please Select --</option>
+                                                            @{
+                                                                //Additional HTML Snippets
+                                                                string? buttonOption = $"<code:Buttons.Accept/Reject>";
+                                                            }
+                                                            <option value="@buttonOption">@buttonOption</option>
 
                                                             @if (messageFields != null)
                                                             {
@@ -273,18 +278,6 @@ else {
                                     </div>
                                 </div>
                             }
-
-                            <div class="row g-3 mb-3">
-                                <div class="col-md-4">
-                                    <label class="col-form-label"><i class="fa-solid fa-angles-right"></i> Include Accept/Reject Links</label>
-                                </div>
-                                <div class="col-md-8">
-                                    <div class="d-grid gap-2 d-md-block">
-                                        <button type="button" class="btn @(selectedRecordCopy!.IncludeAcceptRejectLinks == true? "btn-primary" : "btn-outline-primary") me-md-3" @onclick="(e) => ToggleMainRecordIncludeAcceptRejectLinks()"><i class="@(selectedRecordCopy!.IncludeAcceptRejectLinks == true? "fa-solid fa-square-check" : "fa-regular fa-square")"></i></button>
-                                    </div>
-                                    <ValidationMessage For="@(() => selectedRecordCopy!.IncludeAcceptRejectLinks)" />
-                                </div>
-                            </div>
 
                             <div class="row g-3 mb-3">
                                 <div class="col-md-4">
@@ -531,7 +524,7 @@ else {
             };
 
             //Set Defaults
-            
+
             //Related Datasets
         }
 
@@ -584,21 +577,6 @@ else {
     }
 
     //Toggles for nullable bools
-    public void ToggleMainRecordIncludeAcceptRejectLinks()
-    {
-        if (selectedRecordCopy != null)
-        {
-            if (selectedRecordCopy.IncludeAcceptRejectLinks == true)
-            {
-                selectedRecordCopy.IncludeAcceptRejectLinks = false;
-            }
-            else
-            {
-                selectedRecordCopy.IncludeAcceptRejectLinks = true;
-            }
-        }
-    }
-
     public void ToggleMainRecordIsEnabled()
     {
         if (selectedRecordCopy != null)
@@ -851,7 +829,7 @@ else {
                             selectedRecordCopy.CreatedBy = appData.CurrentUser?.Email;
                             selectedRecordCopy.CreatedDate = DateTime.Now;
                         }
-                        
+
                         //Insert new record
                         saveEndPoint = $"{configuration["APIEndpoint"]}/MessageTemplate";
                         formResponse = await Http.PostAsJsonAsync<MessageTemplateModel>(saveEndPoint, selectedRecordCopy!);
@@ -1146,7 +1124,7 @@ else {
     {
         // if (firstRender)
         // {
-            // await JSRuntime.InvokeVoidAsync("tinymceInterop.initializeEditor", DotNetObjectReference.Create(this));
+        // await JSRuntime.InvokeVoidAsync("tinymceInterop.initializeEditor", DotNetObjectReference.Create(this));
         // }
     }
 
@@ -1237,6 +1215,12 @@ else {
             processedSubject = ModelFunctions.DoAllDatabaseReplacements(processedSubject, selectedRecordCopy);
             processedMessage = ModelFunctions.DoAllDatabaseReplacements(processedMessage, selectedRecordCopy);
         }
+
+        string? websiteHost = $"{configuration?["WebsiteAddress"]}";
+        string? url = Path.Combine(websiteHost, "EmailResponse", Guid.NewGuid().ToString() ?? "");
+        processedMessage = processedMessage?.Replace("<code:Buttons.Accept/Reject>", HTMLReplacements.AcceptRejectButtons(url).ToString());
+        processedMessage = processedMessage?.Replace("&lt;code:Buttons.Accept/Reject&gt;", HTMLReplacements.AcceptRejectButtons(url).ToString());
+
 
         if (selectedRecordCopy != null)
         {
