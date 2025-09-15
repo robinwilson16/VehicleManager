@@ -11,15 +11,15 @@
     <Description>CRM for managing vehicles submitted via a WordPress website, for sending messages to customers for them to accept or reject these offers to sell their vehicles if happy with the price</Description>
     <RepositoryUrl>https://github.com/robinwilson16/VehicleManager</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <AssemblyVersion>2.0.0</AssemblyVersion>
-    <FileVersion>2.0.0</FileVersion>
+    <AssemblyVersion>2.0.1</AssemblyVersion>
+    <FileVersion>2.0.1</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Blazored.FluentValidation" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.QuickGrid" Version="10.0.0-preview.7.25380.108" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="10.0.0-preview.7.25380.108" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="10.0.0-preview.7.25380.108" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.QuickGrid" Version="10.0.0-rc.1.25451.107" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="10.0.0-rc.1.25451.107" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="10.0.0-rc.1.25451.107" PrivateAssets="all" />
     <PackageReference Include="TinyMCE" Version="8.0.2" />
     <PackageReference Include="TinyMCE.Blazor" Version="2.2.1" />
   </ItemGroup>
